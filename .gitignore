@@ -2,3 +2,6 @@
 build/
 
 .gradle/
+*/out/
+
+*.class
