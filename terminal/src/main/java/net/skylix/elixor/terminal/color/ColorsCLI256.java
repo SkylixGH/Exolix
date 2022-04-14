@@ -293,6 +293,14 @@ public class ColorsCLI256 {
     }
 
     /**
+     * Get all the colors from the 256 color palette.
+     * @return The colors.
+     */
+    public static String[] getAllColors() {
+        return colorMap.values().toArray(new String[colorMap.size()]);
+    }
+
+    /**
      * Number 0 in 256 table.
      */
     private static String CODE0 = "#000000";

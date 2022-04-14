@@ -7,16 +7,22 @@ import net.skylix.elixor.terminal.logger.LoggerSettings;
 public class X {
     public static void main(String[] args) {
         System.out.println("Hello, World!");
-        VTColor.moveRelativeCursor(1, 1);
 
-        System.out.println("Hello, World! 1");
+        int inCurrentRow = 0;
+        int maxInRow = 10;
+        String html = "";
 
-        Logger customLogger = new Logger(new LoggerSettings() {static {
-        }});
+        for (int i = 0; i < 257; i++) {
+            String color = ColorsCLI256.getColor(i);
 
-        Integer[] rgb = ColorConversion.hexToRGB(ColorsCLI256.getColor(1) + "ab");
+            if (inCurrentRow == maxInRow) {
+                html += "<br>";
+                inCurrentRow = 0;
+            }
 
-        Logger.infoBase("1 is hex of " + ColorsCLI256.getColor(1));
-        customLogger.info("Hello, World! 2" + ColorConversion.rgbToHex(rgb[0], rgb[1], rgb[2], rgb[3]) + " r: " + rgb[0] + " g: " + rgb[1] + " b: " + rgb[2] + " a: " + rgb[3]);
+            html += "<span style=\"background: " + color + "\">" + i + "</span>";
+        }
+
+        System.out.println(html);
     }
 }
