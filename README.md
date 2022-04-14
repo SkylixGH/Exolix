@@ -1,6 +1,5 @@
 <br />
 <br />
-<br />
 
 <div align="center">
     <img src="./docs/__readme__/ElixorLogo.svg" alt="Elixor Logo" width="200" />
