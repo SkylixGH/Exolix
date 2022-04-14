@@ -1,8 +1,10 @@
 import net.skylix.elixor.terminal.VTColor;
-import net.skylix.elixor.terminal.color.ColorConversion;
-import net.skylix.elixor.terminal.color.ColorsCLI256;
+import net.skylix.elixor.terminal.color.*;
 import net.skylix.elixor.terminal.logger.Logger;
 import net.skylix.elixor.terminal.logger.LoggerSettings;
+
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class X {
     public static void main(String[] args) {
@@ -12,17 +14,11 @@ public class X {
         int maxInRow = 10;
         String html = "";
 
-        for (int i = 0; i < 257; i++) {
-            String color = ColorsCLI256.getColor(i);
+        ColorNamesGeneric col = ColorUtil.identifyColor("#ff5555");
+        System.out.println("#50ffab is " + col.name());
 
-            if (inCurrentRow == maxInRow) {
-                html += "<br>";
-                inCurrentRow = 0;
-            }
+        String col256 = ColorUtil.findClosestColor("#ff5555", ColorsCLI256.getAllColors());
 
-            html += "<span style=\"background: " + color + "\">" + i + "</span>";
-        }
-
-        System.out.println(html);
+        System.out.println("Closest color to #ff0000 is #" + col256);
     }
 }

@@ -286,7 +286,7 @@ public class ColorsCLI256 {
      */
     public static String getColor(int color) {
         if (color < 0 || color > 255) {
-            return "";
+            return "#FFFFFF";
         }
 
         return getColorMap().get(color);
@@ -297,7 +297,7 @@ public class ColorsCLI256 {
      * @return The colors.
      */
     public static String[] getAllColors() {
-        return colorMap.values().toArray(new String[colorMap.size()]);
+        return getColorMap().values().toArray(new String[0]);
     }
 
     /**
