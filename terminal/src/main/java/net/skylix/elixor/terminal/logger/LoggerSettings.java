@@ -20,9 +20,9 @@ public class LoggerSettings {
 
     public String deprecatedText = "deprecated";
 
-    public Integer padding = 2;
+    public Integer padding = 1;
 
-    public String[] prefixTextSurrounds = { "[", "]" };
+    public String[] prefixTextSurrounds = { "[", "]:" };
 
     public String[] prefixTimeSurrounds = { "[", "]" };
 }
