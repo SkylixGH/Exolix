@@ -1,6 +1,6 @@
 package net.skylix.elixor.terminal.color;
 
-public class Colors256 {
+public class ColorsCLI256 {
     /**
      * Number 0 in 256 table.
      */
