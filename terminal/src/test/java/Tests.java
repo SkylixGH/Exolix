@@ -1,7 +1,17 @@
+import net.skylix.elixor.terminal.logger.Logger;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
 public class Tests {
-    public static void main(String[] args) {
-        System.out.println("Hello, World!");
-//        GridNavigator.moveRelativeCursor(0, -1);
-        System.out.println("Hello, World (2)!");
+    @Test
+    @DisplayName("Test static loggers")
+    public static void baseLoggers() {
+        Logger.infoBase("Hello World!");
+        Logger.successBase("Hello World!");
+        Logger.errorBase("Hello World!");
+        Logger.warningBase("Hello World!");
+        Logger.debugBase("Hello World!");
+        Logger.deprecatedBase("Hello World!");
+        Logger.verboseBase("Hello World!");
     }
 }
