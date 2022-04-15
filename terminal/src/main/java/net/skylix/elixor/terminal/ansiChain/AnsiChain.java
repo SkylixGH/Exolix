@@ -1,4 +1,4 @@
-package net.skylix.elixor.terminal.AnsiChain;
+package net.skylix.elixor.terminal.ansiChain;
 
 import net.skylix.elixor.terminal.color.ColorUtil;
 import net.skylix.elixor.terminal.color.ColorsCLI256;

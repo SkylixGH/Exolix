@@ -1,4 +1,4 @@
-import net.skylix.elixor.terminal.AnsiChain.AnsiChain;
+import net.skylix.elixor.terminal.ansiChain.AnsiChain;
 import net.skylix.elixor.terminal.color.ColorConversion;
 import net.skylix.elixor.terminal.color.ColorNamesGeneric;
 import net.skylix.elixor.terminal.color.ColorUtil;
