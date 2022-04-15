@@ -69,7 +69,6 @@ public class AnsiChain {
     }
 
     public String apply(String inputText) {
-        System.out.println(fgColor);
         return (fgColor != null
                     ? "\u001b[38;5;" + fgColor + "m"
                     : ""
