@@ -37,6 +37,7 @@ public class AnsiChain {
 
     /**
      * Set the bold rendering state of the text.
+     *
      * @param boldEnabled If the text should render in bold.
      */
     public void bold(boolean boldEnabled) {
@@ -52,6 +53,7 @@ public class AnsiChain {
 
     /**
      * Set the underline rendering state of the text.
+     *
      * @param underlineEnabled If the text should render with an underline.
      */
     public void underline(boolean underlineEnabled) {
@@ -67,6 +69,7 @@ public class AnsiChain {
 
     /**
      * Set the background color of the text with a hex value.
+     *
      * @param hexColor The hex color code to use.
      */
     public void bgColor(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
@@ -76,9 +79,10 @@ public class AnsiChain {
 
     /**
      * Set the background color of the text with an RGB value.
-     * @param red The red value of the color.
+     *
+     * @param red   The red value of the color.
      * @param green The green value of the color.
-     * @param blue The blue value of the color.
+     * @param blue  The blue value of the color.
      */
     public void bgColor(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Integer[] rgbMatch = ColorUtil.findClosestColor(
@@ -93,6 +97,7 @@ public class AnsiChain {
 
     /**
      * Set the text color with a hex value.
+     *
      * @param hexColor The hex color code to use.
      */
     public void color(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
@@ -102,7 +107,8 @@ public class AnsiChain {
 
     /**
      * Set the text color with an RGB value.
-     * @param red The red value of the color.
+     *
+     * @param red   The red value of the color.
      * @param green The green value of the color.
      */
     public void color(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
@@ -118,30 +124,31 @@ public class AnsiChain {
 
     /**
      * Apply the current text styling properties to the text.
+     *
      * @param inputText The text to apply the styling to.
      * @return The styled text for the terminal.
      */
     public String apply(String inputText) {
         return (fgColor != null
-                    ? "\u001b[38;5;" + fgColor + "m"
-                    : ""
-                )
+                ? "\u001b[38;5;" + fgColor + "m"
+                : ""
+        )
                 + (bgColor != null
-                    ? "\u001b[48;5;" + bgColor + "m"
-                    : ""
-                )
+                ? "\u001b[48;5;" + bgColor + "m"
+                : ""
+        )
                 + (bold
-                    ? "\u001b[1m"
-                    : ""
-                )
+                ? "\u001b[1m"
+                : ""
+        )
                 + (underline
-                    ? "\u001b[4m"
-                    : ""
-                )
+                ? "\u001b[4m"
+                : ""
+        )
                 + (italic
-                    ? "\u001b[3m"
-                    : ""
-                )
+                ? "\u001b[3m"
+                : ""
+        )
                 + inputText + "\u001b[0m";
     }
 }

@@ -5,7 +5,6 @@ import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 
 import java.awt.*;
-import java.util.Locale;
 
 /**
  * A class used for converting colors into different formats.
@@ -13,6 +12,7 @@ import java.util.Locale;
 public class ColorConversion {
     /**
      * Convert a hexadecimal color to an RGB color.
+     *
      * @param hex The hexadecimal color.
      * @return The RGB color.
      */
@@ -55,22 +55,23 @@ public class ColorConversion {
         int blue = Integer.parseInt(hexColor.substring(5, 7), 16);
         int alpha = Integer.parseInt(hexColor.substring(7, 9), 16);
 
-        return new Integer[] { red, green, blue, alpha };
+        return new Integer[]{red, green, blue, alpha};
     }
 
     /**
      * Convert an RGB color to a hexadecimal color.
-     * @param red The red RGB value.
+     *
+     * @param red   The red RGB value.
      * @param green The green RGB value.
-     * @param blue The blue RGB value.
+     * @param blue  The blue RGB value.
      * @param alpha The alpha RGB value.
      * @return The hexadecimal color.
      */
     public static String rgbToHex(Integer red, Integer green, Integer blue, Integer alpha) throws InvalidRGBValues, InvalidRGBAlpha {
         if (
                 red > 255 || red < 0 ||
-                green > 255 || green < 0 ||
-                blue > 255 || blue < 0
+                        green > 255 || green < 0 ||
+                        blue > 255 || blue < 0
         ) {
             throw new InvalidRGBValues("One or more segments of the RGB color values are outside the range of 0 and 255.");
         }

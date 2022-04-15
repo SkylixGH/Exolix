@@ -4,9 +4,7 @@ import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Objects;
 
 /**
  * A class used for parsing and converting colors to be rendering in the terminal.
@@ -14,9 +12,10 @@ import java.util.Objects;
 public class ColorUtil {
     /**
      * Identify if the color is RED, GREEN, BLUE, or BLACK.
-     * @param red The red value of the color to identify.
+     *
+     * @param red   The red value of the color to identify.
      * @param green The green value of the color to identify.
-     * @param blue The blue value of the color to identify.
+     * @param blue  The blue value of the color to identify.
      * @return The color name.
      */
     public static ColorNamesGeneric identifyColor(Integer red, Integer green, Integer blue) {
@@ -33,6 +32,7 @@ public class ColorUtil {
 
     /**
      * Identify if the color is RED, GREEN, BLUE, or BLACK.
+     *
      * @param hex The hex value of the color to identify.
      * @return The color name.
      */
@@ -43,9 +43,10 @@ public class ColorUtil {
 
     /**
      * Find the closest RGB color in a list of colors.
-     * @param red The red value of the color to find.
-     * @param green The green value of the color to find.
-     * @param blue The blue value of the color to find.
+     *
+     * @param red    The red value of the color to find.
+     * @param green  The green value of the color to find.
+     * @param blue   The blue value of the color to find.
      * @param colors The list of colors to search through.
      * @return An integer array representing reg, green, and blue for the closest color.
      */
@@ -66,7 +67,8 @@ public class ColorUtil {
 
     /**
      * Find the closest hex color in a list of colors.
-     * @param hex The hex value of the color to find.
+     *
+     * @param hex       The hex value of the color to find.
      * @param hexColors The list of colors to search through.
      * @return The hex value of the closest color.
      */

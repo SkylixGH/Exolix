@@ -52,10 +52,10 @@ public class LoggerSettings {
     /**
      * Text to surround the indicator prefix.
      */
-    public String[] prefixTextSurrounds = { "[", "]:" };
+    public String[] prefixTextSurrounds = {"[", "]:"};
 
     /**
      * Text that surrounds the time stamps.
      */
-    public String[] prefixTimeSurrounds = { "[", "]" };
+    public String[] prefixTimeSurrounds = {"[", "]"};
 }

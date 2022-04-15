@@ -1,5 +1,4 @@
 import net.skylix.elixor.terminal.AnsiChain.AnsiChain;
-import net.skylix.elixor.terminal.color.*;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
