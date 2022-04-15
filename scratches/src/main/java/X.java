@@ -1,24 +1,22 @@
-import net.skylix.elixor.terminal.VTColor;
+import net.skylix.elixor.terminal.AnsiChain.AnsiChain;
 import net.skylix.elixor.terminal.color.*;
-import net.skylix.elixor.terminal.logger.Logger;
-import net.skylix.elixor.terminal.logger.LoggerSettings;
-
-import java.util.Arrays;
-import java.util.HashMap;
+import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
+import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
+import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 
 public class X {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         System.out.println("Hello, World!");
 
         int inCurrentRow = 0;
         int maxInRow = 10;
         String html = "";
 
-        ColorNamesGeneric col = ColorUtil.identifyColor("#ff5555");
-        System.out.println("#50ffab is " + col.name());
+        AnsiChain red = new AnsiChain();
 
-        String col256 = ColorUtil.findClosestColor("#ff5555", ColorsCLI256.getAllColors());
+        red.color("#ff9955");
+        red.bold();
 
-        System.out.println("Closest color to #ff0000 is #" + col256);
+        System.out.println(red.apply("Hey!"));
     }
 }

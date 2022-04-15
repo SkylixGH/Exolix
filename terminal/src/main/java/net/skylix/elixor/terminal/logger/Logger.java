@@ -40,51 +40,51 @@ public class Logger {
         String padding = " ".repeat(settings.padding);
 
         String prefixLabel = switch (type) {
-            case SUCCESS -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.successText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
-            case WARNING -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.warningText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
-            case ERROR -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.errorText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
-            case DEPRECATED -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.deprecatedText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
-            case DEBUG -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.debugText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
-            case VERBOSE -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.verboseText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
-            default -> settings.prefixTextSurrounds[0] +
-                    padding +
-                    settings.infoText +
-                    padding +
-                    settings.prefixTextSurrounds[1];
+            case SUCCESS -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.successText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
+            case WARNING -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.warningText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
+            case ERROR -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.errorText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
+            case DEPRECATED -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.deprecatedText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
+            case DEBUG -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.debugText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
+            case VERBOSE -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.verboseText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
+            default -> settings.prefixTextSurrounds[0]
+                    + padding
+                    + settings.infoText
+                    + padding
+                    + settings.prefixTextSurrounds[1];
         };
 
         String timeStamp = "";
 
         if (settings.useTimeStamps) {
-            timeStamp = settings.prefixTimeSurrounds[0] +
-                    padding +
-                    (new Timestamp(System.currentTimeMillis())) +
-                    padding +
-                    settings.prefixTimeSurrounds[1];
+            timeStamp = settings.prefixTimeSurrounds[0]
+                    + padding
+                    + (new Timestamp(System.currentTimeMillis()))
+                    + padding
+                    + settings.prefixTimeSurrounds[1];
 
         }
 

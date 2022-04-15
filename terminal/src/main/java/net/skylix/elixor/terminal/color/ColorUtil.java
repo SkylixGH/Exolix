@@ -1,5 +1,9 @@
 package net.skylix.elixor.terminal.color;
 
+import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
+import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
+import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Objects;
@@ -32,7 +36,7 @@ public class ColorUtil {
      * @param hex The hex value of the color to identify.
      * @return The color name.
      */
-    public static ColorNamesGeneric identifyColor(String hex) {
+    public static ColorNamesGeneric identifyColor(String hex) throws InvalidHexCode {
         Integer[] rgb = ColorConversion.hexToRGB(hex);
         return identifyColor(rgb[0], rgb[1], rgb[2]);
     }
@@ -66,7 +70,7 @@ public class ColorUtil {
      * @param hexColors The list of colors to search through.
      * @return The hex value of the closest color.
      */
-    public static String findClosestColor(String hex, String[] hexColors) {
+    public static String findClosestColor(String hex, String[] hexColors) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Integer[] rgbOfHex = ColorConversion.hexToRGB(hex);
         HashMap<Integer, Integer[]> rgbOfColors = new HashMap();
 
@@ -84,6 +88,6 @@ public class ColorUtil {
                 rgbOfColors.values().toArray(new Integer[rgbOfColors.size()][])
         );
 
-        return ColorConversion.rgbToHex(closest[0], closest[1], closest[2], 255);
+        return ColorConversion.rgbToHex(closest[0], closest[1], closest[2], 1);
     }
 }
