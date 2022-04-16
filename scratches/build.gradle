@@ -1,5 +1,11 @@
 plugins {
     id 'java'
+    id 'org.openjfx.javafxplugin' version '0.0.10'
+}
+
+javafx {
+    version = "17.0.1"
+    modules = [ 'javafx.controls' ]
 }
 
 group 'scratches__.user'

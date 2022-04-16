@@ -8,7 +8,11 @@ import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 import net.skylix.elixor.terminal.logger.Logger;
 import net.skylix.elixor.terminal.logger.LoggerSettings;
+import org.w3c.dom.events.MouseEvent;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
 import java.util.HashMap;
 
 public class X {
@@ -18,18 +22,11 @@ public class X {
     private static HashMap<Integer, Integer> list = new HashMap<>();
 
     public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
-        Logger.infoBase("Starting...");
+        Logger lg = new Logger();
 
-        Logger lg = new Logger(new LoggerSettings() {
-        });
+        lg.info("Loading swing window...");
 
-        lg.info("Starting...");
-        lg.error("Starting...");
-        lg.deprecated("Starting...");
-        lg.debug("Starting...");
-        lg.verbose("Starting...");
-        lg.warning("Starting...");
-        lg.success("Starting...");
+
     }
 
     private static void nextTick() throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
