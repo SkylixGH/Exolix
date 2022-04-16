@@ -21,8 +21,8 @@ public class ColorConversion {
 
         if (hex.startsWith("#")) {
             if (hex.length() == 4) {
-                String hexCode2 = hex.substring(1, 4);
-                hexColor = hex + hexCode2 + "FF";
+                String[] hexChunks = hex.split("");
+                hexColor = "#" + hexChunks[1] + hexChunks[1] + hexChunks[2] + hexChunks[2] + hexChunks[3] + hexChunks[3] + "FF";
             } else if (hex.length() == 6) {
                 hexColor = hex + "FFF";
             } else if (hex.length() == 7) {
@@ -36,16 +36,16 @@ public class ColorConversion {
             }
         } else {
             if (hex.length() == 3) {
-                hexColor = hex + hex + "FF";
+                hexColor = "#" + hex + hex + "FF";
             } else if (hex.length() == 5) {
-                hexColor = hex + hex + "FFF";
+                hexColor = "#" + hex + hex + "FFF";
             } else if (hex.length() == 6) {
-                hexColor = hex + "FF";
+                hexColor = "#" + hex + "FF";
             } else {
-                hexColor = hex;
+                hexColor = "#" + hex;
             }
 
-            if (hexColor.length() != 8) {
+            if (hexColor.length() != 9) {
                 throw new InvalidHexCode("The hex code " + hex + " is invalid and does not follow the correct format.");
             }
         }
