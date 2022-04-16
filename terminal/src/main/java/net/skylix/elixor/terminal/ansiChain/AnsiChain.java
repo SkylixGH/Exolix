@@ -71,20 +71,23 @@ public class AnsiChain {
      * Set the background color of the text with a hex value.
      *
      * @param hexColor The hex color code to use.
+     * @return The current instance of the AnsiChain.
      */
-    public void bgColor(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
+    public AnsiChain bgColor(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
         String hexBGMatch = ColorUtil.findClosestColor(hexColor, ColorsCLI256.getAllColors());
         bgColor = ColorsCLI256.getCode(hexBGMatch);
+
+        return this;
     }
 
     /**
      * Set the background color of the text with an RGB value.
-     *
-     * @param red   The red value of the color.
+     *  @param red   The red value of the color.
      * @param green The green value of the color.
      * @param blue  The blue value of the color.
+     * @return The current instance of the AnsiChain.
      */
-    public void bgColor(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
+    public AnsiChain bgColor(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Integer[] rgbMatch = ColorUtil.findClosestColor(
                 red,
                 green,
@@ -93,25 +96,29 @@ public class AnsiChain {
         );
 
         bgColor = ColorsCLI256.getCode(rgbMatch[0], rgbMatch[1], rgbMatch[2]);
+        return this;
     }
 
     /**
      * Set the text color with a hex value.
      *
      * @param hexColor The hex color code to use.
+     * @return The current instance of the AnsiChain.
      */
-    public void color(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
+    public AnsiChain color(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
         String hexBGMatch = ColorUtil.findClosestColor(hexColor, ColorsCLI256.getAllColors());
         fgColor = ColorsCLI256.getCode(hexBGMatch);
+
+        return this;
     }
 
     /**
      * Set the text color with an RGB value.
-     *
-     * @param red   The red value of the color.
+     *  @param red   The red value of the color.
      * @param green The green value of the color.
+     * @return The current instance of the AnsiChain.
      */
-    public void color(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
+    public AnsiChain color(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Integer[] rgbMatch = ColorUtil.findClosestColor(
                 red,
                 green,
@@ -120,6 +127,7 @@ public class AnsiChain {
         );
 
         fgColor = ColorsCLI256.getCode(rgbMatch[0], rgbMatch[1], rgbMatch[2]);
+        return this;
     }
 
     /**

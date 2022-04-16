@@ -6,6 +6,8 @@ import net.skylix.elixor.terminal.color.ColorsCLI256;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
+import net.skylix.elixor.terminal.logger.Logger;
+import net.skylix.elixor.terminal.logger.LoggerSettings;
 
 import java.util.HashMap;
 
@@ -16,16 +18,18 @@ public class X {
     private static HashMap<Integer, Integer> list = new HashMap<>();
 
     public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
-        nextTick();
-        Integer[] arr = sortArr(list.values().toArray(new Integer[0]));
-        String result = "";
+        Logger.infoBase("Starting...");
 
-        for (Integer integer : arr) {
-            color.bgColor(integer, 0, integer);
-            result += color.apply(" ");
-        }
+        Logger lg = new Logger(new LoggerSettings() {
+        });
 
-        System.out.println(result);
+        lg.info("Starting...");
+        lg.error("Starting...");
+        lg.deprecated("Starting...");
+        lg.debug("Starting...");
+        lg.verbose("Starting...");
+        lg.warning("Starting...");
+        lg.success("Starting...");
     }
 
     private static void nextTick() throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {

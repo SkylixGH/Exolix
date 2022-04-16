@@ -160,7 +160,7 @@ public class Logger {
         if (settings.useTimeStamps) {
             timeStamp = settings.prefixTimeSurrounds[0]
                     + padding
-                    + (new Timestamp(System.currentTimeMillis()))
+                    + (settings.timeStampRenderer())
                     + padding
                     + settings.prefixTimeSurrounds[1];
 

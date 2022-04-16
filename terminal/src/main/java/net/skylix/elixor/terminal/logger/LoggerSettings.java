@@ -1,5 +1,14 @@
 package net.skylix.elixor.terminal.logger;
 
+import net.skylix.elixor.terminal.ansiChain.AnsiChain;
+import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
+import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
+import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 /**
  * Settings for the logger.
  */
@@ -12,37 +21,37 @@ public class LoggerSettings {
     /**
      * Text for informative messages.
      */
-    public String infoText = "info";
+    public String infoText;
 
     /**
      * Text for warning messages.
      */
-    public String warningText = "warning";
+    public String warningText;
 
     /**
      * Text for error messages.
      */
-    public String errorText = "error";
+    public String errorText;
 
     /**
      * Text for debug messages.
      */
-    public String debugText = "debug";
+    public String debugText;
 
     /**
      * Text for success messages.
      */
-    public String successText = "success";
+    public String successText;
 
     /**
      * Text for verbose messages.
      */
-    public String verboseText = "verbose";
+    public String verboseText;
 
     /**
      * Text for deprecated messages.
      */
-    public String deprecatedText = "deprecated";
+    public String deprecatedText;
 
     /**
      * Padding between text, surrounds and prefixes.
@@ -52,10 +61,65 @@ public class LoggerSettings {
     /**
      * Text to surround the indicator prefix.
      */
-    public String[] prefixTextSurrounds = {"[", "]:"};
+    public String[] prefixTextSurrounds;
 
     /**
      * Text that surrounds the time stamps.
      */
-    public String[] prefixTimeSurrounds = {"[", "]"};
+    public String[] prefixTimeSurrounds;
+
+    /**
+     * The internal constructor.
+     */
+    public LoggerSettings() {
+        try {
+            infoText = new AnsiChain().color("#60cdff").apply("info");
+            errorText = new AnsiChain().color("#f55").apply("error");
+            warningText = new AnsiChain().color("#ff5").apply("warning");
+            debugText = new AnsiChain().color("#fcbe03").apply("debug");
+            successText = new AnsiChain().color("#50ffab").apply("success");
+            verboseText = new AnsiChain().color("#fcbe03").apply("verbose");
+            deprecatedText = new AnsiChain().color("#ff5").apply("deprecated");
+        } catch (InvalidHexCode | InvalidRGBAlpha | InvalidRGBValues e) {
+            // { @ignore }
+        }
+
+        try {
+            AnsiChain surroundsColor = new AnsiChain().color("#666");
+
+            prefixTextSurrounds = new String[] {
+                surroundsColor.apply("["),
+                surroundsColor.apply("]")
+            };
+
+            prefixTimeSurrounds = new String[] {
+                surroundsColor.apply("["),
+                surroundsColor.apply("]")
+            };
+        } catch (InvalidHexCode | InvalidRGBAlpha | InvalidRGBValues e) {
+            // { @ignore }
+        }
+    }
+
+    /**
+     * The time stamp rendering method.
+     *
+     * @return The time stamp.
+     */
+    public String timeStampRenderer() {
+        AnsiChain textColor = null;
+
+        try {
+            textColor = new AnsiChain().color("#666");
+        } catch (InvalidHexCode | InvalidRGBAlpha | InvalidRGBValues e) {
+            // { @ignore }
+        }
+
+        return textColor.apply(new SimpleDateFormat("hh:mm:ss aa")
+                .format(new Date())
+                .replace("a.m.", "AM")
+                .replace("p.m.", "PM")
+                + new SimpleDateFormat(" yyyy/MM/dd")
+                .format(new Date()));
+    }
 }
