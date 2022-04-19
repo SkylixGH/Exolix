@@ -1,3 +1,7 @@
+import net.skylix.elixor.apiSocket.APISocket;
+import net.skylix.elixor.apiSocket.controller.Controller;
+import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
+import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.terminal.ansiChain.AnsiChain;
 import net.skylix.elixor.terminal.color.ColorConversion;
 import net.skylix.elixor.terminal.color.ColorNamesGeneric;
@@ -7,13 +11,24 @@ import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 import net.skylix.elixor.terminal.logger.Logger;
-import net.skylix.elixor.terminal.logger.LoggerSettings;
-import org.w3c.dom.events.MouseEvent;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
 import java.util.HashMap;
+
+class UwU extends Controller {
+    @Override
+    public void onActivate(ControllerSocket socket) {
+        Logger.infoBase("UwU activated");
+    }
+
+    @Override
+    public void onDeactivate(ControllerSocket socket) {
+
+    }
+
+    @Override
+    public void onRequest(ControllerSocket socket, ControllerRequest request) {
+
+    }
+}
 
 public class X {
     private static AnsiChain color = new AnsiChain();
@@ -21,12 +36,15 @@ public class X {
     private static Integer item = 0;
     private static HashMap<Integer, Integer> list = new HashMap<>();
 
-    public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
+    public static void main() throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Logger lg = new Logger();
 
-        lg.info("Loading swing window...");
+        lg.info("Loading server...");
 
+        APISocket service = new APISocket();
+        UwU hello = new UwU();
 
+        service.connectController(hello);
     }
 
     private static void nextTick() throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {

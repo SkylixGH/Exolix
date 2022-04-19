@@ -3,4 +3,5 @@ rootProject.name = 'elixor'
 include 'terminal'
 include 'scratches'
 include 'algorithm'
+include 'gatewayService'
 
