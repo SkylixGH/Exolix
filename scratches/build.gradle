@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.10'
+    id 'application'
 }
 
 javafx {
@@ -13,6 +14,10 @@ version '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
+}
+
+application {
+    mainClass = 'me.skylixdev.superack.X' 
 }
 
 dependencies {

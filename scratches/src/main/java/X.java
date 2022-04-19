@@ -1,3 +1,5 @@
+package me.skylixdev.superack;
+
 import net.skylix.elixor.apiSocket.APISocket;
 import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
@@ -13,6 +15,9 @@ import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
 import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 import net.skylix.elixor.terminal.logger.Logger;
 import java.util.HashMap;
+import javax.swing.JFrame;
+import javax.swing.JButton;
+import javax.swing.JPanel;
 
 class UwU extends Controller {
     @Override
@@ -22,12 +27,12 @@ class UwU extends Controller {
 
     @Override
     public void onDeactivate(ControllerSocket socket) {
-
+        Logger.warningBase("UwU die");
     }
 
     @Override
     public void onRequest(ControllerSocket socket, ControllerRequest request) {
-
+        Logger.infoBase("UwU msg");
     }
 }
 
@@ -35,7 +40,21 @@ public class X {
     public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues, ServerAlreadyRunning {
         Logger lg = new Logger();
 
-        lg.info("Loading server...");
+        // some new thread uwu
+        new Thread(() -> {
+            JFrame frame = new JFrame("UwU");
+            JPanel panel = new JPanel();
+            JButton uwu = new JButton("UwU");
+
+            panel.setAlignmentY(50.0f);
+
+            panel.add(uwu);
+
+            frame.add(panel);
+            frame.setVisible(true);
+        }).start();
+
+        lg.info("Loading server TCP...");
 
         APISocket service = new APISocket();
         UwU hello = new UwU();

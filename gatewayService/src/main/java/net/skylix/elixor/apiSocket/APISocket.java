@@ -1,6 +1,7 @@
 package net.skylix.elixor.apiSocket;
 
 import net.skylix.elixor.apiSocket.controller.Controller;
+import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyStopped;
 import org.java_websocket.WebSocket;
@@ -14,18 +15,37 @@ import java.util.ArrayList;
  * The actual websocket server.
  */
 class TrueServer extends WebSocketServer {
-    public TrueServer(int port) {
+    private ArrayList<Controller> controllers = new ArrayList<>();
+
+    public TrueServer(int port, ArrayList<Controller> controllers) {
         super(new InetSocketAddress(port));
+        this.controllers = controllers;
+    }
+
+    private void dispatchOpen(WebSocket conn) {
+        ControllerSocket socket = new ControllerSocket(conn);
+
+        for (Controller controller : controllers) {
+            controller.onActivate(socket);
+        }
+    }
+
+    private void dispatchClose(WebSocket conn) {
+        ControllerSocket socket = new ControllerSocket(conn);
+
+        for (Controller controller : controllers) {
+            controller.onDeactivate(socket);
+        }
     }
 
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-
+        dispatchOpen(conn);
     }
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-
+        dispatchClose(conn);
     }
 
     @Override
@@ -72,7 +92,7 @@ public class APISocket {
      * Create a new realtime API service.
      */
     public APISocket() {
-        wss = new TrueServer(8080);
+        wss = new TrueServer(8080, controllers);
     }
 
     /**
@@ -83,6 +103,7 @@ public class APISocket {
      */
     public Integer connectController(Controller controller) {
         controllers.add(controller);
+
         return controllers.size() - 1;
     }
 
