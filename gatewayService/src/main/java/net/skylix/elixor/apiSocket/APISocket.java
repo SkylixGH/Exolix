@@ -1,6 +1,8 @@
 package net.skylix.elixor.apiSocket;
 
 import net.skylix.elixor.apiSocket.controller.Controller;
+import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
+import net.skylix.elixor.apiSocket.errors.ServerAlreadyStopped;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -49,18 +51,33 @@ public class APISocket {
     /**
      * The connected controllers.
      */
-    private ArrayList<Controller> controllers;
+    private ArrayList<Controller> controllers = new ArrayList<>();
+
+    /**
+     * The actual socket host.
+     */
+    private final TrueServer wss;
+
+    /**
+     * If the server is fully ready.
+     */
+    private boolean isRunning = false;
+
+    /**
+     * If the server is currently booting or stopping.
+     */
+    private boolean isWorking = false;
 
     /**
      * Create a new realtime API service.
      */
     public APISocket() {
-        TrueServer server = new TrueServer(8080);
-        server.start();
+        wss = new TrueServer(8080);
     }
 
     /**
      * Adds a controller to the list of connected controllers.
+     *
      * @param controller The controller to add.
      * @return The ID of the controller added.
      */
@@ -71,6 +88,7 @@ public class APISocket {
 
     /**
      * Get a specific controller by its ID.
+     *
      * @param id The ID of the controller to get.
      * @return The controller with the specified ID.
      */
@@ -80,9 +98,37 @@ public class APISocket {
 
     /**
      * Removes a controller from the list of connected controllers.
+     *
      * @param controller The controller to remove.
      */
     public void disconnectController(Controller controller) {
         controllers.remove(controller);
+    }
+
+    /**
+     * Run the API live server.
+     */
+    public void run() throws ServerAlreadyRunning {
+        if (isRunning || (isRunning && isWorking)) {
+            throw new ServerAlreadyRunning(isWorking ? "The server is already running." : "The server is currently loading.");
+        }
+
+        isWorking = true;
+        wss.start();
+
+        isWorking = false;
+        isRunning = true;
+    }
+
+    public void stop() throws ServerAlreadyStopped, InterruptedException {
+        if (!isRunning || (isRunning && isWorking)) {
+            throw new ServerAlreadyStopped(isWorking ? "The server is already stopping." : "The server is not running.");
+        }
+
+        try {
+            wss.stop();
+        } catch (Exception error) {
+            throw error;
+        }
     }
 }

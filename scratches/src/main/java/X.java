@@ -2,6 +2,7 @@ import net.skylix.elixor.apiSocket.APISocket;
 import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
+import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
 import net.skylix.elixor.terminal.ansiChain.AnsiChain;
 import net.skylix.elixor.terminal.color.ColorConversion;
 import net.skylix.elixor.terminal.color.ColorNamesGeneric;
@@ -31,12 +32,7 @@ class UwU extends Controller {
 }
 
 public class X {
-    private static AnsiChain color = new AnsiChain();
-
-    private static Integer item = 0;
-    private static HashMap<Integer, Integer> list = new HashMap<>();
-
-    public static void main() throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
+    public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues, ServerAlreadyRunning {
         Logger lg = new Logger();
 
         lg.info("Loading server...");
@@ -45,35 +41,8 @@ public class X {
         UwU hello = new UwU();
 
         service.connectController(hello);
-    }
 
-    private static void nextTick() throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
-        item++;
-
-        color.bgColor(
-                ColorsCLI256.getColor(item)
-        );
-
-        if (ColorUtil.identifyColor(ColorsCLI256.getColor(item)) == ColorNamesGeneric.BLUE) {
-            list.put(item, ColorConversion.hexToRGB(ColorsCLI256.getColor(item))[2]);
-        }
-
-        if (item < 255) {
-            nextTick();
-        }
-    }
-
-    private static Integer[] sortArr(Integer[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length; j++) {
-                if (arr[i] < arr[j]) {
-                    int temp = arr[i];
-                    arr[i] = arr[j];
-                    arr[j] = temp;
-                }
-            }
-        }
-
-        return arr;
+        service.run();
+        Logger.infoBase("Server started");
     }
 }
