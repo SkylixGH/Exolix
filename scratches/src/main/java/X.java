@@ -18,6 +18,7 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.Robot;
 
 class UwU extends Controller {
     @Override
@@ -39,6 +40,13 @@ class UwU extends Controller {
 public class X {
     public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues, ServerAlreadyRunning {
         Logger lg = new Logger();
+        try {
+            Robot robot = new Robot();
+            
+            // listen for mouse down and get the position
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         lg.info("Loading server TCP...");
 

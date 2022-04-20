@@ -30,13 +30,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation project(':terminal')
     implementation project(':gatewayService')
-    implementation ("net.sf.launch4j:launch4j:${ARTIFACT_VERSION}:core") {
-        exclude(group: 'org.apache.ant', module: '*')
-        exclude(group: 'net.java.abeille', module: '*')
-        exclude(group: 'com.jgoodies', module: '*')
-        exclude(group: 'foxtrot', module: '*')
-        exclude(group: 'com.thoughtworks.xstream')
-    }
+    implementation files('jars/jnativehook-2.2.2-sources.jar')
 }
 
 test {
