@@ -8,13 +8,6 @@ import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
  */
 public abstract class Controller {
     /**
-     * Create a new controller instance.
-     */
-    public Controller() {
-
-    }
-
-    /**
      * Listen for when the controller is activated via a socket.
      * @param socket The socket that activated the controller.
      */

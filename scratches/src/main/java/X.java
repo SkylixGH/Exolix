@@ -40,20 +40,6 @@ public class X {
     public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues, ServerAlreadyRunning {
         Logger lg = new Logger();
 
-        // some new thread uwu
-        new Thread(() -> {
-            JFrame frame = new JFrame("UwU");
-            JPanel panel = new JPanel();
-            JButton uwu = new JButton("UwU");
-
-            panel.setAlignmentY(50.0f);
-
-            panel.add(uwu);
-
-            frame.add(panel);
-            frame.setVisible(true);
-        }).start();
-
         lg.info("Loading server TCP...");
 
         APISocket service = new APISocket();

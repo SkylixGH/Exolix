@@ -50,7 +50,7 @@ class TrueServer extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-
+        System.out.println("Message: " + message);
     }
 
     @Override
