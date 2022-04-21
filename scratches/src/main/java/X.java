@@ -18,9 +18,18 @@ import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 import net.skylix.elixor.terminal.logger.Logger;
 import java.util.HashMap;
 import javax.swing.JFrame;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.border.Border;
+
 import java.awt.Robot;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 class SRes {
 
@@ -38,7 +47,7 @@ class UwU extends Controller {
      * @param channel The name of the controller channel path.
      */
     public UwU(String channel) {
-        super(channel, new ControllerMessage(SRes.class, CRes.class));
+        super(channel, new ControllerMessage<SRes, CRes>(SRes.class, CRes.class));
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ControllerSocket {
         this.channel = channel;
     }
 
-    public <ForcedDataType> void send(ControllerSocketMessage<ForcedDataType> message) {
+    public <ForcedDataType> void send(ControllerSocketMessage message) {
         HashMap<String, ForcedDataType> data = message.getKeyPairs();
         Object jsonObj = gson.toJson(data);
 

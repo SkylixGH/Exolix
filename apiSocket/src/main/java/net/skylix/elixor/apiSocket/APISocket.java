@@ -50,6 +50,7 @@ class TrueServer extends WebSocketServer {
         }
     }
 
+    @SuppressWarnings("unchecked")
     private void dispatchMessage(WebSocket conn, String message) {
         
         // Socket request format
