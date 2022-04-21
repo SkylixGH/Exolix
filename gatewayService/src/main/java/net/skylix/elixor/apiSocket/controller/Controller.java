@@ -8,6 +8,26 @@ import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
  */
 public abstract class Controller {
     /**
+     * The name of the controller channel path.
+     */
+    private String channel;
+
+    /**
+     * Class info for message communication.
+     */
+    private ControllerMessage messageInfo;
+
+    /**
+     * Create a new controller instance.
+     * @param channel The name of the controller channel path.
+     * @param messageClass The response and request messages data class.
+     */
+    public Controller(String channel, ControllerMessage messageClass) {
+        this.channel = channel;
+        this.messageInfo = messageClass;
+    }
+
+    /**
      * Listen for when the controller is activated via a socket.
      * @param socket The socket that activated the controller.
      */
@@ -25,4 +45,20 @@ public abstract class Controller {
      * @param request The request that was received.
      */
     public abstract void onRequest(ControllerSocket socket, ControllerRequest request);
+
+    /**
+     * Get the routing channel name for this controller.
+     * @return The routing channel name for this controller.
+     */
+    public String getChannelName() {
+        return channel;
+    }
+
+    /**
+     * Get message meta info.
+     * @return The message meta info.
+     */
+    public ControllerMessage getMessageClass() {
+        return messageInfo;
+    }
 }

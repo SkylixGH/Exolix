@@ -2,6 +2,7 @@ package me.skylixdev.superack;
 
 import net.skylix.elixor.apiSocket.APISocket;
 import net.skylix.elixor.apiSocket.controller.Controller;
+import net.skylix.elixor.apiSocket.controller.ControllerMessage;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
@@ -20,7 +21,24 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Robot;
 
+class SRes {
+
+}
+
+class CRes {
+    public String text;
+}
+
 class UwU extends Controller {
+    /**
+     * Create a new controller instance.
+     *
+     * @param channel The name of the controller channel path.
+     */
+    public UwU(String channel) {
+        super(channel, new ControllerMessage(SRes.class, CRes.class));
+    }
+
     @Override
     public void onActivate(ControllerSocket socket) {
         Logger.infoBase("UwU activated");
@@ -51,7 +69,7 @@ public class X {
         lg.info("Loading server TCP...");
 
         APISocket service = new APISocket();
-        UwU hello = new UwU();
+        UwU hello = new UwU("hello");
 
         service.connectController(hello);
 

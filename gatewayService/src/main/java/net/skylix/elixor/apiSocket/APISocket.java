@@ -1,21 +1,31 @@
 package net.skylix.elixor.apiSocket;
 
+import com.google.gson.Gson;
 import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
+import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketErrorCodes;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyStopped;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
+import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * The actual websocket server.
  */
 class TrueServer extends WebSocketServer {
     private ArrayList<Controller> controllers = new ArrayList<>();
+
+    /**
+     * Google JSON parser.
+     */
+    private Gson gson = new Gson();
 
     public TrueServer(int port, ArrayList<Controller> controllers) {
         super(new InetSocketAddress(port));
@@ -38,6 +48,47 @@ class TrueServer extends WebSocketServer {
         }
     }
 
+    private void dispatchMessage(WebSocket conn, String message) {
+        ControllerSocket socket = new ControllerSocket(conn);
+
+        // Socket request format
+        // channel:(<Name of channel>)\n<JSON string>
+
+        String channelHead = "^channel:(.*?);(.*?)";
+        Pattern channelHeadPattern = Pattern.compile(channelHead);
+        Matcher channelHeadMatcher = channelHeadPattern.matcher(message);
+
+        if (!channelHeadMatcher.find()) {
+            conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_FORMAT + ";{}");
+            return;
+        }
+
+        boolean found = false;
+
+        for (Controller controller : controllers) {
+            if (controller.getChannelName().equals(channelHeadMatcher.group(1))) {
+                found = true;
+
+                try {
+                    String json = message.substring(9 + channelHeadMatcher.group(1).length());
+                    Object jsonData = gson.fromJson(json, controller.getMessageClass().client);
+                    Field[] properties = controller.getMessageClass().client.getDeclaredFields();
+
+                    for (Field property : properties) {
+                        property.setAccessible(true);
+                        System.out.println(property.getName() + ": " + property.get(jsonData));
+                    }
+                } catch (Exception e) {
+                    conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_JSON + ";{}");
+                }
+            }
+        }
+
+        if (!found) {
+            conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_CHANNEL);
+        }
+    }
+
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         dispatchOpen(conn);
@@ -50,7 +101,7 @@ class TrueServer extends WebSocketServer {
 
     @Override
     public void onMessage(WebSocket conn, String message) {
-        System.out.println("Message: " + message);
+        dispatchMessage(conn, message);
     }
 
     @Override
