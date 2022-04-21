@@ -5,6 +5,7 @@ import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.ControllerMessage;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
+import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketMessage;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
 import net.skylix.elixor.terminal.ansiChain.AnsiChain;
 import net.skylix.elixor.terminal.color.ColorConversion;
@@ -53,6 +54,9 @@ class UwU extends Controller {
     @Override
     public void onRequest(ControllerSocket socket, ControllerRequest request) {
         Logger.infoBase("UwU msg: " + request.get("text"));
+        ControllerSocketMessage message = new ControllerSocketMessage();
+        message.set("text", "UwU ty");
+        socket.send(message);
     }
 }
 
@@ -61,8 +65,6 @@ public class X {
         Logger lg = new Logger();
         try {
             Robot robot = new Robot();
-            
-            // listen for mouse down and get the position
         } catch (Exception e) {
             e.printStackTrace();
         }

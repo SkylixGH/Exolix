@@ -35,7 +35,7 @@ class TrueServer extends WebSocketServer {
     }
 
     private void dispatchOpen(WebSocket conn) {
-        ControllerSocket socket = new ControllerSocket(conn);
+        ControllerSocket socket = new ControllerSocket(conn, "__open__");
 
         for (Controller controller : controllers) {
             controller.onActivate(socket);
@@ -43,7 +43,7 @@ class TrueServer extends WebSocketServer {
     }
 
     private void dispatchClose(WebSocket conn) {
-        ControllerSocket socket = new ControllerSocket(conn);
+        ControllerSocket socket = new ControllerSocket(conn, "__close__");
 
         for (Controller controller : controllers) {
             controller.onDeactivate(socket);
@@ -51,11 +51,10 @@ class TrueServer extends WebSocketServer {
     }
 
     private void dispatchMessage(WebSocket conn, String message) {
-        ControllerSocket socket = new ControllerSocket(conn);
-
+        
         // Socket request format
         // channel:(<Name of channel>)\n<JSON string>
-
+        
         String channelHead = "^channel:(.*?);(.*?)";
         Pattern channelHeadPattern = Pattern.compile(channelHead);
         Matcher channelHeadMatcher = channelHeadPattern.matcher(message);
@@ -66,16 +65,17 @@ class TrueServer extends WebSocketServer {
         }
 
         boolean found = false;
-
+        
         for (Controller controller : controllers) {
             if (controller.getChannelName().equals(channelHeadMatcher.group(1))) {
                 found = true;
-
+                
                 try {
                     String json = message.substring(9 + channelHeadMatcher.group(1).length());
                     Object jsonData = gson.fromJson(json, controller.getMessageClass().client);
                     Field[] properties = controller.getMessageClass().client.getDeclaredFields();
-                    HashMap dataResult = new HashMap();
+                    HashMap dataResult = new HashMap<>();
+                    ControllerSocket socket = new ControllerSocket(conn, "__system__");
 
                     for (Field property : properties) {
                         property.setAccessible(true);
