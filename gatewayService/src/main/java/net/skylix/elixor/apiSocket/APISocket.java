@@ -2,6 +2,7 @@ package net.skylix.elixor.apiSocket;
 
 import com.google.gson.Gson;
 import net.skylix.elixor.apiSocket.controller.Controller;
+import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketErrorCodes;
 import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
@@ -13,6 +14,7 @@ import org.java_websocket.server.WebSocketServer;
 import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -73,11 +75,15 @@ class TrueServer extends WebSocketServer {
                     String json = message.substring(9 + channelHeadMatcher.group(1).length());
                     Object jsonData = gson.fromJson(json, controller.getMessageClass().client);
                     Field[] properties = controller.getMessageClass().client.getDeclaredFields();
+                    HashMap dataResult = new HashMap();
 
                     for (Field property : properties) {
                         property.setAccessible(true);
-                        System.out.println(property.getName() + ": " + property.get(jsonData));
+                        dataResult.put(property.getName(), property.get(jsonData));
                     }
+
+                    ControllerRequest request = new ControllerRequest(dataResult);
+                    controller.onRequest(socket, request);
                 } catch (Exception e) {
                     conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_JSON + ";{}");
                 }

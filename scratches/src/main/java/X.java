@@ -27,6 +27,7 @@ class SRes {
 
 class CRes {
     public String text;
+    public Integer age;
 }
 
 class UwU extends Controller {
@@ -51,7 +52,7 @@ class UwU extends Controller {
 
     @Override
     public void onRequest(ControllerSocket socket, ControllerRequest request) {
-        Logger.infoBase("UwU msg");
+        Logger.infoBase("UwU msg: " + request.get("text"));
     }
 }
 
