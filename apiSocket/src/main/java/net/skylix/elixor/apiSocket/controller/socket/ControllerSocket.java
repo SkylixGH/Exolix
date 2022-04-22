@@ -22,6 +22,8 @@ public class ControllerSocket {
         HashMap<String, ForcedDataType> data = message.getKeyPairs();
         Object jsonObj = gson.toJson(data);
 
-        conn.send("channel:" + channel + ";" + jsonObj.toString());
+        new Thread(() -> {
+            conn.send("channel:" + channel + ";" + jsonObj.toString());
+        }).start();
     }
 }

@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,65 +36,74 @@ class TrueServer extends WebSocketServer {
     }
 
     private void dispatchOpen(WebSocket conn) {
-        ControllerSocket socket = new ControllerSocket(conn, "__open__");
-
-        for (Controller controller : controllers) {
-            controller.onActivate(socket);
-        }
+        new Thread(() -> {
+            for (Controller controller : controllers) {
+                ControllerSocket socket = new ControllerSocket(conn, controller.getChannelName());
+                controller.onActivate(socket);
+            }
+        }).start();
     }
 
     private void dispatchClose(WebSocket conn) {
-        ControllerSocket socket = new ControllerSocket(conn, "__close__");
-
-        for (Controller controller : controllers) {
-            controller.onDeactivate(socket);
-        }
+        new Thread(() -> {
+            for (Controller controller : controllers) {
+                ControllerSocket socket = new ControllerSocket(conn, controller.getChannelName());
+                controller.onDeactivate(socket);
+            }
+        }).start();
     }
 
     @SuppressWarnings("unchecked")
     private void dispatchMessage(WebSocket conn, String message) {
-        
-        // Socket request format
-        // channel:(<Name of channel>)\n<JSON string>
-        
-        String channelHead = "^channel:(.*?);(.*?)";
-        Pattern channelHeadPattern = Pattern.compile(channelHead);
-        Matcher channelHeadMatcher = channelHeadPattern.matcher(message);
+        new Thread(() -> {
+            // Socket request format
+            // channel:(<Name of channel>)\n<JSON string>
 
-        if (!channelHeadMatcher.find()) {
-            conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_FORMAT + ";{}");
-            return;
-        }
+            String channelHead = "^channel:(.*?);(.*?)";
+            Pattern channelHeadPattern = Pattern.compile(channelHead);
+            Matcher channelHeadMatcher = channelHeadPattern.matcher(message);
 
-        boolean found = false;
-        
-        for (Controller controller : controllers) {
-            if (controller.getChannelName().equals(channelHeadMatcher.group(1))) {
-                found = true;
-                
-                try {
-                    String json = message.substring(9 + channelHeadMatcher.group(1).length());
-                    Object jsonData = gson.fromJson(json, controller.getMessageClass().client);
-                    Field[] properties = controller.getMessageClass().client.getDeclaredFields();
-                    HashMap dataResult = new HashMap<>();
-                    ControllerSocket socket = new ControllerSocket(conn, "__system__");
+            if (!channelHeadMatcher.find()) {
+                conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_FORMAT + ";{}");
+                return;
+            }
 
-                    for (Field property : properties) {
-                        property.setAccessible(true);
-                        dataResult.put(property.getName(), property.get(jsonData));
+            boolean found = false;
+
+            for (Controller controller : controllers) {
+                if (controller.getChannelName().equals(channelHeadMatcher.group(1))) {
+                    ControllerRequest request;
+                    ControllerSocket socket;
+
+                    found = true;
+
+                    try {
+                        String json = message.substring(9 + channelHeadMatcher.group(1).length());
+                        Object jsonData = gson.fromJson(json, controller.getMessageClass().client);
+                        Field[] properties = controller.getMessageClass().client.getDeclaredFields();
+                        HashMap dataResult = new HashMap<>();
+                        socket = new ControllerSocket(conn, controller.getChannelName());
+
+                        for (Field property : properties) {
+                            property.setAccessible(true);
+                            dataResult.put(property.getName(), property.get(jsonData));
+                        }
+
+                        request = new ControllerRequest(dataResult);
+
+                    } catch (Exception e) {
+                        conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_JSON + ";{\"message\": \"" + e.getMessage() + "\"}");;
+                        return;
                     }
 
-                    ControllerRequest request = new ControllerRequest(dataResult);
                     controller.onRequest(socket, request);
-                } catch (Exception e) {
-                    conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_JSON + ";{}");
                 }
             }
-        }
 
-        if (!found) {
-            conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_CHANNEL);
-        }
+            if (!found) {
+                conn.send("e:" + ControllerSocketErrorCodes.INVALID_REQUEST_CHANNEL + ";{}");
+            }
+        }).start();
     }
 
     @Override

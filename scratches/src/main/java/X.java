@@ -1,91 +1,82 @@
-package me.skylixdev.superack;
-
 import net.skylix.elixor.apiSocket.APISocket;
 import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.ControllerMessage;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketMessage;
-import net.skylix.elixor.apiSocket.errors.ServerAlreadyRunning;
-import net.skylix.elixor.terminal.ansiChain.AnsiChain;
-import net.skylix.elixor.terminal.color.ColorConversion;
-import net.skylix.elixor.terminal.color.ColorNamesGeneric;
-import net.skylix.elixor.terminal.color.ColorUtil;
-import net.skylix.elixor.terminal.color.ColorsCLI256;
-import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
-import net.skylix.elixor.terminal.color.errors.InvalidRGBAlpha;
-import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 import net.skylix.elixor.terminal.logger.Logger;
-import java.util.HashMap;
-import javax.swing.JFrame;
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JPanel;
-import javax.swing.border.Border;
 
-import java.awt.Robot;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-class SRes {
-
-}
-
-class CRes {
-    public String text;
-    public Integer age;
-}
-
-class UwU extends Controller {
+class HelloWorldController extends Controller {
     /**
      * Create a new controller instance.
      *
-     * @param channel The name of the controller channel path.
+     * @param channel      The name of the controller channel path.
+     * @param messageClass The response and request messages data class.
      */
-    public UwU(String channel) {
-        super(channel, new ControllerMessage<SRes, CRes>(SRes.class, CRes.class));
+    public HelloWorldController(String channel, ControllerMessage messageClass) {
+        super(channel, messageClass);
     }
 
     @Override
     public void onActivate(ControllerSocket socket) {
-        Logger.infoBase("UwU activated");
+        Logger.infoBase("New connection!");
     }
 
     @Override
     public void onDeactivate(ControllerSocket socket) {
-        Logger.warningBase("UwU die");
+        Logger.infoBase("Connection closed!");
     }
 
     @Override
     public void onRequest(ControllerSocket socket, ControllerRequest request) {
-        Logger.infoBase("UwU msg: " + request.get("text"));
-        ControllerSocketMessage message = new ControllerSocketMessage();
-        message.set("text", "UwU ty");
-        socket.send(message);
+        Logger.infoBase("Request received! MESSAGE = " + request.get("message"));
+        ControllerSocketMessage response = new ControllerSocketMessage();
+
+        String message = request.get("message");
+
+        if (message == null) {
+            ControllerSocketMessage err = new ControllerSocketMessage();
+            err.set("reason", "No message provided!");
+
+            socket.send(err);
+            return;
+        }
+
+        String[] args = message.split(" ");
+
+        response.set("greeting", args[0]);
+        response.set("user", args[1]);
+
+        socket.send(response);
+    }
+
+    public static class ServerSideMessage {
+        public String user;
+        public String greeting;
+    }
+
+    public static class ClientSideMessage {
+        public String message;
     }
 }
 
-public class X {
-    public static void main(String[] args) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues, ServerAlreadyRunning {
-        Logger lg = new Logger();
+class Main {
+    public static void main(String[] args) {
+        Logger.infoBase("Starting Elixor API Socket Server...");
+        APISocket server = new APISocket();
+
+        HelloWorldController helloWorldController = new HelloWorldController("helloWorld", new ControllerMessage(HelloWorldController.ServerSideMessage.class, HelloWorldController.ClientSideMessage.class));
+        server.connectController(helloWorldController);
+
         try {
-            Robot robot = new Robot();
-        } catch (Exception e) {
-            e.printStackTrace();
+            server.run();
+            Logger.successBase("Elixor API Socket Server started!");
+        } catch (Exception error) {
+            Logger.errorBase("Elixor API Socket Server failed to start!");
+
+            for (String line : error.getMessage().split("\n")) {
+                Logger.errorBase(line);
+            }
         }
-
-        lg.info("Loading server TCP...");
-
-        APISocket service = new APISocket();
-        UwU hello = new UwU("hello");
-
-        service.connectController(hello);
-
-        service.run();
-        Logger.infoBase("Server started");
     }
 }
