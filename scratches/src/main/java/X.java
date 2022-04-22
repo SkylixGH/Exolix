@@ -6,6 +6,8 @@ import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketMessage;
 import net.skylix.elixor.terminal.logger.Logger;
 
+import java.util.ArrayList;
+
 class HelloWorldController extends Controller {
     /**
      * Create a new controller instance.
@@ -17,14 +19,18 @@ class HelloWorldController extends Controller {
         super(channel, messageClass);
     }
 
+    private ArrayList<ControllerSocket> sockets = new ArrayList<>();
+
     @Override
     public void onActivate(ControllerSocket socket) {
-        Logger.infoBase("New connection!");
+        sockets.add(socket);
+        Logger.infoBase("New connection! TOTAL = " + sockets.size());
     }
 
     @Override
     public void onDeactivate(ControllerSocket socket) {
-        Logger.infoBase("Connection closed!");
+        sockets.remove(socket);
+        Logger.infoBase("Connection closed! TOTAL = " + sockets.size());
     }
 
     @Override
@@ -34,9 +40,10 @@ class HelloWorldController extends Controller {
 
         String message = request.get("message");
 
-        if (message == null) {
+        if (message == null || !message.contains(" ")) {
             ControllerSocketMessage err = new ControllerSocketMessage();
             err.set("reason", "No message provided!");
+            err.set("greeting", "Error: Please make sure your input contains one space like this (<Greeting> <Person>)");
 
             socket.send(err);
             return;
@@ -44,8 +51,8 @@ class HelloWorldController extends Controller {
 
         String[] args = message.split(" ");
 
-        response.set("greeting", args[0]);
-        response.set("user", args[1]);
+        response.set("greeting", args[0] != null ? args[0] : "");
+        response.set("user", args[1] != null ? args[1] : "");
 
         socket.send(response);
     }

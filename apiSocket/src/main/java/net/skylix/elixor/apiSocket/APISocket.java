@@ -30,6 +30,8 @@ class TrueServer extends WebSocketServer {
      */
     private Gson gson = new Gson();
 
+    private HashMap<WebSocket, ControllerSocket> sockets = new HashMap<>();
+
     public TrueServer(int port, ArrayList<Controller> controllers) {
         super(new InetSocketAddress(port));
         this.controllers = controllers;
@@ -39,6 +41,8 @@ class TrueServer extends WebSocketServer {
         new Thread(() -> {
             for (Controller controller : controllers) {
                 ControllerSocket socket = new ControllerSocket(conn, controller.getChannelName());
+                sockets.put(conn, socket);
+
                 controller.onActivate(socket);
             }
         }).start();
@@ -47,7 +51,7 @@ class TrueServer extends WebSocketServer {
     private void dispatchClose(WebSocket conn) {
         new Thread(() -> {
             for (Controller controller : controllers) {
-                ControllerSocket socket = new ControllerSocket(conn, controller.getChannelName());
+                ControllerSocket socket = sockets.get(conn);
                 controller.onDeactivate(socket);
             }
         }).start();
@@ -56,9 +60,6 @@ class TrueServer extends WebSocketServer {
     @SuppressWarnings("unchecked")
     private void dispatchMessage(WebSocket conn, String message) {
         new Thread(() -> {
-            // Socket request format
-            // channel:(<Name of channel>)\n<JSON string>
-
             String channelHead = "^channel:(.*?);(.*?)";
             Pattern channelHeadPattern = Pattern.compile(channelHead);
             Matcher channelHeadMatcher = channelHeadPattern.matcher(message);
@@ -82,7 +83,7 @@ class TrueServer extends WebSocketServer {
                         Object jsonData = gson.fromJson(json, controller.getMessageClass().client);
                         Field[] properties = controller.getMessageClass().client.getDeclaredFields();
                         HashMap dataResult = new HashMap<>();
-                        socket = new ControllerSocket(conn, controller.getChannelName());
+                        socket = sockets.get(conn);
 
                         for (Field property : properties) {
                             property.setAccessible(true);
