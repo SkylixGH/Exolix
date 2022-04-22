@@ -12,6 +12,7 @@
                 line-height: 1.5;
                 margin: 0;
                 display: flex;
+                user-select: none;
             }
 
             #container {
@@ -22,28 +23,27 @@
             }
 
             #scrollbar {
-                width: 20px;
+                width: 18px;
                 height: 500px;
-                background-color: #000;
+                background-color: #f1f1f1;
                 position: relative;
                 display: flex;
                 justify-content: center;
-                padding: 10px 0;
+                padding: 5px 0;
             }
 
             #thumb {
-                width: 5px;
+                width: 14px;
                 height: 50%;
-                background-color: #fff;
+                background-color: #3d3d3d;
                 position: absolute;
                 top: 10px;
-                border-radius: 20px;
                 transition: transform 100ms;
+                opacity: 0.5;
             }
 
             #scrollbar:hover > #thumb, #scrollbar:active > #thumb {
-                cursor: pointer;
-                transform: scaleX(1.5);
+                opacity: 0.6;
             }
         </style>
     </head>
@@ -85,7 +85,11 @@
                 const scrollTop = container.scrollTop();
 
                 const thumbHeight = thumb.height();
-                const thumbTop = scrollTop / (contentHeight - containerHeight) * (containerHeight - thumbHeight);
+                let thumbTop = scrollTop / (contentHeight - containerHeight) * (containerHeight - thumbHeight);
+
+                if (thumbTop => 10) {
+                    thumbTop = 10;
+                }
 
                 thumb.css('top', thumbTop);
             }
@@ -101,39 +105,45 @@
                 const thumbHeight = thumb.height();
                 const thumbBottom = thumbTop + thumbHeight;
 
-                const mouseY = e.pageY;
+                const mouseYOriginal = e.pageY;
 
                 window.addEventListener('mousemove', onMouseMove);
+                // touch support
+                
                 $(document).on('mouseup', onMouseUp);
+                // touch support
+                $(document).on('touchmove', onMouseMove);
 
                 /**
-                 * When moving the mouse, the thumb will be relative with mouse offsets.
+                 * When moving the mouse, the thumb will be relative with mouse.
                  */
-                function onMouseMove(e) {
-                    const mouseY = e.pageY;
+                function onMouseMove(ee) {
+                    // make the scrollbar draggable on the y axis
+                    const mouseY = ee.pageY;
+                    const thumbTopNew = thumbTop + mouseY - mouseYOriginal;
+                    const thumbBottom = thumbTopNew + thumbHeight;
 
-                    const thumbTop = mouseY - (thumbHeight - mouseY);
-                    const offset = thumbTop / (containerHeight - thumbHeight) * (contentHeight - containerHeight);
-
-                    if (thumbTop < 0) {
-                        thumb.css('top', 0);
+                    // prevent the thumb from going outside the scrollbar
+                    if (thumbTopNew < 10) {
+                        thumb.css('top', 10);
                     } else if (thumbBottom > containerHeight) {
-                        thumb.css('top', containerHeight - offset / 2);
+                        thumb.css('top', containerHeight - thumbHeight);
                     } else {
-                        thumb.css('top', offset - thumbTop);
+                        thumb.css('top', thumbTopNew);
                     }
 
-                    const scrollTop = (thumbTop / (containerHeight - thumbHeight)) * (contentHeight - containerHeight);
-
-                    container.scrollTop(scrollTop);
-                }
-
+                    // apply to container
+                    const scrollTopNew = (thumbTopNew / (containerHeight - thumbHeight)) * (contentHeight - containerHeight);
+                    container.scrollTop(scrollTopNew);
+                }   
 
                 function onMouseUp() {
                     isScrolling = false;
 
                     $(document).off('mouseup', onMouseUp);
                     window.removeEventListener('mousemove', onMouseMove);
+                    // touch support
+                    window.removeEventListener('touchmove', onMouseMove);
                 }
 
                 const mouseUpListener = () => {
@@ -142,6 +152,8 @@
                 }
 
                 window.addEventListener('mouseup', mouseUpListener);
+                // touch support
+                window.addEventListener('touchmove', onMouseMove);
             }
 
             function executeMath() {
