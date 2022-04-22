@@ -54,7 +54,9 @@ class HelloWorldController extends Controller {
         response.set("greeting", args[0] != null ? args[0] : "");
         response.set("user", args[1] != null ? args[1] : "");
 
-        socket.send(response);
+        for (ControllerSocket socketInstance : sockets) {
+            socketInstance.send(response);
+        }
     }
 
     public static class ServerSideMessage {
