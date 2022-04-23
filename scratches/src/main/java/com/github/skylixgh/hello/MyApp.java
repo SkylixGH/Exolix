@@ -1,29 +1,18 @@
 package com.github.skylixgh.hello;
 
-import net.skylix.elixor.apiSocket.APISocket;
 import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.ControllerMessage;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocket;
 import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketMessage;
+import net.skylix.elixor.elixorFX.ElixorFX;
 import net.skylix.elixor.terminal.logger.Logger;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.ArrayList;
 
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
-import net.skylix.elixor.elixorFX.components.Button;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 class HelloWorldController extends Controller {
+    private final ArrayList<ControllerSocket> sockets = new ArrayList<>();
+
     /**
      * Create a new controller instance.
      *
@@ -33,8 +22,6 @@ class HelloWorldController extends Controller {
     public HelloWorldController(String channel, ControllerMessage messageClass) {
         super(channel, messageClass);
     }
-
-    private ArrayList<ControllerSocket> sockets = new ArrayList<>();
 
     @Override
     public void onActivate(ControllerSocket socket) {
@@ -108,19 +95,12 @@ class HelloWorldController extends Controller {
 //     }
 // }
 
-public class MyApp extends Application {
+public class MyApp {
     public static void main(String[] args) {
-        launch(args);
+        ElixorFX.init();
     }
-    
-    @Override
-    public void start(Stage primaryStage) {
-        primaryStage.setTitle("Hello World!");
-        Button btn = new Button();
-        
-        HBox root = new HBox();
-        root.getChildren().add(btn);
-        primaryStage.setScene(new Scene(root, 300, 250));
-        primaryStage.show();
+
+    public void start() {
+
     }
 }
