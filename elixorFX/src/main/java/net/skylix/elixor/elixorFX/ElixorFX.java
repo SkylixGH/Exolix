@@ -27,7 +27,7 @@ public class ElixorFX {
         frame.setVisible(true);
 
         HWND hwin = frame.getHWND();
-        System.out.println(new WindowsJNI().bar());
+        System.out.println("Lol" + new WindowsJNI().bar());
 
 //        if (message == WM_ACTIVATE)
 //        {
@@ -65,7 +65,7 @@ public class ElixorFX {
             cyTopHeight = 27;
         }};
 
-        WinNT.HRESULT hr = EUser32.INSTANCE.DwmExtendFrameIntoClientArea(hwin, margins);
+//        WinNT.HRESULT hr = EUser32.INSTANCE.DwmExtendFrameIntoClientArea(hwin, margins);
 
         while (User32.INSTANCE.GetMessage(msg, hwin, 0, 0) != 0) {
             User32.INSTANCE.TranslateMessage(msg);
