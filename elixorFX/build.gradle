@@ -4,11 +4,6 @@ plugins {
     id 'cpp'
 }
 
-javafx {
-    version = "17.0.1"
-    modules = [ 'javafx.controls' ]
-}
-
 group 'net.skylix'
 version '1.0.0-SNAPSHOT'
 
@@ -21,7 +16,6 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation group: 'net.java.dev.jna', name: 'jna', version: '5.11.0'
     implementation group: 'net.java.dev.jna', name: 'jna-platform', version: '5.11.0'
-    implementation group: 'org.bytedeco', name: 'qt-platform', version: '5.15.2-1.5.7'
 }
 
 test {

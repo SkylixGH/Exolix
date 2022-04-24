@@ -1,27 +1,24 @@
 package net.skylix.elixor.elixorFX;
 
-import com.sun.javafx.tk.TKStage;
 import com.sun.jna.Native;
-import com.sun.jna.Pointer;
+import com.sun.jna.Structure;
 import com.sun.jna.platform.win32.User32;
-import com.sun.jna.platform.win32.WinDef;
-import javafx.stage.Stage;
-import org.bytedeco.javacpp.IntPointer;
-import org.bytedeco.javacpp.Loader;
-import org.bytedeco.javacpp.PointerPointer;
-import org.bytedeco.qt.Qt5Widgets.QApplication;
-import org.bytedeco.qt.Qt5Widgets.QTextEdit;
+import com.sun.jna.platform.win32.WinNT;
+import com.sun.jna.win32.W32APIOptions;
+import com.sun.net.httpserver.Authenticator;
+import net.skylix.elixor.elixorFX.jna.MARGINS;
+import net.skylix.elixor.elixorFX.jni.WindowsJNI;
 
 import javax.swing.*;
-import java.io.File;
-import java.lang.reflect.Method;
 
 import static com.sun.jna.platform.win32.WinUser.*;
 
-public class ElixorFX {
-    private static IntPointer argc;
-    private static PointerPointer argv;
+interface EUser32 extends User32 {
+    EUser32 INSTANCE = Native.load("user32", EUser32.class, W32APIOptions.DEFAULT_OPTIONS);
+    HRESULT DwmExtendFrameIntoClientArea(HWND hwnd, MARGINS pMarInset);
+}
 
+public class ElixorFX {
     /**
      * Extended client area example
      */
@@ -30,6 +27,7 @@ public class ElixorFX {
         frame.setVisible(true);
 
         HWND hwin = frame.getHWND();
+        System.out.println(new WindowsJNI().bar());
 
 //        if (message == WM_ACTIVATE)
 //        {
@@ -57,25 +55,25 @@ public class ElixorFX {
         MSG msg = new MSG();
         int WM_ACTIVATE = 0x0006;
 
+        System.out.println("WM_ACTIVATE");
+
+        // Extend the frame into the client area.
+        MARGINS margins = new MARGINS() {{
+            cxLeftWidth = 8;
+            cxRightWidth = 8;
+            cyBottomHeight = 20;
+            cyTopHeight = 27;
+        }};
+
+        WinNT.HRESULT hr = EUser32.INSTANCE.DwmExtendFrameIntoClientArea(hwin, margins);
+
         while (User32.INSTANCE.GetMessage(msg, hwin, 0, 0) != 0) {
             User32.INSTANCE.TranslateMessage(msg);
             User32.INSTANCE.DispatchMessage(msg);
 
             if (msg.message == WM_QUIT) {
                 break;
-            }
-
-            if (msg.message == WM_ACTIVATE) {
-                System.out.println("WM_ACTIVATE");
-
-                // Extend the frame into the client area.
-                int cxLeftWidth = 8;
-                int cxRightWidth = 8;
-                int cyBottomHeight = 20;
-                int cyTopHeight = 27;
-
-                int hr = User32.INSTANCE.DwmExtendFrameIntoClientArea(hwin, cxLeftWidth, cxRightWidth, cyBottomHeight, cyTopHeight);
-            }
+            } else if (msg.message == WM_ACTIVATE) {}
         }
     }
 
