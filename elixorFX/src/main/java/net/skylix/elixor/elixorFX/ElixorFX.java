@@ -1,125 +1,94 @@
 package net.skylix.elixor.elixorFX;
 
-import javax.swing.*;
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.geom.RoundRectangle2D;
+import com.sun.javafx.tk.TKStage;
+import com.sun.jna.Native;
+import com.sun.jna.Pointer;
+import com.sun.jna.platform.win32.User32;
+import com.sun.jna.platform.win32.WinDef;
+import javafx.stage.Stage;
+import org.bytedeco.javacpp.IntPointer;
+import org.bytedeco.javacpp.Loader;
+import org.bytedeco.javacpp.PointerPointer;
+import org.bytedeco.qt.Qt5Widgets.QApplication;
+import org.bytedeco.qt.Qt5Widgets.QTextEdit;
 
+import javax.swing.*;
+import java.io.File;
+import java.lang.reflect.Method;
+
+import static com.sun.jna.platform.win32.WinUser.*;
 
 public class ElixorFX {
-    static int startingX = 0;
-    static int startingY = 0;
+    private static IntPointer argc;
+    private static PointerPointer argv;
 
-    private static class RoundedBorder extends AbstractBorder {
+    /**
+     * Extended client area example
+     */
+    public static void init() {
+        ModJFrame frame = new ModJFrame();
+        frame.setVisible(true);
 
-        private final Color color;
-        private final int gap;
+        HWND hwin = frame.getHWND();
 
-        public RoundedBorder(Color c, int g) {
-            color = c;
-            gap = g;
-        }
+//        if (message == WM_ACTIVATE)
+//        {
+//            // Extend the frame into the client area.
+//            MARGINS margins;
+//
+//            margins.cxLeftWidth = LEFTEXTENDWIDTH;      // 8
+//            margins.cxRightWidth = RIGHTEXTENDWIDTH;    // 8
+//            margins.cyBottomHeight = BOTTOMEXTENDWIDTH; // 20
+//            margins.cyTopHeight = TOPEXTENDWIDTH;       // 27
+//
+//            hr = DwmExtendFrameIntoClientArea(hWnd, &margins);
+//
+//            if (!SUCCEEDED(hr))
+//            {
+//                // Handle the error.
+//            }
+//
+//            fCallDWP = true;
+//            lRet = 0;
+//        }
+        // we will implement the code above
 
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2d = (Graphics2D) g.create();
-            g2d.setColor(color);
-            g2d.draw(new RoundRectangle2D.Double(x, y, width - 1, height - 1, gap, gap));
-            g2d.dispose();
-        }
+        // Listen for messages
+        MSG msg = new MSG();
+        int WM_ACTIVATE = 0x0006;
 
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return (getBorderInsets(c, new Insets(gap, gap, gap, gap)));
-        }
+        while (User32.INSTANCE.GetMessage(msg, hwin, 0, 0) != 0) {
+            User32.INSTANCE.TranslateMessage(msg);
+            User32.INSTANCE.DispatchMessage(msg);
 
-        @Override
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.left = insets.top = insets.right = insets.bottom = gap / 2;
-            return insets;
-        }
+            if (msg.message == WM_QUIT) {
+                break;
+            }
 
-        @Override
-        public boolean isBorderOpaque() {
-            return false;
+            if (msg.message == WM_ACTIVATE) {
+                System.out.println("WM_ACTIVATE");
+
+                // Extend the frame into the client area.
+                int cxLeftWidth = 8;
+                int cxRightWidth = 8;
+                int cyBottomHeight = 20;
+                int cyTopHeight = 27;
+
+                int hr = User32.INSTANCE.DwmExtendFrameIntoClientArea(hwin, cxLeftWidth, cxRightWidth, cyBottomHeight, cyTopHeight);
+            }
         }
     }
 
-    public static void init() {
-        JFrame frame = new JFrame();
-        JPanel root = new JPanel();
-        JPanel titleBar = new JPanel();
+    public static class ModJFrame extends JFrame {
+        public ModJFrame() {
+            super();
+        }
 
-        titleBar.setSize(400, 32);
-        titleBar.setBackground(new Color(20, 20, 20));
+        public HWND getHWND() {
+            HWND hwnd = new HWND();
+            hwnd.setPointer(Native.getComponentPointer(this));
 
-        titleBar.setMinimumSize(new Dimension(400, 32));
-        titleBar.setMaximumSize(new Dimension(400, 32));
-
-        // draggable title bar that moves frame
-        startingX = 0;
-        startingY = 0;
-
-        titleBar.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                startingX = e.getX();
-                startingY = e.getY();
-            }
-
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount() == 2) {
-                    if (frame.isResizable()) {
-                        if (frame.getExtendedState() == JFrame.MAXIMIZED_BOTH) {
-                            frame.setExtendedState(JFrame.NORMAL);
-                        } else {
-                            frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-                        }
-                    }
-                }
-            }
-        });
-
-        titleBar.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                frame.setLocation(e.getXOnScreen() - startingX, e.getYOnScreen() - startingY);
-            }
-        });
-
-        titleBar.setBorder(new RoundedBorder(new Color(20, 20, 20), 10));
-
-        // set 10px corner radius
-        titleBar.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        titleBar.setBorder(BorderFactory.createCompoundBorder(titleBar.getBorder(), BorderFactory.createLineBorder(new Color(20, 20, 20), 1)));
-
-        ComponentResizer cr = new ComponentResizer();
-        cr.registerComponent(frame);
-        cr.setSnapSize(new Dimension(10, 10));
-        cr.setMinimumSize(new Dimension(400, 400));
-
-        root.add(titleBar);
-        root.setMinimumSize(new Dimension(400, 400));
-        root.setLayout(new BoxLayout(root, BoxLayout.Y_AXIS));
-
-        root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        // set border radius to 10px
-        root.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(20, 20, 20), 1),
-                        BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setUndecorated(true);
-        frame.setSize(400, 400);
-
-        root.setSize(400, 400);
-        root.setBackground(new Color(32, 32, 32));
-
-        frame.add(root);
-        frame.setVisible(true);
+            return hwnd;
+        }
     }
 }

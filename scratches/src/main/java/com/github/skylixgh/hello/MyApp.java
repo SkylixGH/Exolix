@@ -1,5 +1,8 @@
 package com.github.skylixgh.hello;
 
+import com.sun.javafx.tk.TKStage;
+import javafx.application.Application;
+import javafx.stage.Stage;
 import net.skylix.elixor.apiSocket.controller.Controller;
 import net.skylix.elixor.apiSocket.controller.ControllerMessage;
 import net.skylix.elixor.apiSocket.controller.request.ControllerRequest;
@@ -8,6 +11,7 @@ import net.skylix.elixor.apiSocket.controller.socket.ControllerSocketMessage;
 import net.skylix.elixor.elixorFX.ElixorFX;
 import net.skylix.elixor.terminal.logger.Logger;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 class HelloWorldController extends Controller {
@@ -95,12 +99,8 @@ class HelloWorldController extends Controller {
 //     }
 // }
 
-public class MyApp {
+public class MyApp  {
     public static void main(String[] args) {
         ElixorFX.init();
-    }
-
-    public void start() {
-
     }
 }
