@@ -6,6 +6,8 @@ import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.W32APIOptions;
+
+import net.skylix.elixor.elixorFX.windows.jna.User32Dwm;
 import net.skylix.elixor.elixorFX.windows.jna.User32Ex;
 
 import static com.sun.jna.platform.win32.WinUser.*;
@@ -18,6 +20,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private final boolean useCustomTitleBarHitTest;
 
     private final User32Ex INSTANCE;
+    private final User32Dwm INSTANCEDwm;
     private BaseTSD.LONG_PTR definedWindowProcess;
 
     public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
@@ -25,6 +28,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         useCustomTitleBarHitTest = customHitTest;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
+        INSTANCEDwm = Native.load("dwmapi", User32Dwm.class, W32APIOptions.DEFAULT_OPTIONS);
     }
 
     public void initializeProcess(WinDef.HWND hWnd) {
@@ -38,6 +42,20 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 0,
                 0,
                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED
+        );
+
+        // DWMWCP_ROUND
+        RECT bounds = new RECT();
+        bounds.left = 0;
+        bounds.top = 0;
+        bounds.right = 0;
+        bounds.bottom = 0;
+
+        INSTANCEDwm.DwmSetWindowAttribute(
+                hWnd,
+                User32Dwm.DWMWA_EXTENDED_FRAME_BOUNDS,
+                bounds,
+                4
         );
     }
 

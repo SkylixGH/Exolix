@@ -20,7 +20,6 @@ public class ElixorFX {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500, 500));
         frame.setLocationRelativeTo(null);
-
         panel.setLayout(new BorderLayout());
         panel.setBackground(new Color(34, 34, 34));
 
