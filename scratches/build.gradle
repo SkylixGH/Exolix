@@ -9,11 +9,6 @@ javafx {
     modules = [ 'javafx.controls' ]
 }
 
-ext {
-    ARTIFACT_VERSION = '3.14'
-    spock_version = '1.3-groovy-2.5'
-}
-
 group 'scratches__.user'
 version '1.0.0-SNAPSHOT'
 
@@ -36,4 +31,12 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+jar {
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it)}
+    }
+
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }

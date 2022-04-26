@@ -2,20 +2,172 @@ package net.skylix.elixor.elixorFX;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef;
+import net.skylix.elixor.elixorFX.ux.button.UXButton;
 import net.skylix.elixor.elixorFX.windows.WindowsJFrameProcess;
 
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class ElixorFX {
+    public static class BlockInstance {
+        public int x;
+        public int y;
+
+        public int rotation;
+    }
+
+    public static class Game extends JPanel {
+        private int posX = 100;
+        private int posY = 100;
+        private int rotation = 0;
+
+        private ArrayList<BlockInstance> blockMap = new ArrayList<>();
+
+        /**
+         * 0 means no movement
+         * 1 means forward
+         * -1 means backward
+         */
+        private int acceleratorFwd = 0;
+
+        /**
+         * 0 means no movement
+         * 1 means right
+         * -1 means left
+         */
+        private int rotator = 0;
+
+        @Override
+        protected void paintComponent(Graphics g3) {
+            super.paintComponent(g3);
+
+            Graphics2D g = (Graphics2D) g3;
+
+            g.setColor(Color.BLACK);
+            // rotate the 10x10 square by the current rotation
+            g.rotate(Math.toRadians(rotation), posX + 5, posY + 5);
+            g.fillRect(posX, posY, 10, 10);
+
+            // render all from blockMap
+            for (BlockInstance block : blockMap) {
+                g.setColor(Color.RED);
+                g.rotate(Math.toRadians(block.rotation), block.x, block.y);
+                int x = (int) (block.x * Math.cos(Math.toRadians(block.rotation)));
+                int y = (int) (block.x * Math.sin(Math.toRadians(block.rotation)));
+
+                g.fillRect(x, y, 10, 10);
+            }
+
+            g.dispose();
+        }
+
+        @Override
+        public Dimension getPreferredSize() {
+            return new Dimension(300, 300);
+        }
+
+        public Game() {
+            setFocusable(true);
+            requestFocusInWindow();
+            grabFocus();
+            requestFocus();
+
+            addKeyListener(new KeyAdapter() {
+               @Override
+               public void keyPressed(KeyEvent e) {
+                   if (e.getKeyCode() == KeyEvent.VK_UP) {
+                       acceleratorFwd = 1;
+                   }
+
+                   if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+                       acceleratorFwd = -1;
+                   }
+
+                   if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                       rotator = -1;
+                   }
+
+                   if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                       rotator = 1;
+                   }
+
+                   if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                       blockMap.add(new BlockInstance() {{
+                           x = posX;
+                           y = posY;
+                           rotation = rotation;
+                       }});
+                   }
+               }
+
+               @Override
+               public void keyReleased(KeyEvent e) {
+                   if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+                       acceleratorFwd = 0;
+                   }
+
+                   if (e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                       rotator = 0;
+                   }
+               }
+           });
+
+            Timer timer = new Timer(0, new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    if (rotator == 1) {
+                        rotation += 1;
+                        System.out.println("rotation: " + "Right");
+                    } else if (rotator == -1) {
+                        rotation -= 1;
+                        System.out.println("rotation: " + "Left");
+                    }
+
+                    // calculate x and y based on rotation
+                    int x = (int) (Math.cos(Math.toRadians(rotation)) * 10);
+                    int y = (int) (Math.sin(Math.toRadians(rotation)) * 10);
+
+                    // calculate new position
+                    posX += x * acceleratorFwd;
+                    posY += y * acceleratorFwd;
+
+                    // if outside of the screen, move back to the other side
+                    if (posX < 0) {
+                        posX = getWidth() - 10;
+                    } else if (posX > getWidth() - 10) {
+                        posX = 0;
+                    }
+
+                    if (posY < 0) {
+                        posY = getHeight() - 10;
+                    } else if (posY > getHeight() - 10) {
+                        posY = 0;
+                    }
+
+                    // repaint
+                    repaint();
+                }
+            });
+            timer.start();
+        }
+    }
+
     /**
      * Extended client area example
      */
     public static void init() {
         ModJFrame frame = new ModJFrame();
         JPanel panel = new JPanel();
+        JPanel canvas = new JPanel();
+        Game gameEngine = new Game();
+        UXButton bt = new UXButton("Click me!");
+
+        canvas.setPreferredSize(new Dimension(800, 600));
+        canvas.setLayout(new BorderLayout());
+//        canvas.add(gameEngine, BorderLayout.CENTER);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500, 500));
@@ -88,10 +240,17 @@ public class ElixorFX {
 
         JPanel body = new JPanel();
 //        body.setLayout();
-        body.add(helloToolTip);
+//        body.add(helloToolTip);
+        body.add(bt);
         body.setBackground(new Color(34, 34, 34, 0));
 
         panel.add(body);
+
+        // Canvas
+        canvas.setSize(new Dimension(300, 300));
+        canvas.setBackground(new Color(20, 20, 20));
+
+//        panel.add(canvas, BorderLayout.CENTER);
 
         applyButtonStyle(close);
         applyButtonStyle(minimize);
@@ -107,6 +266,8 @@ public class ElixorFX {
         panel.add(titleBar, BorderLayout.NORTH);
         frame.add(panel);
         frame.setVisible(true);
+        frame.requestFocusInWindow();
+        gameEngine.requestFocus();
     }
 
     public static void applyButtonStyle(JButton button) {
