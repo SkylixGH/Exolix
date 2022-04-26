@@ -15,6 +15,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation group: 'net.java.dev.jna', name: 'jna', version: '5.11.0'
     implementation group: 'net.java.dev.jna', name: 'jna-platform', version: '5.11.0'
+    implementation project(':terminal')
 }
 
 test {

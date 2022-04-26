@@ -61,7 +61,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
     private WinDef.LRESULT borderLessHitTest(HWND hWnd, int uMsg, WPARAM wParam, LPARAM lParam) {
         int titleBarHeight = 27;
-        int controlBoxWidth = 150;
+        int controlBoxWidth = 135;
         int iconWidth = 27;
         int extraLeftReservedWidth = 0;
         int extraRightReservedWidth = 0;

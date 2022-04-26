@@ -54,11 +54,9 @@ public class ElixorFX {
             // render all from blockMap
             for (BlockInstance block : blockMap) {
                 g.setColor(Color.RED);
-                g.rotate(Math.toRadians(block.rotation), block.x, block.y);
-                int x = (int) (block.x * Math.cos(Math.toRadians(block.rotation)));
-                int y = (int) (block.x * Math.sin(Math.toRadians(block.rotation)));
+                g.rotate(block.rotation);
 
-                g.fillRect(x, y, 10, 10);
+                g.fillRect(block.x, block.y, 10, 10);
             }
 
             g.dispose();
@@ -95,10 +93,15 @@ public class ElixorFX {
                    }
 
                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+                        // no pointer
+                        int posXClone = posX;
+                        int posYClone = posY;
+
+                        int rotationClone = rotation;
                        blockMap.add(new BlockInstance() {{
-                           x = posX;
-                           y = posY;
-                           rotation = rotation;
+                           x = posXClone;
+                           y = posYClone;
+                           rotation = rotationClone;
                        }});
                    }
                }
@@ -119,10 +122,10 @@ public class ElixorFX {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     if (rotator == 1) {
-                        rotation += 1;
+                        rotation += 5;
                         System.out.println("rotation: " + "Right");
                     } else if (rotator == -1) {
-                        rotation -= 1;
+                        rotation -= 5;
                         System.out.println("rotation: " + "Left");
                     }
 
@@ -136,15 +139,15 @@ public class ElixorFX {
 
                     // if outside of the screen, move back to the other side
                     if (posX < 0) {
-                        posX = getWidth() - 10;
-                    } else if (posX > getWidth() - 10) {
                         posX = 0;
+                    } else if (posX > getWidth() - 10) {
+                        posX = getWidth() - 10;
                     }
 
                     if (posY < 0) {
-                        posY = getHeight() - 10;
-                    } else if (posY > getHeight() - 10) {
                         posY = 0;
+                    } else if (posY > getHeight() - 10) {
+                        posY = getHeight() - 10;
                     }
 
                     // repaint
@@ -167,7 +170,7 @@ public class ElixorFX {
 
         canvas.setPreferredSize(new Dimension(800, 600));
         canvas.setLayout(new BorderLayout());
-//        canvas.add(gameEngine, BorderLayout.CENTER);
+       canvas.add(gameEngine, BorderLayout.CENTER);
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(new Dimension(500, 500));
@@ -176,8 +179,8 @@ public class ElixorFX {
         panel.setBackground(new Color(34, 34, 34));
 
         JPanel titleBar = new JPanel();
-        titleBar.setBackground(new Color(25, 25, 25));
-        titleBar.setPreferredSize(new Dimension(500, 32));
+        titleBar.setBackground(new Color(25, 25, 27));
+        titleBar.setPreferredSize(new Dimension(500, 27));
         titleBar.setLayout(new BorderLayout());
 
         JLabel title = new JLabel("ElixorFX");
@@ -188,25 +191,25 @@ public class ElixorFX {
         JPanel controls = new JPanel();
         controls.setBackground(new Color(25, 25, 25));
         controls.setLayout(new BorderLayout());
-        controls.setPreferredSize(new Dimension(150, 32));
+        controls.setPreferredSize(new Dimension(135, 25));
 
-        JButton close = new JButton("X");
+        JButton close = new JButton("✕");
         close.setBackground(new Color(25, 25, 25));
         close.setForeground(new Color(255, 255, 255));
-        close.setPreferredSize(new Dimension(50, 32));
+        close.setPreferredSize(new Dimension(45, 25));
 
-        JButton minimize = new JButton("-");
+        JButton minimize = new JButton("⎯");
         minimize.setBackground(new Color(25, 25, 25));
         minimize.setForeground(new Color(255, 255, 255));
-        minimize.setPreferredSize(new Dimension(50, 32));
+        minimize.setPreferredSize(new Dimension(45, 25));
 
         JButton maximize = new JButton("o");
         maximize.setBackground(new Color(25, 25, 25));
         maximize.setForeground(new Color(255, 255, 255));
-        maximize.setPreferredSize(new Dimension(50, 32));
+        maximize.setPreferredSize(new Dimension(45, 25));
 
         JButton helloToolTip = new JButton("Hello ToolTip");
-        helloToolTip.setPreferredSize(new Dimension(150, 32));
+        helloToolTip.setPreferredSize(new Dimension(150,25));
         helloToolTip.setMaximumSize(new Dimension(150, 32));
         helloToolTip.setLayout(new BorderLayout());
 
@@ -227,6 +230,11 @@ public class ElixorFX {
 
             @Override
             public void mouseExited(java.awt.event.MouseEvent evt) {
+                toolTip.setVisible(false);
+            }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
                 toolTip.setVisible(false);
             }
         });
@@ -250,7 +258,7 @@ public class ElixorFX {
         canvas.setSize(new Dimension(300, 300));
         canvas.setBackground(new Color(20, 20, 20));
 
-//        panel.add(canvas, BorderLayout.CENTER);
+       panel.add(canvas, BorderLayout.CENTER);
 
         applyButtonStyle(close);
         applyButtonStyle(minimize);
@@ -307,7 +315,7 @@ public class ElixorFX {
 
         public ModJFrame() {
             super("IT'S A TRAP! (or is it? I don't know yet :P) - ElixorFX");
-            process = new WindowsJFrameProcess(true, 32);
+            process = new WindowsJFrameProcess(true, 25);
         }
 
         @Override

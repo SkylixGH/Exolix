@@ -14,28 +14,15 @@ public class UXButton extends JPanel {
         text.setForeground(new java.awt.Color(255, 255, 255));
 
         setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
 
-        // add text centered
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-        gbc.gridwidth = 2;
-        gbc.gridheight = 2;
-
-        gbc.weightx = 1;
-        gbc.weighty = 1;
-
-        gbc.fill = GridBagConstraints.BOTH;
-
-        add(text, gbc);
+        add(text);
         setPreferredSize(new Dimension(100, 30));
         setMinimumSize(getSize());
 
         addMouseListener(new java.awt.event.MouseAdapter() {
              @Override
              public void mouseEntered(java.awt.event.MouseEvent evt) {
-                setBackground(new java.awt.Color(80, 80, 80));
+                setBackground(new java.awt.Color(60, 60, 60));
                 repaint();
              }
 
@@ -44,6 +31,18 @@ public class UXButton extends JPanel {
                 setBackground(new java.awt.Color(50, 50, 50));
                 repaint();
              }
+
+                @Override
+                public void mousePressed(java.awt.event.MouseEvent evt) {
+                    setBackground(new java.awt.Color(30, 30, 30));
+                    repaint();
+                }
+
+                @Override
+                public void mouseReleased(java.awt.event.MouseEvent evt) {
+                    setBackground(new java.awt.Color(50, 50, 50));
+                    repaint();
+                }
          });
 
         text.addComponentListener(new java.awt.event.ComponentAdapter() {
