@@ -71,7 +71,7 @@ class HelloWorldController extends Controller {
 // class Main {
 //     public void main() throws IOException {
 //         Logger.infoBase("Starting Elixor API Socket Server...");
-//         APISocket server = new APISocket();
+//         ApiSocket server = new ApiSocket();
 
 //         HelloWorldController helloWorldController = new HelloWorldController("message", new ControllerMessage(HelloWorldController.ServerSideMessage.class, HelloWorldController.ClientSideMessage.class));
 //         server.connectController(helloWorldController);
