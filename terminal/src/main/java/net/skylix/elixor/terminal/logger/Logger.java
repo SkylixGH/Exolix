@@ -115,7 +115,7 @@ public class Logger {
      * @param type    The type of the message.
      */
     private void logWithPrefix(String message, LoggerTypes type) {
-        String padding = " ".repeat(settings.padding);
+        final String padding = " ".repeat(settings.padding);
 
         String prefixLabel = switch (type) {
             case SUCCESS -> settings.prefixTextSurrounds[0]
@@ -174,7 +174,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void info(String message) {
+    public final void info(String message) {
         logWithPrefix(message, LoggerTypes.INFO);
     }
 
@@ -183,7 +183,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void success(String message) {
+    public final void success(String message) {
         logWithPrefix(message, LoggerTypes.SUCCESS);
     }
 
@@ -192,7 +192,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void warning(String message) {
+    public final void warning(String message) {
         logWithPrefix(message, LoggerTypes.WARNING);
     }
 
@@ -201,7 +201,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void error(String message) {
+    public final void error(String message) {
         logWithPrefix(message, LoggerTypes.ERROR);
     }
 
@@ -210,7 +210,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void debug(String message) {
+    public final void debug(String message) {
         logWithPrefix(message, LoggerTypes.DEBUG);
     }
 
@@ -219,7 +219,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void verbose(String message) {
+    public final void verbose(String message) {
         logWithPrefix(message, LoggerTypes.VERBOSE);
     }
 
@@ -228,7 +228,7 @@ public class Logger {
      *
      * @param message The message to log.
      */
-    public void deprecated(String message) {
+    public final void deprecated(String message) {
         logWithPrefix(message, LoggerTypes.DEPRECATED);
     }
 }

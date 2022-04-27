@@ -1376,8 +1376,8 @@ public class ColorsCLI256 {
      * @return The ID's index.
      */
     public static Integer getCode(Integer red, Integer green, Integer blue) throws InvalidRGBAlpha, InvalidRGBValues {
-        String hexColor = ColorConversion.rgbToHex(red, green, blue, 1);
-        String color = "#" + hexColor;
+        final String hexColor = ColorConversion.rgbToHex(red, green, blue, 1);
+        final String color = "#" + hexColor;
 
         for (Map.Entry<Integer, String> entry : getColorMap().entrySet()) {
             if ((entry.getValue().toUpperCase() + "FF").equals(color)) {

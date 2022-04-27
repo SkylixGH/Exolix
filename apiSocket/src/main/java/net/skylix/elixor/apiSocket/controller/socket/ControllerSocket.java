@@ -7,18 +7,18 @@ import com.google.gson.Gson;
 import org.java_websocket.WebSocket;
 
 public class ControllerSocket {
-    private WebSocket conn;
+    private final WebSocket conn;
 
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
-    private String channel;
+    private final String channel;
 
     public ControllerSocket(WebSocket conn, String channel) {
         this.conn = conn;
         this.channel = channel;
     }
 
-    public <ForcedDataType> void send(ControllerSocketMessage message) {
+    public final <ForcedDataType> void send(ControllerSocketMessage message) {
         HashMap<String, ForcedDataType> data = message.getKeyPairs();
         Object jsonObj = gson.toJson(data);
 

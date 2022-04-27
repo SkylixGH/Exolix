@@ -50,10 +50,10 @@ public class ColorConversion {
             }
         }
 
-        int red = Integer.parseInt(hexColor.substring(1, 3), 16);
-        int green = Integer.parseInt(hexColor.substring(3, 5), 16);
-        int blue = Integer.parseInt(hexColor.substring(5, 7), 16);
-        int alpha = Integer.parseInt(hexColor.substring(7, 9), 16);
+        final int red = Integer.parseInt(hexColor.substring(1, 3), 16);
+        final int green = Integer.parseInt(hexColor.substring(3, 5), 16);
+        final int blue = Integer.parseInt(hexColor.substring(5, 7), 16);
+        final int alpha = Integer.parseInt(hexColor.substring(7, 9), 16);
 
         return new Integer[]{red, green, blue, alpha};
     }
@@ -80,10 +80,10 @@ public class ColorConversion {
             throw new InvalidRGBAlpha("The alpha value is outside the range of 0 and 255.");
         }
 
-        Color color = new Color(red, green, blue, alpha);
+        final Color color = new Color(red, green, blue, alpha);
 
-        String buf = Integer.toHexString(color.getRGB());
-        String hex = buf.substring(buf.length() - 6);
+        final String buf = Integer.toHexString(color.getRGB());
+        final String hex = buf.substring(buf.length() - 6);
 
         if (hex.length() == 6) {
             return hex.toUpperCase() + "FF";

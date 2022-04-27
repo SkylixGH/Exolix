@@ -24,7 +24,7 @@ public class ModJFrame extends JFrame {
     }
 
     @Override
-    public void setVisible(boolean b) {
+    public final void setVisible(boolean b) {
         if (this.isVisible() && b) {
             super.setVisible(false);
         }
@@ -37,7 +37,7 @@ public class ModJFrame extends JFrame {
     }
 
     private WinDef.HWND getHWND() {
-        WinDef.HWND handle = new WinDef.HWND();
+        final WinDef.HWND handle = new WinDef.HWND();
         handle.setPointer(Native.getComponentPointer(this));
 
         return handle;

@@ -8,4 +8,12 @@ public class ControllerMessage<ServerReply, ClientMessage> {
         this.server = server;
         this.client = client;
     }
+
+    public final Class<ServerReply> getServerClass() {
+        return server;
+    }
+
+    public final Class<ClientMessage> getClientClass() {
+        return client;
+    }
 }

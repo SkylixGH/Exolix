@@ -3,17 +3,19 @@ package net.skylix.elixor.desktop.theme;
 import java.util.HashMap;
 
 public class Theme {
-    private HashMap<String, ThemeColor> properties = new HashMap<>();
+    private final HashMap<String, ThemeColor> properties = new HashMap<>();
 
-    public void setThemeAttribute(String key, ThemeColor value) {
+    public final void setThemeAttribute(String key, ThemeColor value) {
         properties.put(key, value);
     }
 
     public void setThemeAttributes(HashMap<String, ThemeColor> properties) {
-        this.properties = properties;
+        for (String key : properties.keySet()) {
+            this.properties.put(key, properties.get(key));
+        }
     }
 
-    public ThemeColor getThemeAttribute(String key) {
+    public final ThemeColor getThemeAttribute(String key) {
         return properties.get(key);
     }
 }
