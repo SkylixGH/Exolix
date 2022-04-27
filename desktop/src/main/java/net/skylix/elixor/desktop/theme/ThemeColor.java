@@ -6,7 +6,7 @@ import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 import java.awt.*;
 
 public class ThemeColor {
-    private Integer[] rgba;
+    private final Integer[] rgba;
 
     public ThemeColor(Integer red, Integer green, Integer blue, Integer alpha) {
         this.rgba = new Integer[]{red, green, blue, alpha};
@@ -20,23 +20,27 @@ public class ThemeColor {
         this.rgba = ColorConversion.hexToRGB(hexCode);
     }
 
-    public Integer getRed() {
+    public final Integer getRed() {
         return rgba[0];
     }
 
-    public Integer getGreen() {
+    public final Integer getGreen() {
         return rgba[1];
     }
 
-    public Integer getBlue() {
+    public final Integer getBlue() {
         return rgba[2];
     }
 
-    public Integer getAlpha() {
+    public final Integer getAlpha() {
         return rgba[3];
     }
 
-    public Color getAwtColor() {
+    public final Color getAwtColor() {
         return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
+    }
+
+    public final String getCssColor() {
+        return String.format("rgba(%d, %d, %d, %f)", rgba[0], rgba[1], rgba[2], (float)rgba[3]);
     }
 }

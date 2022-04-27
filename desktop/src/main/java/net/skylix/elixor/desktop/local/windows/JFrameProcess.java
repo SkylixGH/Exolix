@@ -31,7 +31,7 @@ public class JFrameProcess implements WinUser.WindowProc {
         INSTANCEDwm = Native.load("dwmapi", User32Dwm.class, W32APIOptions.DEFAULT_OPTIONS);
     }
 
-    public void initializeProcess(WinDef.HWND hWnd) {
+    public final void initializeProcess(WinDef.HWND hWnd) {
         definedWindowProcess = INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, this);
 
         INSTANCE.SetWindowPos(
@@ -160,7 +160,7 @@ public class JFrameProcess implements WinUser.WindowProc {
     }
 
     @Override
-    public WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
+    public final WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
         LRESULT result;
 
         if (!useCustomTitleBarHitTest || renderedTitleBarHeight <= 0) {

@@ -18,11 +18,11 @@ public class UXComponent {
         this(new ThemeDark());
     }
 
-    public void setElement(JComponent element) throws InvalidHexCode {
+    public final void setElement(JComponent element) throws InvalidHexCode {
          this.element = element;
     }
 
-    public JComponent getSwingComponent() {
+    public final JComponent getSwingComponent() {
         return element;
     }
 }
