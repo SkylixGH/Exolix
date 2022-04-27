@@ -17,19 +17,23 @@ public class UXButton extends UXComponent {
     private class Element extends JPanel {
         private boolean isMouseOver = false;
         private boolean isMouseDown = false;
-        private JLabel label;
+        private final JLabel label;
 
         public Element(String value) {
             super();
 
-            final Dimension size = new Dimension(70, 30);
-
             label = new JLabel(value);
+            label.setFont(label.getFont().deriveFont(Font.PLAIN, 13));
 
-            label.setFont(label.getFont().deriveFont(13));
-            label.setForeground(theme.getThemeAttribute("text1").getAwtColor());
+            final Dimension size = new Dimension(
+                    label.getPreferredSize().width + 40,
+                    30
+            );
 
             setPreferredSize(size);
+            setMinimumSize(size);
+
+            setLayout(new GridBagLayout());
 
             addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -60,38 +64,33 @@ public class UXButton extends UXComponent {
 
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-
             final Graphics2D g2d = (Graphics2D) g;
 
-            g2d.setClip(null);
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            final int radius = 6;
-            final int labelWidth = 50;
-            final int labelHeight = 30; 
-            final int buttonWidth = labelWidth + 20;
-            final int buttonHeight = labelHeight;
-
-            final int labelX = (buttonWidth / 2) - (labelHeight / 2);
-            final int labelY = (buttonHeight / 2) - (labelHeight / 2) + 20;
-
-            // render label to center of button
-            g2d.setColor(theme.getThemeAttribute("text1").getAwtColor());
             g2d.setFont(label.getFont());
 
-            System.out.println(labelWidth + " " + buttonWidth);
+            final int radius = 6;
+            final int labelWidth = label.getPreferredSize().width;
+            final int labelHeight = label.getPreferredSize().height;
+            final int buttonWidth = labelWidth + 40;
+            final int buttonHeight = Math.max(getHeight(), 30);
+
+            final int labelX = (buttonWidth / 2) - (labelWidth / 2);
+            final int labelY = (buttonHeight) - (labelHeight / 2);
 
             if (!isMouseDown && !isMouseOver) {
-                g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
-            } else {
                 g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
+            } else if (isMouseOver && !isMouseDown) {
+                g2d.setColor(theme.getThemeAttribute("component3").getAwtColor());
+            } else if (isMouseDown && isMouseOver) {
+                g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
             }
 
-            g2d.fillRect(0, 0, buttonWidth, buttonHeight);
             g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
 
+            g2d.setColor(theme.getThemeAttribute("text4").getAwtColor());
             g2d.drawString(label.getText(), labelX, labelY);
+
             g2d.dispose();
         }
     }

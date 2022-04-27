@@ -16,7 +16,7 @@ import java.net.URISyntaxException;
 public class MyApp {
     public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode {
         Desktop window = new Desktop();
-        window.setRootElement(new UXButton("Hey"));
+        window.setRootElement(new UXButton("Hey UwU"));
         window.run();
     }
 }

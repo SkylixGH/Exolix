@@ -22,8 +22,14 @@ public class Desktop {
         frame.setSize(1000, 600);
 
         root = new JPanel();
+
+        root.setLayout(new GridBagLayout());
         root.setSize(1000, 600);
         root.setMinimumSize(new Dimension(1000, 600));
+        root.setMaximumSize(new Dimension(1000, 600));
+
+        root.setAlignmentY(Component.CENTER_ALIGNMENT);
+        root.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid1");
         root.setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha()));
