@@ -82,12 +82,11 @@ public class UXButton extends UXComponent {
             final int radius = 6;
 
             g2dImg.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
-            g2dImg.setColor(new Color(0, 0, 0, 0));
 
             // clear first
+            g2d.setColor(new java.awt.Color(0, 0, 0));
             g2d.fillRect(0, 0, getWidth(), getHeight());
 
-            // apply g2dImg to g2d
             g2d.drawImage(img, 0, 0, null);
         }
     }
