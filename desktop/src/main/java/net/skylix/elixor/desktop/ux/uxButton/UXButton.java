@@ -20,14 +20,13 @@ public class UXButton extends UXComponent {
         public Element(String value) {
             super();
 
-            JLabel text = new JLabel(value);
+            final JLabel text = new JLabel(value);
+            final Dimension size = new Dimension(100, 30);
+
             text.setForeground(new java.awt.Color(255, 255, 255));
 
             setLayout(new GridBagLayout());
             add(text);
-
-            Dimension size = new Dimension(100, 30);
-
             setPreferredSize(size);
 
             addMouseListener(new java.awt.event.MouseAdapter() {
@@ -65,7 +64,7 @@ public class UXButton extends UXComponent {
 
         @Override
         protected void paintComponent(Graphics g) {
-            Graphics2D g2d = (Graphics2D) g;
+            final Graphics2D g2d = (Graphics2D) g;
 
             g2d.setClip(null);
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -79,7 +78,7 @@ public class UXButton extends UXComponent {
                 System.out.println("Rgba(" + theme.getThemeAttribute("layerSolid2").getRed() + ", " + theme.getThemeAttribute("layerSolid2").getGreen() + ", " + theme.getThemeAttribute("layerSolid2").getBlue() + ", " + theme.getThemeAttribute("layerSolid2").getAlpha() + ")");
             }
 
-            int radius = 6;
+            final int radius = 6;
             g2d.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
 
             g2d.setColor(new Color(0, 0, 0, 0));

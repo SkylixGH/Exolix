@@ -14,7 +14,7 @@ public class Desktop {
     private final ModJFrame frame = new ModJFrame();
     private final DesktopSettings settings;
     private boolean running = false;
-    private JPanel root;
+    private final JPanel root;
 
     public Desktop(DesktopSettings settings) throws InvalidHexCode {
         this.settings = settings;
@@ -42,12 +42,12 @@ public class Desktop {
         this(new DesktopSettings());
     }
 
-    public void setRootElement(UXComponent rootElement) {
+    public final void setRootElement(UXComponent rootElement) {
         root.removeAll();
         root.add(rootElement.getSwingComponent());
     }
 
-    public void run() throws WindowAlreadyRunning {
+    public final void run() throws WindowAlreadyRunning {
         if (running || frame.isVisible()) {
             throw new WindowAlreadyRunning("The window is already running");
         }
