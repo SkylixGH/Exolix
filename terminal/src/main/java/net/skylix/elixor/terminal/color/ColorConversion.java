@@ -53,7 +53,7 @@ public class ColorConversion {
         int red = Integer.parseInt(hexColor.substring(1, 3), 16);
         int green = Integer.parseInt(hexColor.substring(3, 5), 16);
         int blue = Integer.parseInt(hexColor.substring(5, 7), 16);
-        int alpha = Integer.parseInt(hexColor.substring(7, 9), 16);
+        int alpha = Integer.parseInt(hexColor.substring(7, 9), 16) / 255;
 
         return new Integer[]{red, green, blue, alpha};
     }

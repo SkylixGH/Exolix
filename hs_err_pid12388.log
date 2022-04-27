@@ -33,8 +33,8 @@ C  [Qt5Widgets.dll+0x4270c]
 
 Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
 j  org.bytedeco.qt.Qt5Widgets.QWidget.setAttribute(I)V+0
-j  net.skylix.elixor.elixorFX.ElixorFX$WinLaunch.<init>()V+16
-j  net.skylix.elixor.elixorFX.ElixorFX.init()V+83
+j  net.skylix.elixor.desktop.ElixorFX$WinLaunch.<init>()V+16
+j  net.skylix.elixor.desktop.ElixorFX.init()V+83
 j  com.github.skylixgh.hello.MyApp.main([Ljava/lang/String;)V+0
 v  ~StubRoutines::call_stub
 

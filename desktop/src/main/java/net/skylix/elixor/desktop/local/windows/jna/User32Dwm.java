@@ -1,4 +1,4 @@
-package net.skylix.elixor.elixorFX.windows.jna;
+package net.skylix.elixor.desktop.local.windows.jna;
 
 import com.sun.jna.platform.win32.User32;
 

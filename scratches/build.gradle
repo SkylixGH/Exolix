@@ -6,15 +6,16 @@ plugins {
 
 javafx {
     version = "17.0.1"
-    modules = [ 'javafx.controls' ]
+    // --add-modules javafx.web,javafx.media,javafx.swing
+    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.swing', 'javafx.base', 'javafx.web', 'javafx.media' ]
 }
-
-group 'scratches__.user'
-version '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
+
+group 'scratches__.user'
+version '1.0.0-SNAPSHOT'
 
 application {
     mainClass = 'com.github.skylixgh.hello.MyApp' 
@@ -25,7 +26,7 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation project(':terminal')
     implementation project(':apiSocket')
-    implementation project(':elixorFX')
+    implementation project(':desktop')
     implementation files('jars/jnativehook-2.2.2-sources.jar')
 }
 

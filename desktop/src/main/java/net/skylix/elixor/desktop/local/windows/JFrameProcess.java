@@ -1,4 +1,4 @@
-package net.skylix.elixor.elixorFX.windows;
+package net.skylix.elixor.desktop.local.windows;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.BaseTSD;
@@ -7,12 +7,12 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.W32APIOptions;
 
-import net.skylix.elixor.elixorFX.windows.jna.User32Dwm;
-import net.skylix.elixor.elixorFX.windows.jna.User32Ex;
+import net.skylix.elixor.desktop.local.windows.jna.User32Ex;
+import net.skylix.elixor.desktop.local.windows.jna.User32Dwm;
 
 import static com.sun.jna.platform.win32.WinUser.*;
 
-public class WindowsJFrameProcess implements WinUser.WindowProc {
+public class JFrameProcess implements WinUser.WindowProc {
     private static final int SC_RESTORE = 0xF120;
     private static final int WM_NCCALCSIZE = 0x0083;
     private static final int WM_NCHITTEST = 0x0084;
@@ -23,7 +23,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private final User32Dwm INSTANCEDwm;
     private BaseTSD.LONG_PTR definedWindowProcess;
 
-    public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
+    public JFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
         renderedTitleBarHeight = titleBarHeightForHitTest == 0 ? -1 : titleBarHeightForHitTest;
         useCustomTitleBarHitTest = customHitTest;
 
