@@ -3,13 +3,19 @@ package net.skylix.elixor.apiSocket.controller.request;
 import java.util.HashMap;
 
 public class ControllerRequest {
-    private HashMap jsonData;
+    private final HashMap<String, ?> jsonData;
 
-    public ControllerRequest(HashMap jsonData) {
+    public ControllerRequest(HashMap<String, ?> jsonData) {
         this.jsonData = jsonData;
     }
 
     public <DataType> DataType get(String key) {
-        return (DataType) jsonData.get(key);
+        for (String jsonKey : jsonData.keySet()) {
+            if (jsonKey.equals(key)) {
+                return (DataType) jsonData.get(jsonKey);
+            }
+        }
+
+        return null;
     }
 }

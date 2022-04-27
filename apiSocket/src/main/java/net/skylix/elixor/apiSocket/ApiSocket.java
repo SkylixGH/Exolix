@@ -27,9 +27,9 @@ class TrueServer extends WebSocketServer {
     /**
      * Google JSON parser.
      */
-    private Gson gson = new Gson();
+    private final Gson gson = new Gson();
 
-    private HashMap<WebSocket, ControllerSocket> sockets = new HashMap<>();
+    private final HashMap<WebSocket, ControllerSocket> sockets = new HashMap<>();
 
     public TrueServer(int port, ArrayList<Controller> controllers) {
         super(new InetSocketAddress(port));
@@ -107,27 +107,27 @@ class TrueServer extends WebSocketServer {
     }
 
     @Override
-    public void onOpen(WebSocket conn, ClientHandshake handshake) {
+    public final void onOpen(WebSocket conn, ClientHandshake handshake) {
         dispatchOpen(conn);
     }
 
     @Override
-    public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+    public final void onClose(WebSocket conn, int code, String reason, boolean remote) {
         dispatchClose(conn);
     }
 
     @Override
-    public void onMessage(WebSocket conn, String message) {
+    public final void onMessage(WebSocket conn, String message) {
         dispatchMessage(conn, message);
     }
 
     @Override
-    public void onError(WebSocket conn, Exception ex) {
+    public final void onError(WebSocket conn, Exception ex) {
 
     }
 
     @Override
-    public void onStart() {
+    public final void onStart() {
 
     }
 }
@@ -139,7 +139,7 @@ public class ApiSocket {
     /**
      * The connected controllers.
      */
-    private ArrayList<Controller> controllers = new ArrayList<>();
+    private final ArrayList<Controller> controllers = new ArrayList<>();
 
     /**
      * The actual socket host.
@@ -169,7 +169,7 @@ public class ApiSocket {
      * @param controller The controller to add.
      * @return The ID of the controller added.
      */
-    public Integer connectController(Controller controller) {
+    public final Integer connectController(Controller controller) {
         controllers.add(controller);
 
         return controllers.size() - 1;
@@ -181,7 +181,7 @@ public class ApiSocket {
      * @param id The ID of the controller to get.
      * @return The controller with the specified ID.
      */
-    public Controller getController(Integer id) {
+    public final Controller getController(Integer id) {
         return controllers.get(id);
     }
 
@@ -190,14 +190,14 @@ public class ApiSocket {
      *
      * @param controller The controller to remove.
      */
-    public void disconnectController(Controller controller) {
+    public final void disconnectController(Controller controller) {
         controllers.remove(controller);
     }
 
     /**
      * Run the API live server.
      */
-    public void run() throws ServerAlreadyRunning {
+    public final void run() throws ServerAlreadyRunning {
         if (isRunning || (isRunning && isWorking)) {
             throw new ServerAlreadyRunning(isWorking ? "The server is already running." : "The server is currently loading.");
         }
@@ -209,7 +209,7 @@ public class ApiSocket {
         isRunning = true;
     }
 
-    public void stop() throws ServerAlreadyStopped, InterruptedException {
+    public final void stop() throws ServerAlreadyStopped, InterruptedException {
         if (!isRunning || (isRunning && isWorking)) {
             throw new ServerAlreadyStopped(isWorking ? "The server is already stopping." : "The server is not running.");
         }
