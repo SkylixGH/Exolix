@@ -17,17 +17,18 @@ public class UXButton extends UXComponent {
     private class Element extends JPanel {
         private boolean isMouseOver = false;
         private boolean isMouseDown = false;
+        private JLabel label;
 
         public Element(String value) {
             super();
 
-            final JLabel text = new JLabel(value);
-            final Dimension size = new Dimension(100, 30);
+            final Dimension size = new Dimension(70, 30);
 
-            text.setForeground(new java.awt.Color(255, 255, 255));
+            label = new JLabel(value);
 
-            setLayout(new GridBagLayout());
-            add(text);
+            label.setFont(label.getFont().deriveFont(13));
+            label.setForeground(theme.getThemeAttribute("text1").getAwtColor());
+
             setPreferredSize(size);
 
             addMouseListener(new java.awt.event.MouseAdapter() {
@@ -55,39 +56,43 @@ public class UXButton extends UXComponent {
                     repaint();
                 }
             });
-
-            text.addComponentListener(new java.awt.event.ComponentAdapter() {
-                public void componentResized(java.awt.event.ComponentEvent evt) {
-                    setPreferredSize(size);
-                }
-            });
         }
 
         @Override
         protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
             final Graphics2D g2d = (Graphics2D) g;
-            final BufferedImage img = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
-            final Graphics2D g2dImg = img.createGraphics();
 
-            g2dImg.setClip(null);
-            g2dImg.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2dImg.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-
-            if (!isMouseDown && !isMouseOver) {
-                g2dImg.setColor(theme.getThemeAttribute("dynamic1").getAwtColor());
-            } else {
-                g2dImg.setColor(theme.getThemeAttribute("dynamic2").getAwtColor());
-            }
+            g2d.setClip(null);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
             final int radius = 6;
+            final int labelWidth = 50;
+            final int labelHeight = 30; 
+            final int buttonWidth = labelWidth + 20;
+            final int buttonHeight = labelHeight;
 
-            g2dImg.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+            final int labelX = (buttonWidth / 2) - (labelHeight / 2);
+            final int labelY = (buttonHeight / 2) - (labelHeight / 2) + 20;
 
-            // clear first
-            g2d.setColor(new java.awt.Color(0, 0, 0));
-            g2d.fillRect(0, 0, getWidth(), getHeight());
+            // render label to center of button
+            g2d.setColor(theme.getThemeAttribute("text1").getAwtColor());
+            g2d.setFont(label.getFont());
 
-            g2d.drawImage(img, 0, 0, null);
+            System.out.println(labelWidth + " " + buttonWidth);
+
+            if (!isMouseDown && !isMouseOver) {
+                g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
+            } else {
+                g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
+            }
+
+            g2d.fillRect(0, 0, buttonWidth, buttonHeight);
+            g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
+
+            g2d.drawString(label.getText(), labelX, labelY);
+            g2d.dispose();
         }
     }
 }

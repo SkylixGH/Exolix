@@ -12,10 +12,10 @@ public class ThemeDark extends Theme {
         super();
 
         setThemeAttributes(new HashMap<>() {{
-            put("layerSolid1", new ThemeColor("#121212"));
-            put("layerSolid2", new ThemeColor("#181818"));
-            put("layerSolid3", new ThemeColor("#1C1C1C"));
-            put("layerSolid4", new ThemeColor("#202020"));
+            put("layerSolid1", new ThemeColor("#202020"));
+            put("layerSolid2", new ThemeColor("#272727"));
+            put("layerSolid3", new ThemeColor("#313131"));
+            put("layerSolid4", new ThemeColor("#353535"));
 
             put("highlight1", new ThemeColor("#49849F"));
             put("highlight2", new ThemeColor("#55A4C9"));
@@ -27,14 +27,10 @@ public class ThemeDark extends Theme {
             put("text3", new ThemeColor("#F1F1F1"));
             put("text4", new ThemeColor("#FFFFFF"));
 
-            put("dynamic1", new ThemeColor(255, 255, 255, alphaPercentToInt(5)));
-            put("dynamic2", new ThemeColor(255, 255, 255, alphaPercentToInt(10)));
-            put("dynamic3", new ThemeColor(255, 255, 255, alphaPercentToInt(20)));
-            put("dynamic4", new ThemeColor(255, 255, 255, alphaPercentToInt(30)));
+            put("component1", new ThemeColor("#303030"));
+            put("component2", new ThemeColor("#373737"));
+            put("component3", new ThemeColor("#3D3D3D"));
+            put("component4", new ThemeColor("#424242"));
         }});
-    }
-
-    private Integer alphaPercentToInt(int alphaPercent) {
-        return (int) ((255 * alphaPercent) / 100);
     }
 }
