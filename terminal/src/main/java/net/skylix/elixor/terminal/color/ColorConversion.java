@@ -53,7 +53,7 @@ public class ColorConversion {
         int red = Integer.parseInt(hexColor.substring(1, 3), 16);
         int green = Integer.parseInt(hexColor.substring(3, 5), 16);
         int blue = Integer.parseInt(hexColor.substring(5, 7), 16);
-        int alpha = Integer.parseInt(hexColor.substring(7, 9), 16) / 255;
+        int alpha = Integer.parseInt(hexColor.substring(7, 9), 16);
 
         return new Integer[]{red, green, blue, alpha};
     }
@@ -76,8 +76,8 @@ public class ColorConversion {
             throw new InvalidRGBValues("One or more segments of the RGB color values are outside the range of 0 and 255.");
         }
 
-        if (alpha > 1 || alpha < 0) {
-            throw new InvalidRGBAlpha("The alpha value is outside the range of 0 and 1.");
+        if (alpha > 255 || alpha < 0) {
+            throw new InvalidRGBAlpha("The alpha value is outside the range of 0 and 255.");
         }
 
         Color color = new Color(red, green, blue, alpha);

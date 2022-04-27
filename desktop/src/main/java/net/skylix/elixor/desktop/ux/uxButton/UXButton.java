@@ -68,20 +68,21 @@ public class UXButton extends UXComponent {
             Graphics2D g2d = (Graphics2D) g;
 
             g2d.setClip(null);
-
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-            System.out.println("MouseDown: " + isMouseDown);
-            System.out.println("MouseOver: " + isMouseOver);
+            g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
 
             if (!isMouseDown && !isMouseOver) {
-                g2d.setBackground(theme.getThemeAttribute("dynamic1").getAwtColor());
+                g2d.setColor(theme.getThemeAttribute("layerSolid2").getAwtColor());
+                System.out.println("Rgba(" + theme.getThemeAttribute("layerSolid2").getRed() + ", " + theme.getThemeAttribute("layerSolid2").getGreen() + ", " + theme.getThemeAttribute("layerSolid2").getBlue() + ", " + theme.getThemeAttribute("layerSolid2").getAlpha() + ")");
             } else {
-                g2d.setBackground(theme.getThemeAttribute("dynamic2").getAwtColor());
+                g2d.setColor(theme.getThemeAttribute("layerSolid3").getAwtColor());
+                System.out.println("Rgba(" + theme.getThemeAttribute("layerSolid2").getRed() + ", " + theme.getThemeAttribute("layerSolid2").getGreen() + ", " + theme.getThemeAttribute("layerSolid2").getBlue() + ", " + theme.getThemeAttribute("layerSolid2").getAlpha() + ")");
             }
 
             int radius = 6;
             g2d.fillRoundRect(0, 0, getWidth(), getHeight(), radius, radius);
+
+            g2d.setColor(new Color(0, 0, 0, 0));
         }
     }
 }

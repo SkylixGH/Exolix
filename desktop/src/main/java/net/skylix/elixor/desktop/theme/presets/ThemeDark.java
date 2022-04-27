@@ -35,6 +35,6 @@ public class ThemeDark extends Theme {
     }
 
     private Integer alphaPercentToInt(int alphaPercent) {
-        return (int) (alphaPercent / 100.0 * 255);
+        return (int) ((255 * alphaPercent) / 100);
     }
 }

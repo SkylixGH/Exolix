@@ -13,7 +13,7 @@ public class ThemeColor {
     }
 
     public ThemeColor(Integer red, Integer green, Integer blue) {
-        this.rgba = new Integer[]{red, green, blue, 1};
+        this.rgba = new Integer[]{red, green, blue, 255};
     }
 
     public ThemeColor(String hexCode) throws InvalidHexCode {

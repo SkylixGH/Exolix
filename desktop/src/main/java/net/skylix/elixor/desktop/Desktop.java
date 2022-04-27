@@ -26,7 +26,7 @@ public class Desktop {
         root.setMinimumSize(new Dimension(1000, 600));
 
         ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid1");
-        root.setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha() * 255));
+        root.setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha()));
 
         JLabel label = new JLabel("No Root Element Set");
         label.setFont(label.getFont().deriveFont(48f));
