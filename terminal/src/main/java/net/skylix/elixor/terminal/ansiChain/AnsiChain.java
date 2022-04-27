@@ -40,14 +40,14 @@ public class AnsiChain {
      *
      * @param boldEnabled If the text should render in bold.
      */
-    public void bold(boolean boldEnabled) {
+    public final void bold(boolean boldEnabled) {
         bold = boldEnabled;
     }
 
     /**
      * Enable bold text.
      */
-    public void bold() {
+    public final void bold() {
         bold(true);
     }
 
@@ -56,14 +56,14 @@ public class AnsiChain {
      *
      * @param underlineEnabled If the text should render with an underline.
      */
-    public void underline(boolean underlineEnabled) {
+    public final void underline(boolean underlineEnabled) {
         underline = underlineEnabled;
     }
 
     /**
      * Enable text underline.
      */
-    public void underline() {
+    public final void underline() {
         underline(true);
     }
 
@@ -73,7 +73,7 @@ public class AnsiChain {
      * @param hexColor The hex color code to use.
      * @return The current instance of the AnsiChain.
      */
-    public AnsiChain bgColor(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
+    public final AnsiChain bgColor(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
         String hexBGMatch = ColorUtil.findClosestColor(hexColor, ColorsCLI256.getAllColors());
         bgColor = ColorsCLI256.getCode(hexBGMatch);
 
@@ -87,7 +87,7 @@ public class AnsiChain {
      * @param blue  The blue value of the color.
      * @return The current instance of the AnsiChain.
      */
-    public AnsiChain bgColor(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
+    public final AnsiChain bgColor(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Integer[] rgbMatch = ColorUtil.findClosestColor(
                 red,
                 green,
@@ -105,7 +105,7 @@ public class AnsiChain {
      * @param hexColor The hex color code to use.
      * @return The current instance of the AnsiChain.
      */
-    public AnsiChain color(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
+    public final AnsiChain color(String hexColor) throws InvalidRGBAlpha, InvalidHexCode, InvalidRGBValues {
         String hexBGMatch = ColorUtil.findClosestColor(hexColor, ColorsCLI256.getAllColors());
         fgColor = ColorsCLI256.getCode(hexBGMatch);
 
@@ -118,7 +118,7 @@ public class AnsiChain {
      * @param green The green value of the color.
      * @return The current instance of the AnsiChain.
      */
-    public AnsiChain color(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
+    public final AnsiChain color(Integer red, Integer green, Integer blue) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
         Integer[] rgbMatch = ColorUtil.findClosestColor(
                 red,
                 green,
@@ -136,7 +136,7 @@ public class AnsiChain {
      * @param inputText The text to apply the styling to.
      * @return The styled text for the terminal.
      */
-    public String apply(String inputText) {
+    public final String apply(String inputText) {
         return (fgColor != null
                 ? "\u001b[38;5;" + fgColor + "m"
                 : ""

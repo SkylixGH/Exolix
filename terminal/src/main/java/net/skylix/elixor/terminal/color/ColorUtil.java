@@ -37,7 +37,7 @@ public class ColorUtil {
      * @return The color name.
      */
     public static ColorNamesGeneric identifyColor(String hex) throws InvalidHexCode {
-        Integer[] rgb = ColorConversion.hexToRGB(hex);
+        final Integer[] rgb = ColorConversion.hexToRGB(hex);
         return identifyColor(rgb[0], rgb[1], rgb[2]);
     }
 
@@ -73,8 +73,8 @@ public class ColorUtil {
      * @return The hex value of the closest color.
      */
     public static String findClosestColor(String hex, String[] hexColors) throws InvalidHexCode, InvalidRGBAlpha, InvalidRGBValues {
-        Integer[] rgbOfHex = ColorConversion.hexToRGB(hex);
-        HashMap<Integer, Integer[]> rgbOfColors = new HashMap();
+        final Integer[] rgbOfHex = ColorConversion.hexToRGB(hex);
+        final HashMap<Integer, Integer[]> rgbOfColors = new HashMap();
 
         int index = 0;
         final int max = hexColors.length;
