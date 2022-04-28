@@ -10,10 +10,14 @@ public class UXButton extends UXComponent {
     private final UXButtonSettings settings;
 
     public UXButton(String label, UXButtonSettings settings) throws InvalidHexCode {
-        super();
+        super(settings.theme, settings.accessibility);
 
         this.settings = settings;
         setElement(new Element(label));
+    }
+
+    public UXButton(String label) throws InvalidHexCode {
+        this(label, new UXButtonSettings());
     }
 
     private class Element extends JPanel {
@@ -84,7 +88,7 @@ public class UXButton extends UXComponent {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setFont(label.getFont());
 
-            final int radius = 8;
+            final int radius = settings.accessibility.radius2;
             final int labelWidth = label.getPreferredSize().width;
             final int labelHeight = label.getPreferredSize().height;
             final int buttonWidth = labelWidth + 40;
@@ -92,6 +96,9 @@ public class UXButton extends UXComponent {
 
             final int labelX = (buttonWidth / 2) - (labelWidth / 2);
             final int labelY = (buttonHeight) - (labelHeight / 2);
+
+            g2d.setColor(new Color(0, 0, 0, 0));
+            g2d.fillRect(0, 0, buttonWidth, buttonHeight);
 
             switch (settings.type) {
                 case HIGHLIGHTED -> {

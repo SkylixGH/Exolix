@@ -37,7 +37,7 @@ public class Desktop {
         JLabel label = new JLabel("No Root Element Set");
         label.setFont(label.getFont().deriveFont(48f));
 
-        UXComponent defaultComp = new UXComponent(settings.theme);
+        UXComponent defaultComp = new UXComponent(settings.theme, settings.accessibility);
         defaultComp.setElement(label);
 
         setRootElement(defaultComp);
