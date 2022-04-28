@@ -5,6 +5,7 @@ import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.web.WebView;
 import net.skylix.elixor.desktop.Desktop;
+import net.skylix.elixor.desktop.DesktopFrameType;
 import net.skylix.elixor.desktop.DesktopSettings;
 import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
 import net.skylix.elixor.desktop.theme.ThemeColor;
@@ -19,6 +20,7 @@ import javax.swing.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Consumer;
 
 public class MyApp {
     public static class DemoTree {
@@ -32,8 +34,10 @@ public class MyApp {
             el = elt;
         }
 
-        public static TreeNode button(String text, Runnable<UXButtonSettings>) throws InvalidHexCode {
-            return new TreeNode(new UXButton(text));
+        public static TreeNode button(String text, Consumer<UXButtonSettings> mod) throws InvalidHexCode {
+            UXButtonSettings settings = new UXButtonSettings();
+            mod.accept(settings);
+            return new TreeNode(new UXButton(text, settings));
         }
     }
 
@@ -41,19 +45,38 @@ public class MyApp {
         Desktop window = new Desktop(new DesktopSettings() {{
             theme = new ThemeDark() {
                 {
-                    setThemeAttributes(new HashMap<>() {{
+                    setThemeAttributes(new HashMap() {{
                         put("highlight4", new ThemeColor("#ff00ff"));
                     }});
                 }
             };
+
+            frameType = DesktopFrameType.GENERIC;
         }});
+
+        Desktop dialog = new Desktop();
 
         DemoTree app = new DemoTree() {{
             nodes = new ArrayList<TreeNode>() {{
-                add(TreeNode.button("Hello"));
+                add(TreeNode.button("Hello", (m) -> {}));
                 add(
-                        TreeNode.button("World")
-                                .setType(UXButtonType.HIGHLIGHTED)
+                        TreeNode.button("World", (m) -> {
+                            m.type = UXButtonType.HIGHLIGHTED;
+                        })
+                );
+
+                add(
+                        TreeNode.button("Delete Account", (m) -> {
+                            m.type = UXButtonType.CRITICAL;
+                            m.onMouseClick = () -> {
+                                try {
+                                    dialog.run();
+                                } catch (WindowAlreadyRunning e) {
+                                    // TODO Auto-generated catch block
+                                    e.printStackTrace();
+                                }
+                            };
+                        })
                 );
             }};
         }};

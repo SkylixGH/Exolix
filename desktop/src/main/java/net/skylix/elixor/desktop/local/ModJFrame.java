@@ -9,18 +9,13 @@ import javax.swing.*;
 public class ModJFrame extends JFrame {
     private JFrameProcess winProcess;
 
-    public ModJFrame(String title) {
+    public ModJFrame(String title, boolean customHit, int titleBarHeightHitTest) {
         super(title);
 
         // only if os is windows
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            winProcess = new JFrameProcess(false, 0);
+            winProcess = new JFrameProcess(true, titleBarHeightHitTest);
         }
-    }
-
-    public ModJFrame() {
-        super();
-        new ModJFrame("Elixor Desktop [net.skylix.elixor.desktop]");
     }
 
     @Override

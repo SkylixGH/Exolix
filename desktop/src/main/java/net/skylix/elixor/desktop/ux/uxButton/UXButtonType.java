@@ -4,5 +4,6 @@ public enum UXButtonType {
     GENERIC,
     HIGHLIGHTED,
     OUTLINE,
-    TEXT
+    TEXT,
+    CRITICAL
 }

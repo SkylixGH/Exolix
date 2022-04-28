@@ -10,5 +10,7 @@ public class DesktopSettings {
 
     public Accessibility accessibility = new Accessibility();
 
+    public DesktopFrameType frameType = DesktopFrameType.GENERIC;
+
     public DesktopSettings() throws InvalidHexCode {}
 }

@@ -24,7 +24,7 @@ public class JFrameProcess implements WinUser.WindowProc {
     private BaseTSD.LONG_PTR definedWindowProcess;
 
     public JFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
-        renderedTitleBarHeight = titleBarHeightForHitTest == 0 ? -1 : titleBarHeightForHitTest;
+        renderedTitleBarHeight = titleBarHeightForHitTest < 1 ? 1 : titleBarHeightForHitTest;
         useCustomTitleBarHitTest = customHitTest;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
@@ -60,7 +60,6 @@ public class JFrameProcess implements WinUser.WindowProc {
     }
 
     private WinDef.LRESULT borderLessHitTest(HWND hWnd, int uMsg, WPARAM wParam, LPARAM lParam) {
-        int titleBarHeight = 27;
         int controlBoxWidth = 135;
         int iconWidth = 27;
         int extraLeftReservedWidth = 0;

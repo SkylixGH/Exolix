@@ -88,7 +88,7 @@ public class UXButton extends UXComponent {
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.setFont(label.getFont());
 
-            final int radius = settings.accessibility.radius2;
+            final int radius = settings.accessibility.radius1;
             final int labelWidth = label.getPreferredSize().width;
             final int labelHeight = label.getPreferredSize().height;
             final int buttonWidth = labelWidth + 40;
@@ -97,56 +97,74 @@ public class UXButton extends UXComponent {
             final int labelX = (buttonWidth / 2) - (labelWidth / 2);
             final int labelY = (buttonHeight) - (labelHeight / 2);
 
-            g2d.setColor(new Color(0, 0, 0, 0));
-            g2d.fillRect(0, 0, buttonWidth, buttonHeight);
+            setOpaque(false);
 
             switch (settings.type) {
                 case HIGHLIGHTED -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("highlight4").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("highlight3").getAwtColor());
                     } else if (isMouseOver) {
                         g2d.setColor(theme.getThemeAttribute("highlight2").getAwtColor());
-                    }
+                    } 
+
+                    g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
                 }
 
                 case GENERIC -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("component3").getAwtColor());
                     } else if (isMouseOver) {
                         g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
                     }
+
+                    g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
                 }
 
                 case OUTLINE -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("component3").getAwtColor());
                     } else if (isMouseOver) {
                         g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
                     }
+
+                    g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
                 }
 
                 case TEXT -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("component3").getAwtColor());
                     } else if (isMouseOver) {
                         g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
                     }
+
+                    g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
+                }
+
+                case CRITICAL -> {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
+                        g2d.setColor(theme.getThemeAttribute("critical4").getAwtColor());
+                        g2d.drawRoundRect(0, 0, buttonWidth - 1, buttonHeight - 1, radius, radius);
+                    } else if (isMouseOver && !isMouseDown) {
+                        g2d.setColor(theme.getThemeAttribute("critical3").getAwtColor());
+                        g2d.fillRoundRect(0, 0, buttonWidth - 1, buttonHeight - 1, radius, radius);
+                    } else if (isMouseOver) {
+                        g2d.setColor(theme.getThemeAttribute("critical2").getAwtColor());
+                        g2d.fillRoundRect(0, 0, buttonWidth - 1, buttonHeight - 1, radius, radius);
+                    } 
                 }
             }
 
-            g2d.fillRoundRect(0, 0, buttonWidth, buttonHeight, radius, radius);
-
             switch (settings.type) {
                 case HIGHLIGHTED -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("highlightText4").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("highlightText3").getAwtColor());
@@ -156,7 +174,7 @@ public class UXButton extends UXComponent {
                 }
 
                 case GENERIC -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("text4").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("text3").getAwtColor());
@@ -166,7 +184,7 @@ public class UXButton extends UXComponent {
                 }
 
                 case OUTLINE -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("component3").getAwtColor());
@@ -176,12 +194,22 @@ public class UXButton extends UXComponent {
                 }
 
                 case TEXT -> {
-                    if (!isMouseDown && !isMouseOver) {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
                         g2d.setColor(theme.getThemeAttribute("component2").getAwtColor());
                     } else if (isMouseOver && !isMouseDown) {
                         g2d.setColor(theme.getThemeAttribute("component3").getAwtColor());
                     } else if (isMouseOver) {
                         g2d.setColor(theme.getThemeAttribute("component1").getAwtColor());
+                    }
+                }
+
+                case CRITICAL -> {
+                    if ((!isMouseDown && !isMouseOver) || (isMouseDown && !isMouseOver)) {
+                        g2d.setColor(theme.getThemeAttribute("critical4").getAwtColor());
+                    } else if (isMouseOver && !isMouseDown) {
+                        g2d.setColor(theme.getThemeAttribute("criticalText4").getAwtColor());
+                    } else if (isMouseOver) {
+                        g2d.setColor(theme.getThemeAttribute("criticalText2").getAwtColor());
                     }
                 }
             }
