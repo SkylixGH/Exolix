@@ -17,10 +17,15 @@ public class ThemeDark extends Theme {
             put("layerSolid3", new ThemeColor("#313131"));
             put("layerSolid4", new ThemeColor("#353535"));
 
-            put("highlight1", new ThemeColor("#49849F"));
-            put("highlight2", new ThemeColor("#55A4C9"));
-            put("highlight3", new ThemeColor("#66BDE6"));
+            put("highlight1", new ThemeColor("#315a6e"));
+            put("highlight2", new ThemeColor("#40758f"));
+            put("highlight3", new ThemeColor("#5499ba"));
             put("highlight4", new ThemeColor("#6DD1FF"));
+
+            put("highlightText1", new ThemeColor("#274859"));
+            put("highlightText2", new ThemeColor("#1f3845"));
+            put("highlightText3", new ThemeColor("#111f26"));
+            put("highlightText4", new ThemeColor("#202020"));
 
             put("text1", new ThemeColor("#BDBDBD"));
             put("text2", new ThemeColor("#D9D9D9"));

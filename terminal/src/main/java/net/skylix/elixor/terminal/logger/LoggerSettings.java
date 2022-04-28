@@ -8,6 +8,7 @@ import net.skylix.elixor.terminal.color.errors.InvalidRGBValues;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.function.Supplier;
 
 /**
  * Settings for the logger.
@@ -103,10 +104,8 @@ public class LoggerSettings {
 
     /**
      * The time stamp rendering method.
-     *
-     * @return The time stamp.
      */
-    public String timeStampRenderer() {
+    public Supplier<String> timeStampRenderer = () -> {
         AnsiChain textColor = null;
 
         try {
@@ -115,11 +114,11 @@ public class LoggerSettings {
             // { @ignore }
         }
 
-        return textColor.apply(new SimpleDateFormat("hh:mm:ss aa")
+        return textColor != null ? textColor.apply(new SimpleDateFormat("hh:mm:ss aa")
                 .format(new Date())
                 .replace("a.m.", "AM")
                 .replace("p.m.", "PM")
                 + new SimpleDateFormat(" yyyy/MM/dd")
-                .format(new Date()));
-    }
+                .format(new Date())) : "";
+    };
 }
