@@ -51,7 +51,6 @@ public class MyApp {
                 }
             };
 
-            frameType = DesktopFrameType.GENERIC;
         }});
 
         Desktop dialog = new Desktop();

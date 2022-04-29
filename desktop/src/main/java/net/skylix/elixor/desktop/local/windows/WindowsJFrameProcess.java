@@ -12,7 +12,7 @@ import net.skylix.elixor.desktop.local.windows.jna.User32Dwm;
 
 import static com.sun.jna.platform.win32.WinUser.*;
 
-public class JFrameProcess implements WinUser.WindowProc {
+public class WindowsJFrameProcess implements WinUser.WindowProc {
     private static final int SC_RESTORE = 0xF120;
     private static final int WM_NCCALCSIZE = 0x0083;
     private static final int WM_NCHITTEST = 0x0084;
@@ -23,8 +23,8 @@ public class JFrameProcess implements WinUser.WindowProc {
     private final User32Dwm INSTANCEDwm;
     private BaseTSD.LONG_PTR definedWindowProcess;
 
-    public JFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
-        renderedTitleBarHeight = titleBarHeightForHitTest < 1 ? 1 : titleBarHeightForHitTest;
+    public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
+        renderedTitleBarHeight = Math.max(titleBarHeightForHitTest, 1);
         useCustomTitleBarHitTest = customHitTest;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
@@ -32,6 +32,10 @@ public class JFrameProcess implements WinUser.WindowProc {
     }
 
     public final void initializeProcess(WinDef.HWND hWnd) {
+        if (!useCustomTitleBarHitTest) {
+            return;
+        }
+
         definedWindowProcess = INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, this);
 
         INSTANCE.SetWindowPos(
@@ -162,7 +166,7 @@ public class JFrameProcess implements WinUser.WindowProc {
     public final WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
         LRESULT result;
 
-        if (!useCustomTitleBarHitTest || renderedTitleBarHeight <= 0) {
+        if (!useCustomTitleBarHitTest) {
             result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
             return result;
         }

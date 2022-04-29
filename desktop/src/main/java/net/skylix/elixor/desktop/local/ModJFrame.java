@@ -2,19 +2,19 @@ package net.skylix.elixor.desktop.local;
 
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef;
-import net.skylix.elixor.desktop.local.windows.JFrameProcess;
+import net.skylix.elixor.desktop.local.windows.WindowsJFrameProcess;
 
 import javax.swing.*;
 
 public class ModJFrame extends JFrame {
-    private JFrameProcess winProcess;
+    private WindowsJFrameProcess winProcess;
 
     public ModJFrame(String title, boolean customHit, int titleBarHeightHitTest) {
         super(title);
 
         // only if os is windows
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            winProcess = new JFrameProcess(true, titleBarHeightHitTest);
+            winProcess = new WindowsJFrameProcess(true, titleBarHeightHitTest);
         }
     }
 

@@ -21,8 +21,9 @@ public class UXComponent {
         this(new ThemeDark(), new Accessibility());
     }
 
-    public final void setElement(JComponent element) throws InvalidHexCode {
+    public final UXComponent setElement(JComponent element) throws InvalidHexCode {
          this.element = element;
+         return this;
     }
 
     public final JComponent getSwingComponent() {
