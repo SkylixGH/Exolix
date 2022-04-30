@@ -1,16 +1,20 @@
 package net.skylix.elixor.desktop.local.windows;
 
 import com.sun.jna.Native;
+import com.sun.jna.Structure;
 import com.sun.jna.platform.win32.BaseTSD;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.W32APIOptions;
 
+import net.skylix.elixor.desktop.local.windows.jna.MARGINS;
 import net.skylix.elixor.desktop.local.windows.jna.User32Ex;
 import net.skylix.elixor.desktop.local.windows.jna.User32Dwm;
 
 import static com.sun.jna.platform.win32.WinUser.*;
+import static net.skylix.elixor.desktop.local.windows.jna.User32Dwm.WA_ACTIVE;
+import static net.skylix.elixor.desktop.local.windows.jna.User32Dwm.WM_ACTIVATE;
 
 public class WindowsJFrameProcess implements WinUser.WindowProc {
     private static final int SC_RESTORE = 0xF120;
@@ -48,7 +52,9 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER | SWP_FRAMECHANGED
         );
 
-        // DWMWCP_ROUND
+        // add WS_EX_LAYERED
+        INSTANCE.SetWindowLong(hWnd, User32Ex.GWL_EXSTYLE, INSTANCE.GetWindowLong(hWnd, User32Ex.GWL_EXSTYLE) | User32Ex.WS_EX_LAYERED);
+
         RECT bounds = new RECT();
         bounds.left = 0;
         bounds.top = 0;
@@ -162,6 +168,16 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         return new LRESULT(hitTestsAll[uRow][uColumn]);
     }
 
+    private void applyMargins(HWND hWnd) {
+        MARGINS margins = new MARGINS();
+        margins.cxLeftWidth = 27;
+        margins.cxRightWidth = 27;
+        margins.cyTopHeight = 20;
+        margins.cyBottomHeight = 27;
+
+        INSTANCEDwm.DwmExtendFrameIntoClientArea(hWnd, margins);
+    }
+
     @Override
     public final WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
         LRESULT result;
@@ -172,10 +188,17 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         }
 
         switch (uMsg) {
-            case WM_NCCALCSIZE:
+            case WM_NCCALCSIZE -> {
+                applyMargins(hWnd);
                 return new LRESULT(0);
+            }
 
-            case WM_NCHITTEST:
+            case WM_ACTIVATE -> {
+                applyMargins(hWnd);
+                return new LRESULT(0);
+            }
+
+            case WM_NCHITTEST -> {
                 result = borderLessHitTest(hWnd, uMsg, wParam, lParam);
 
                 if (result.intValue() == new LRESULT(0).intValue()) {
@@ -183,14 +206,17 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 }
 
                 return result;
+            }
 
-            case WM_DESTROY:
+            case WM_DESTROY -> {
                 INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, definedWindowProcess);
                 return new LRESULT(0);
+            }
 
-            default:
+            default -> {
                 result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
                 return result;
+            }
         }
     }
 }
