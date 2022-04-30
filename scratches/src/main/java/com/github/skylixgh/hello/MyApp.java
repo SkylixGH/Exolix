@@ -67,7 +67,7 @@ public class MyApp {
                 add(
                         TreeNode.button("Delete Account", (m) -> {
                             m.type = UXButtonType.CRITICAL;
-                            m.onMouseClick = () -> {
+                            m.onMouseClick = (p) -> {
                                 try {
                                     dialog.run();
                                 } catch (WindowAlreadyRunning e) {
@@ -86,7 +86,7 @@ public class MyApp {
             }
         };
 
-        btSettings.onMouseClick = () -> {
+        btSettings.onMouseClick = (p) -> {
             System.out.println("Hello World!");
         };
 
@@ -98,8 +98,8 @@ public class MyApp {
             jp.add(node.el.getSwingComponent());
         }
 
-        jp.setBackground(new ThemeDark().getThemeAttribute("layerSolid1").getAwtColor());
-        js.setBackground(new ThemeDark().getThemeAttribute("layerSolid1").getAwtColor());
+        jp.setBackground(new ThemeDark().getThemeAttribute("layerSolid2").getAwtColor());
+        js.setBackground(new ThemeDark().getThemeAttribute("layerSolid2").getAwtColor());
 //        jp.add(js);
 
         ro.setElement(jp);

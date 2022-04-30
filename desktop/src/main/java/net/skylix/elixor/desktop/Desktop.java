@@ -5,6 +5,7 @@ import net.skylix.elixor.desktop.local.ModJFrame;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
@@ -28,7 +29,7 @@ public class Desktop {
         frame = new ModJFrame(
             "Elixor [Single Service]", 
             settings.frameType != DesktopFrameType.SYSTEM,
-            settings.frameType == DesktopFrameType.HIDDEN ? 0 : 30
+            settings.frameType == DesktopFrameType.HIDDEN ? 0 : 20
         );
 
         frame.setSize(1000, 600);
@@ -52,7 +53,7 @@ public class Desktop {
         innerFrame.setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha()));
 
         if (settings.frameType == DesktopFrameType.GENERIC) {
-            titleBar.setPreferredSize(new Dimension(frame.getWidth(), 30));
+            titleBar.setPreferredSize(new Dimension(frame.getWidth(), 32));
             titleBar.setBackground(settings.theme.getThemeAttribute("layerSolid1").getAwtColor());
             titleBar.setLayout(new BorderLayout());
 
@@ -77,13 +78,47 @@ public class Desktop {
 //                    }
 //                };
 
-                UXPanel button = null;
+                final UXPanel button;
                 try {
-                    button = new UXPanel() {{
+                    button = new UXPanel(new UXPanelSettings() {{
+                        onMouseEnter = (panel) -> {
+                            try {
+                                panel.setColor(new ThemeColor("#ffffff"));
+                            } catch (InvalidHexCode e) {
+                                e.printStackTrace();
+                            }
+                        };
 
-                    }};
+                        onMouseExit = (panel) -> {
+                            panel.setColor(new ThemeColor(0, 0, 0, 0));
+                        };
 
-                    button.add(new UXComponent().setElement(new JLabel("HMM")));
+                        onMouseClick = (panel) -> {
+                            switch (type) {
+                                case CLOSE -> {
+                                    frame.dispose();
+                                }
+
+                                case MINIMIZE -> {
+                                    frame.setState(JFrame.ICONIFIED);
+                                }
+
+                                case MAXIMIZE -> {
+                                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                                }
+                            }
+                        };
+                    }});
+
+                    JLabel label = new JLabel();
+
+                    label.setFont(new Font("Arial", Font.PLAIN, 16));
+                    label.setForeground(new Color(0, 0, 0, 255));
+                    label.setText("-");
+                    label.setPreferredSize(new Dimension(32, 32));
+
+                    button.add(new UXComponent().setElement(label));
+                    button.setSize(45, 32);
 
                     return button;
                 } catch (InvalidHexCode e) {
@@ -92,8 +127,8 @@ public class Desktop {
             };
 
             JPanel buttons = new JPanel();
-            buttons.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
+            buttons.setLayout(new FlowLayout ( FlowLayout. CENTER, 0, 0 ));
             buttons.setOpaque(false);
 
             buttons.add(createFrameButton.apply(FrameButtonType.CLOSE).getSwingComponent(), BorderLayout.EAST);

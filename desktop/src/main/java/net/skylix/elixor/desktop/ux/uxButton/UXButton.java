@@ -13,7 +13,7 @@ public class UXButton extends UXComponent {
         super(settings.theme, settings.accessibility);
 
         this.settings = settings;
-        setElement(new Element(label));
+        setElement(new Element(this, label));
     }
 
     public UXButton(String label) throws InvalidHexCode {
@@ -25,7 +25,7 @@ public class UXButton extends UXComponent {
         private boolean isMouseDown = false;
         private final JLabel label;
 
-        public Element(String value) {
+        public Element(UXButton button, String value) {
             super();
 
             label = new JLabel(value);
@@ -47,7 +47,7 @@ public class UXButton extends UXComponent {
                     isMouseOver = true;
                     repaint();
 
-                    settings.onMouseEnter.run();
+                    settings.onMouseEnter.accept(button);
                 }
 
                 @Override
@@ -55,7 +55,7 @@ public class UXButton extends UXComponent {
                     isMouseOver = false;
                     repaint();
 
-                    settings.onMouseExit.run();
+                    settings.onMouseExit.accept(button);
                 }
 
                 @Override
@@ -63,7 +63,7 @@ public class UXButton extends UXComponent {
                     isMouseDown = true;
                     repaint();
 
-                    settings.onMouseDown.run();
+                    settings.onMouseDown.accept(button);
                 }
 
                 @Override
@@ -71,18 +71,19 @@ public class UXButton extends UXComponent {
                     isMouseDown = false;
                     repaint();
 
-                    settings.onMouseUp.run();
+                    settings.onMouseUp.accept(button);
                 }
 
                 @Override
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    settings.onMouseClick.run();
+                    settings.onMouseClick.accept(button);
                 }
             });
         }
 
         @Override
         protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
             final Graphics2D g2d = (Graphics2D) g;
 
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
