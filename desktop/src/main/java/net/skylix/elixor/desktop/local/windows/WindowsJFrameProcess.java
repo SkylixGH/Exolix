@@ -170,10 +170,10 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
     private void applyMargins(HWND hWnd) {
         MARGINS margins = new MARGINS();
-        margins.cxLeftWidth = 27;
-        margins.cxRightWidth = 27;
-        margins.cyTopHeight = 20;
-        margins.cyBottomHeight = 27;
+        margins.cxLeftWidth = 1;
+        margins.cxRightWidth = 1;
+        margins.cyTopHeight = 1;
+        margins.cyBottomHeight = 1;
 
         INSTANCEDwm.DwmExtendFrameIntoClientArea(hWnd, margins);
     }
