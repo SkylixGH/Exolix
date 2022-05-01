@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 public class UXPanel extends UXComponent {
     private final UXPanelSettings settings;
@@ -51,7 +52,7 @@ public class UXPanel extends UXComponent {
 
         if (width == null) {
             for (Component component : components) {
-                finalWidth += component.getWidth();
+                finalWidth += component.getPreferredSize().width;
             }
         } else {
             finalWidth = width < 0 ? 0 : width;
@@ -67,7 +68,7 @@ public class UXPanel extends UXComponent {
 
         if (height == null) {
             for (Component component : components) {
-                finalHeight += component.getHeight();
+                finalHeight += component.getPreferredSize().height;
             }
         } else {
             finalHeight = height < 0 ? 0 : height;
@@ -135,16 +136,18 @@ public class UXPanel extends UXComponent {
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
-
+            recalculateMetrics();
             Graphics2D g2d = (Graphics2D) g;
 
             g2d.setColor(currentColor.getAwtColor());
-            g2d.fillRect(0, 0, getWidth(), getHeight());
 
-            for (Component component : getComponents()) {
-                component.paint(g);
+            if (settings.cornerRadius > 0) {
+                g2d.fillRoundRect(0, 0, getWidth(), getHeight(), settings.cornerRadius, settings.cornerRadius);
+            } else {
+                g2d.fillRect(0, 0, getWidth(), getHeight());
             }
 
+            paintChildren(g);
             g2d.dispose();
         }
     }

@@ -82,11 +82,7 @@ public class Desktop {
                 try {
                     button = new UXPanel(new UXPanelSettings() {{
                         onMouseEnter = (panel) -> {
-                            try {
-                                panel.setColor(new ThemeColor("#ffffff"));
-                            } catch (InvalidHexCode e) {
-                                e.printStackTrace();
-                            }
+                            panel.setColor(this.theme.getThemeAttribute("component1"));
                         };
 
                         onMouseExit = (panel) -> {
@@ -112,10 +108,13 @@ public class Desktop {
 
                     JLabel label = new JLabel();
 
+                    label.setLayout(new BorderLayout());
                     label.setFont(new Font("Arial", Font.PLAIN, 16));
-                    label.setForeground(new Color(0, 0, 0, 255));
+                    label.setForeground(settings.theme.getThemeAttribute("text1").getAwtColor());
                     label.setText("-");
                     label.setPreferredSize(new Dimension(32, 32));
+                    label.setBackground(new Color(255, 0, 0));
+                    label.setPreferredSize(new Dimension(45, 32));
 
                     button.add(new UXComponent().setElement(label));
                     button.setSize(45, 32);
@@ -128,7 +127,7 @@ public class Desktop {
 
             JPanel buttons = new JPanel();
 
-            buttons.setLayout(new FlowLayout ( FlowLayout. CENTER, 0, 0 ));
+            buttons.setLayout(new FlowLayout ( FlowLayout. CENTER, 2, 0 ));
             buttons.setOpaque(false);
 
             buttons.add(createFrameButton.apply(FrameButtonType.CLOSE).getSwingComponent(), BorderLayout.EAST);

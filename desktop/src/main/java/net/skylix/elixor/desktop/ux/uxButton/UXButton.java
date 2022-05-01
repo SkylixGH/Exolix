@@ -36,6 +36,8 @@ public class UXButton extends UXComponent {
                     30
             );
 
+            System.out.println(size);
+
             setPreferredSize(size);
             setMinimumSize(size);
 

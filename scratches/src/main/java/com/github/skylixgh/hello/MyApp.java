@@ -14,6 +14,7 @@ import net.skylix.elixor.desktop.ux.uxButton.UXButton;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
@@ -42,69 +43,20 @@ public class MyApp {
     }
 
     public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode {
-        Desktop window = new Desktop(new DesktopSettings() {{
-            theme = new ThemeDark() {
-                {
-                    setThemeAttributes(new HashMap() {{
-                        put("highlight4", new ThemeColor("#ff00ff"));
-                    }});
-                }
-            };
+        Desktop window = new Desktop();
 
-        }});
+        UXPanel panel = new UXPanel();
+        UXButton button1 = new UXButton("Button 1");
+        UXButton button2 = new UXButton("Button 2");
+        UXButton button3 = new UXButton("Button 3");
 
-        Desktop dialog = new Desktop();
+        panel.add(button1);
+        panel.add(button2);
+        panel.add(button3);
 
-        DemoTree app = new DemoTree() {{
-            nodes = new ArrayList<TreeNode>() {{
-                add(TreeNode.button("Hello", (m) -> {}));
-                add(
-                        TreeNode.button("World", (m) -> {
-                            m.type = UXButtonType.HIGHLIGHTED;
-                        })
-                );
+//        panel.setSize(800, 300);
 
-                add(
-                        TreeNode.button("Delete Account", (m) -> {
-                            m.type = UXButtonType.CRITICAL;
-                            m.onMouseClick = (p) -> {
-                                try {
-                                    dialog.run();
-                                } catch (WindowAlreadyRunning e) {
-                                    // TODO Auto-generated catch block
-                                    e.printStackTrace();
-                                }
-                            };
-                        })
-                );
-            }};
-        }};
-
-        UXButtonSettings btSettings = new UXButtonSettings() {
-            {
-                type = UXButtonType.HIGHLIGHTED;
-            }
-        };
-
-        btSettings.onMouseClick = (p) -> {
-            System.out.println("Hello World!");
-        };
-
-        UXComponent ro = new UXComponent();
-        JPanel jp = new JPanel();
-        JSlider js = new JSlider();
-
-        for (TreeNode node : app.nodes) {
-            jp.add(node.el.getSwingComponent());
-        }
-
-        jp.setBackground(new ThemeDark().getThemeAttribute("layerSolid2").getAwtColor());
-        js.setBackground(new ThemeDark().getThemeAttribute("layerSolid2").getAwtColor());
-//        jp.add(js);
-
-        ro.setElement(jp);
-
-        window.setRootElement(ro);
+        window.setRootElement(panel);
         window.run();
     }
 }

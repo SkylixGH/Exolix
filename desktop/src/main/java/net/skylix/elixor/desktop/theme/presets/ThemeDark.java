@@ -42,10 +42,10 @@ public class ThemeDark extends Theme {
             put("text3", new ThemeColor("#F1F1F1"));
             put("text4", new ThemeColor("#FFFFFF"));
 
-            put("component1", new ThemeColor("#3D3D3D"));
-            put("component2", new ThemeColor("#484848"));
-            put("component3", new ThemeColor("#565656"));
-            put("component4", new ThemeColor("#656565"));
+            put("component1", new ThemeColor("#FFFFFF0C"));
+            put("component2", new ThemeColor("#FFFFFF19"));
+            put("component3", new ThemeColor("#FFFFFF26"));
+            put("component4", new ThemeColor("#FFFFFF33"));
         }});
     }
 }
