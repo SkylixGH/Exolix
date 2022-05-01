@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 public class UXPanel extends UXComponent {
     private final UXPanelSettings settings;
     private ThemeColor currentColor;
+    private final FlowLayout flowLayout = new FlowLayout();
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
@@ -52,7 +53,7 @@ public class UXPanel extends UXComponent {
 
         if (width == null) {
             for (Component component : components) {
-                finalWidth += component.getPreferredSize().width;
+                finalWidth += component.getPreferredSize().width + flowLayout.getHgap();
             }
         } else {
             finalWidth = width < 0 ? 0 : width;
@@ -68,7 +69,7 @@ public class UXPanel extends UXComponent {
 
         if (height == null) {
             for (Component component : components) {
-                finalHeight += component.getPreferredSize().height;
+                finalHeight += component.getPreferredSize().height + flowLayout.getVgap();
             }
         } else {
             finalHeight = height < 0 ? 0 : height;
@@ -99,6 +100,7 @@ public class UXPanel extends UXComponent {
         public Element(UXPanel panel) {
             super();
 
+            setLayout(flowLayout);
             setAlignmentX(Component.CENTER_ALIGNMENT);
             setAlignmentY(Component.CENTER_ALIGNMENT);
 

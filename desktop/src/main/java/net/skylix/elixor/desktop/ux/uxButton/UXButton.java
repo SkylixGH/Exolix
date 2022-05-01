@@ -36,12 +36,9 @@ public class UXButton extends UXComponent {
                     30
             );
 
-            System.out.println(size);
-
             setPreferredSize(size);
-            setMinimumSize(size);
-
-            setLayout(new GridBagLayout());
+            setSize(size);
+            setOpaque(false);
 
             addMouseListener(new java.awt.event.MouseAdapter() {
                 @Override
@@ -94,13 +91,11 @@ public class UXButton extends UXComponent {
             final int radius = settings.accessibility.radius1;
             final int labelWidth = label.getPreferredSize().width;
             final int labelHeight = label.getPreferredSize().height;
-            final int buttonWidth = labelWidth + 40;
-            final int buttonHeight = Math.max(getHeight(), 30);
+            final int buttonWidth = getWidth();
+            final int buttonHeight = getHeight();
 
             final int labelX = (buttonWidth / 2) - (labelWidth / 2);
-            final int labelY = (buttonHeight) - (labelHeight / 2);
-
-            setOpaque(false);
+            final int labelY = (buttonHeight / 2) + (labelHeight / 3);
 
             switch (settings.type) {
                 case HIGHLIGHTED -> {

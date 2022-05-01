@@ -43,7 +43,9 @@ public class MyApp {
     }
 
     public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode {
-        Desktop window = new Desktop();
+        Desktop window = new Desktop(new DesktopSettings() {{
+            frameType = DesktopFrameType.SYSTEM;
+        }});
 
         UXPanel panel = new UXPanel();
         UXButton button1 = new UXButton("Button 1");

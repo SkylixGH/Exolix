@@ -12,9 +12,8 @@ public class ModJFrame extends JFrame {
     public ModJFrame(String title, boolean customHit, int titleBarHeightHitTest) {
         super(title);
 
-        // only if os is windows
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            winProcess = new WindowsJFrameProcess(true, titleBarHeightHitTest);
+            winProcess = new WindowsJFrameProcess(customHit, titleBarHeightHitTest);
         }
     }
 

@@ -155,7 +155,9 @@ public class Desktop {
         UXComponent defaultComp = new UXComponent(settings.theme, settings.accessibility);
         defaultComp.setElement(label);
 
-        innerFrame.add(titleBar, BorderLayout.NORTH);
+        if (settings.frameType == DesktopFrameType.GENERIC)
+            innerFrame.add(titleBar, BorderLayout.NORTH);
+
         innerFrame.add(root, BorderLayout.CENTER);
 
         setRootElement(defaultComp);
