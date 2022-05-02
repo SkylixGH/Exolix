@@ -1,6 +1,6 @@
 package net.skylix.elixor.desktop.ux.uxPanel;
 
-enum UXPanelFlowDirection {
+public enum UXPanelFlowDirection {
     ROW,
     COLUMN
 }

@@ -5,6 +5,8 @@ import net.skylix.elixor.desktop.local.ModJFrame;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
@@ -31,7 +33,7 @@ public class Desktop {
 
         JPanel innerFrame = new JPanel();
         JPanel titleBar = new JPanel();
-        ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid1");
+        ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid2");
 
         frame.setSize(1000, 600);
         Desktop self = this;
@@ -71,29 +73,26 @@ public class Desktop {
             }
 
             Function<FrameButtonType, UXComponent> createFrameButton = (FrameButtonType type) -> {
-//                switch (type) {
-//                    case CLOSE -> {
-//                        button = new JButton("X");
-//                    }
-//
-//                    case MINIMIZE -> {
-//                        button = new JButton("_");
-//                    }
-//
-//                    case MAXIMIZE -> {
-//                        button = new JButton("[]");
-//                    }
-//                };
-
                 final UXPanel button;
+                final JLabel label = new JLabel();
+
+                label.setFont(new Font("Arial", Font.PLAIN, 13));
+                label.setForeground(settings.theme.getThemeAttribute("text4").getAwtColor());
+
                 try {
                     button = new UXPanel(new UXPanelSettings() {{
                         onMouseEnter = (panel) -> {
-                            panel.setColor(this.theme.getThemeAttribute("component1"));
+                            if (type == FrameButtonType.CLOSE) {
+                                panel.setColor(this.theme.getThemeAttribute("critical4"));
+                                label.setForeground(this.theme.getThemeAttribute("criticalText4").getAwtColor());
+                            } else {
+                                panel.setColor(this.theme.getThemeAttribute("component1"));
+                            }
                         };
 
                         onMouseExit = (panel) -> {
                             panel.setColor(new ThemeColor(0, 0, 0, 0));
+                            label.setForeground(settings.theme.getThemeAttribute("text4").getAwtColor());
                         };
 
                         onMouseClick = (panel) -> {
@@ -111,16 +110,24 @@ public class Desktop {
                                 }
                             }
                         };
+
+                        rowAlignment = UXPanelRowAlignment.CENTER;
+                        columnAlignment = UXPanelColumnAlignment.CENTER;
                     }});
 
-                    JLabel label = new JLabel();
+                    switch (type) {
+                        case CLOSE -> {
+                            label.setText("x");
+                        }
 
-                    label.setLayout(new BorderLayout());
-                    label.setFont(new Font("Arial", Font.PLAIN, 16));
-                    label.setForeground(settings.theme.getThemeAttribute("text1").getAwtColor());
-                    label.setText("-");
-                    label.setPreferredSize(new Dimension(32, 32));
-                    label.setPreferredSize(new Dimension(45, 32));
+                        case MINIMIZE -> {
+                            label.setText("-");
+                        }
+
+                        case MAXIMIZE -> {
+                            label.setText("□");
+                        }
+                    };
 
                     button.add(new UXComponent().setElement(label));
                     button.setSize(45, 32);
@@ -133,12 +140,12 @@ public class Desktop {
 
             JPanel buttons = new JPanel();
 
-            buttons.setLayout(new FlowLayout ( FlowLayout. CENTER, 2, 0 ));
+            buttons.setLayout(new FlowLayout ( FlowLayout. CENTER, 0, 0 ));
             buttons.setOpaque(false);
 
-            buttons.add(createFrameButton.apply(FrameButtonType.CLOSE).getSwingComponent(), BorderLayout.EAST);
-            buttons.add(createFrameButton.apply(FrameButtonType.MINIMIZE).getSwingComponent(), BorderLayout.CENTER);
-            buttons.add(createFrameButton.apply(FrameButtonType.MAXIMIZE).getSwingComponent(), BorderLayout.WEST);
+            buttons.add(createFrameButton.apply(FrameButtonType.MINIMIZE).getSwingComponent());
+            buttons.add(createFrameButton.apply(FrameButtonType.MAXIMIZE).getSwingComponent());
+            buttons.add(createFrameButton.apply(FrameButtonType.CLOSE).getSwingComponent());
 
             titleBar.add(buttons, BorderLayout.EAST);
         }

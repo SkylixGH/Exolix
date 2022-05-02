@@ -1,6 +1,6 @@
 package net.skylix.elixor.desktop.ux.uxPanel;
 
-enum UXPanelColumnAlignment {
+public enum UXPanelColumnAlignment {
     TOP,
     CENTER,
     BOTTOM

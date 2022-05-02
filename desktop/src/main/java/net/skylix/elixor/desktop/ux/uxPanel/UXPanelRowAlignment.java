@@ -1,6 +1,6 @@
 package net.skylix.elixor.desktop.ux.uxPanel;
 
-enum UXPanelRowAlignment {
+public enum UXPanelRowAlignment {
     LEFT,
     CENTER,
     RIGHT

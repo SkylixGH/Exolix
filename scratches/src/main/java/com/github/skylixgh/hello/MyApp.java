@@ -15,6 +15,7 @@ import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
@@ -48,6 +49,7 @@ public class MyApp {
         UXPanel panel = new UXPanel(new UXPanelSettings() {{
             width = 1000;
             height = 600 - 32;
+            rowAlignment = UXPanelRowAlignment.CENTER;
         }});
 
         Desktop window = new Desktop(new DesktopSettings() {{
