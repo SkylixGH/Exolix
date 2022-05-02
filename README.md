@@ -1,6 +1,8 @@
 <br />
 <br />
 
+# TODO: Use final for all methods and properties when possible
+
 <div align="center">
     <img src="./docs/__readme__/ElixorLogo.svg" alt="Elixor Logo" width="200" />
 </div>

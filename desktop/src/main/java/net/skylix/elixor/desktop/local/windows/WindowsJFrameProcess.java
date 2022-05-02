@@ -28,7 +28,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private BaseTSD.LONG_PTR definedWindowProcess;
 
     public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
-        renderedTitleBarHeight = Math.max(titleBarHeightForHitTest, 1);
+        renderedTitleBarHeight = titleBarHeightForHitTest == 0 ? -10 : titleBarHeightForHitTest;
         useCustomTitleBarHitTest = customHitTest;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);

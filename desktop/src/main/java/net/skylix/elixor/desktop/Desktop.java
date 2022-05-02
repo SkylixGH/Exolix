@@ -10,10 +10,7 @@ import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.awt.event.*;
 import java.security.Provider;
 import java.util.function.Function;
 
@@ -32,7 +29,12 @@ public class Desktop {
             settings.frameType == DesktopFrameType.HIDDEN ? 0 : 20
         );
 
+        JPanel innerFrame = new JPanel();
+        JPanel titleBar = new JPanel();
+        ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid1");
+
         frame.setSize(1000, 600);
+        Desktop self = this;
 
         frame.addWindowListener(new WindowAdapter() {
             @Override
@@ -42,11 +44,16 @@ public class Desktop {
             }
         });
 
-        root = new JPanel();
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                innerFrame.setSize(frame.getWidth(), frame.getHeight());
+                root.setSize(frame.getWidth(), frame.getHeight() - titleBar.getHeight());
+                settings.onResize.accept(self);
+            }
+        });
 
-        JPanel innerFrame = new JPanel();
-        JPanel titleBar = new JPanel();
-        ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid2");
+        root = new JPanel();
 
         innerFrame.setSize(new Dimension(frame.getWidth(), frame.getHeight()));
         innerFrame.setLayout(new BorderLayout());
@@ -113,7 +120,6 @@ public class Desktop {
                     label.setForeground(settings.theme.getThemeAttribute("text1").getAwtColor());
                     label.setText("-");
                     label.setPreferredSize(new Dimension(32, 32));
-                    label.setBackground(new Color(255, 0, 0));
                     label.setPreferredSize(new Dimension(45, 32));
 
                     button.add(new UXComponent().setElement(label));
@@ -137,14 +143,13 @@ public class Desktop {
             titleBar.add(buttons, BorderLayout.EAST);
         }
 
-        root.setLayout(new GridBagLayout());
-        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBar.getHeight()));
+        int titleBarHeight = settings.frameType == DesktopFrameType.GENERIC ? titleBar.getWidth() : 0;
+
+        root.setLayout(null);
+        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBarHeight));
         root.setBackground(backgroundColor.getAwtColor());
         root.setMinimumSize(new Dimension(1000, 600));
         root.setMaximumSize(new Dimension(1000, 600));
-
-        root.setAlignmentY(Component.CENTER_ALIGNMENT);
-        root.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel label = new JLabel("No Root Element Set");
 
@@ -162,6 +167,18 @@ public class Desktop {
 
         setRootElement(defaultComp);
         frame.setContentPane(innerFrame);
+    }
+
+    public final int getWidth() {
+        return frame.getWidth();
+    }
+
+    public final int getHeight() {
+        return frame.getHeight();
+    }
+
+    public final Dimension getSize() {
+        return frame.getSize();
     }
 
     public Desktop() throws InvalidHexCode {

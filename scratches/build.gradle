@@ -2,6 +2,11 @@ plugins {
     id 'java'
     id 'org.openjfx.javafxplugin' version '0.0.10'
     id 'application'
+    id 'edu.sc.seis.launch4j' version '2.5.3'
+}
+
+launch4j {
+    mainClassName = 'com.github.skylixgh.hello.MyApp'
 }
 
 javafx {
@@ -27,7 +32,6 @@ dependencies {
     implementation project(':terminal')
     implementation project(':apiSocket')
     implementation project(':desktop')
-    implementation files('jars/jnativehook-2.2.2-sources.jar')
 }
 
 test {

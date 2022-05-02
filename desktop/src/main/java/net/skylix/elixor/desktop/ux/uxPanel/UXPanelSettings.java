@@ -30,5 +30,9 @@ public class UXPanelSettings extends UXComponentSettingsPreset {
     public Consumer<UXPanel> onMouseDown = (UXPanel node) -> {};
     public Consumer<UXPanel> onMouseUp = (UXPanel node) -> {};
 
+    public UXPanelColumnAlignment columnAlignment = UXPanelColumnAlignment.TOP;
+    public UXPanelRowAlignment rowAlignment = UXPanelRowAlignment.LEFT;
+    public UXPanelFlowDirection flowDirection = UXPanelFlowDirection.ROW;
+
     public UXPanelSettings() throws InvalidHexCode {}
 }

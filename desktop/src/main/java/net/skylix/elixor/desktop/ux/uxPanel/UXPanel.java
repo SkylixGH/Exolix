@@ -9,17 +9,28 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.function.Function;
 
 public class UXPanel extends UXComponent {
     private final UXPanelSettings settings;
     private ThemeColor currentColor;
-    private final FlowLayout flowLayout = new FlowLayout();
+    private Integer currentWidth;
+    private Integer currentHeight;
+    private UXPanelFlowDirection currentFlowDirection;
+    private UXPanelRowAlignment currentRowAlignment;
+    private UXPanelColumnAlignment currentColumnAlignment;
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
 
         this.currentColor = settings.color;
         this.settings = settings;
+
+        currentHeight = settings.height;
+        currentWidth = settings.width;
+        currentColumnAlignment = settings.columnAlignment;
+        currentRowAlignment = settings.rowAlignment;
+        currentFlowDirection = settings.flowDirection;
 
         setElement(new Element(this));
         setWidth(settings.width);
@@ -42,6 +53,21 @@ public class UXPanel extends UXComponent {
         return getSwingComponent().getSize();
     }
 
+    public final void setRowAlignment(UXPanelRowAlignment rowAlignment) {
+        currentRowAlignment = rowAlignment;
+        getSwingComponent().repaint();
+    }
+
+    public final void setColumnAlignment(UXPanelColumnAlignment columnAlignment) {
+        currentColumnAlignment = columnAlignment;
+        getSwingComponent().repaint();
+    }
+
+    public final void setFlowDirection(UXPanelFlowDirection flowDirection) {
+        currentFlowDirection = flowDirection;
+        getSwingComponent().repaint();
+    }
+
     public void setColor(ThemeColor color) {
         currentColor = color;
         getSwingComponent().repaint();
@@ -53,11 +79,13 @@ public class UXPanel extends UXComponent {
 
         if (width == null) {
             for (Component component : components) {
-                finalWidth += component.getPreferredSize().width + flowLayout.getHgap();
+                finalWidth += component.getPreferredSize().width + 10;
             }
         } else {
             finalWidth = width < 0 ? 0 : width;
         }
+
+        currentWidth = finalWidth;
 
         getSwingComponent().setSize(finalWidth, getHeight());
         getSwingComponent().setPreferredSize(new Dimension(finalWidth, getHeight()));
@@ -68,12 +96,20 @@ public class UXPanel extends UXComponent {
         final Component[] components = getSwingComponent().getComponents();
 
         if (height == null) {
+            int largestHeight = 0;
+
             for (Component component : components) {
-                finalHeight += component.getPreferredSize().height + flowLayout.getVgap();
+                if (component.getPreferredSize().height > largestHeight) {
+                    largestHeight = component.getPreferredSize().height;
+                }
             }
+
+            finalHeight = largestHeight + 10;
         } else {
             finalHeight = height < 0 ? 0 : height;
         }
+
+        currentHeight = finalHeight;
 
         getSwingComponent().setSize(getWidth(), finalHeight);
         getSwingComponent().setPreferredSize(new Dimension(getWidth(), finalHeight));
@@ -92,17 +128,13 @@ public class UXPanel extends UXComponent {
     }
 
     private void recalculateMetrics() {
-        setWidth(settings.width);
-        setHeight(settings.height);
+        setWidth(currentWidth);
+        setHeight(currentHeight);
     }
 
     private class Element extends JPanel {
         public Element(UXPanel panel) {
             super();
-
-            setLayout(flowLayout);
-            setAlignmentX(Component.CENTER_ALIGNMENT);
-            setAlignmentY(Component.CENTER_ALIGNMENT);
 
             addMouseListener(new MouseAdapter() {
                 @Override
@@ -135,6 +167,28 @@ public class UXPanel extends UXComponent {
             setPreferredSize(getSize());
         }
 
+        private Component findTallestComponent(Component[] components) {
+            Component tallest = components[0];
+
+            for (Component component : components) {
+                if (component.getPreferredSize().height > tallest.getPreferredSize().height) {
+                    tallest = component;
+                }
+            }
+
+            return tallest;
+        }
+
+        private final int getTotalWidth(Component[] components) {
+            int totalWidth = 0;
+
+            for (Component component : components) {
+                totalWidth += component.getPreferredSize().width;
+            }
+
+            return totalWidth;
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
@@ -147,6 +201,55 @@ public class UXPanel extends UXComponent {
                 g2d.fillRoundRect(0, 0, getWidth(), getHeight(), settings.cornerRadius, settings.cornerRadius);
             } else {
                 g2d.fillRect(0, 0, getWidth(), getHeight());
+            }
+
+            int spacingX = 10;
+            int spacingY = 10;
+            boolean wrapping = false;
+
+            int componentID = 0;
+            int lastX = 0;
+            int lastY = 0;
+            int lastRenderingWidth = 0;
+            int lastRenderingHeight = 0;
+            int totalLinesWrapped = 0;
+
+            for (Component component : getComponents()) {
+                if (!wrapping) {
+                    if (currentFlowDirection == UXPanelFlowDirection.ROW) {
+                        if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.RIGHT) {
+                            lastX = getWidth() - component.getWidth();
+                        } else if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.CENTER) {
+                            final int totalWidth = getTotalWidth(getComponents());
+                            lastX = (getWidth() - totalWidth) / 2;
+                        }
+
+                        if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
+                            Component tallestComponent = findTallestComponent(getComponents());
+                            lastY = (getHeight() - tallestComponent.getHeight()) / 2;
+                        } else if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.BOTTOM) {
+                            Component tallestComponent = findTallestComponent(getComponents());
+                            lastY = getHeight() - tallestComponent.getHeight();
+                        }
+
+                        component.setLocation(lastX, lastY);
+
+                        if (currentRowAlignment == UXPanelRowAlignment.LEFT) {
+                            if (componentID == getComponents().length - 1) lastX += component.getWidth();
+                            else lastX += component.getWidth() + spacingX;
+                        } else if (currentRowAlignment == UXPanelRowAlignment.CENTER) {
+                            if (componentID == getComponents().length - 1) lastX += component.getWidth();
+                            else lastX += component.getWidth() + spacingX;
+                        } else if (currentRowAlignment == UXPanelRowAlignment.RIGHT) {
+                            if (componentID == getComponents().length - 1) lastX -= component.getWidth();
+                            else lastX -= component.getWidth() + spacingX;
+                        }
+                    } else {
+
+                    }
+                }
+
+                componentID++;
             }
 
             paintChildren(g);
