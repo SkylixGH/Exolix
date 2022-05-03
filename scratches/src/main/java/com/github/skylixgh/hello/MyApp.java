@@ -15,6 +15,7 @@ import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
@@ -50,7 +51,19 @@ public class MyApp {
             width = 1000;
             height = 600 - 32;
             rowAlignment = UXPanelRowAlignment.CENTER;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
         }});
+
+        UXComponent pane = new UXComponent();
+        JScrollPane scroll = new JScrollPane();
+
+        scroll.setSize(1000, 600 - 32);
+        
+        for (int i = 0; i < 100; i++) {
+            scroll.add(new JLabel("Hello World"));
+        }
+
+        pane.setElement(scroll);
 
         Desktop window = new Desktop(new DesktopSettings() {{
 //            frameType = DesktopFrameType.HIDDEN;
@@ -65,6 +78,7 @@ public class MyApp {
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
+        panel.add(pane);
 
         window.setRootElement(panel);
         window.run();

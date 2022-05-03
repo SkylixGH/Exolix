@@ -36,4 +36,16 @@ public class ModJFrame extends JFrame {
 
         return handle;
     }
+
+    public final void maximizeNative() {
+        if (winProcess != null) {
+            winProcess.maximize();
+        }
+    }
+
+    public final void minimizeNative() {
+        if (winProcess != null) {
+            winProcess.minimize();
+        }
+    }
 }

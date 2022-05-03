@@ -102,11 +102,11 @@ public class Desktop {
                                 }
 
                                 case MINIMIZE -> {
-                                    frame.setState(JFrame.ICONIFIED);
+                                    frame.minimizeNative();
                                 }
 
                                 case MAXIMIZE -> {
-                                    frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+                                    frame.maximizeNative();
                                 }
                             }
                         };

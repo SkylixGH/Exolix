@@ -23,6 +23,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private final int renderedTitleBarHeight;
     private final boolean useCustomTitleBarHitTest;
 
+    private HWND hWnd;
     private final User32Ex INSTANCE;
     private final User32Dwm INSTANCEDwm;
     private BaseTSD.LONG_PTR definedWindowProcess;
@@ -40,6 +41,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
             return;
         }
 
+        this.hWnd = hWnd;
         definedWindowProcess = INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, this);
 
         INSTANCE.SetWindowPos(
@@ -170,9 +172,9 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
     private void applyMargins(HWND hWnd) {
         MARGINS margins = new MARGINS();
-        margins.cxLeftWidth = 1;
-        margins.cxRightWidth = 1;
-        margins.cyTopHeight = 1;
+        margins.cxLeftWidth = 0;
+        margins.cxRightWidth = 0;
+        margins.cyTopHeight = 0;
         margins.cyBottomHeight = 1;
 
         INSTANCEDwm.DwmExtendFrameIntoClientArea(hWnd, margins);
@@ -218,5 +220,13 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 return result;
             }
         }
+    }
+
+    public final void maximize() {
+        User32.INSTANCE.ShowWindow(hWnd, SW_MAXIMIZE);
+    }
+
+    public final void minimize() {
+        User32.INSTANCE.ShowWindow(hWnd, SW_MINIMIZE);
     }
 }
