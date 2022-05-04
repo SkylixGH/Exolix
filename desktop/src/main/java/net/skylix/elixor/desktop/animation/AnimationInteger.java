@@ -1,9 +1,8 @@
 package net.skylix.elixor.desktop.animation;
 
 import java.util.function.BiConsumer;
-import java.util.function.Consumer;
 
-public class AnimationPercent {
+public class AnimationInteger {
     private float current;
     private boolean done;
     private final Thread thread;
@@ -11,7 +10,7 @@ public class AnimationPercent {
     private float clockDelay;
     private float jumpSize;
 
-    public AnimationPercent(float current, BiConsumer<AnimationPercent, Integer> onUpdate) {
+    public AnimationInteger(float current, BiConsumer<AnimationInteger, Integer> onUpdate) {
         this.current = current;
         this.target = current;
         this.done = true;

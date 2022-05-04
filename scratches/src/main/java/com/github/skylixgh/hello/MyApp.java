@@ -1,16 +1,9 @@
 package com.github.skylixgh.hello;
 
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Scene;
-import javafx.scene.web.WebView;
 import net.skylix.elixor.desktop.Desktop;
-import net.skylix.elixor.desktop.DesktopFrameType;
 import net.skylix.elixor.desktop.DesktopSettings;
-import net.skylix.elixor.desktop.animation.AnimationPercent;
+import net.skylix.elixor.desktop.animation.AnimationInteger;
 import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
-import net.skylix.elixor.desktop.theme.ThemeColor;
-import net.skylix.elixor.desktop.theme.presets.ThemeDark;
 import net.skylix.elixor.desktop.ux.uxButton.UXButton;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
@@ -22,10 +15,8 @@ import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
-import java.awt.*;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.function.Consumer;
 
 public class MyApp {
@@ -84,7 +75,7 @@ public class MyApp {
         window.setRootElement(panel);
 //        window.run();
 
-        AnimationPercent an = new AnimationPercent(0, (ann, i) -> {
+        AnimationInteger an = new AnimationInteger(0, (ann, i) -> {
             System.out.println(i);
 
             if (i > 50) {
