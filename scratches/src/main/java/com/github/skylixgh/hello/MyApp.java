@@ -7,6 +7,7 @@ import javafx.scene.web.WebView;
 import net.skylix.elixor.desktop.Desktop;
 import net.skylix.elixor.desktop.DesktopFrameType;
 import net.skylix.elixor.desktop.DesktopSettings;
+import net.skylix.elixor.desktop.animation.AnimationPercent;
 import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.theme.presets.ThemeDark;
@@ -81,6 +82,16 @@ public class MyApp {
         panel.add(pane);
 
         window.setRootElement(panel);
-        window.run();
+//        window.run();
+
+        AnimationPercent an = new AnimationPercent(0, (ann, i) -> {
+            System.out.println(i);
+
+            if (i > 50) {
+                ann.transitionTo(0, 1, 100);
+            }
+        });
+
+        an.transitionTo(100, 1, 100);
     }
 }

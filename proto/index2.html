@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>3D Render Line</title>
+</head>
+<body>
+    <canvas width="5000" height="5000" id="canvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function render2dLine(lineX, lineY, lineLength, lineAngle, lineColor) {
+            // also, if the lineLength is in the negative direction, draw the line in the opposite direction
+            if (lineLength < 0) {
+                lineAngle += Math.PI;
+                lineLength = -lineLength;
+            }
+
+            ctx.save();
+            ctx.translate(lineX, lineY);
+            ctx.rotate(lineAngle);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(lineLength, 0);
+            ctx.strokeStyle = lineColor;
+            ctx.stroke();
+            ctx.restore();
+        }
+
+        function render3dLine(position, rotationX, rotationY, rotationZ, color) {
+            let len = rotationZ;
+            render2dLine(position[0], position[1], len, rotationX, color);
+        }
+
+        function clear() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        let rot = -100;
+        let x = 0;
+        let direction = 'up';
+
+        setInterval(() => {
+            if (direction == 'up') {
+                rot++;
+            } else {
+                rot--;
+            }
+
+            if (rot > 100 && direction == 'up') {
+                direction = 'down';
+            } else if (rot < -100 && direction == 'down') {
+                direction = 'up';
+            }
+
+            x++;
+
+            if (x > 360) {
+                x = 0;
+            }
+
+            clear();
+
+            render3dLine([100, 100], 45, 0, 45, 'red');
+            render3dLine([200, 100], 45, 0, 45, 'red');
+
+            render3dLine([100, 200], 45, 0, 45, 'red');
+            render3dLine([200, 200], 45, 0, 45, 'red');
+
+            render3dLine([100, 100], 0, 0, 100, 'red');
+            render3dLine([100, 200], 0, 0, 100, 'red');
+
+            render3dLine([100, 100], 45.55, 0, 100, 'red');
+            render3dLine([200, 100], 45.55, 0, 100, 'red');
+
+            render3dLine([124, 138], 45.55, 0, 100, 'red');
+            render3dLine([224, 138], 45.55, 0, 100, 'red');
+
+            render3dLine([124, 238], 50.26, 0, 100, 'red');
+            render3dLine([124, 138], 50.26, 0, 100, 'red');
+        });
+    </script>
+</body>
+</html>
