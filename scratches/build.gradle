@@ -1,18 +1,11 @@
 plugins {
     id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
     id 'application'
     id 'edu.sc.seis.launch4j' version '2.5.3'
 }
 
 launch4j {
     mainClassName = 'com.github.skylixgh.hello.MyApp'
-}
-
-javafx {
-    version = "17.0.1"
-    // --add-modules javafx.web,javafx.media,javafx.swing
-    modules = [ 'javafx.controls', 'javafx.graphics', 'javafx.swing', 'javafx.base', 'javafx.web', 'javafx.media' ]
 }
 
 repositories {
