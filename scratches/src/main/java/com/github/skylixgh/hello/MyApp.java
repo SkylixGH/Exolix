@@ -2,8 +2,10 @@ package com.github.skylixgh.hello;
 
 import net.skylix.elixor.desktop.Desktop;
 import net.skylix.elixor.desktop.DesktopSettings;
+import net.skylix.elixor.desktop.animation.AnimationColor;
 import net.skylix.elixor.desktop.animation.AnimationInteger;
 import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
+import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxButton.UXButton;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
@@ -67,22 +69,39 @@ public class MyApp {
         UXButton button2 = new UXButton("Button B");
         UXButton button3 = new UXButton("Button C", new UXButtonSettings() {{ type = UXButtonType.HIGHLIGHTED; }});
 
+        UXComponent jbtn = new UXComponent();
+        jbtn.setElement(new JButton("Hello World"));
+
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
-        panel.add(pane);
+        panel.add(jbtn);
 
         window.setRootElement(panel);
-//        window.run();
+        window.run();
 
-        AnimationInteger an = new AnimationInteger(0, (ann, i) -> {
-            System.out.println(i);
-
-            if (i > 50) {
-                ann.transitionTo(0, 1, 100);
-            }
+        AnimationColor ac = new AnimationColor(new ThemeColor("#000"), (t, c) -> {
+            jbtn.getSwingComponent().setBackground(c.getAwtColor());
         });
 
-        an.transitionTo(100, 1, 100);
+        jbtn.getSwingComponent().addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mouseEntered(java.awt.event.MouseEvent e) {
+                try {
+                    ac.moveTo(new ThemeColor("#55FF88"), 1000);
+                } catch (InvalidHexCode ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void mouseExited(java.awt.event.MouseEvent e) {
+                try {
+                    ac.moveTo(new ThemeColor("#000"), 1000);
+                } catch (InvalidHexCode ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
     }
 }

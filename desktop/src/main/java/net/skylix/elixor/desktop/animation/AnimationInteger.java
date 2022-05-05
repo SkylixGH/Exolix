@@ -62,4 +62,13 @@ public class AnimationInteger {
 
         done = true;
     }
+
+    public final float testTargetDistance(float newInt, float jumpSize) {
+        float dist = (float) Math.ceil((newInt - current) / jumpSize);
+
+        if (dist < 0)
+            dist *= -1;
+
+        return dist;
+    }
 }
