@@ -5,35 +5,43 @@ import java.util.function.BiConsumer;
 public class AnimationInteger {
     private float current;
     private boolean done;
-    private final Thread thread;
+    private Thread thread;
     private float target;
     private float clockDelay;
     private float jumpSize;
+    private final BiConsumer<AnimationInteger, Integer> onUpdate;
 
     public AnimationInteger(float current, BiConsumer<AnimationInteger, Integer> onUpdate) {
         this.current = current;
         this.target = current;
         this.done = true;
+        this.onUpdate = onUpdate;
+    }
 
-        this.thread = new Thread(() -> {
-            while (!done) {
-                try {
-                    Thread.sleep((long) clockDelay);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
-                if (this.current < target) {
-                    this.current += jumpSize;
-                } else if (this.current > target) {
-                    this.current -= jumpSize;
-                } else {
-                    done = true;
-                }
-
-                onUpdate.accept(this, (int) this.current);
+    private void threadCallback() {
+        while (!done) {
+            try {
+                Thread.sleep((long) clockDelay);
+            } catch (InterruptedException e) {
+                // Ignore
             }
-        });
+
+            if (this.current < target) {
+                this.current += jumpSize;
+
+                if (this.current > target)
+                    this.current = target;
+            } else if (this.current > target) {
+                this.current -= jumpSize;
+
+                if (this.current < target)
+                    this.current = target;
+            } else {
+                done = true;
+            }
+
+            onUpdate.accept(this, (int) this.current);
+        }
     }
 
     public final void transitionTo(float newInt, float jumpSize, float clockDelay) {
@@ -42,13 +50,16 @@ public class AnimationInteger {
         this.jumpSize = jumpSize;
         done = false;
 
-        if (!thread.isAlive()) {
+        if (thread == null || !thread.isAlive()) {
+            this.thread = new Thread(this::threadCallback);
             thread.start();
         }
     }
 
     public final void halt() {
+        if (thread != null && thread.isAlive())
+            thread.interrupt();
+
         done = true;
-        thread.interrupt();
     }
 }

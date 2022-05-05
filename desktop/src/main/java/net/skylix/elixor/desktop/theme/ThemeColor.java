@@ -36,11 +36,47 @@ public class ThemeColor {
         return rgba[3];
     }
 
+    public final void setRed(Integer red) {
+        rgba[0] = red;
+    }
+
+    public final void setGreen(Integer green) {
+        rgba[1] = green;
+    }
+
+    public final void setBlue(Integer blue) {
+        rgba[2] = blue;
+    }
+
+    public final void setAlpha(Integer alpha) {
+        rgba[3] = alpha;
+    }
+
+    private void applyNullRgb() {
+        if (rgba[0] == null) {
+            rgba[0] = 0;
+        }
+
+        if (rgba[1] == null) {
+            rgba[1] = 0;
+        }
+
+        if (rgba[2] == null) {
+            rgba[2] = 0;
+        }
+
+        if (rgba[3] == null) {
+            rgba[3] = 255;
+        }
+    }
+
     public final Color getAwtColor() {
+        applyNullRgb();
         return new Color(rgba[0], rgba[1], rgba[2], rgba[3]);
     }
 
     public final String getCssColor() {
+        applyNullRgb();
         return String.format("rgba(%d, %d, %d, %f)", rgba[0], rgba[1], rgba[2], (float)rgba[3]);
     }
 }
