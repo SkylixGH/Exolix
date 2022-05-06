@@ -20,6 +20,8 @@ import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.function.Consumer;
@@ -43,7 +45,7 @@ public class MyApp {
         }
     }
 
-    public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode, WindowCannotReinitialize {
+    public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode, WindowCannotReinitialize, IOException {
         UXPanel panel = new UXPanel(new UXPanelSettings() {{
             width = 1000;
             height = 600 - 32;
@@ -68,7 +70,11 @@ public class MyApp {
                 panel.setSize(win.getWidth(), win.getHeight() - 32);
             };
         }});
-        UXButton button1 = new UXButton("Button A");
+
+        InputStream iht = MyApp.class.getClassLoader().getResourceAsStream("hello");
+        String ht = iht.toString();
+
+        UXButton button1 = new UXButton(ht);
         UXButton button2 = new UXButton("Button B");
         UXButton button3 = new UXButton("Button C", new UXButtonSettings() {{ type = UXButtonType.HIGHLIGHTED; onMouseClick = (btn) -> {
             try {

@@ -1,9 +1,11 @@
 package net.skylix.elixor.desktop.ux.uxButton;
 
 import net.skylix.elixor.desktop.animation.AnimationColor;
+import net.skylix.elixor.desktop.theme.Theme;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.desktop.ux.uxLabel.UXLabel;
+import net.skylix.elixor.desktop.ux.uxLabel.UXLabelSettings;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
@@ -22,6 +24,7 @@ public class UXButton extends UXComponent {
 
         this.settings = settings;
         UXButton self = this;
+        UXLabel text = new UXLabel(label);
 
         UXPanel button = new UXPanel(new UXPanelSettings() {{
             width = 100;
@@ -32,16 +35,16 @@ public class UXButton extends UXComponent {
 
             onMouseEnter = (panel) -> {
                 self.animationColor.moveTo(theme.getThemeAttribute("component2"), accessibility.transitionSpeed5);
+                text.setColor(theme.getThemeAttribute("text1"), accessibility.transitionSpeed5);
             };
 
             onMouseExit = (panel) -> {
                 self.animationColor.moveTo(theme.getThemeAttribute("component1"), accessibility.transitionSpeed5);
+                text.setColor(theme.getThemeAttribute("text4"), accessibility.transitionSpeed5);
             };
         }});
 
         button.setColor(theme.getThemeAttribute("component1"));
-        UXLabel text = new UXLabel(label);
-
         button.add(text);
 
         this.animationColor = new AnimationColor(theme.getThemeAttribute("component1"), (acl, color) -> {
