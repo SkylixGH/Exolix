@@ -37,7 +37,12 @@ public class AnimationColor {
     }
 
     public final void moveTo(ThemeColor target, int duration) {
-        final int jumpSize = 10;
+        int jumpSize = 1;
+
+        if (duration < 1000) {
+            jumpSize = 10;
+        }
+
         final float redTicksNeeded = redAnime.testTargetDistance(target.getRed(), jumpSize);
         final float greenTicksNeeded = greenAnime.testTargetDistance(target.getGreen(), jumpSize);
         final float blueTicksNeeded = blueAnime.testTargetDistance(target.getBlue(), jumpSize);
@@ -52,5 +57,9 @@ public class AnimationColor {
         greenAnime.transitionTo(target.getGreen(), jumpSize, greenCycleDelay);
         blueAnime.transitionTo(target.getBlue(), jumpSize, blueCycleDelay);
         alphaAnime.transitionTo(target.getAlpha(), jumpSize, alphaCycleDelay);
+    }
+
+    public final void moveTo(ThemeColor target) {
+        moveTo(target, 0);
     }
 }

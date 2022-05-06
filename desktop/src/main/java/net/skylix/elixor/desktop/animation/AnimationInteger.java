@@ -56,8 +56,17 @@ public class AnimationInteger {
         done = false;
 
         if (thread == null || !thread.isAlive()) {
-            this.thread = new Thread(this::threadCallback);
-            thread.start();
+            try {
+                this.thread = new Thread(this::threadCallback);
+            } catch (Exception e) {
+                // Ignore
+            }
+
+            try {
+                thread.start();
+            } catch (Exception e) {
+                // Ignore
+            }
         }
     }
 

@@ -23,5 +23,11 @@ public class Accessibility {
     public int radius3 = 10;
     public int radius4 = 15;
 
+    public int transitionSpeed1 = 1000;
+    public int transitionSpeed2 = 800;
+    public int transitionSpeed3 = 400;
+    public int transitionSpeed4 = 200;
+    public int transitionSpeed5 = 100;
+
     public int radiusRoundCap = 35;
 }

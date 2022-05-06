@@ -8,6 +8,8 @@ import java.awt.*;
 public class ThemeColor {
     private final Integer[] rgba;
 
+    public static final ThemeColor TRANSPARENT = new ThemeColor(0, 0, 0, 0);
+
     public ThemeColor(Integer red, Integer green, Integer blue, Integer alpha) {
         this.rgba = new Integer[]{red, green, blue, alpha};
     }

@@ -87,7 +87,7 @@ public class MyApp {
         panel.add(jbtn);
 
         window.setRootElement(panel);
-//        window.run();
+        window.run();
 
         // taskbar overlay
         Desktop tb = new Desktop(new DesktopSettings() {{
@@ -122,7 +122,7 @@ public class MyApp {
         tb.setPositionY(1080 - 50);
 
         tb.setRootElement(rootTB);
-        tb.run();
+//        tb.run();
 
         AnimationColor ac = new AnimationColor(new ThemeColor("#000"), (t, c) -> {
             jbtn.getSwingComponent().setBackground(c.getAwtColor());

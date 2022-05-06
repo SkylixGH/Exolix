@@ -100,15 +100,15 @@ public class Desktop {
                     button = new UXPanel(new UXPanelSettings() {{
                         onMouseEnter = (panel) -> {
                             if (type == FrameButtonType.CLOSE) {
-                                panel.setColor(this.theme.getThemeAttribute("critical4"), 100);
+                                panel.setColor(this.theme.getThemeAttribute("critical4"), accessibility.transitionSpeed5);
                                 label.setForeground(this.theme.getThemeAttribute("criticalText4").getAwtColor());
                             } else {
-                                panel.setColor(this.theme.getThemeAttribute("component1"), 100);
+                                panel.setColor(this.theme.getThemeAttribute("component1"), accessibility.transitionSpeed5);
                             }
                         };
 
                         onMouseExit = (panel) -> {
-                            panel.setColor(new ThemeColor(0, 0, 0, 0), 100);
+                            panel.setColor(new ThemeColor(0, 0, 0, 0), accessibility.transitionSpeed5);
                             label.setForeground(settings.theme.getThemeAttribute("text4").getAwtColor());
                         };
 

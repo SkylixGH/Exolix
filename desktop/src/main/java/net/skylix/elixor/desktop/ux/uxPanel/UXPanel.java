@@ -24,12 +24,11 @@ public class UXPanel extends UXComponent {
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
-
-        this.currentColor = settings.color;
         this.settings = settings;
 
         animationColor = new AnimationColor(settings.color, (ac, color) -> {
             JComponent swingComponent = getSwingComponent();
+            this.currentColor = color;
 
             if (swingComponent != null) {
                 swingComponent.setBackground(color.getAwtColor());
@@ -42,6 +41,7 @@ public class UXPanel extends UXComponent {
         currentColumnAlignment = settings.columnAlignment;
         currentRowAlignment = settings.rowAlignment;
         currentFlowDirection = settings.flowDirection;
+        currentColor = settings.color;
 
         setElement(new Element(this));
         setWidth(settings.width);
@@ -193,7 +193,7 @@ public class UXPanel extends UXComponent {
             return tallest;
         }
 
-        private final int getTotalWidth(Component[] components) {
+        private int getTotalWidth(Component[] components) {
             int totalWidth = 0;
 
             for (Component component : components) {
