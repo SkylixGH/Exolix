@@ -27,8 +27,8 @@ public class UXButton extends UXComponent {
         UXLabel text = new UXLabel(label);
 
         UXPanel button = new UXPanel(new UXPanelSettings() {{
-            width = 100;
-            height = 30;
+            width = text.getWidth() + 40;
+            height = text.getHeight() + 10;
             cornerRadius = accessibility.radius1;
             rowAlignment = UXPanelRowAlignment.CENTER;
             columnAlignment = UXPanelColumnAlignment.CENTER;

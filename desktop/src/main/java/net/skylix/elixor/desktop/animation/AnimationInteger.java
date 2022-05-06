@@ -60,12 +60,14 @@ public class AnimationInteger {
                 this.thread = new Thread(this::threadCallback);
             } catch (Exception e) {
                 // Ignore
+                done = true;
             }
 
             try {
                 thread.start();
             } catch (Exception e) {
                 // Ignore
+                done = false;
             }
         }
     }
