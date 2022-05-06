@@ -1,5 +1,6 @@
 package net.skylix.elixor.desktop.ux.uxPanel;
 
+import net.skylix.elixor.desktop.animation.AnimationColor;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
@@ -19,12 +20,22 @@ public class UXPanel extends UXComponent {
     private UXPanelFlowDirection currentFlowDirection;
     private UXPanelRowAlignment currentRowAlignment;
     private UXPanelColumnAlignment currentColumnAlignment;
+    private final AnimationColor animationColor;
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
 
         this.currentColor = settings.color;
         this.settings = settings;
+
+        animationColor = new AnimationColor(settings.color, (ac, color) -> {
+            JComponent swingComponent = getSwingComponent();
+
+            if (swingComponent != null) {
+                swingComponent.setBackground(color.getAwtColor());
+                swingComponent.repaint();
+            }
+        });
 
         currentHeight = settings.height;
         currentWidth = settings.width;
@@ -68,9 +79,12 @@ public class UXPanel extends UXComponent {
         getSwingComponent().repaint();
     }
 
+    public void setColor(ThemeColor color, int duration) {
+        animationColor.moveTo(color,  duration);
+    }
+
     public void setColor(ThemeColor color) {
-        currentColor = color;
-        getSwingComponent().repaint();
+        setColor(color, 0);
     }
 
     public void setWidth(Integer width) {

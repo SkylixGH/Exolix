@@ -1,6 +1,8 @@
 package net.skylix.elixor.desktop;
 
 import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
+import net.skylix.elixor.desktop.errors.WindowCannotReinitialize;
+import net.skylix.elixor.desktop.errors.WindowNotRunning;
 import net.skylix.elixor.desktop.local.ModJFrame;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
@@ -21,6 +23,7 @@ public class Desktop {
     private final DesktopSettings settings;
     private boolean running = false;
     private final JPanel root;
+    private boolean initiallyPowered = false;
 
     public Desktop(DesktopSettings settings) throws InvalidHexCode {
         this.settings = settings;
@@ -28,8 +31,14 @@ public class Desktop {
         frame = new ModJFrame(
             "Elixor [Single Service]", 
             settings.frameType != DesktopFrameType.SYSTEM,
-            settings.frameType == DesktopFrameType.HIDDEN ? 0 : 20
+            (settings.frameType == DesktopFrameType.HIDDEN || settings.frameType == DesktopFrameType.NONE) ? 0 : 20
         );
+
+        frame.setAlwaysOnTop(settings.alwaysOnTop);
+
+        if (settings.frameType == DesktopFrameType.NONE) {
+            frame.setUndecorated(true);
+        }
 
         JPanel innerFrame = new JPanel();
         JPanel titleBar = new JPanel();
@@ -38,12 +47,20 @@ public class Desktop {
         frame.setSize(1000, 600);
         Desktop self = this;
 
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                frame.dispose();
-                running = false;
-            }
+        frame.setOnMaximizeRunnable(() -> {
+            if (!System.getProperty("os.name").toLowerCase().contains("windows")) return;
+            innerFrame.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        });
+
+        frame.setOnUnMaximizeRunnable(() -> {
+            if (!System.getProperty("os.name").toLowerCase().contains("windows")) return;
+            innerFrame.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        });
+
+        frame.setOnClosingRunnable(() -> {
+            running = false;
+            frame.setVisible(false);
+            frame.dispose();
         });
 
         frame.addComponentListener(new ComponentAdapter() {
@@ -83,15 +100,15 @@ public class Desktop {
                     button = new UXPanel(new UXPanelSettings() {{
                         onMouseEnter = (panel) -> {
                             if (type == FrameButtonType.CLOSE) {
-                                panel.setColor(this.theme.getThemeAttribute("critical4"));
+                                panel.setColor(this.theme.getThemeAttribute("critical4"), 100);
                                 label.setForeground(this.theme.getThemeAttribute("criticalText4").getAwtColor());
                             } else {
-                                panel.setColor(this.theme.getThemeAttribute("component1"));
+                                panel.setColor(this.theme.getThemeAttribute("component1"), 100);
                             }
                         };
 
                         onMouseExit = (panel) -> {
-                            panel.setColor(new ThemeColor(0, 0, 0, 0));
+                            panel.setColor(new ThemeColor(0, 0, 0, 0), 100);
                             label.setForeground(settings.theme.getThemeAttribute("text4").getAwtColor());
                         };
 
@@ -216,17 +233,48 @@ public class Desktop {
         frame.setLocation(x, y);
     }
 
+    public int getPositionX() {
+        return frame.getX();
+    }
+
+    public int getPositionY() {
+        return frame.getY();
+    }
+
+    public Point getPosition() {
+        return frame.getLocation();
+    }
+
+    public final void setAlwaysOnTop(boolean alwaysOnTop) {
+        frame.setAlwaysOnTop(alwaysOnTop);
+    }
+
     public final void setRootElement(UXComponent rootElement) {
         root.removeAll();
         root.add(rootElement.getSwingComponent());
     }
 
-    public final void run() throws WindowAlreadyRunning {
+    public final void run() throws WindowAlreadyRunning, WindowCannotReinitialize {
         if (running || frame.isVisible()) {
             throw new WindowAlreadyRunning("The window is already running");
         }
 
+        if (initiallyPowered) {
+            throw new WindowCannotReinitialize("The window cannot be reinitialized after run() was called once");
+        }
+
+        initiallyPowered = true;
         running = true;
         frame.setVisible(true);
+    }
+
+    public final void stop() throws WindowNotRunning {
+        if (!running || !frame.isVisible()) {
+            throw new WindowNotRunning("The window is not running");
+        }
+
+        running = false;
+        frame.setVisible(false);
+        frame.dispose();
     }
 }

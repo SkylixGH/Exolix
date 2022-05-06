@@ -8,9 +8,14 @@ import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.W32APIOptions;
 
+import net.skylix.elixor.desktop.local.ModJFrame;
 import net.skylix.elixor.desktop.local.windows.jna.MARGINS;
 import net.skylix.elixor.desktop.local.windows.jna.User32Ex;
 import net.skylix.elixor.desktop.local.windows.jna.User32Dwm;
+
+import javax.swing.*;
+
+import java.awt.event.WindowListener;
 
 import static com.sun.jna.platform.win32.WinUser.*;
 import static net.skylix.elixor.desktop.local.windows.jna.User32Dwm.WA_ACTIVE;
@@ -20,6 +25,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private static final int SC_RESTORE = 0xF120;
     private static final int WM_NCCALCSIZE = 0x0083;
     private static final int WM_NCHITTEST = 0x0084;
+    private static final int SIZE_MAXIMIZED = 2;
     private final int renderedTitleBarHeight;
     private final boolean useCustomTitleBarHitTest;
 
@@ -27,10 +33,12 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private final User32Ex INSTANCE;
     private final User32Dwm INSTANCEDwm;
     private BaseTSD.LONG_PTR definedWindowProcess;
+    private final ModJFrame frame;
 
-    public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest) {
+    public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest, ModJFrame frame) {
         renderedTitleBarHeight = titleBarHeightForHitTest == 0 ? -10 : titleBarHeightForHitTest;
         useCustomTitleBarHitTest = customHitTest;
+        this.frame = frame;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
         INSTANCEDwm = Native.load("dwmapi", User32Dwm.class, W32APIOptions.DEFAULT_OPTIONS);
@@ -213,6 +221,24 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
             case WM_DESTROY -> {
                 INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, definedWindowProcess);
                 return new LRESULT(0);
+            }
+
+            case WM_SIZE -> {
+                if (wParam.intValue() == SIZE_MAXIMIZED) {
+                    frame.triggerMaximized();
+                } else {
+                    frame.triggerUnMaximized();
+                }
+
+                result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
+                return result;
+            }
+
+            case WM_CLOSE -> {
+                frame.triggerClosing();
+
+                result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
+                return result;
             }
 
             default -> {

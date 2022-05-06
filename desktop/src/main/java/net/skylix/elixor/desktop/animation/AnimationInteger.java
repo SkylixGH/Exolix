@@ -20,8 +20,13 @@ public class AnimationInteger {
 
     private void threadCallback() {
         while (!done) {
+            float clockDelayProcessed = clockDelay;
+
+            if (clockDelayProcessed < 0)
+                clockDelayProcessed = 0;
+
             try {
-                Thread.sleep((long) clockDelay);
+                Thread.sleep((long) clockDelayProcessed);
             } catch (InterruptedException e) {
                 // Ignore
             }

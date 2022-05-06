@@ -37,7 +37,7 @@ public class AnimationColor {
     }
 
     public final void moveTo(ThemeColor target, int duration) {
-        final int jumpSize = 5;
+        final int jumpSize = 10;
         final float redTicksNeeded = redAnime.testTargetDistance(target.getRed(), jumpSize);
         final float greenTicksNeeded = greenAnime.testTargetDistance(target.getGreen(), jumpSize);
         final float blueTicksNeeded = blueAnime.testTargetDistance(target.getBlue(), jumpSize);

@@ -16,5 +16,7 @@ public class DesktopSettings {
 
     public Consumer<Desktop> onResize = (Desktop desktop) -> {};
 
+    public boolean alwaysOnTop = false;
+
     public DesktopSettings() throws InvalidHexCode {}
 }

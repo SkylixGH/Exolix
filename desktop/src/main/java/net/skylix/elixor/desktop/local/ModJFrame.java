@@ -8,12 +8,15 @@ import javax.swing.*;
 
 public class ModJFrame extends JFrame {
     private WindowsJFrameProcess winProcess;
+    private Runnable onMaximize;
+    private Runnable onUnMaximize;
+    private Runnable onClosing;
 
     public ModJFrame(String title, boolean customHit, int titleBarHeightHitTest) {
         super(title);
 
         if (System.getProperty("os.name").toLowerCase().contains("windows")) {
-            winProcess = new WindowsJFrameProcess(customHit, titleBarHeightHitTest);
+            winProcess = new WindowsJFrameProcess(customHit, titleBarHeightHitTest, this);
         }
     }
 
@@ -47,5 +50,35 @@ public class ModJFrame extends JFrame {
         if (winProcess != null) {
             winProcess.minimize();
         }
+    }
+
+    public final void triggerMaximized() {
+        if (onMaximize != null) {
+            onMaximize.run();
+        }
+    }
+
+    public final void setOnMaximizeRunnable(Runnable onMaximize) {
+        this.onMaximize = onMaximize;
+    }
+
+    public final void triggerUnMaximized() {
+        if (onUnMaximize != null) {
+            onUnMaximize.run();
+        }
+    }
+
+    public final void setOnUnMaximizeRunnable(Runnable onUnMaximize) {
+        this.onUnMaximize = onUnMaximize;
+    }
+
+    public final void triggerClosing() {
+        if (onClosing != null) {
+            onClosing.run();
+        }
+    }
+
+    public final void setOnClosingRunnable(Runnable onClosing) {
+        this.onClosing = onClosing;
     }
 }

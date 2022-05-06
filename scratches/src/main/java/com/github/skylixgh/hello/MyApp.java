@@ -1,10 +1,13 @@
 package com.github.skylixgh.hello;
 
 import net.skylix.elixor.desktop.Desktop;
+import net.skylix.elixor.desktop.DesktopFrameType;
 import net.skylix.elixor.desktop.DesktopSettings;
 import net.skylix.elixor.desktop.animation.AnimationColor;
 import net.skylix.elixor.desktop.animation.AnimationInteger;
 import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
+import net.skylix.elixor.desktop.errors.WindowCannotReinitialize;
+import net.skylix.elixor.desktop.errors.WindowNotRunning;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxButton.UXButton;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
@@ -40,7 +43,7 @@ public class MyApp {
         }
     }
 
-    public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode {
+    public static void main(String[] args) throws URISyntaxException, WindowAlreadyRunning, InvalidHexCode, WindowCannotReinitialize {
         UXPanel panel = new UXPanel(new UXPanelSettings() {{
             width = 1000;
             height = 600 - 32;
@@ -67,7 +70,13 @@ public class MyApp {
         }});
         UXButton button1 = new UXButton("Button A");
         UXButton button2 = new UXButton("Button B");
-        UXButton button3 = new UXButton("Button C", new UXButtonSettings() {{ type = UXButtonType.HIGHLIGHTED; }});
+        UXButton button3 = new UXButton("Button C", new UXButtonSettings() {{ type = UXButtonType.HIGHLIGHTED; onMouseClick = (btn) -> {
+            try {
+                panel.add(new UXButton("Button D"));
+            } catch (InvalidHexCode e) {
+                e.printStackTrace();
+            }
+        }; }});
 
         UXComponent jbtn = new UXComponent();
         jbtn.setElement(new JButton("Hello World"));
@@ -78,7 +87,42 @@ public class MyApp {
         panel.add(jbtn);
 
         window.setRootElement(panel);
-        window.run();
+//        window.run();
+
+        // taskbar overlay
+        Desktop tb = new Desktop(new DesktopSettings() {{
+            frameType = DesktopFrameType.NONE;
+            alwaysOnTop = true;
+        }});
+
+        UXPanel rootTB = new UXPanel(new UXPanelSettings() {{
+            rowAlignment = UXPanelRowAlignment.CENTER;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
+            width = 1920;
+            height = 50;
+            color = new ThemeColor("#230500");
+        }});
+
+        UXButton btnTB = new UXButton("Stop", new UXButtonSettings() {{
+            type = UXButtonType.CRITICAL;
+            onMouseClick = (btn) -> {
+                try {
+                    tb.stop();
+                } catch (WindowNotRunning e) {
+                    e.printStackTrace();
+                }
+            };
+        }});
+
+        rootTB.add(btnTB);
+
+        tb.setWidth(1920);
+        tb.setHeight(50);
+
+        tb.setPositionY(1080 - 50);
+
+        tb.setRootElement(rootTB);
+        tb.run();
 
         AnimationColor ac = new AnimationColor(new ThemeColor("#000"), (t, c) -> {
             jbtn.getSwingComponent().setBackground(c.getAwtColor());
@@ -88,7 +132,7 @@ public class MyApp {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent e) {
                 try {
-                    ac.moveTo(new ThemeColor("#55FF88"), 1000);
+                    ac.moveTo(new ThemeColor("#FFAA62"), 0);
                 } catch (InvalidHexCode ex) {
                     ex.printStackTrace();
                 }
@@ -98,6 +142,15 @@ public class MyApp {
             public void mouseExited(java.awt.event.MouseEvent e) {
                 try {
                     ac.moveTo(new ThemeColor("#000"), 1000);
+                } catch (InvalidHexCode ex) {
+                    ex.printStackTrace();
+                }
+            }
+
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                try {
+                    ac.moveTo(new ThemeColor("#FFFFFF"), 1000);
                 } catch (InvalidHexCode ex) {
                     ex.printStackTrace();
                 }
