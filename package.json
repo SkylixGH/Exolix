@@ -1,0 +1,14 @@
+{
+    "name": "@skylixgh/elixor",
+    "description": "A framework for developing apps, games, servers and more!",
+    "version": "1.0.0-dev.1",
+    "type": "module",
+    "exports": {
+        "./terminal": "./terminal/index.js",
+        "./apiServer": "./apiServer",
+        "./monorepo": "./monorepo",
+        "./desktop": "./desktop",
+        "./lexer": "./lexer",
+        "./tokenizer": "./tokenizer"
+    }
+}

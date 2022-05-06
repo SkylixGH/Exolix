@@ -1,7 +1,1 @@
-*/build/
-build/
-
-.gradle/
-*/out/
-
-*.class
+node_modules/
