@@ -12,6 +12,9 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -214,42 +217,46 @@ public class UXPanel extends UXComponent {
             return totalWidth;
         }
 
+        private ArrayList<Component> getParents(Component component) {
+            ArrayList<Component> parents = new ArrayList<>();
+            Component parent = component.getParent();
+
+            parents.add(component);
+
+            if (parent != null) {
+                parents.addAll(getParents(parent));
+
+
+            }
+
+            return parents;
+        }
+
         private void handleDraggingSupport() {
             WindowsJFrameProcess winProcess = frame.getWinProcess();
 
             // get all parents and grandparents
-            Component[] parent = new Component[] {};
-
-            // recursively get all parents with lambda
-            Stream.iterate(getParent(), c -> c.getParent());
+            final ArrayList<Component> parents = getParents(getParent());
 
             final Point startRegion = new Point(getX(), getY());
             final Point endRegion = new Point(getX() + getWidth(), getY() + getHeight());
 
             // add top pixels of all parents to startRegion and end region
-            Stream.of(parent).forEach(c -> {
+            Stream.of(parents).forEach(c -> {
                 startRegion.y += c.getY();
                 endRegion.y += c.getY();
             });
 
             // add left pixels of all parents to startRegion and end region
-            Stream.of(parent).forEach(c -> {
+            Stream.of(parents).forEach(c -> {
                 startRegion.x += c.getX();
                 endRegion.x += c.getX();
             });
 
-            System.out.println("startRegion: " + startRegion);
-            System.out.println("endRegion: " + endRegion);
-            // log width and height
-            System.out.println("width: " + getWidth());
-            System.out.println("height: " + getHeight());
-
             if (winProcess != null && settings.allowWindowDrag) {
-                // Add the window borders and offsets
-                startRegion.x += 0;
-                startRegion.y += 20;
-                endRegion.x += 0;
-                endRegion.y += 20;
+//                // Add the window borders and offsets
+//                startRegion.y += 20;
+//                endRegion.y += 20;
 
                 regionOnWindow[0] = startRegion;
                 regionOnWindow[1] = endRegion;
