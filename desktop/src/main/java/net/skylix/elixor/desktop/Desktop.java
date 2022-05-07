@@ -6,10 +6,7 @@ import net.skylix.elixor.desktop.errors.WindowNotRunning;
 import net.skylix.elixor.desktop.local.ModJFrame;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
-import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
-import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
-import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
-import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
+import net.skylix.elixor.desktop.ux.uxPanel.*;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
@@ -48,7 +45,7 @@ public class Desktop {
         JPanel innerFrame = new JPanel();
         UXPanel titleBar = new UXPanel(new UXPanelSettings() {{
             color = settings.theme.getThemeAttribute("layerSolid1");
-            allowWindowDrag = true;
+            dragRole = UXPanelWindowDragRole.DRAG;
             width = frame.getWidth();
             height = 32;
             rowAlignment = UXPanelRowAlignment.CENTER;
@@ -102,6 +99,8 @@ public class Desktop {
 
                 try {
                     button = new UXPanel(new UXPanelSettings() {{
+                        dragRole = UXPanelWindowDragRole.EXCLUDE;
+
                         onMouseEnter = (panel) -> {
                             if (type == FrameButtonType.CLOSE) {
                                 panel.setColor(this.theme.getThemeAttribute("critical4"), accessibility.transitionSpeed5);

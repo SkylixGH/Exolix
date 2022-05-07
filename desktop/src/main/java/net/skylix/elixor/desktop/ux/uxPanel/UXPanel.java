@@ -246,7 +246,7 @@ public class UXPanel extends UXComponent {
             endRegion.x = positionOnScreen.x + getWidth();
             endRegion.y = positionOnScreen.y + getHeight();
 
-            if (winProcess != null && settings.allowWindowDrag) {
+            if (winProcess != null && settings.dragRole != UXPanelWindowDragRole.COEXIST) {
                 // remove border pixels
                 startRegion.x -= 10;
                 startRegion.y -= 10;
@@ -257,7 +257,13 @@ public class UXPanel extends UXComponent {
                 regionOnWindow[1] = endRegion;
 
                 winProcess.removeTitleBarDragRegion(regionOnWindow);
-                winProcess.addTitleBarDragRegion(regionOnWindow);
+                winProcess.removeTitleBarExcludedDragRegion(regionOnWindow);
+
+                if (settings.dragRole == UXPanelWindowDragRole.DRAG) {
+                    winProcess.addTitleBarDragRegion(regionOnWindow);
+                } else {
+                    winProcess.addTitleBarExcludedDragRegion(regionOnWindow);
+                }
             }
         }
 
