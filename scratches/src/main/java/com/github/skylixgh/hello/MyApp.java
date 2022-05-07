@@ -92,7 +92,7 @@ public class MyApp {
         panel.add(button3);
 //        panel.add(jbtn);
 
-        window.setRootElement(panel);
+//        window.setRootElement(panel);
         window.run();
 
         // taskbar overlay

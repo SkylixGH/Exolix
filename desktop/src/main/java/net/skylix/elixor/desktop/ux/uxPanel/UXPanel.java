@@ -225,8 +225,6 @@ public class UXPanel extends UXComponent {
 
             if (parent != null) {
                 parents.addAll(getParents(parent));
-
-
             }
 
             return parents;
@@ -238,25 +236,22 @@ public class UXPanel extends UXComponent {
             // get all parents and grandparents
             final ArrayList<Component> parents = getParents(getParent());
 
-            final Point startRegion = new Point(getX(), getY());
-            final Point endRegion = new Point(getX() + getWidth(), getY() + getHeight());
+            final Point startRegion = new Point();
+            final Point endRegion = new Point();
+            final Point positionOnScreen = getLocationOnScreen();
 
-            // add top pixels of all parents to startRegion and end region
-            Stream.of(parents).forEach(c -> {
-                startRegion.y += c.getY();
-                endRegion.y += c.getY();
-            });
+            startRegion.x = positionOnScreen.x;
+            startRegion.y = positionOnScreen.y;
 
-            // add left pixels of all parents to startRegion and end region
-            Stream.of(parents).forEach(c -> {
-                startRegion.x += c.getX();
-                endRegion.x += c.getX();
-            });
+            endRegion.x = positionOnScreen.x + getWidth();
+            endRegion.y = positionOnScreen.y + getHeight();
 
             if (winProcess != null && settings.allowWindowDrag) {
-//                // Add the window borders and offsets
-//                startRegion.y += 20;
-//                endRegion.y += 20;
+                // remove border pixels
+                startRegion.x -= 10;
+                startRegion.y -= 10;
+                endRegion.x -= 10;
+                endRegion.y -= 10;
 
                 regionOnWindow[0] = startRegion;
                 regionOnWindow[1] = endRegion;

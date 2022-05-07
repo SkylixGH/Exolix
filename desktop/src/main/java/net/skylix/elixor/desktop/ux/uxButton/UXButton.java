@@ -32,7 +32,6 @@ public class UXButton extends UXComponent {
             cornerRadius = accessibility.radius1;
             rowAlignment = UXPanelRowAlignment.CENTER;
             columnAlignment = UXPanelColumnAlignment.CENTER;
-            allowWindowDrag = true;
 
             onMouseEnter = (panel) -> {
                 self.animationColor.moveTo(theme.getThemeAttribute("component2"), accessibility.transitionSpeed5);

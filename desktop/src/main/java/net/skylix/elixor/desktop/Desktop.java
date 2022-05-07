@@ -40,12 +40,20 @@ public class Desktop {
             frame.setUndecorated(true);
         }
 
-        JPanel innerFrame = new JPanel();
-        JPanel titleBar = new JPanel();
         ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid2");
 
         frame.setSize(1000, 600);
         Desktop self = this;
+
+        JPanel innerFrame = new JPanel();
+        UXPanel titleBar = new UXPanel(new UXPanelSettings() {{
+            color = settings.theme.getThemeAttribute("layerSolid1");
+            allowWindowDrag = true;
+            width = frame.getWidth();
+            height = 32;
+            rowAlignment = UXPanelRowAlignment.CENTER;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
+        }});
 
         frame.setOnMaximizeRunnable(() -> {
             if (!System.getProperty("os.name").toLowerCase().contains("windows")) return;
@@ -79,10 +87,6 @@ public class Desktop {
         innerFrame.setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha()));
 
         if (settings.frameType == DesktopFrameType.GENERIC) {
-            titleBar.setPreferredSize(new Dimension(frame.getWidth(), 32));
-            titleBar.setBackground(settings.theme.getThemeAttribute("layerSolid1").getAwtColor());
-            titleBar.setLayout(new BorderLayout());
-
             enum FrameButtonType {
                 CLOSE,
                 MINIMIZE,
@@ -159,25 +163,23 @@ public class Desktop {
                 }
             };
 
-            JPanel buttons = new JPanel();
+            UXPanel buttons = new UXPanel(new UXPanelSettings() {{
+                width = 45 * 3 + 3;
+                height = 32;
+            }});
 
-            buttons.setLayout(new FlowLayout ( FlowLayout. CENTER, 0, 0 ));
-            buttons.setOpaque(false);
+            buttons.add(createFrameButton.apply(FrameButtonType.MINIMIZE));
+            buttons.add(createFrameButton.apply(FrameButtonType.MAXIMIZE));
+            buttons.add(createFrameButton.apply(FrameButtonType.CLOSE));
 
-            buttons.add(createFrameButton.apply(FrameButtonType.MINIMIZE).getSwingComponent());
-            buttons.add(createFrameButton.apply(FrameButtonType.MAXIMIZE).getSwingComponent());
-            buttons.add(createFrameButton.apply(FrameButtonType.CLOSE).getSwingComponent());
-
-            titleBar.add(buttons, BorderLayout.EAST);
+            titleBar.add(buttons);
         }
 
-        int titleBarHeight = settings.frameType == DesktopFrameType.GENERIC ? titleBar.getWidth() : 0;
+        int titleBarHeight = settings.frameType == DesktopFrameType.GENERIC ? titleBar.getHeight() : 0;
 
         root.setLayout(null);
-        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBarHeight));
+//        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBarHeight));
         root.setBackground(backgroundColor.getAwtColor());
-        root.setMinimumSize(new Dimension(1000, 600));
-        root.setMaximumSize(new Dimension(1000, 600));
 
         JLabel label = new JLabel("No Root Element Set");
 
@@ -189,7 +191,7 @@ public class Desktop {
         defaultComp.setElement(label);
 
         if (settings.frameType == DesktopFrameType.GENERIC)
-            innerFrame.add(titleBar, BorderLayout.NORTH);
+            innerFrame.add(titleBar.getSwingComponent(), BorderLayout.NORTH);
 
         innerFrame.add(root, BorderLayout.CENTER);
 
