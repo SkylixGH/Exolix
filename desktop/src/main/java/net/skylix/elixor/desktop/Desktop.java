@@ -115,7 +115,11 @@ public class Desktop {
                         onMouseClick = (panel) -> {
                             switch (type) {
                                 case CLOSE -> {
-                                    frame.dispose();
+                                    try {
+                                        stop();
+                                    } catch (WindowNotRunning e) {
+                                        e.printStackTrace();
+                                    }
                                 }
 
                                 case MINIMIZE -> {

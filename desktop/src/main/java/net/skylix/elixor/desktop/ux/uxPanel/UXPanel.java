@@ -1,6 +1,8 @@
 package net.skylix.elixor.desktop.ux.uxPanel;
 
 import net.skylix.elixor.desktop.animation.AnimationColor;
+import net.skylix.elixor.desktop.local.ModJFrame;
+import net.skylix.elixor.desktop.local.windows.WindowsJFrameProcess;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
@@ -11,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class UXPanel extends UXComponent {
     private final UXPanelSettings settings;
@@ -21,10 +24,18 @@ public class UXPanel extends UXComponent {
     private UXPanelRowAlignment currentRowAlignment;
     private UXPanelColumnAlignment currentColumnAlignment;
     private final AnimationColor animationColor;
+    private final Point[] regionOnWindow;
+    private ModJFrame frame;
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
+
         this.settings = settings;
+
+        this.regionOnWindow = new Point[] {
+            new Point(0, 0),
+            new Point(0, 0)
+        };
 
         animationColor = new AnimationColor(settings.color, (ac, color) -> {
             JComponent swingComponent = getSwingComponent();
@@ -203,9 +214,60 @@ public class UXPanel extends UXComponent {
             return totalWidth;
         }
 
+        private void handleDraggingSupport() {
+            WindowsJFrameProcess winProcess = frame.getWinProcess();
+
+            // get all parents and grandparents
+            Component[] parent = new Component[] {};
+
+            // recursively get all parents with lambda
+            Stream.iterate(getParent(), c -> c.getParent());
+
+            final Point startRegion = new Point(getX(), getY());
+            final Point endRegion = new Point(getX() + getWidth(), getY() + getHeight());
+
+            // add top pixels of all parents to startRegion and end region
+            Stream.of(parent).forEach(c -> {
+                startRegion.y += c.getY();
+                endRegion.y += c.getY();
+            });
+
+            // add left pixels of all parents to startRegion and end region
+            Stream.of(parent).forEach(c -> {
+                startRegion.x += c.getX();
+                endRegion.x += c.getX();
+            });
+
+            System.out.println("startRegion: " + startRegion);
+            System.out.println("endRegion: " + endRegion);
+            // log width and height
+            System.out.println("width: " + getWidth());
+            System.out.println("height: " + getHeight());
+
+            if (winProcess != null && settings.allowWindowDrag) {
+                // Add the window borders and offsets
+                startRegion.x += 0;
+                startRegion.y += 20;
+                endRegion.x += 0;
+                endRegion.y += 20;
+
+                regionOnWindow[0] = startRegion;
+                regionOnWindow[1] = endRegion;
+
+                winProcess.removeTitleBarDragRegion(regionOnWindow);
+                winProcess.addTitleBarDragRegion(regionOnWindow);
+            }
+        }
+
         @Override
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
+
+            if (frame == null) {
+                frame = (ModJFrame) SwingUtilities.getWindowAncestor(this);
+            }
+
+            handleDraggingSupport();
             recalculateMetrics();
             Graphics2D g2d = (Graphics2D) g;
 

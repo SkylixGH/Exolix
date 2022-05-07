@@ -67,7 +67,7 @@ public class AnimationInteger {
                 thread.start();
             } catch (Exception e) {
                 // Ignore
-                done = false;
+                done = true;
             }
         }
     }

@@ -15,7 +15,9 @@ import net.skylix.elixor.desktop.local.windows.jna.User32Dwm;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
 
 import static com.sun.jna.platform.win32.WinUser.*;
 import static net.skylix.elixor.desktop.local.windows.jna.User32Dwm.WA_ACTIVE;
@@ -28,7 +30,8 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private static final int SIZE_MAXIMIZED = 2;
     private final int renderedTitleBarHeight;
     private final boolean useCustomTitleBarHitTest;
-
+    private final ArrayList<Point[]> dragRegions = new ArrayList<>();
+    private final ArrayList<Point[]> excludedDragRegions = new ArrayList<>();
     private HWND hWnd;
     private final User32Ex INSTANCE;
     private final User32Dwm INSTANCEDwm;
@@ -42,6 +45,22 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
         INSTANCEDwm = Native.load("dwmapi", User32Dwm.class, W32APIOptions.DEFAULT_OPTIONS);
+    }
+
+    public final void addTitleBarDragRegion(Point[] region) {
+        dragRegions.add(region);
+    }
+
+    public final void removeTitleBarDragRegion(Point[] region) {
+        dragRegions.remove(region);
+    }
+
+    public final void addTitleBarExcludedDragRegion(Point[] region) {
+        excludedDragRegions.add(region);
+    }
+
+    public final void removeTitleBarExcludedDragRegion(Point[] region) {
+        excludedDragRegions.remove(region);
     }
 
     public final void initializeProcess(WinDef.HWND hWnd) {
@@ -104,9 +123,14 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         boolean frameOnFrameDrag = false;
         boolean frameOnIcon = false;
 
+        int pointMouseXRelativeToWindow = pointMouse.x - rectWindow.left;
+        int pointMouseYRelativeToWindow = pointMouse.y - rectWindow.top;
+
         if (
-                pointMouse.y >= rectWindow.top
-                        && pointMouse.y < rectWindow.top + renderedTitleBarHeight + borderOffset
+//                pointMouse.y >= rectWindow.top
+//                        && pointMouse.y < rectWindow.top + rectWindow.bottom + borderOffset
+                pointMouseYRelativeToWindow <= frame.getHeight() - borderThickness - borderOffset
+                    && pointMouseXRelativeToWindow <= frame.getWidth() - borderThickness - borderOffset
         ) {
             // If the top is being resized
             frameOnResizeBorder = (pointMouse.y < (rectWindow.top + borderThickness));
@@ -117,9 +141,20 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                         && (pointMouse.x < (rectWindow.left + iconWidth + borderOffset));
 
                 if (!frameOnIcon) {
-                    frameOnFrameDrag = (pointMouse.y <= rectWindow.top + renderedTitleBarHeight + borderOffset)
-                            && (pointMouse.x < (rectWindow.right - (controlBoxWidth + borderOffset + extraRightReservedWidth)))
-                            && (pointMouse.x > (rectWindow.left + iconWidth + borderOffset + extraLeftReservedWidth));
+
+                    for (Point[] region : dragRegions) {
+                        if (pointMouseXRelativeToWindow >= region[0].x && pointMouseXRelativeToWindow <= region[1].x && pointMouseYRelativeToWindow >= region[0].y && pointMouseYRelativeToWindow <= (region[1].y + borderOffset)) {
+                            frameOnFrameDrag = true;
+                            break;
+                        }
+                    }
+
+                    for (Point[] region : excludedDragRegions) {
+                        if (pointMouseXRelativeToWindow >= region[0].x && pointMouseXRelativeToWindow <= region[1].x && pointMouseYRelativeToWindow >= region[0].y && pointMouseYRelativeToWindow <= (region[1].y + borderOffset)) {
+                            frameOnFrameDrag = false;
+                            break;
+                        }
+                    }
                 }
             }
 
@@ -254,5 +289,9 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
     public final void minimize() {
         User32.INSTANCE.ShowWindow(hWnd, SW_MINIMIZE);
+    }
+
+    public final void closeWindowNative() {
+        INSTANCE.ShowWindow(hWnd, SW_HIDE);
     }
 }

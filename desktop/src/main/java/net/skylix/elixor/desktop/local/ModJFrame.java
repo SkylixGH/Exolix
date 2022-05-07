@@ -23,14 +23,21 @@ public class ModJFrame extends JFrame {
     @Override
     public final void setVisible(boolean b) {
         if (this.isVisible() && b) {
-            super.setVisible(false);
+            return;
         }
 
-        super.setVisible(b);
+        if (b) {
+            super.setVisible(true);
 
-        if (b && winProcess != null) {
-            winProcess.initializeProcess(getHWND());
+            if (winProcess != null) {
+                winProcess.initializeProcess(getHWND());
+            }
+
+            return;
         }
+
+        winProcess.closeWindowNative();
+        super.setVisible(false);
     }
 
     private WinDef.HWND getHWND() {
@@ -80,5 +87,9 @@ public class ModJFrame extends JFrame {
 
     public final void setOnClosingRunnable(Runnable onClosing) {
         this.onClosing = onClosing;
+    }
+
+    public final WindowsJFrameProcess getWinProcess() {
+        return winProcess;
     }
 }

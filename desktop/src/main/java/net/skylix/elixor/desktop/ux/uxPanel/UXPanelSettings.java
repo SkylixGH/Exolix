@@ -34,5 +34,7 @@ public class UXPanelSettings extends UXComponentSettingsPreset {
     public UXPanelRowAlignment rowAlignment = UXPanelRowAlignment.LEFT;
     public UXPanelFlowDirection flowDirection = UXPanelFlowDirection.ROW;
 
+    public boolean allowWindowDrag = false;
+
     public UXPanelSettings() throws InvalidHexCode {}
 }

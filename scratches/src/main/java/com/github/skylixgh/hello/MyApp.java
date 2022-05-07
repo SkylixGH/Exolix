@@ -90,7 +90,7 @@ public class MyApp {
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
-        panel.add(jbtn);
+//        panel.add(jbtn);
 
         window.setRootElement(panel);
         window.run();
