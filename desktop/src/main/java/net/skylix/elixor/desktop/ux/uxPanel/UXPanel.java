@@ -9,8 +9,7 @@ import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.function.BiConsumer;
@@ -29,6 +28,7 @@ public class UXPanel extends UXComponent {
     private final AnimationColor animationColor;
     private final Point[] regionOnWindow;
     private ModJFrame frame;
+    private boolean windowActionListenersCreated = false;
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
@@ -239,12 +239,17 @@ public class UXPanel extends UXComponent {
             final Point startRegion = new Point();
             final Point endRegion = new Point();
             final Point positionOnScreen = getLocationOnScreen();
+            final Point positionOnWindow = new Point(positionOnScreen.x - frame.getLocation().x, positionOnScreen.y - frame.getLocation().y);
 
-            startRegion.x = positionOnScreen.x;
-            startRegion.y = positionOnScreen.y;
+            startRegion.x = positionOnWindow.x;
+            startRegion.y = positionOnWindow.y;
 
-            endRegion.x = positionOnScreen.x + getWidth();
-            endRegion.y = positionOnScreen.y + getHeight();
+            endRegion.x = positionOnWindow.x + getWidth();
+            endRegion.y = positionOnWindow.y + getHeight();
+
+            if (!windowActionListenersCreated) {
+                windowActionListenersCreated = true;
+            }
 
             if (winProcess != null && settings.dragRole != UXPanelWindowDragRole.COEXIST) {
                 // remove border pixels
@@ -255,7 +260,6 @@ public class UXPanel extends UXComponent {
 
                 regionOnWindow[0] = startRegion;
                 regionOnWindow[1] = endRegion;
-
 
                 if (settings.dragRole == UXPanelWindowDragRole.DRAG) {
                     winProcess.removeTitleBarDragRegion(regionOnWindow);
