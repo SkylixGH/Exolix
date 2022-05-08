@@ -48,8 +48,9 @@ public class Desktop {
             dragRole = UXPanelWindowDragRole.DRAG;
             width = frame.getWidth();
             height = 32;
-            rowAlignment = UXPanelRowAlignment.CENTER;
+            rowAlignment = UXPanelRowAlignment.RIGHT;
             columnAlignment = UXPanelColumnAlignment.CENTER;
+            spacingX = 10;
         }});
 
         frame.setOnMaximizeRunnable(() -> {

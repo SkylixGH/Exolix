@@ -13,6 +13,7 @@ import net.skylix.elixor.desktop.ux.uxButton.UXButton;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
+import net.skylix.elixor.desktop.ux.uxLabel.UXLabel;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
@@ -87,12 +88,16 @@ public class MyApp {
         UXComponent jbtn = new UXComponent();
         jbtn.setElement(new JButton("Hello World"));
 
+        int pcRam = 293213712;
+        UXLabel label = new UXLabel("App Ram Usage: - " + pcRam + "GB");
+
+        panel.add(label);
         panel.add(button1);
         panel.add(button2);
         panel.add(button3);
 //        panel.add(jbtn);
 
-//        window.setRootElement(panel);
+        window.setRootElement(panel);
         window.run();
 
         // taskbar overlay

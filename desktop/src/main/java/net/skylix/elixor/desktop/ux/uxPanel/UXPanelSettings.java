@@ -33,7 +33,8 @@ public class UXPanelSettings extends UXComponentSettingsPreset {
     public UXPanelColumnAlignment columnAlignment = UXPanelColumnAlignment.TOP;
     public UXPanelRowAlignment rowAlignment = UXPanelRowAlignment.LEFT;
     public UXPanelFlowDirection flowDirection = UXPanelFlowDirection.ROW;
-
+    public int spacingX = 0;
+    public int spacingY = 0;
     public UXPanelWindowDragRole dragRole = UXPanelWindowDragRole.COEXIST;
 
     public UXPanelSettings() throws InvalidHexCode {}

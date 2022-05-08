@@ -256,12 +256,12 @@ public class UXPanel extends UXComponent {
                 regionOnWindow[0] = startRegion;
                 regionOnWindow[1] = endRegion;
 
-                winProcess.removeTitleBarDragRegion(regionOnWindow);
-                winProcess.removeTitleBarExcludedDragRegion(regionOnWindow);
 
                 if (settings.dragRole == UXPanelWindowDragRole.DRAG) {
+                    winProcess.removeTitleBarDragRegion(regionOnWindow);
                     winProcess.addTitleBarDragRegion(regionOnWindow);
                 } else {
+                    winProcess.removeTitleBarExcludedDragRegion(regionOnWindow);
                     winProcess.addTitleBarExcludedDragRegion(regionOnWindow);
                 }
             }
@@ -287,8 +287,9 @@ public class UXPanel extends UXComponent {
                 g2d.fillRect(0, 0, getWidth(), getHeight());
             }
 
-            int spacingX = 10;
-            int spacingY = 10;
+            int spacingX = settings.spacingX;
+            int spacingY = settings.spacingY;
+
             boolean wrapping = false;
 
             int componentID = 0;
