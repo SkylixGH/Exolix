@@ -96,27 +96,35 @@ public class Desktop {
 
             Function<FrameButtonType, UXComponent> createFrameButton = (FrameButtonType type) -> {
                 final UXPanel button;
-                final JLabel label = new JLabel();
-
-                label.setFont(new Font("Arial", Font.PLAIN, 13));
-                label.setForeground(settings.theme.getThemeAttribute("text4").getAwtColor());
+                UXLabel label = null;
 
                 try {
+                    label = new UXLabel("-", new UXLabelSettings() {{
+                        fontSize = 20;
+                    }});
+                } catch (InvalidHexCode e) {
+                    e.printStackTrace();
+                }
+
+                try {
+                    final UXLabel labelCopy = label;
+                    assert false;
+
                     button = new UXPanel(new UXPanelSettings() {{
                         dragRole = UXPanelWindowDragRole.EXCLUDE;
 
                         onMouseEnter = (panel) -> {
                             if (type == FrameButtonType.CLOSE) {
                                 panel.setColor(this.theme.getThemeAttribute("critical4"));
-                                label.setForeground(this.theme.getThemeAttribute("criticalText4").getAwtColor());
+                                labelCopy.setColor(this.theme.getThemeAttribute("criticalText4"));
                             } else {
                                 panel.setColor(this.theme.getThemeAttribute("component1"));
                             }
                         };
 
                         onMouseExit = (panel) -> {
-                            panel.setColor(new ThemeColor(0, 0, 0, 0), accessibility.transitionSpeed5);
-                            label.setForeground(settings.theme.getThemeAttribute("text4").getAwtColor());
+                            panel.setColor(new ThemeColor(0, 0, 0, 0), 300);
+                            labelCopy.setColor(settings.theme.getThemeAttribute("text4"), 300);
                         };
 
                         onMouseClick = (panel) -> {
@@ -143,6 +151,7 @@ public class Desktop {
                         columnAlignment = UXPanelColumnAlignment.CENTER;
                     }});
 
+                    assert false;
                     switch (type) {
                         case CLOSE -> {
                             label.setText("x");

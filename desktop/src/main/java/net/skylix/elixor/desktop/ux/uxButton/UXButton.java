@@ -57,4 +57,8 @@ public class UXButton extends UXComponent {
     public UXButton(String label) throws InvalidHexCode {
         this(label, new UXButtonSettings());
     }
+
+    public UXButton() throws InvalidHexCode {
+        this("...", new UXButtonSettings());
+    }
 }

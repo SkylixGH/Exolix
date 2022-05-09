@@ -13,6 +13,7 @@ import java.awt.*;
 public class UXLabel extends UXComponent {
     private final UXLabelSettings settings;
     private final AnimationColor animationColor;
+    private final JLabel label;
     private String text;
 
     public UXLabel(String text, UXLabelSettings settings) {
@@ -20,9 +21,9 @@ public class UXLabel extends UXComponent {
 
         this.settings = settings;
         this.text = text;
+        this.label = new JLabel();
 
-        JLabel label = new JLabel(text);
-
+        label.setText(text);
         label.setFont(new Font("Arial", Font.PLAIN, settings.fontSize));
         label.setForeground(settings.color.getAwtColor());
 
@@ -38,6 +39,15 @@ public class UXLabel extends UXComponent {
 
     public UXLabel(String text) throws InvalidHexCode {
         this(text, new UXLabelSettings());
+    }
+
+    public UXLabel() throws InvalidHexCode {
+        this("...", new UXLabelSettings());
+    }
+
+    public final void setText(String text) {
+        this.text = text;
+        label.setText(text);
     }
 
     public final void setColor(ThemeColor color, int duration) {
