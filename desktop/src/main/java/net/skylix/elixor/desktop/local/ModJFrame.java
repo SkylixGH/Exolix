@@ -11,6 +11,8 @@ public class ModJFrame extends JFrame {
     private Runnable onMaximize;
     private Runnable onUnMaximize;
     private Runnable onClosing;
+    private boolean didTriggerMaximize = false;
+    private boolean didTriggerUnMaximize = false;
 
     public ModJFrame(String title, boolean customHit, int titleBarHeightHitTest) {
         super(title);
@@ -61,6 +63,9 @@ public class ModJFrame extends JFrame {
 
     public final void triggerMaximized() {
         if (onMaximize != null) {
+            didTriggerMaximize = true;
+            didTriggerUnMaximize = false;
+
             onMaximize.run();
         }
     }
@@ -71,6 +76,9 @@ public class ModJFrame extends JFrame {
 
     public final void triggerUnMaximized() {
         if (onUnMaximize != null) {
+            didTriggerUnMaximize = true;
+            didTriggerMaximize = false;
+
             onUnMaximize.run();
         }
     }
@@ -91,5 +99,13 @@ public class ModJFrame extends JFrame {
 
     public final WindowsJFrameProcess getWinProcess() {
         return winProcess;
+    }
+
+    public final boolean hasTriggeredMaximized() {
+        return didTriggerMaximize;
+    }
+
+    public final boolean hasTriggeredUnMaximized() {
+        return didTriggerUnMaximize;
     }
 }

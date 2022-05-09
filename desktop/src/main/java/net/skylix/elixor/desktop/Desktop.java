@@ -6,6 +6,8 @@ import net.skylix.elixor.desktop.errors.WindowNotRunning;
 import net.skylix.elixor.desktop.local.ModJFrame;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
+import net.skylix.elixor.desktop.ux.uxLabel.UXLabel;
+import net.skylix.elixor.desktop.ux.uxLabel.UXLabelSettings;
 import net.skylix.elixor.desktop.ux.uxPanel.*;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
@@ -26,9 +28,9 @@ public class Desktop {
         this.settings = settings;
 
         frame = new ModJFrame(
-            "Elixor [Single Service]", 
-            settings.frameType != DesktopFrameType.SYSTEM,
-            (settings.frameType == DesktopFrameType.HIDDEN || settings.frameType == DesktopFrameType.NONE) ? 0 : 20
+                "Elixor [Single Service]",
+                settings.frameType != DesktopFrameType.SYSTEM,
+                (settings.frameType == DesktopFrameType.HIDDEN || settings.frameType == DesktopFrameType.NONE) ? 0 : 20
         );
 
         frame.setAlwaysOnTop(settings.alwaysOnTop);
@@ -73,6 +75,7 @@ public class Desktop {
             @Override
             public void componentResized(ComponentEvent e) {
                 innerFrame.setSize(frame.getWidth(), frame.getHeight());
+                titleBar.setSize(frame.getWidth() - (frame.hasTriggeredMaximized() ? 16 : 0), 32);
                 root.setSize(frame.getWidth(), frame.getHeight() - titleBar.getHeight());
                 settings.onResize.accept(self);
             }
@@ -104,10 +107,10 @@ public class Desktop {
 
                         onMouseEnter = (panel) -> {
                             if (type == FrameButtonType.CLOSE) {
-                                panel.setColor(this.theme.getThemeAttribute("critical4"), accessibility.transitionSpeed5);
+                                panel.setColor(this.theme.getThemeAttribute("critical4"));
                                 label.setForeground(this.theme.getThemeAttribute("criticalText4").getAwtColor());
                             } else {
-                                panel.setColor(this.theme.getThemeAttribute("component1"), accessibility.transitionSpeed5);
+                                panel.setColor(this.theme.getThemeAttribute("component1"));
                             }
                         };
 
@@ -150,7 +153,7 @@ public class Desktop {
                         }
 
                         case MAXIMIZE -> {
-                            label.setText("□");
+                            label.setText("o");
                         }
                     };
 
@@ -164,8 +167,10 @@ public class Desktop {
             };
 
             UXPanel buttons = new UXPanel(new UXPanelSettings() {{
-                width = 45 * 3 + 3;
+                // We need to add 2 pixels due to the horizontal spacing
+                width = (45 * 3) + 2;
                 height = 32;
+                spacingX = 1;
             }});
 
             buttons.add(createFrameButton.apply(FrameButtonType.MINIMIZE));
@@ -178,14 +183,13 @@ public class Desktop {
         int titleBarHeight = settings.frameType == DesktopFrameType.GENERIC ? titleBar.getHeight() : 0;
 
         root.setLayout(null);
-//        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBarHeight));
+        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBarHeight));
         root.setBackground(backgroundColor.getAwtColor());
 
-        JLabel label = new JLabel("No Root Element Set");
-
-        label.setForeground(settings.theme.getThemeAttribute("text2").getAwtColor());
-        label.setFont(new Font("Arial", Font.PLAIN, 20));
-        label.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        UXLabel label = new UXLabel("No Root Element Set", new UXLabelSettings() {{
+            color = settings.theme.getThemeAttribute("text2");
+            fontSize = 20;
+        }});
 
         UXComponent defaultComp = new UXComponent(settings.theme, settings.accessibility);
         defaultComp.setElement(label);

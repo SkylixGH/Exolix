@@ -247,10 +247,6 @@ public class UXPanel extends UXComponent {
             endRegion.x = positionOnWindow.x + getWidth();
             endRegion.y = positionOnWindow.y + getHeight();
 
-            if (!windowActionListenersCreated) {
-                windowActionListenersCreated = true;
-            }
-
             if (winProcess != null && settings.dragRole != UXPanelWindowDragRole.COEXIST) {
                 // remove border pixels
                 startRegion.x -= 10;
@@ -309,7 +305,7 @@ public class UXPanel extends UXComponent {
                         if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.RIGHT) {
                             lastX = getWidth() - component.getWidth();
                         } else if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.CENTER) {
-                            final int totalWidth = getTotalWidth(getComponents());
+                            final int totalWidth = getTotalWidth(getComponents()) + (getComponents().length - 1) * spacingX;
                             lastX = (getWidth() - totalWidth) / 2;
                         }
 

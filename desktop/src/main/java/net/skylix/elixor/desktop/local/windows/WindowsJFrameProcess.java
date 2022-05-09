@@ -260,9 +260,11 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
             case WM_SIZE -> {
                 if (wParam.intValue() == SIZE_MAXIMIZED) {
-                    frame.triggerMaximized();
+                    if (!frame.hasTriggeredMaximized())
+                        frame.triggerMaximized();
                 } else {
-                    frame.triggerUnMaximized();
+                    if (frame.hasTriggeredMaximized())
+                        frame.triggerUnMaximized();
                 }
 
                 result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
