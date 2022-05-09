@@ -31,10 +31,36 @@ public class UXLabel extends UXComponent {
             label.setForeground(color.getAwtColor());
         });
 
-        setElement(label);
+        LabelElement labelElement = new LabelElement(this);
+        setElement(labelElement);
 
         getSwingComponent().setPreferredSize(getSize());
         getSwingComponent().setSize(getSize());
+
+        getSwingComponent().repaint();
+    }
+
+    private static class LabelElement extends JComponent {
+        private final UXLabel uxLabel;
+
+        public LabelElement(UXLabel uxLabel) {
+            super();
+
+            this.uxLabel = uxLabel;
+        }
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+
+            Graphics2D g2d = (Graphics2D) g;
+
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+
+            g2d.setColor(uxLabel.label.getForeground());
+            g2d.drawString(uxLabel.label.getText(), 0, uxLabel.label.getFont().getSize());
+        }
     }
 
     public UXLabel(String text) throws InvalidHexCode {
@@ -59,19 +85,19 @@ public class UXLabel extends UXComponent {
     }
 
     public final void setFontSize(int size) {
-        getSwingComponent().setFont(getSwingComponent().getFont().deriveFont((float) size));
+        label.setFont(label.getFont().deriveFont((float) size));
     }
 
     public final int getFontSize() {
-        return getSwingComponent().getFont().getSize();
+        return label.getFont().getSize();
     }
 
     public final int getWidth() {
-        return getSwingComponent().getFontMetrics(getSwingComponent().getFont()).stringWidth(text);
+        return label.getFontMetrics(label.getFont()).stringWidth(text);
     }
 
     public final int getHeight() {
-        return getSwingComponent().getFontMetrics(getSwingComponent().getFont()).getHeight();
+        return label.getFontMetrics(label.getFont()).getHeight();
     }
 
     public final Dimension getSize() {
