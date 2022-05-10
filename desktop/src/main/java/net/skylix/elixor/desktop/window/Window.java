@@ -171,7 +171,7 @@ class RenderingJComponent extends JComponent {
             final float y = padding.getTop() + margin.getTop();
 
             g.setColor(Color.BLACK);
-            g.fillRoundRect((int)x, (int) y, 100, 100, (int) borderRadius.getTop(), (int) borderRadius.getRight());
+            element.render(g);
         }
     }
 

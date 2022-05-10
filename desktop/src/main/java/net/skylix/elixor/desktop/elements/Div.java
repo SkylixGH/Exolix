@@ -7,6 +7,8 @@ import net.skylix.elixor.desktop.unit.Margin;
 import net.skylix.elixor.desktop.unit.Padding;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 import java.awt.Dimension;
+import java.awt.*;
+import java.awt.geom.Path2D;
 
 /**
  * This element is a container used for holding other elements.
@@ -106,5 +108,20 @@ public class Div {
      */
     public ArrayList<Div> getNodes() {
         return new ArrayList<>(nodes);
+    }
+
+    /**
+     * Render to a graphics panel.
+     * @param g Graphics renderer.
+     */
+    public void render(Graphics2D g) {
+        Path2D.Float p = new Path2D.Float() {{
+            moveTo(100, 100);
+
+            lineTo(100 + 20, 100);
+            curveTo(100 + 20, 100, 100 + 30, 10, 10, 100 + 10);
+        }};
+
+        g.draw(p);
     }
 }
