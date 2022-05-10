@@ -23,7 +23,7 @@ public class Window {
     /**
      * The root panel of the window.
      */
-    private final JComponent panel;
+    private final RenderingJComponent panel;
 
     /**
      * The window dimensions.
@@ -40,12 +40,7 @@ public class Window {
         window = new JFrame(title);
 
         // Modify the panel's paint method, we need to do this so that the framework can actually customise the way things are drawn.
-        panel = new JComponent() {{
-            @Override
-            public void paintComponent(Graphics g) {
-
-            }
-        }};
+        panel = new RenderingJComponent();
 
         // Customise the panel.
         panel.setBackground(new Color(243, 243, 243));
@@ -103,5 +98,23 @@ public class Window {
     public void run() {
         if (window.isVisible()) return;
         window.setVisible(true);
+    }
+}
+
+/**
+ * The custom rendering panel for the window.
+ */
+class RenderingJComponent extends JComponent {
+    /**
+     * The custom rendering method.
+     * @param g The graphics object to draw on.
+     */
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Draw a 100 by 50 rectangle with a red border. (This is only for testing purposes.)
+        g.setColor(Color.RED);
+        g.drawRect(100, 50, 100, 50);
     }
 }

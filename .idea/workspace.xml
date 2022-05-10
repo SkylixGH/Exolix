@@ -1,0 +1,755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="refactor: A new start to desktop applications and application development">
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ExternalProjectsData">
+    <projectState path="$PROJECT_DIR$">
+      <ProjectState />
+    </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <task path="$PROJECT_DIR$">
+          <activation />
+        </task>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="distribution" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="scratches" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="scratches" type="2d1252cf:ModuleNode" />
+                <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="terminal" type="2d1252cf:ModuleNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Record" />
+        <option value="AnnotationType" />
+        <option value="JavaFXApplication" />
+        <option value="Interface" />
+        <option value="Enum" />
+        <option value="HTML File" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_2.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.11.0/e410fd6ea73bae2f368131d2573aa4e284744300/jna-5.11.0-sources.jar!/com/sun/jna/NativeLibrary.java" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectId" id="27kp4SLmzGhkPHGT7pwq0YbwB4J" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;PLAIN_TEXT" />
+    <property name="jdk.selected.JAVA_MODULE" value="17" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/DecompilerMC-win/DecompilerMC-win" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\xfaon\IdeaProjects\elixor\docs\__readme__" />
+    </key>
+    <key name="ExtractSuperBase.RECENT_KEYS">
+      <recent name="net.skylix.elixor.gatewayService" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="net.skylix.elixor.desktop.local.windows" />
+      <recent name="net.skylix.elixor.desktop.local" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.MyApp">
+    <configuration name="MyApp" type="Application" factoryName="Application" nameIsGenerated="true">
+      <envs>
+        <env name="PATH_TO_FX" value="C:\javafx\openjfx-18.0.1_windows-x64_bin-sdk\javafx-sdk-18.0.1\lib" />
+        <env name="PATH_TO_FX_MODS" value="C:\javafx\openjfx-18.0.1_windows-x64_bin-jmods\javafx-jmods-18.0.1" />
+      </envs>
+      <option name="MAIN_CLASS_NAME" value="com.github.skylixgh.hello.MyApp" />
+      <module name="elixor.scratches.main" />
+      <option name="PROGRAM_PARAMETERS" value="--add-modules javafx.web,javafx.media,javafx.swing" />
+      <option name="VM_PARAMETERS" value="--module-path C:\javafx\openjfx-18.0.1_windows-x64_bin-sdk\javafx-sdk-18.0.1\lib --add-modules=javafx.controls" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.github.skylixgh.hello.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="elixor [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="elixor [dependencies]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="dependencies" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="elixor [distZip]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="distZip" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="elixor [jar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jar" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="elixor [launch4j]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="launch4j" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Tests" />
+      <item itemvalue="Application.MyApp" />
+      <item itemvalue="Application.Unnamed" />
+      <item itemvalue="Gradle.elixor [build]" />
+      <item itemvalue="Gradle.elixor [jar]" />
+      <item itemvalue="Gradle.elixor [dependencies]" />
+      <item itemvalue="Gradle.elixor [distZip]" />
+      <item itemvalue="Gradle.elixor [launch4j]" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.elixor [jar]" />
+        <item itemvalue="Gradle.elixor [launch4j]" />
+        <item itemvalue="Gradle.elixor [distZip]" />
+        <item itemvalue="Gradle.elixor [dependencies]" />
+        <item itemvalue="Gradle.elixor [build]" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="" />
+      <created>1649873749443</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1649873749443</updated>
+      <workItem from="1649873750676" duration="17899000" />
+      <workItem from="1649904365962" duration="2719000" />
+      <workItem from="1649927598516" duration="25512000" />
+      <workItem from="1649971825531" duration="13664000" />
+      <workItem from="1650013154472" duration="26772000" />
+      <workItem from="1650187313525" duration="3541000" />
+      <workItem from="1650248456988" duration="153000" />
+      <workItem from="1650326083161" duration="9603000" />
+      <workItem from="1650396982686" duration="7090000" />
+      <workItem from="1650484112673" duration="655000" />
+      <workItem from="1650495132633" duration="631000" />
+      <workItem from="1650496109617" duration="12330000" />
+      <workItem from="1650577034714" duration="11605000" />
+      <workItem from="1650656371682" duration="419000" />
+      <workItem from="1650656862436" duration="16015000" />
+      <workItem from="1650685455460" duration="2358000" />
+      <workItem from="1650735388469" duration="6198000" />
+      <workItem from="1650756437053" duration="9724000" />
+      <workItem from="1650789939319" duration="15108000" />
+      <workItem from="1650805753203" duration="2767000" />
+      <workItem from="1650811138358" duration="1475000" />
+      <workItem from="1650821195727" duration="2819000" />
+      <workItem from="1650836384191" duration="12988000" />
+      <workItem from="1650854600504" duration="294000" />
+      <workItem from="1650884684874" duration="513000" />
+      <workItem from="1650915541979" duration="15020000" />
+      <workItem from="1650969626736" duration="1364000" />
+      <workItem from="1651001096746" duration="25353000" />
+      <workItem from="1651056257624" duration="14305000" />
+      <workItem from="1651142711050" duration="15135000" />
+      <workItem from="1651229932352" duration="154000" />
+      <workItem from="1651271796729" duration="5637000" />
+      <workItem from="1651339206240" duration="1682000" />
+      <workItem from="1651345218887" duration="12744000" />
+      <workItem from="1651412733497" duration="29103000" />
+      <workItem from="1651520691611" duration="5680000" />
+      <workItem from="1651612521183" duration="5804000" />
+      <workItem from="1651625580967" duration="3406000" />
+      <workItem from="1651697857320" duration="11458000" />
+      <workItem from="1651783739860" duration="15938000" />
+      <workItem from="1651870271148" duration="24695000" />
+      <workItem from="1651964662291" duration="3783000" />
+      <workItem from="1652024812383" duration="15006000" />
+      <workItem from="1652126756526" duration="3595000" />
+      <workItem from="1652133706798" duration="5904000" />
+      <workItem from="1652145701213" duration="26000" />
+      <workItem from="1652149021902" duration="3010000" />
+    </task>
+    <task id="LOCAL-00027" summary="[Sync: apiSocket.*] 💕 Working on it!">
+      <created>1650426658789</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1650426658789</updated>
+    </task>
+    <task id="LOCAL-00028" summary="[Sync: apiSocket.*] 💕 Message processing">
+      <created>1650510625482</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1650510625482</updated>
+    </task>
+    <task id="LOCAL-00029" summary="[Sync: apiSocket.*] 💕 Message events">
+      <created>1650513441665</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1650513441665</updated>
+    </task>
+    <task id="LOCAL-00030" summary="[Sync: apiSocket.*] 💕 Threading overuse">
+      <created>1650595502251</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1650595502251</updated>
+    </task>
+    <task id="LOCAL-00031" summary="[Sync: apiSocket.*] 💕 Fixed socket duplication issue">
+      <created>1650596666805</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1650596666805</updated>
+    </task>
+    <task id="LOCAL-00032" summary="[Sync: apiSocket.*] 💕 Fixed socket duplication issue">
+      <created>1650596936164</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1650596936164</updated>
+    </task>
+    <task id="LOCAL-00033" summary="[Sync: apiSocket.*] 💕 JavaFX">
+      <created>1650687822265</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1650687822265</updated>
+    </task>
+    <task id="LOCAL-00034" summary="[Sync: apiSocket.*] 💕 Sad">
+      <created>1650771538222</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1650771538222</updated>
+    </task>
+    <task id="LOCAL-00035" summary="[Sync: apiSocket.*] 💕 Sadge">
+      <created>1650798458836</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1650798458836</updated>
+    </task>
+    <task id="LOCAL-00036" summary="[Sync: apiSocket.*] 💕 Not working">
+      <created>1650801102634</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1650801102634</updated>
+    </task>
+    <task id="LOCAL-00037" summary="[Sync: elixorfx.*] 💕 Implement window process">
+      <created>1650849350735</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1650849350735</updated>
+    </task>
+    <task id="LOCAL-00038" summary="[Sync: elixorfx.*] 💕 Windows User32 titlebar working">
+      <created>1650854247810</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1650854247810</updated>
+    </task>
+    <task id="LOCAL-00039" summary="[Sync: elixorfx.*] 💕 Windows BTN radius">
+      <created>1650943574373</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1650943574373</updated>
+    </task>
+    <task id="LOCAL-00040" summary="[Sync: apiSocket.*] 💕 Remove [ - ]">
+      <created>1650969729718</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1650969729718</updated>
+    </task>
+    <task id="LOCAL-00041" summary="[Sync: apiSocket.*] 💕 Add [ + ]">
+      <created>1650969752036</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1650969752036</updated>
+    </task>
+    <task id="LOCAL-00042" summary="[Sync: *] 💕 Theme system">
+      <created>1651031237505</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1651031237508</updated>
+    </task>
+    <task id="LOCAL-00043" summary="[Sync: *] 💕 Bug with transparency">
+      <created>1651032706719</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1651032706719</updated>
+    </task>
+    <task id="LOCAL-00044" summary="[Optimised terminal] Module has been optimised for performance">
+      <created>1651056770035</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1651056770035</updated>
+    </task>
+    <task id="LOCAL-00045" summary="[Optimised desktop] Module has been optimised for performance">
+      <created>1651057180163</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1651057180163</updated>
+    </task>
+    <task id="LOCAL-00046" summary="[Optimised appiSocket] Module has been optimised for performance">
+      <created>1651057585487</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1651057585487</updated>
+    </task>
+    <task id="LOCAL-00047" summary="[Fix desktop] Button overlaying issue">
+      <created>1651058527278</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1651058527278</updated>
+    </task>
+    <task id="LOCAL-00048" summary="[Fix desktop] Button overlaying issue">
+      <created>1651058727253</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1651058727253</updated>
+    </task>
+    <task id="LOCAL-00049" summary="[Fix desktop] Button scale issue">
+      <created>1651103863919</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1651103863920</updated>
+    </task>
+    <task id="LOCAL-00050" summary="feat(desktop.ux): Support for events and HLT/GEN">
+      <created>1651115624095</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1651115624095</updated>
+    </task>
+    <task id="LOCAL-00051" summary="feat(desktop.ux): Button minor patches">
+      <created>1651144718248</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1651144718248</updated>
+    </task>
+    <task id="LOCAL-00052" summary="feat(desktop.ux): Title bar partialy works">
+      <created>1651203269032</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1651203269033</updated>
+    </task>
+    <task id="LOCAL-00053" summary="fix(desktop.ux): Windows OS borders have been fixed">
+      <created>1651349798624</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1651349798626</updated>
+    </task>
+    <task id="LOCAL-00054" summary="fix(desktop.ux): Text and aliasing bug fixed">
+      <created>1651350878247</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1651350878247</updated>
+    </task>
+    <task id="LOCAL-00055" summary="fix(desktop.ux): System title bar fails to render properly">
+      <created>1651422079536</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1651422079537</updated>
+    </task>
+    <task id="LOCAL-00056" summary="feat(desktop.ux): Flex layout align support on row">
+      <created>1651455339630</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1651455339630</updated>
+    </task>
+    <task id="LOCAL-00057" summary="feat(desktop.ux): Frame changes">
+      <created>1651457909065</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1651457909066</updated>
+    </task>
+    <task id="LOCAL-00058" summary="feat: Animations for ints">
+      <created>1651628585885</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1651628585885</updated>
+    </task>
+    <task id="LOCAL-00059" summary="refactor: Updated class name">
+      <created>1651629540659</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1651629540659</updated>
+    </task>
+    <task id="LOCAL-00060" summary="refactor: Updated color tools">
+      <created>1651718919532</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1651718919532</updated>
+    </task>
+    <task id="LOCAL-00061" summary="refactor: Remove javafx">
+      <created>1651785842107</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1651785842107</updated>
+    </task>
+    <task id="LOCAL-00062" summary="feat: Animation for color's is working">
+      <created>1651788030233</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1651788030233</updated>
+    </task>
+    <task id="LOCAL-00063" summary="fix: Fixed up window event syncing">
+      <created>1651801253956</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1651801253956</updated>
+    </task>
+    <task id="LOCAL-00064" summary="feat: Added labels">
+      <created>1651806727319</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1651806727320</updated>
+    </task>
+    <task id="LOCAL-00065" summary="feat: Custom drag regions supports">
+      <created>1651892050698</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1651892050700</updated>
+    </task>
+    <task id="LOCAL-00066" summary="fix: Dragging">
+      <created>1651895535997</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1651895535998</updated>
+    </task>
+    <task id="LOCAL-00067" summary="fix: Dragging relativity of component">
+      <created>1651944627022</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1651944627022</updated>
+    </task>
+    <task id="LOCAL-00068" summary="fix: Dragging relativity of component">
+      <created>1651948127299</created>
+      <option name="number" value="00068" />
+      <option name="presentableId" value="LOCAL-00068" />
+      <option name="project" value="LOCAL" />
+      <updated>1651948127300</updated>
+    </task>
+    <task id="LOCAL-00069" summary="fix: Dragging exc of component">
+      <created>1651981480520</created>
+      <option name="number" value="00069" />
+      <option name="presentableId" value="LOCAL-00069" />
+      <option name="project" value="LOCAL" />
+      <updated>1651981480521</updated>
+    </task>
+    <task id="LOCAL-00070" summary="fix: Dragging relativity of window fixes">
+      <created>1652038189166</created>
+      <option name="number" value="00070" />
+      <option name="presentableId" value="LOCAL-00070" />
+      <option name="project" value="LOCAL" />
+      <updated>1652038189168</updated>
+    </task>
+    <task id="LOCAL-00071" summary="fix: Updated icons for frame in fallback error">
+      <created>1652058975285</created>
+      <option name="number" value="00071" />
+      <option name="presentableId" value="LOCAL-00071" />
+      <option name="project" value="LOCAL" />
+      <updated>1652058975285</updated>
+    </task>
+    <task id="LOCAL-00072" summary="fix: Exception thrown while looping, just ignore">
+      <created>1652059129533</created>
+      <option name="number" value="00072" />
+      <option name="presentableId" value="LOCAL-00072" />
+      <option name="project" value="LOCAL" />
+      <updated>1652059129533</updated>
+    </task>
+    <task id="LOCAL-00073" summary="fix: Exception thrown while looping, just ignore">
+      <created>1652061845527</created>
+      <option name="number" value="00073" />
+      <option name="presentableId" value="LOCAL-00073" />
+      <option name="project" value="LOCAL" />
+      <updated>1652061845527</updated>
+    </task>
+    <task id="LOCAL-00074" summary="fix: Font rendering issue">
+      <created>1652128645065</created>
+      <option name="number" value="00074" />
+      <option name="presentableId" value="LOCAL-00074" />
+      <option name="project" value="LOCAL" />
+      <updated>1652128645065</updated>
+    </task>
+    <task id="LOCAL-00075" summary="refactor: A new start to desktop applications and application development">
+      <created>1652152922461</created>
+      <option name="number" value="00075" />
+      <option name="presentableId" value="LOCAL-00075" />
+      <option name="project" value="LOCAL" />
+      <updated>1652152922461</updated>
+    </task>
+    <option name="localTasksCounter" value="76" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="feat(desktop.ux): Support for events and HLT/GEN" />
+    <MESSAGE value="feat(desktop.ux): Button minor patches" />
+    <MESSAGE value="feat(desktop.ux): Title bar partialy works" />
+    <MESSAGE value="fix(desktop.ux): Windows OS borders have been fixed" />
+    <MESSAGE value="fix(desktop.ux): Text and aliasing bug fixed" />
+    <MESSAGE value="fix(desktop.ux): System title bar fails to render properly" />
+    <MESSAGE value="feat(desktop.ux): Flex layout align support on row" />
+    <MESSAGE value="feat(desktop.ux): Frame changes" />
+    <MESSAGE value="feat: Animations for ints" />
+    <MESSAGE value="refactor: Updated class name" />
+    <MESSAGE value="refactor: Updated color tools" />
+    <MESSAGE value="refactor: Remove javafx" />
+    <MESSAGE value="feat: Animation for color's is working" />
+    <MESSAGE value="fix: Fixed up window event syncing" />
+    <MESSAGE value="feat: Added labels" />
+    <MESSAGE value="feat: Custom drag regions supports" />
+    <MESSAGE value="fix: Dragging" />
+    <MESSAGE value="fix: Dragging relativity of component" />
+    <MESSAGE value="fix: Dragging exc of component" />
+    <MESSAGE value="fix: Dragging relativity of window fixes" />
+    <MESSAGE value="fix: Fixed titlebar cutoff issue" />
+    <MESSAGE value="fix: Updated icons for frame in fallback error" />
+    <MESSAGE value="fix: Exception thrown while looping, just ignore" />
+    <MESSAGE value="fix: Font rendering issue" />
+    <MESSAGE value="refactor: A new start to desktop applications and application development" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: A new start to desktop applications and application development" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/elixor$Tests.ic" NAME="Tests Coverage Results" MODIFIED="1649874869467" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
