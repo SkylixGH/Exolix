@@ -3,8 +3,14 @@ package net.skylix.elixor.desktop.window;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef;
 
+import net.skylix.elixor.desktop.elements.Div;
+import net.skylix.elixor.desktop.unit.BorderRadius;
+import net.skylix.elixor.desktop.unit.Margin;
+import net.skylix.elixor.desktop.unit.Padding;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * A class for creating a desktop window on a desktop computer.
@@ -51,6 +57,8 @@ public class Window {
 
         // Add the panel to the window.
         window.setContentPane(panel);
+
+        panel.render();
     }
 
     /**
@@ -94,10 +102,42 @@ public class Window {
 
     /**
      * Run the window and allow it to be visible.
+     * If the windw is already visible, nothing will happen.
      */
     public void run() {
         if (window.isVisible()) return;
         window.setVisible(true);
+    }
+
+    /**
+     * Check to see if the window is running.
+     */
+    public boolean isRunning() {
+        return window.isVisible();
+    }
+
+    /**
+     * Get the window's title.
+     * @return The window's title.
+     */
+    public String getTitle() {
+        return title;
+    }
+
+    /**
+     * Add an element.
+     * @param element The element to add.
+     */
+    public void add(Div element) {
+        panel.add(element);
+    }
+
+    /**
+     * Remove an element.
+     * @param element The element to remove.
+     */
+    public void remove(Div element) {
+        panel.remove(element);
     }
 }
 
@@ -106,15 +146,57 @@ public class Window {
  */
 class RenderingJComponent extends JComponent {
     /**
+     * All elements.
+     */
+    private final ArrayList<Div> elements = new ArrayList<>();
+
+    /**
      * The custom rendering method.
      * @param g The graphics object to draw on.
      */
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    public void paintComponent(Graphics g3d) {
+        super.paintComponent(g3d);
 
-        // Draw a 100 by 50 rectangle with a red border. (This is only for testing purposes.)
-        g.setColor(Color.RED);
-        g.drawRect(100, 50, 100, 50);
+        // Create the 2D graphics object.
+        Graphics2D g = (Graphics2D) g3d;
+
+        // Draw all top level components
+        for (Div element : elements) {
+            Padding padding = element.getPadding();
+            Margin margin = element.getMargin();
+            BorderRadius borderRadius = element.getBorderRadius();
+
+            final float x = padding.getLeft() + margin.getLeft();
+            final float y = padding.getTop() + margin.getTop();
+
+            g.setColor(Color.BLACK);
+            g.fillRoundRect((int)x, (int) y, 100, 100, (int) borderRadius.getTop(), (int) borderRadius.getRight());
+        }
     }
-}
+
+    /**
+     * Re render the current panel contents and run the recalculations of the components.
+     */
+    public void render() {
+        repaint();
+    }
+
+    /**
+     * Add an element.
+     * @param element The element to add.
+     */
+    public void add(Div element) {
+        elements.add(element);
+        render();
+    }
+
+    /**
+     * Remove an element.
+     * @param element The element to remove.
+     */
+    public void remove(Div element) {
+        elements.remove(element);
+        render();
+    }
+ }
