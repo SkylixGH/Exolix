@@ -25,6 +25,7 @@ public class Desktop {
     private final UXPanel root;
     private final UXPanel body;
     private boolean initiallyPowered = false;
+    private boolean maximized = false;
 
     public Desktop(DesktopSettings settings) throws InvalidHexCode {
         this.settings = settings;
@@ -41,7 +42,7 @@ public class Desktop {
             frame.setUndecorated(true);
         }
 
-        frame.setSize(1500, 800);
+        frame.setSize(800, 500);
 
         root = new UXPanel(new UXPanelSettings() {{
             width = frame.getWidth();
@@ -63,6 +64,7 @@ public class Desktop {
         final UXPanel titleBar = renderTitleBar();
         final UXPanel defaultRootElement = renderDefaultRootElement();
         final JPanel contentPane = new JPanel();
+        final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
 
         contentPane.setLayout(new BorderLayout());
         contentPane.add(root.getSwingComponent());
@@ -75,16 +77,19 @@ public class Desktop {
         root.setColor(new ThemeColor("#ff5555"));
 
         Runnable updateScaling = () -> {
+            if (System.getProperty("os.name").toLowerCase().contains("windows") && this.maximized) {
+                contentPane.setSize(frame.getWidth() - 8, frame.getHeight() - 8);
+                contentPane.setBorder(BorderFactory.createEmptyBorder(8, 8, 0, 0));
+            } else {
+                contentPane.setSize(frame.getWidth(), frame.getHeight());
+                contentPane.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            }
+
             root.setSize(contentPane.getWidth(), contentPane.getHeight());
             body.setSize(root.getWidth(), root.getHeight() - titleBar.getHeight());
 
             defaultRootElement.setSize(body.getWidth(), body.getHeight());
-            titleBar.setSize(root.getWidth(), titleBar.getHeight());
-
-            // Log all the sizes
-            Logger.debugBase("Root: Width: " + root.getWidth() + " Height: " + root.getHeight());
-            Logger.debugBase("Body: Width: " + body.getWidth() + " Height: " + body.getHeight());
-            Logger.debugBase("Frame: Width: " + frame.getWidth() + " Height: " + frame.getHeight());
+            titleBar.setSize(contentPane.getWidth() - (maximized && isWindows ? 8 : 0), titleBar.getHeight());
 
             body.getSwingComponent().repaint();
             root.getSwingComponent().repaint();
@@ -98,12 +103,12 @@ public class Desktop {
         });
 
         frame.setOnMaximizeRunnable(() -> {
-            Logger.debugBase("Window was maximized");
+            this.maximized = true;
             updateScaling.run();
         });
 
         frame.setOnUnMaximizeRunnable(() -> {
-            Logger.debugBase("Window was unmaximized");
+            this.maximized = false;
             updateScaling.run();
         });
 
