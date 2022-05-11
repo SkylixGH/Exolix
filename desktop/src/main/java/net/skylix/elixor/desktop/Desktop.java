@@ -10,6 +10,7 @@ import net.skylix.elixor.desktop.ux.uxLabel.UXLabel;
 import net.skylix.elixor.desktop.ux.uxLabel.UXLabelSettings;
 import net.skylix.elixor.desktop.ux.uxPanel.*;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
+import net.skylix.elixor.terminal.logger.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,7 +22,8 @@ public class Desktop {
     private final ModJFrame frame;
     private final DesktopSettings settings;
     private boolean running = false;
-    private final JPanel root;
+    private final UXPanel root;
+    private final UXPanel body;
     private boolean initiallyPowered = false;
 
     public Desktop(DesktopSettings settings) throws InvalidHexCode {
@@ -39,183 +41,108 @@ public class Desktop {
             frame.setUndecorated(true);
         }
 
-        ThemeColor backgroundColor = settings.theme.getThemeAttribute("layerSolid2");
+        frame.setSize(1500, 800);
 
-        frame.setSize(1000, 600);
-        Desktop self = this;
-
-        JPanel innerFrame = new JPanel();
-        UXPanel titleBar = new UXPanel(new UXPanelSettings() {{
-            color = settings.theme.getThemeAttribute("layerSolid1");
-            dragRole = UXPanelWindowDragRole.DRAG;
+        root = new UXPanel(new UXPanelSettings() {{
             width = frame.getWidth();
-            height = 32;
-            rowAlignment = UXPanelRowAlignment.SPACE_BETWEEN;
-            columnAlignment = UXPanelColumnAlignment.CENTER;
-            spacingX = 10;
+            height = frame.getHeight();
+            columnAlignment = UXPanelColumnAlignment.TOP;
+            rowAlignment = UXPanelRowAlignment.LEFT;
+            flowDirection = UXPanelFlowDirection.COLUMN;
         }});
 
-        frame.setOnMaximizeRunnable(() -> {
-            if (!System.getProperty("os.name").toLowerCase().contains("windows")) return;
-            innerFrame.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
-        });
+        body = new UXPanel(new UXPanelSettings() {{
+            width = frame.getWidth();
+            height = frame.getHeight();
+        }});
 
-        frame.setOnUnMaximizeRunnable(() -> {
-            if (!System.getProperty("os.name").toLowerCase().contains("windows")) return;
-            innerFrame.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        });
+        renderContent();
+    }
 
-        frame.setOnClosingRunnable(() -> {
-            running = false;
-            frame.setVisible(false);
-            frame.dispose();
-        });
+    private void renderContent() throws InvalidHexCode {
+        final UXPanel titleBar = renderTitleBar();
+        final UXPanel defaultRootElement = renderDefaultRootElement();
+        final JPanel contentPane = new JPanel();
+
+        contentPane.setLayout(new BorderLayout());
+        contentPane.add(root.getSwingComponent());
+        contentPane.setBackground(new Color(0, 0, 20));
+
+        body.setColor(settings.theme.getThemeAttribute("layerSolid1"));
+
+        root.add(titleBar);
+        root.add(body);
+        root.setColor(new ThemeColor("#ff5555"));
+
+        Runnable updateScaling = () -> {
+            root.setSize(contentPane.getWidth(), contentPane.getHeight());
+            body.setSize(root.getWidth(), root.getHeight() - titleBar.getHeight());
+
+            defaultRootElement.setSize(body.getWidth(), body.getHeight());
+            titleBar.setSize(root.getWidth(), titleBar.getHeight());
+
+            // Log all the sizes
+            Logger.debugBase("Root: Width: " + root.getWidth() + " Height: " + root.getHeight());
+            Logger.debugBase("Body: Width: " + body.getWidth() + " Height: " + body.getHeight());
+            Logger.debugBase("Frame: Width: " + frame.getWidth() + " Height: " + frame.getHeight());
+
+            body.getSwingComponent().repaint();
+            root.getSwingComponent().repaint();
+        };
 
         frame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                innerFrame.setSize(frame.getWidth(), frame.getHeight());
-                titleBar.setSize(frame.getWidth() - (frame.hasTriggeredMaximized() ? 16 : 0), 32);
-                root.setSize(frame.getWidth(), frame.getHeight() - titleBar.getHeight());
-                settings.onResize.accept(self);
+                updateScaling.run();
             }
         });
 
-        root = new JPanel();
+        frame.setOnMaximizeRunnable(() -> {
+            Logger.debugBase("Window was maximized");
+            updateScaling.run();
+        });
 
-        innerFrame.setSize(new Dimension(frame.getWidth(), frame.getHeight()));
-        innerFrame.setLayout(new BorderLayout());
-        innerFrame.setBackground(new Color(backgroundColor.getRed(), backgroundColor.getGreen(), backgroundColor.getBlue(), backgroundColor.getAlpha()));
+        frame.setOnUnMaximizeRunnable(() -> {
+            Logger.debugBase("Window was unmaximized");
+            updateScaling.run();
+        });
 
-        if (settings.frameType == DesktopFrameType.GENERIC) {
-            enum FrameButtonType {
-                CLOSE,
-                MINIMIZE,
-                MAXIMIZE
-            }
+        frame.setContentPane(contentPane);
 
-            Function<FrameButtonType, UXComponent> createFrameButton = (FrameButtonType type) -> {
-                final UXPanel button;
-                UXLabel label = null;
+        setRootElement(defaultRootElement);
+    }
 
-                try {
-                    label = new UXLabel("-", new UXLabelSettings() {{
-                        fontSize = 20;
-                    }});
-                } catch (InvalidHexCode e) {
-                    e.printStackTrace();
-                }
-
-                try {
-                    final UXLabel labelCopy = label;
-                    assert false;
-
-                    button = new UXPanel(new UXPanelSettings() {{
-                        dragRole = UXPanelWindowDragRole.EXCLUDE;
-
-                        onMouseEnter = (panel) -> {
-                            if (type == FrameButtonType.CLOSE) {
-                                panel.setColor(this.theme.getThemeAttribute("critical4"));
-                                labelCopy.setColor(this.theme.getThemeAttribute("criticalText4"));
-                            } else {
-                                panel.setColor(this.theme.getThemeAttribute("component1"));
-                            }
-                        };
-
-                        onMouseExit = (panel) -> {
-                            panel.setColor(new ThemeColor(0, 0, 0, 0), 300);
-                            labelCopy.setColor(settings.theme.getThemeAttribute("text4"), 300);
-                        };
-
-                        onMouseClick = (panel) -> {
-                            switch (type) {
-                                case CLOSE -> {
-                                    try {
-                                        stop();
-                                    } catch (WindowNotRunning e) {
-                                        e.printStackTrace();
-                                    }
-                                }
-
-                                case MINIMIZE -> {
-                                    frame.minimizeNative();
-                                }
-
-                                case MAXIMIZE -> {
-                                    frame.maximizeNative();
-                                }
-                            }
-                        };
-
-                        rowAlignment = UXPanelRowAlignment.CENTER;
-                        columnAlignment = UXPanelColumnAlignment.CENTER;
-                    }});
-
-                    assert false;
-                    switch (type) {
-                        case CLOSE -> {
-                            label.setText("x");
-                        }
-
-                        case MINIMIZE -> {
-                            label.setText("-");
-                        }
-
-                        case MAXIMIZE -> {
-                            label.setText("o");
-                        }
-                    };
-
-                    button.add(new UXComponent().setElement(label));
-                    button.setSize(45, 32);
-
-                    return button;
-                } catch (InvalidHexCode e) {
-                    throw new RuntimeException(e);
-                }
-            };
-
-            UXPanel buttons = new UXPanel(new UXPanelSettings() {{
-                // We need to add 2 pixels due to the horizontal spacing
-                width = (45 * 3) + 2;
-                height = 32;
-                spacingX = 1;
-            }});
-
-            buttons.add(createFrameButton.apply(FrameButtonType.MINIMIZE));
-            buttons.add(createFrameButton.apply(FrameButtonType.MAXIMIZE));
-            buttons.add(createFrameButton.apply(FrameButtonType.CLOSE));
-
-            titleBar.add(buttons);
-        }
-
-        int titleBarHeight = settings.frameType == DesktopFrameType.GENERIC ? titleBar.getHeight() : 0;
-
-        root.setLayout(null);
-        root.setSize(new Dimension(frame.getWidth(), frame.getHeight() - titleBarHeight));
-        root.setBackground(backgroundColor.getAwtColor());
-
-        UXLabel label = new UXLabel("No Root Element Set", new UXLabelSettings() {{
-            color = settings.theme.getThemeAttribute("text2");
-            fontSize = 20;
+    private UXPanel renderDefaultRootElement() throws InvalidHexCode {
+        UXPanel defaultRootElement = new UXPanel(new UXPanelSettings() {{
+            width = frame.getWidth();
+            height = frame.getHeight();
+            rowAlignment = UXPanelRowAlignment.CENTER;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
+            color = settings.theme.getThemeAttribute("layerSolid2");
         }});
 
-        UXComponent defaultComp = new UXComponent(settings.theme, settings.accessibility);
-        defaultComp.setElement(label);
+        UXLabel message = new UXLabel("Default Root Element", new UXLabelSettings() {{
+            color = settings.theme.getThemeAttribute("text1");
+        }});
 
-        if (settings.frameType == DesktopFrameType.GENERIC) {
-            UXLabel title = new UXLabel("No Title Set", new UXLabelSettings() {{
-                color = settings.theme.getThemeAttribute("text2");
-            }});
+        defaultRootElement.add(message);
+        return defaultRootElement;
+    }
 
-            titleBar.add(title);
-            innerFrame.add(titleBar.getSwingComponent(), BorderLayout.NORTH);
+    private UXPanel renderTitleBar() throws InvalidHexCode {
+        if (settings.frameType != DesktopFrameType.GENERIC) {
+            return new UXPanel();
         }
 
-        innerFrame.add(root, BorderLayout.CENTER);
+        UXPanel element = new UXPanel(new UXPanelSettings() {{
+            width = frame.getWidth();
+            height = 32;
+            color = settings.theme.getThemeAttribute("layerSolid1");
+            rowAlignment = UXPanelRowAlignment.SPACE_BETWEEN;
+            dragRole = UXPanelWindowDragRole.DRAG;
+        }});
 
-        setRootElement(defaultComp);
-        frame.setContentPane(innerFrame);
+        return element;
     }
 
     public final int getWidth() {
@@ -275,8 +202,8 @@ public class Desktop {
     }
 
     public final void setRootElement(UXComponent rootElement) {
-        root.removeAll();
-        root.add(rootElement.getSwingComponent());
+        body.clear();
+        body.add(rootElement);
     }
 
     public final void run() throws WindowAlreadyRunning, WindowCannotReinitialize {

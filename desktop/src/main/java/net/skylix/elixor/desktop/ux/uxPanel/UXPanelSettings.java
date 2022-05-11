@@ -22,6 +22,8 @@ public class UXPanelSettings extends UXComponentSettingsPreset {
      */
     public Integer height = null;
 
+    public UXPanelMargin margin = new UXPanelMargin(0);
+
     public ThemeColor color = new ThemeColor(0, 0, 0, 0);
 
     public Consumer<UXPanel> onMouseEnter = (UXPanel node) -> {};

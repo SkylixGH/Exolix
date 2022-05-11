@@ -6,6 +6,7 @@ import net.skylix.elixor.desktop.local.windows.WindowsJFrameProcess;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
+import net.skylix.elixor.terminal.logger.Logger;
 
 import javax.swing.*;
 import java.awt.*;
@@ -29,6 +30,7 @@ public class UXPanel extends UXComponent {
     private final Point[] regionOnWindow;
     private ModJFrame frame;
     private boolean windowActionListenersCreated = false;
+    private UXPanelMargin margin;
 
     public UXPanel(UXPanelSettings settings) throws InvalidHexCode {
         super(settings.theme, settings.accessibility);
@@ -56,6 +58,7 @@ public class UXPanel extends UXComponent {
         currentRowAlignment = settings.rowAlignment;
         currentFlowDirection = settings.flowDirection;
         currentColor = settings.color;
+        margin = settings.margin;
 
         setElement(new Element(this));
         setWidth(settings.width);
@@ -158,6 +161,16 @@ public class UXPanel extends UXComponent {
     private void recalculateMetrics() {
         setWidth(currentWidth);
         setHeight(currentHeight);
+    }
+
+    public void setMargin(UXPanelMargin margin) {
+        this.margin = margin;
+        getSwingComponent().repaint();
+    }
+
+    public void clear() {
+        getSwingComponent().removeAll();
+        getSwingComponent().repaint();
     }
 
     private class Element extends JPanel {
@@ -269,6 +282,14 @@ public class UXPanel extends UXComponent {
 
         @Override
         protected void paintComponent(Graphics g) {
+            if (margin.getTotal() > 0)
+                setBorder(BorderFactory.createEmptyBorder(
+                        margin.getTop(),
+                        margin.getLeft(),
+                        margin.getBottom(),
+                        margin.getRight()
+                ));
+
             super.paintComponent(g);
 
             if (frame == null) {
@@ -336,7 +357,26 @@ public class UXPanel extends UXComponent {
                             lastX += component.getWidth() + (getWidth() - getTotalWidth(getComponents())) / (getComponents().length - 1);
                         }
                     } else {
+                        if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
+                            Component tallestComponent = findTallestComponent(getComponents());
+                            lastY = (getHeight() - tallestComponent.getHeight()) / 2;
+                        } else if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.BOTTOM) {
+                            Component tallestComponent = findTallestComponent(getComponents());
+                            lastY = getHeight() - tallestComponent.getHeight();
+                        }
 
+                        component.setLocation(lastX, lastY);
+
+                        if (currentColumnAlignment == UXPanelColumnAlignment.TOP) {
+                            if (componentID == getComponents().length - 1) lastY += component.getHeight();
+                            else lastY += component.getHeight() + spacingY;
+                        } else if (currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
+                            if (componentID == getComponents().length - 1) lastY += component.getHeight();
+                            else lastY += component.getHeight() + spacingY;
+                        } else if (currentColumnAlignment == UXPanelColumnAlignment.BOTTOM) {
+                            if (componentID == getComponents().length - 1) lastY -= component.getHeight();
+                            else lastY -= component.getHeight() + spacingY;
+                        }
                     }
                 }
 
