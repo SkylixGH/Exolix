@@ -19,6 +19,7 @@ import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
+import net.skylix.elixor.terminal.logger.Logger;
 
 import javax.swing.*;
 import java.io.IOException;
@@ -50,7 +51,7 @@ public class MyApp {
         UXPanel panel = new UXPanel(new UXPanelSettings() {{
             width = 1000;
             height = 600 - 32;
-            rowAlignment = UXPanelRowAlignment.CENTER;
+            rowAlignment = UXPanelRowAlignment.SPACE_BETWEEN;
             columnAlignment = UXPanelColumnAlignment.CENTER;
         }});
 
@@ -78,6 +79,7 @@ public class MyApp {
         UXButton button1 = new UXButton(ht);
         UXButton button2 = new UXButton("Button B");
         UXButton button3 = new UXButton("Button C", new UXButtonSettings() {{ type = UXButtonType.HIGHLIGHTED; onMouseClick = (btn) -> {
+            Logger.infoBase("Clicked");
             try {
                 panel.add(new UXButton("Button D"));
             } catch (InvalidHexCode e) {

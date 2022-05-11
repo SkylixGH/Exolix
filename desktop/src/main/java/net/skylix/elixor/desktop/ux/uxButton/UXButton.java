@@ -42,6 +42,10 @@ public class UXButton extends UXComponent {
                 self.animationColor.moveTo(theme.getThemeAttribute("component1"), accessibility.transitionSpeed5);
                 text.setColor(theme.getThemeAttribute("text4"), accessibility.transitionSpeed5);
             };
+
+            onMouseClick = (panel) -> {
+                settings.onMouseClick.accept(self);
+            };
         }});
 
         button.setColor(theme.getThemeAttribute("component1"));

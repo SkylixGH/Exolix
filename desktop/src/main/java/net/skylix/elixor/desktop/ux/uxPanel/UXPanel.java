@@ -307,6 +307,8 @@ public class UXPanel extends UXComponent {
                         } else if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.CENTER) {
                             final int totalWidth = getTotalWidth(getComponents()) + (getComponents().length - 1) * spacingX;
                             lastX = (getWidth() - totalWidth) / 2;
+                        } else if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.SPACE_EVENLY) {
+                            lastX = ((getWidth() - getTotalWidth(getComponents())) / getComponents().length) / 2;
                         }
 
                         if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
@@ -328,6 +330,10 @@ public class UXPanel extends UXComponent {
                         } else if (currentRowAlignment == UXPanelRowAlignment.RIGHT) {
                             if (componentID == getComponents().length - 1) lastX -= component.getWidth();
                             else lastX -= component.getWidth() + spacingX;
+                        } else if (currentRowAlignment == UXPanelRowAlignment.SPACE_EVENLY) {
+                            lastX += component.getWidth() + (getWidth() - getTotalWidth(getComponents())) / getComponents().length;
+                        } else if (currentRowAlignment == UXPanelRowAlignment.SPACE_BETWEEN) {
+                            lastX += component.getWidth() + (getWidth() - getTotalWidth(getComponents())) / (getComponents().length - 1);
                         }
                     } else {
 

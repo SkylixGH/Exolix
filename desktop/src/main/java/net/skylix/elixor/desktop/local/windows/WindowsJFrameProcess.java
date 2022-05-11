@@ -142,11 +142,15 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
                 if (!frameOnIcon) {
 
-                    for (Point[] region : dragRegions) {
-                        if (pointMouseXRelativeToWindow >= region[0].x && pointMouseXRelativeToWindow <= region[1].x && pointMouseYRelativeToWindow >= region[0].y && pointMouseYRelativeToWindow <= (region[1].y + borderOffset)) {
-                            frameOnFrameDrag = true;
-                            break;
+                    try {
+                        for (Point[] region : dragRegions) {
+                            if (pointMouseXRelativeToWindow >= region[0].x && pointMouseXRelativeToWindow <= region[1].x && pointMouseYRelativeToWindow >= region[0].y && pointMouseYRelativeToWindow <= (region[1].y + borderOffset)) {
+                                frameOnFrameDrag = true;
+                                break;
+                            }
                         }
+                    } catch (Exception e) {
+                        // Ignore
                     }
 
                     try {

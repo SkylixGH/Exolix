@@ -50,7 +50,7 @@ public class Desktop {
             dragRole = UXPanelWindowDragRole.DRAG;
             width = frame.getWidth();
             height = 32;
-            rowAlignment = UXPanelRowAlignment.RIGHT;
+            rowAlignment = UXPanelRowAlignment.SPACE_BETWEEN;
             columnAlignment = UXPanelColumnAlignment.CENTER;
             spacingX = 10;
         }});
@@ -203,8 +203,14 @@ public class Desktop {
         UXComponent defaultComp = new UXComponent(settings.theme, settings.accessibility);
         defaultComp.setElement(label);
 
-        if (settings.frameType == DesktopFrameType.GENERIC)
+        if (settings.frameType == DesktopFrameType.GENERIC) {
+            UXLabel title = new UXLabel("No Title Set", new UXLabelSettings() {{
+                color = settings.theme.getThemeAttribute("text2");
+            }});
+
+            titleBar.add(title);
             innerFrame.add(titleBar.getSwingComponent(), BorderLayout.NORTH);
+        }
 
         innerFrame.add(root, BorderLayout.CENTER);
 
