@@ -339,9 +339,8 @@ public class UXPanel extends UXComponent {
                             lastX = ((getWidth() - getTotalWidth(getComponents())) / getComponents().length) / 2;
                         }
 
-                        if (componentID == 0 && columnAlignment == UXPanelColumnAlignment.CENTER) {
-                            Component tallestComponent = findTallestComponent(getComponents());
-                            lastY = (getHeight() - tallestComponent.getHeight()) / 2;
+                        if (columnAlignment == UXPanelColumnAlignment.CENTER) {
+                            lastY = (getHeight() - component.getHeight()) / 2;
                         } else if (componentID == 0 && columnAlignment == UXPanelColumnAlignment.BOTTOM) {
                             Component tallestComponent = findTallestComponent(getComponents());
                             lastY = getHeight() - tallestComponent.getHeight();

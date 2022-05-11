@@ -65,6 +65,7 @@ public class Desktop {
         final UXPanel defaultRootElement = renderDefaultRootElement();
         final JPanel contentPane = new JPanel();
         final boolean isWindows = System.getProperty("os.name").toLowerCase().contains("windows");
+        final Desktop self = this;
 
         contentPane.setLayout(new BorderLayout());
         contentPane.add(root.getSwingComponent());
@@ -99,6 +100,8 @@ public class Desktop {
             @Override
             public void componentResized(ComponentEvent e) {
                 updateScaling.run();
+
+                settings.onResize.accept(self);
             }
         });
 
@@ -145,6 +148,7 @@ public class Desktop {
             color = settings.theme.getThemeAttribute("layerSolid1");
             rowAlignment = UXPanelRowAlignment.SPACE_BETWEEN;
             dragRole = UXPanelWindowDragRole.DRAG;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
         }});
 
         class TitleBarButton extends UXPanel {
@@ -152,7 +156,7 @@ public class Desktop {
                 super(new UXPanelSettings() {{
                     onMouseEnter = (p) -> {
                         try {
-                            p.setColor(new ThemeColor("#ff5555"));
+                            p.setColor(new ThemeColor("#ff5555"), 100);
                         } catch (InvalidHexCode e) {
                             e.printStackTrace();
                         }
@@ -163,20 +167,22 @@ public class Desktop {
                     };
 
                     dragRole = UXPanelWindowDragRole.EXCLUDE;
+                    rowAlignment = UXPanelRowAlignment.CENTER;
+                    columnAlignment = UXPanelColumnAlignment.CENTER;
                 }});
 
                 setSize(45, 32);
                 setRowAlignment(UXPanelRowAlignment.CENTER);
                 setColumnAlignment(UXPanelColumnAlignment.CENTER);
 
-                UXLabel label = new UXLabel("", new UXLabelSettings() {{
-                    fontSize = 20;
+                UXLabel label = new UXLabel("o", new UXLabelSettings() {{
+                    fontSize = 13;
                     color = settings.theme.getThemeAttribute("text4");
                 }});
 
                 switch (type) {
                     case MINIMIZE -> {
-                        label.setText("-");
+                        label.setText("_");
                     }
 
                     case MIDDLE -> {
@@ -208,11 +214,15 @@ public class Desktop {
             height = 32;
         }});
 
-        buttonGroup.add(closeButton);
-        buttonGroup.add(middleButton);
         buttonGroup.add(minimizeButton);
+        buttonGroup.add(middleButton);
+        buttonGroup.add(closeButton);
 
-        UXLabel title = new UXLabel("Hello World");
+        UXLabel title = new UXLabel("Hello World", new UXLabelSettings() {{
+            fontSize = 13;
+            color = settings.theme.getThemeAttribute("text4");
+            margin = new UXPanelMargin(0, 0, 10, 0);
+        }});
 
         element.add(title);
         element.add(buttonGroup);

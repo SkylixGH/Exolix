@@ -9,6 +9,7 @@ import net.skylix.elixor.desktop.errors.WindowAlreadyRunning;
 import net.skylix.elixor.desktop.errors.WindowCannotReinitialize;
 import net.skylix.elixor.desktop.errors.WindowNotRunning;
 import net.skylix.elixor.desktop.theme.ThemeColor;
+import net.skylix.elixor.desktop.theme.presets.ThemeDark;
 import net.skylix.elixor.desktop.ux.uxButton.UXButton;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonSettings;
 import net.skylix.elixor.desktop.ux.uxButton.UXButtonType;
@@ -16,6 +17,7 @@ import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
 import net.skylix.elixor.desktop.ux.uxLabel.UXLabel;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanel;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelColumnAlignment;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelFlowDirection;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelRowAlignment;
 import net.skylix.elixor.desktop.ux.uxPanel.UXPanelSettings;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
@@ -93,13 +95,84 @@ public class MyApp {
         int pcRam = 293213712;
         UXLabel label = new UXLabel("App Ram Usage: - " + pcRam + "GB");
 
-        panel.add(label);
-        panel.add(button1);
-        panel.add(button2);
-        panel.add(button3);
+        UXLabel a = new UXLabel("Hello World");
+        UXLabel b = new UXLabel("Hello World");
+
+        UXPanel item1 = new UXPanel(new UXPanelSettings() {{
+            cornerRadius = 4;
+            width = 300;
+            height = 80;
+            color = theme.getThemeAttribute("component1");
+            rowAlignment = UXPanelRowAlignment.CENTER;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
+            
+            onMouseEnter = (p) -> {
+                try {
+                    p.setColor(new ThemeDark().getThemeAttribute("highlight4"));
+                    a.setColor(new ThemeDark().getThemeAttribute("highlightText4"));
+                } catch (InvalidHexCode e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+            
+            onMouseExit = (p) -> {
+                try {
+                    p.setColor(new ThemeDark().getThemeAttribute("component1"));
+                    a.setColor(new ThemeDark().getThemeAttribute("text4"));
+                } catch (InvalidHexCode e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+        }});
+
+        UXPanel item2 = new UXPanel(new UXPanelSettings() {{
+            cornerRadius = 4;
+            rowAlignment = UXPanelRowAlignment.CENTER;
+            columnAlignment = UXPanelColumnAlignment.CENTER;
+            width = 300;
+            height = 80;
+            color = theme.getThemeAttribute("component1");
+
+            onMouseEnter = (p) -> {
+                try {
+                    p.setColor(new ThemeDark().getThemeAttribute("highlight4"), 100);
+                    b.setColor(new ThemeDark().getThemeAttribute("highlightText4"), 100);
+                } catch (InvalidHexCode e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+            
+            onMouseExit = (p) -> {
+                try {
+                    b.setColor(new ThemeDark().getThemeAttribute("text4"), 100);
+                    p.setColor(new ThemeDark().getThemeAttribute("component1"), 100);
+                } catch (InvalidHexCode e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            };
+        }});
 //        panel.add(jbtn);
 
-//        window.setRootElement(panel);
+        UXPanel stuff = new UXPanel(new UXPanelSettings() {{
+            width = 300;
+            height = (80 * 2) + 10;
+            flowDirection = UXPanelFlowDirection.COLUMN;
+            spacingY = 10;
+        }});
+
+        item1.add(a);
+        item2.add(b);
+
+        stuff.add(item1);
+        stuff.add(item2);
+
+        panel.add(stuff);
+
+       window.setRootElement(panel);
         window.run();
 
         // taskbar overlay

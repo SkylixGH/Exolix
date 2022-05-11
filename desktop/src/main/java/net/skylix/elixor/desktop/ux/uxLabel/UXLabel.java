@@ -5,6 +5,7 @@ import net.skylix.elixor.desktop.animation.AnimationColor;
 import net.skylix.elixor.desktop.theme.Theme;
 import net.skylix.elixor.desktop.theme.ThemeColor;
 import net.skylix.elixor.desktop.ux.uxComponent.UXComponent;
+import net.skylix.elixor.desktop.ux.uxPanel.UXPanelMargin;
 import net.skylix.elixor.terminal.color.errors.InvalidHexCode;
 
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class UXLabel extends UXComponent {
     private final AnimationColor animationColor;
     private final JLabel label;
     private String text;
+    private UXPanelMargin margin;
 
     public UXLabel(String text, UXLabelSettings settings) {
         super(settings.theme, settings.accessibility);
@@ -22,6 +24,7 @@ public class UXLabel extends UXComponent {
         this.settings = settings;
         this.text = text;
         this.label = new JLabel();
+        this.margin = settings.margin;
 
         label.setText(text);
         label.setFont(new Font("Arial", Font.PLAIN, settings.fontSize));
@@ -40,6 +43,11 @@ public class UXLabel extends UXComponent {
         getSwingComponent().repaint();
     }
 
+    public final void setMargin(UXPanelMargin margin) {
+        this.margin = margin;
+        getSwingComponent().repaint();
+    }
+
     private static class LabelElement extends JComponent {
         private final UXLabel uxLabel;
 
@@ -55,9 +63,11 @@ public class UXLabel extends UXComponent {
 
             Graphics2D g2d = (Graphics2D) g;
 
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
             g2d.setColor(uxLabel.label.getForeground());
-            g2d.drawString(uxLabel.label.getText(), 0, uxLabel.label.getFont().getSize());
-        }
+            g2d.drawString(uxLabel.label.getText(), 0 + uxLabel.margin.getLeft(), uxLabel.label.getFont().getSize() + uxLabel.margin.getTop());
+        } 
     }
 
     public UXLabel(String text) throws InvalidHexCode {
@@ -71,6 +81,8 @@ public class UXLabel extends UXComponent {
     public final void setText(String text) {
         this.text = text;
         label.setText(text);
+
+        getSwingComponent().repaint();
     }
 
     public final void setColor(ThemeColor color, int duration) {
@@ -83,6 +95,7 @@ public class UXLabel extends UXComponent {
 
     public final void setFontSize(int size) {
         label.setFont(label.getFont().deriveFont((float) size));
+        getSwingComponent().repaint();
     }
 
     public final int getFontSize() {
@@ -90,11 +103,11 @@ public class UXLabel extends UXComponent {
     }
 
     public final int getWidth() {
-        return label.getFontMetrics(label.getFont()).stringWidth(text);
+        return label.getFontMetrics(label.getFont()).stringWidth(text) + margin.getLeft() + margin.getRight();
     }
 
     public final int getHeight() {
-        return label.getFontMetrics(label.getFont()).getHeight();
+        return label.getFontMetrics(label.getFont()).getHeight() + margin.getTop() + margin.getBottom();
     }
 
     public final Dimension getSize() {

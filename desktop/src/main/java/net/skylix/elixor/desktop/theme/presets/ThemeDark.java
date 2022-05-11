@@ -13,9 +13,9 @@ public class ThemeDark extends Theme {
 
         setThemeAttributes(new HashMap<>() {{
             put("layerSolid1", new ThemeColor("#202020"));
-            put("layerSolid2", new ThemeColor("#272727"));
-            put("layerSolid3", new ThemeColor("#313131"));
-            put("layerSolid4", new ThemeColor("#353535"));
+            put("layerSolid2", new ThemeColor("#252525"));
+            put("layerSolid3", new ThemeColor("#272727"));
+            put("layerSolid4", new ThemeColor("#303030"));
 
             put("highlight1", new ThemeColor("#577e91"));
             put("highlight2", new ThemeColor("#6ea0b8"));
