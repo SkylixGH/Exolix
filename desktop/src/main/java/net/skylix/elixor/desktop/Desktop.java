@@ -142,6 +142,76 @@ public class Desktop {
             dragRole = UXPanelWindowDragRole.DRAG;
         }});
 
+        class TitleBarButton extends UXPanel {
+            public TitleBarButton(Type type) throws InvalidHexCode {
+                super(new UXPanelSettings() {{
+                    onMouseEnter = (p) -> {
+                        try {
+                            p.setColor(new ThemeColor("#ff5555"));
+                        } catch (InvalidHexCode e) {
+                            e.printStackTrace();
+                        }
+                    };
+
+                    onMouseExit = (p) -> {
+                        p.setColor(new ThemeColor(0, 0, 0, 0), 300);
+                    };
+
+                    dragRole = UXPanelWindowDragRole.EXCLUDE;
+                }});
+
+                setSize(45, 32);
+                setRowAlignment(UXPanelRowAlignment.CENTER);
+                setColumnAlignment(UXPanelColumnAlignment.CENTER);
+
+                UXLabel label = new UXLabel("", new UXLabelSettings() {{
+                    fontSize = 20;
+                    color = settings.theme.getThemeAttribute("text4");
+                }});
+
+                switch (type) {
+                    case MINIMIZE -> {
+                        label.setText("-");
+                    }
+
+                    case MIDDLE -> {
+                        label.setText("o");
+                    }
+
+                    case CLOSE -> {
+                        label.setText("x");
+                    }
+                }
+
+                add(label);
+            }
+
+            static enum Type {
+                CLOSE,
+                MIDDLE,
+                MINIMIZE,
+            }
+        }
+
+        TitleBarButton closeButton = new TitleBarButton(TitleBarButton.Type.CLOSE);
+        TitleBarButton middleButton = new TitleBarButton(TitleBarButton.Type.MIDDLE);
+        TitleBarButton minimizeButton = new TitleBarButton(TitleBarButton.Type.MINIMIZE);
+
+        UXPanel buttonGroup = new UXPanel(new UXPanelSettings() {{
+            spacingX = 1;
+            width = (45 * 3) + 2;
+            height = 32;
+        }});
+
+        buttonGroup.add(closeButton);
+        buttonGroup.add(middleButton);
+        buttonGroup.add(minimizeButton);
+
+        UXLabel title = new UXLabel("Hello World");
+
+        element.add(title);
+        element.add(buttonGroup);
+
         return element;
     }
 

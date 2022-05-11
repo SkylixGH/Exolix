@@ -320,60 +320,67 @@ public class UXPanel extends UXComponent {
             int lastRenderingHeight = 0;
             int totalLinesWrapped = 0;
 
+            UXPanelRowAlignment rowAlignment = settings.rowAlignment;
+            UXPanelColumnAlignment columnAlignment = settings.columnAlignment;
+
+            if (getComponents().length < 2 && (rowAlignment == UXPanelRowAlignment.SPACE_BETWEEN || rowAlignment == UXPanelRowAlignment.SPACE_EVENLY)) {
+                rowAlignment = UXPanelRowAlignment.CENTER;
+            }
+
             for (Component component : getComponents()) {
                 if (!wrapping) {
                     if (currentFlowDirection == UXPanelFlowDirection.ROW) {
-                        if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.RIGHT) {
+                        if (componentID == 0 && rowAlignment == UXPanelRowAlignment.RIGHT) {
                             lastX = getWidth() - component.getWidth();
-                        } else if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.CENTER) {
+                        } else if (componentID == 0 && rowAlignment == UXPanelRowAlignment.CENTER) {
                             final int totalWidth = getTotalWidth(getComponents()) + (getComponents().length - 1) * spacingX;
                             lastX = (getWidth() - totalWidth) / 2;
-                        } else if (componentID == 0 && currentRowAlignment == UXPanelRowAlignment.SPACE_EVENLY) {
+                        } else if (componentID == 0 && rowAlignment == UXPanelRowAlignment.SPACE_EVENLY) {
                             lastX = ((getWidth() - getTotalWidth(getComponents())) / getComponents().length) / 2;
                         }
 
-                        if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
+                        if (componentID == 0 && columnAlignment == UXPanelColumnAlignment.CENTER) {
                             Component tallestComponent = findTallestComponent(getComponents());
                             lastY = (getHeight() - tallestComponent.getHeight()) / 2;
-                        } else if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.BOTTOM) {
+                        } else if (componentID == 0 && columnAlignment == UXPanelColumnAlignment.BOTTOM) {
                             Component tallestComponent = findTallestComponent(getComponents());
                             lastY = getHeight() - tallestComponent.getHeight();
                         }
 
                         component.setLocation(lastX, lastY);
 
-                        if (currentRowAlignment == UXPanelRowAlignment.LEFT) {
+                        if (rowAlignment == UXPanelRowAlignment.LEFT) {
                             if (componentID == getComponents().length - 1) lastX += component.getWidth();
                             else lastX += component.getWidth() + spacingX;
-                        } else if (currentRowAlignment == UXPanelRowAlignment.CENTER) {
+                        } else if (rowAlignment == UXPanelRowAlignment.CENTER) {
                             if (componentID == getComponents().length - 1) lastX += component.getWidth();
                             else lastX += component.getWidth() + spacingX;
-                        } else if (currentRowAlignment == UXPanelRowAlignment.RIGHT) {
+                        } else if (rowAlignment == UXPanelRowAlignment.RIGHT) {
                             if (componentID == getComponents().length - 1) lastX -= component.getWidth();
                             else lastX -= component.getWidth() + spacingX;
-                        } else if (currentRowAlignment == UXPanelRowAlignment.SPACE_EVENLY) {
+                        } else if (rowAlignment == UXPanelRowAlignment.SPACE_EVENLY) {
                             lastX += component.getWidth() + (getWidth() - getTotalWidth(getComponents())) / getComponents().length;
-                        } else if (currentRowAlignment == UXPanelRowAlignment.SPACE_BETWEEN) {
+                        } else if (rowAlignment == UXPanelRowAlignment.SPACE_BETWEEN) {
                             lastX += component.getWidth() + (getWidth() - getTotalWidth(getComponents())) / (getComponents().length - 1);
                         }
                     } else {
-                        if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
+                        if (componentID == 0 && columnAlignment == UXPanelColumnAlignment.CENTER) {
                             Component tallestComponent = findTallestComponent(getComponents());
                             lastY = (getHeight() - tallestComponent.getHeight()) / 2;
-                        } else if (componentID == 0 && currentColumnAlignment == UXPanelColumnAlignment.BOTTOM) {
+                        } else if (componentID == 0 && columnAlignment == UXPanelColumnAlignment.BOTTOM) {
                             Component tallestComponent = findTallestComponent(getComponents());
                             lastY = getHeight() - tallestComponent.getHeight();
                         }
 
                         component.setLocation(lastX, lastY);
 
-                        if (currentColumnAlignment == UXPanelColumnAlignment.TOP) {
+                        if (columnAlignment == UXPanelColumnAlignment.TOP) {
                             if (componentID == getComponents().length - 1) lastY += component.getHeight();
                             else lastY += component.getHeight() + spacingY;
-                        } else if (currentColumnAlignment == UXPanelColumnAlignment.CENTER) {
+                        } else if (columnAlignment == UXPanelColumnAlignment.CENTER) {
                             if (componentID == getComponents().length - 1) lastY += component.getHeight();
                             else lastY += component.getHeight() + spacingY;
-                        } else if (currentColumnAlignment == UXPanelColumnAlignment.BOTTOM) {
+                        } else if (columnAlignment == UXPanelColumnAlignment.BOTTOM) {
                             if (componentID == getComponents().length - 1) lastY -= component.getHeight();
                             else lastY -= component.getHeight() + spacingY;
                         }
