@@ -5,144 +5,129 @@ package net.skylix.elixor.desktop.unit;
  */
 public class BorderRadius extends Unit {
     /**
-     * The top border radius.
+     * The top left radius.
      */
-    private float top;
+    private float topLeft;
 
     /**
-     * The right border radius.
+     * The top right radius.
      */
-    private float right;
+    private float topRight;
 
     /**
-     * The bottom border radius.
+     * The bottom left border radius.
      */
-    private float bottom;
+    private float bottomLeft;
 
     /**
-     * The left border radius.
+     * The bottom right border radius.
      */
-    private float left;
+    private float bottomRight;
 
     /**
-     * Set the border radius individually for all directions.
-     * @param top The top border radius.
-     * @param right The right border radius.
-     * @param bottom The bottom border radius.
-     * @param left The left border radius.
+     * Create a new border radius.
+     * @param topLeft The top left radius.
+     * @param topRight The top right radius.
+     * @param bottomLeft The bottom left radius.
+     * @param bottomRight The bottom right radius.
      */
-    public BorderRadius(int top, int right, int bottom, int left) {
-        this.top = top;
-        this.right = right;
-        this.bottom = bottom;
-        this.left = left;
+    public BorderRadius(float topLeft, float topRight, float bottomLeft, float bottomRight) {
+        this.topLeft = topLeft;
+        this.topRight = topRight;
+        this.bottomLeft = bottomLeft;
+        this.bottomRight = bottomRight;
     }
 
     /**
-     * Set the border radius for the top, right and left, and bottom.
-     * @param top The top border radius.
-     * @param rightAndLeft The right and left border radius.
-     * @param bottom The bottom border radius.
+     * Create a new border radius.
+     * @param radius The radius for all sides.
      */
-    public BorderRadius(int top, int rightAndLeft, int bottom) {
-        this.top = top;
-        this.right = rightAndLeft;
-        this.bottom = bottom;
-        this.left = rightAndLeft;
+    public BorderRadius(float radius) {
+        this(radius, radius, radius, radius);
     }
 
     /**
-     * Set the border radius for the top/bottom, and right/left.
-     * @param topAndBottom The top and bottom border radius.
-     * @param rightAndLeft The right and left border radius.
+     * Create a new border radius.
+     * @Param topLeftRIght The radius for the top left and right.
+     * @Param bottomLeftRight The radius for the bottom left and right.
      */
-    public BorderRadius(int topAndBottom, int rightAndLeft) {
-        this.top = topAndBottom;
-        this.right = rightAndLeft;
-        this.bottom = topAndBottom;
-        this.left = rightAndLeft;
+    public BorderRadius(float topLeftRight, float bottomLeftRight) {
+        this(topLeftRight, topLeftRight, bottomLeftRight, bottomLeftRight);
     }
 
     /**
-     * Set the border radius for all of the side.
-     * @param allSides The border radius for all sides.
+     * Get the top left radius.
+     * @return The top left radius.
      */
-    public BorderRadius(int allSides) {
-        this.top = allSides;
-        this.right = allSides;
-        this.bottom = allSides;
-        this.left = allSides;
+    public float getTopLeft() {
+        return topLeft;
     }
 
     /**
-     * Get the top border radius.
-     * @return The top border radius.
+     * Set the top left radius.
+     * @param topLeft The top left radius.
      */
-    public float getTop() {
-        return top;
+    public void setTopLeft(float topLeft) {
+        this.topLeft = topLeft;
+        executeOnChange();
     }
 
     /**
-     * Get the right border radius.
-     * @return The right border radius.
+     * Get the top right radius.
+     * @return The top right radius.
      */
-    public float getRight() {
-        return right;
+    public float getTopRight() {
+        return topRight;
     }
 
     /**
-     * Get the bottom border radius.
-     * @return The bottom border radius.
+     * Set the top right radius.
+     * @param topRight The top right radius.
      */
-    public float getBottom() {
-        return bottom;
+    public void setTopRight(float topRight) {
+        this.topRight = topRight;
+        executeOnChange();
     }
 
     /**
-     * Get the left border radius.
-     * @return The left border radius.
+     * Get the bottom left radius.
+     * @return The bottom left radius.
      */
-    public float getLeft() {
-        return left;
+    public float getBottomLeft() {
+        return bottomLeft;
     }
 
     /**
-     * Get the total border radius.
-     * @return The total border radius.
+     * Set the bottom left radius.
+     * @param bottomLeft The bottom left radius.
+     */
+    public void setBottomLeft(float bottomLeft) {
+        this.bottomLeft = bottomLeft;
+        executeOnChange();
+    }
+
+    /**
+     * Get the bottom right radius.
+     * @return The bottom right radius.
+     */
+    public float getBottomRight() {
+        return bottomRight;
+    }
+
+    /**
+     * Set the bottom right radius.
+     * @param bottomRight The bottom right radius.
+     */
+    public void setBottomRight(float bottomRight) {
+        this.bottomRight = bottomRight;
+        executeOnChange();
+    }
+
+    /**
+     * Get the radius for all sides.
+     * @return The radius for all sides.
      */
     public float getTotal() {
-        return top + right + bottom + left;
-    }
-
-    /**
-     * Set the top border radius.
-     */
-    public void setTop(float top) {
-        this.top = top;
-        executeOnChange();
-    }
-
-    /**
-     * Set the right border radius.
-     */
-    public void setRight(float right) {
-        this.right = right;
-        executeOnChange();
-    }
-
-    /**
-     * Set the bottom border radius.
-     */
-    public void setBottom(float bottom) {
-        this.bottom = bottom;
-        executeOnChange();
-    }
-
-    /**
-     * Set the left border radius.
-     */
-    public void setLeft(float left) {
-        this.left = left;
-        executeOnChange();
+        return topLeft;
     }
 }

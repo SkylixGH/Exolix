@@ -163,16 +163,13 @@ class RenderingJComponent extends JComponent {
 
         // Draw all top level components
         for (Div element : elements) {
-            Padding padding = element.getPadding();
-            Margin margin = element.getMargin();
-            BorderRadius borderRadius = element.getBorderRadius();
+            element.setWidth(getWidth());
+            element.setHeight(getHeight());
 
-            final float x = padding.getLeft() + margin.getLeft();
-            final float y = padding.getTop() + margin.getTop();
-
-            g.setColor(Color.BLACK);
-            element.render(g);
+            element.getSwingComponent().setLocation(0, 0);
         }
+
+        paintComponents(g);
     }
 
     /**
@@ -188,6 +185,7 @@ class RenderingJComponent extends JComponent {
      */
     public void add(Div element) {
         elements.add(element);
+        super.add(element.getSwingComponent());
         render();
     }
 
