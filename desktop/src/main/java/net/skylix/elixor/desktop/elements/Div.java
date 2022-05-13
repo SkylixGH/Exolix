@@ -1,12 +1,10 @@
 package net.skylix.elixor.desktop.elements;
 
 import java.util.ArrayList;
-import java.util.function.BiConsumer;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-import javax.swing.SwingContainer;
 
 import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Margin;
@@ -14,7 +12,6 @@ import net.skylix.elixor.desktop.unit.Padding;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 import java.awt.Dimension;
 import java.awt.*;
-import java.awt.geom.Path2D;
 
 /**
  * This element is a container used for holding other elements.
@@ -45,6 +42,11 @@ public class Div {
      * All the element children.
      */
     private final ArrayList<Div> nodes = new ArrayList<>();
+
+    /**
+     * The border stroke width.
+     */
+    private int borderStrokeWidth = 1;
 
     /**
      * The size of this element.
@@ -95,6 +97,9 @@ public class Div {
      */
     public void reRender() {
         container.setSize(size);
+        container.setPreferredSize(size);
+        container.setMaximumSize(size);
+        container.setMinimumSize(size);
 
         // TODO: Customise
         final boolean borderBox = false;
@@ -226,16 +231,14 @@ public class Div {
      * @param borderRadius The border radius to set.
      */
     public void setBorderRadius(BorderRadius borderRadius) {
-        this.borderRadius.setTopLeft(borderRadius.getTopLeft());
-        this.borderRadius.setTopRight(borderRadius.getTopRight());
-        this.borderRadius.setBottomLeft(borderRadius.getBottomLeft());
-        this.borderRadius.setBottomRight(borderRadius.getBottomRight());
+        this.borderRadius.setArchHeight(borderRadius.getArchHeight());
+        this.borderRadius.setArchWidth(borderRadius.getArchWidth());
 
         reRender();
     }
 
     /**
-     * Get all of the element children.
+     * Get all the element children.
      * @return The element children.
      */
     public ArrayList<Div> getNodes() {
@@ -251,53 +254,44 @@ public class Div {
     }
 
     /**
+     * Set the border stroke width.
+     * @param borderStrokeWidth The border stroke width.
+     */
+    public void setBorderStrokeWidth(int borderStrokeWidth) {
+        this.borderStrokeWidth = borderStrokeWidth;
+    }
+
+    /**
+     * Get the border stroke width.
+     * @return The border stroke width.
+     */
+    public int getBorderStrokeWidth() {
+        return borderStrokeWidth;
+    }
+
+    /**
      * Render to a graphics panel.
      * @param g Graphics renderer.
      */
     public void render(Graphics2D g) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        if (borderRadius.getTotal() > 0) {
-            Path2D.Float p = new Path2D.Float();
+        if (borderStrokeWidth > 0) {
+            g.setColor(Color.BLACK);
+            g.setStroke(new BasicStroke(borderStrokeWidth));
 
-            // Create a rounded rectangle.
-            float x = margin.getLeft() + 10;
-            float y =  margin.getTop() + 10;
-            float w = size.width - 20;
-            float h = size.height - 20;
-            
-            // Allow using a different radius for each corner.
-            float rTopLeft = borderRadius.getTopLeft();
-            float rTopRight = borderRadius.getTopRight();
-            float rBottomLeft = borderRadius.getBottomLeft();
-            float rBottomRight = borderRadius.getBottomRight();
-
-            BasicStroke stroke = new BasicStroke(10);
-            g.setStroke(stroke);
-
-            p.moveTo(x + rTopLeft, y);
-            p.lineTo(x + w - rTopRight, y);
-            p.quadTo(x + w, y, x + w, y + rTopRight);
-            p.lineTo(x + w, y + h - rBottomRight);
-            p.quadTo(x + w, y + h, x + w - rBottomRight, y + h);
-            p.lineTo(x + rBottomLeft, y + h);
-            p.quadTo(x, y + h, x, y + h - rBottomLeft);
-            p.lineTo(x, y + rTopLeft);
-            p.quadTo(x, y, x + rTopLeft, y);
-
-            // set shape to red
-            g.setColor(Color.RED);
-            g.fill(p);
-
-            p.closePath();
-            g.setColor(Color.BLUE);
-            g.setStroke(stroke);
-            g.draw(p);
-            g.setClip(null);
+            g.drawRoundRect(
+                (int) (margin.getLeft() + borderStrokeWidth / 2),
+                (int) (margin.getTop() + borderStrokeWidth / 2),
+                (int) (size.width - (margin.getLeft() + margin.getRight()) - borderStrokeWidth),
+                (int) (size.height - (margin.getTop() + margin.getBottom()) - borderStrokeWidth),
+                (int) (borderRadius.getArchWidth() + borderStrokeWidth / 2),
+                (int) (borderRadius.getArchHeight() + borderStrokeWidth / 2)
+            );
         }
 
         container.paintComponents(g);
-
         g.dispose();
     }
 }

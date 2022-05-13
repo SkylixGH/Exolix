@@ -4,13 +4,11 @@ import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef;
 
 import net.skylix.elixor.desktop.elements.Div;
-import net.skylix.elixor.desktop.unit.BorderRadius;
-import net.skylix.elixor.desktop.unit.Margin;
-import net.skylix.elixor.desktop.unit.Padding;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 /**
  * A class for creating a desktop window on a desktop computer.
@@ -56,7 +54,14 @@ public class Window {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         // Add the panel to the window.
-        window.setContentPane(panel);
+        window.add(panel);
+
+        window.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                panel.repaint();
+            }
+        });
 
         panel.render();
     }
@@ -102,7 +107,7 @@ public class Window {
 
     /**
      * Run the window and allow it to be visible.
-     * If the windw is already visible, nothing will happen.
+     * If the window is already visible, nothing will happen.
      */
     public void run() {
         if (window.isVisible()) return;
@@ -125,19 +130,11 @@ public class Window {
     }
 
     /**
-     * Add an element.
-     * @param element The element to add.
+     * Set the root element.
+     * @param element The element to set as the root.
      */
-    public void add(Div element) {
-        panel.add(element);
-    }
-
-    /**
-     * Remove an element.
-     * @param element The element to remove.
-     */
-    public void remove(Div element) {
-        panel.remove(element);
+    public void setRoot(Div element) {
+        panel.setContentPane(element);
     }
 }
 
@@ -148,53 +145,71 @@ class RenderingJComponent extends JComponent {
     /**
      * All elements.
      */
-    private final ArrayList<Div> elements = new ArrayList<>();
+    private Div contentPane;
+
+    /**
+     * The window
+     */
+    private JFrame window = null;
+
+    /**
+     * Create the internal panel.
+     */
+    public RenderingJComponent() {
+        super();
+    }
 
     /**
      * The custom rendering method.
-     * @param g The graphics object to draw on.
+     * @param g3d The graphics object to draw on.
      */
     @Override
     public void paintComponent(Graphics g3d) {
         super.paintComponent(g3d);
 
+        if (window == null) {
+            window = (JFrame) SwingUtilities.getWindowAncestor(this);
+        }
+
         // Create the 2D graphics object.
         Graphics2D g = (Graphics2D) g3d;
 
-        // Draw all top level components
-        for (Div element : elements) {
-            element.setWidth(getWidth());
-            element.setHeight(getHeight());
+        // Draw content
+        if (contentPane != null) {
+            contentPane.setWidth(getWidth());
+            contentPane.setHeight(getHeight());
 
-            element.getSwingComponent().setLocation(0, 0);
+            contentPane.getMargin().setLeft(10);
+            contentPane.getMargin().setRight(10);
+            contentPane.getMargin().setTop(10);
+            contentPane.getMargin().setBottom(10);
+
+            contentPane.getBorderRadius().setArchHeight(25);
+            contentPane.getBorderRadius().setArchWidth(25);
+
+            contentPane.setBorderStrokeWidth(3);
+
+            contentPane.render(g);
         }
 
-        paintComponents(g);
+        g.dispose();
     }
 
     /**
-     * Re render the current panel contents and run the recalculations of the components.
+     * Re-render the current panel contents and run the recalculations of the components.
      */
     public void render() {
         repaint();
     }
 
     /**
-     * Add an element.
-     * @param element The element to add.
+     * Set the content pane of the window.
+     * @param contentPane The content pane to set.
      */
-    public void add(Div element) {
-        elements.add(element);
-        super.add(element.getSwingComponent());
-        render();
-    }
+    public void setContentPane(Div contentPane) {
+        removeAll();
 
-    /**
-     * Remove an element.
-     * @param element The element to remove.
-     */
-    public void remove(Div element) {
-        elements.remove(element);
-        render();
+        this.contentPane = contentPane;
+        repaint();
     }
  }

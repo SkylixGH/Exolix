@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elixor.iml" filepath="$PROJECT_DIR$/.idea/modules/elixor.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.test.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elixor.main.iml" filepath="$PROJECT_DIR$/.idea/modules/elixor.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.iml" filepath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.main.iml" filepath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.test.iml" filepath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.test.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/elixor.test.iml" filepath="$PROJECT_DIR$/.idea/modules/elixor.test.iml" />
+    </modules>
+  </component>
+</project>
