@@ -176,22 +176,11 @@ class RenderingJComponent extends JComponent {
 
         // Draw content
         if (contentPane != null) {
-            contentPane.setWidth(getWidth());
-            contentPane.setHeight(getHeight());
-
-            contentPane.getMargin().setLeft(10);
-            contentPane.getMargin().setRight(10);
-            contentPane.getMargin().setTop(10);
-            contentPane.getMargin().setBottom(10);
-
-            contentPane.getBorderRadius().setArchHeight(25);
-            contentPane.getBorderRadius().setArchWidth(25);
-
-            contentPane.setBorderStrokeWidth(3);
-
-            contentPane.render(g);
+            contentPane.setWidth(window.getWidth());
+            contentPane.setHeight(window.getHeight());
         }
 
+        paintChildren(g);
         g.dispose();
     }
 

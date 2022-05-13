@@ -4,7 +4,11 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
+import javax.swing.SwingUtilities;
+import javax.swing.event.MouseInputAdapter;
 
 import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Margin;
@@ -12,12 +16,53 @@ import net.skylix.elixor.desktop.unit.Padding;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 import java.awt.Dimension;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.geom.Area;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.geom.Path2D;
+
+/**
+ * A round rectangle shape
+ */
+class RoundRectangle extends Path2D.Float {
+    /**
+     * Create the round rectangle
+     * 
+     * @param width The width of the rectangle
+     * @param height The height of the rectangle
+     * @param x The x position of the rectangle
+     * @param y The y position of the rectangle
+     * @param topLeftRadius The radius of the top left corner
+     * @param topRightRadius The radius of the top right corner
+     * @param bottomLeftRadius The radius of the bottom left corner
+     * @param bottomRightRadius The radius of the bottom right corner
+     */
+    public RoundRectangle(
+        final int width, final int height, final int x, final int y, final int topLeftRadius,
+        final int topRightRadius, final int bottomLeftRadius, final int bottomRightRadius
+    ) {
+        super();
+
+        moveTo(x + topLeftRadius, y);
+        lineTo(x + width - topRightRadius, y);
+        quadTo(x + width, y, x + width, y + topRightRadius);
+        lineTo(x + width, y + height - bottomRightRadius);
+        quadTo(x + width, y + height, x + width - bottomRightRadius, y + height);
+        lineTo(x + bottomLeftRadius, y + height);
+        quadTo(x, y + height, x, y + height - bottomLeftRadius);
+        lineTo(x, y + topLeftRadius);
+        quadTo(x, y, x + topLeftRadius, y);
+
+        closePath();
+    }
+}
 
 /**
  * This element is a container used for holding other elements.
  * One of the default pre defined elements in this framework.
  */
-public class Div {
+public class Div extends DivAdapter {
     /**
      * The element padding.
      */
@@ -54,9 +99,23 @@ public class Div {
     private final Dimension size;
 
     /**
+     * The graphics panel rectangle.
+     */
+    private Path2D.Float rect;
+
+    /**
+     * Is the mouse over.
+     */
+    private boolean mouseOver = false;
+
+    /**
      * Create a new div element.
      */
     public Div() {
+        super();
+
+        addListener(this);
+
         padding = new Padding(0);
         margin = new Margin(0);
         borderRadius = new BorderRadius(0);
@@ -65,8 +124,9 @@ public class Div {
         container = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
+                System.out.println("Painting");
+                handleMetrics();
                 render((Graphics2D) g);
-                System.out.println("Rendering");
             }
         };
 
@@ -90,40 +150,71 @@ public class Div {
                 reRender();
             }
         });
+
+        container.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+        });
+    }
+
+    /**
+     * Handle the mouse event.
+     * 
+     * @param event Mouse event.
+     */
+    private void handleMouseEvent(MouseEvent event) {
+        if (listeners.size() == 0)
+            return;
+
+        DivMouseEvent eventOut = new DivMouseEvent(event.getX(), event.getY(), false, false);
+
+        executeOnMouseEvent(eventOut);
     }
 
     /**
      * Force everything to render again.
      */
     public void reRender() {
+        handleMetrics();
+        container.repaint();
+    }
+
+    /**
+     * Handle the component metrics.
+     */
+    private void handleMetrics() {
         container.setSize(size);
         container.setPreferredSize(size);
-        container.setMaximumSize(size);
-        container.setMinimumSize(size);
 
         // TODO: Customise
         final boolean borderBox = false;
 
         if (margin.getTotal() > 0) {
-            container.setBorder(BorderFactory.createEmptyBorder((int) margin.getTop(), (int) margin.getLeft(), (int) margin.getBottom(), (int) margin.getRight()));
+            container.setBorder(BorderFactory.createEmptyBorder((int) margin.getTop(), (int) margin.getLeft(),
+                    (int) margin.getBottom(), (int) margin.getRight()));
 
             Dimension sizeFinal = new Dimension(
-                (int) (size.width + margin.getLeft() + margin.getRight()),
-                (int) (size.height + margin.getTop() + margin.getBottom())
-            );
+                    (int) (size.width + margin.getLeft() + margin.getRight()),
+                    (int) (size.height + margin.getTop() + margin.getBottom()));
 
             container.setSize(sizeFinal);
             container.setPreferredSize(sizeFinal);
         }
-
-        container.repaint();
     }
 
     /**
      * Set the size of this element.
-     * @param width The width of this element.
+     * 
+     * @param width  The width of this element.
      * @param height The height of this element.
-     */ 
+     */
     public void setSize(int width, int height) {
         size.setSize(width, height);
         reRender();
@@ -131,19 +222,20 @@ public class Div {
 
     /**
      * Get the size of this element.
+     * 
      * @return The size of this element.
      */
     public Dimension getSize() {
         Dimension sizePrecise = new Dimension(
-            (int) (size.width - (margin.getLeft() + margin.getRight())),
-            (int) (size.height - (margin.getTop() + margin.getBottom()))
-        );
+                (int) (size.width - (margin.getLeft() + margin.getRight())),
+                (int) (size.height - (margin.getTop() + margin.getBottom())));
 
         return sizePrecise;
     }
 
     /**
      * Set the width of this element.
+     * 
      * @param width The width of this element.
      */
     public void setWidth(int width) {
@@ -153,6 +245,7 @@ public class Div {
 
     /**
      * Set the height of this element.
+     * 
      * @param height The height of this element.
      */
     public void setHeight(int height) {
@@ -162,6 +255,7 @@ public class Div {
 
     /**
      * Get the width
+     * 
      * @return The width of this element.
      */
     public int getWidth() {
@@ -170,6 +264,7 @@ public class Div {
 
     /**
      * Get the height
+     * 
      * @return The height of this element.
      */
     public int getHeight() {
@@ -178,6 +273,7 @@ public class Div {
 
     /**
      * Set the margin of this element.
+     * 
      * @param margin The margin to set.
      */
     public void setMargin(Margin margin) {
@@ -191,6 +287,7 @@ public class Div {
 
     /**
      * Get the margin.
+     * 
      * @return The margin.
      */
     public Margin getMargin() {
@@ -199,6 +296,7 @@ public class Div {
 
     /**
      * Get the padding.
+     * 
      * @return The padding.
      */
     public Padding getPadding() {
@@ -207,6 +305,7 @@ public class Div {
 
     /**
      * Set the padding of this element.
+     * 
      * @param padding The padding to set.
      */
     public void setPadding(Padding padding) {
@@ -220,6 +319,7 @@ public class Div {
 
     /**
      * Get the border radius.
+     * 
      * @return The border radius.
      */
     public BorderRadius getBorderRadius() {
@@ -228,17 +328,21 @@ public class Div {
 
     /**
      * Set the border radius of this element.
+     * 
      * @param borderRadius The border radius to set.
      */
     public void setBorderRadius(BorderRadius borderRadius) {
-        this.borderRadius.setArchHeight(borderRadius.getArchHeight());
-        this.borderRadius.setArchWidth(borderRadius.getArchWidth());
+        this.borderRadius.setTopLeft(borderRadius.getTopLeft());
+        this.borderRadius.setTopRight(borderRadius.getTopRight());
+        this.borderRadius.setBottomLeft(borderRadius.getBottomLeft());
+        this.borderRadius.setBottomRight(borderRadius.getBottomRight());
 
         reRender();
     }
 
     /**
      * Get all the element children.
+     * 
      * @return The element children.
      */
     public ArrayList<Div> getNodes() {
@@ -247,6 +351,7 @@ public class Div {
 
     /**
      * Get JAVAX Swing component.
+     * 
      * @return The Swing component.
      */
     public JComponent getSwingComponent() {
@@ -255,14 +360,17 @@ public class Div {
 
     /**
      * Set the border stroke width.
+     * 
      * @param borderStrokeWidth The border stroke width.
      */
     public void setBorderStrokeWidth(int borderStrokeWidth) {
         this.borderStrokeWidth = borderStrokeWidth;
+        reRender();
     }
 
     /**
      * Get the border stroke width.
+     * 
      * @return The border stroke width.
      */
     public int getBorderStrokeWidth() {
@@ -270,7 +378,17 @@ public class Div {
     }
 
     /**
+     * Check to see if the mouse is over this element.
+     * 
+     * @return True if the mouse is over this element.
+     */
+    public boolean isMouseOver() {
+        return mouseOver;
+    }
+
+    /**
      * Render to a graphics panel.
+     * 
      * @param g Graphics renderer.
      */
     public void render(Graphics2D g) {
@@ -280,18 +398,56 @@ public class Div {
         if (borderStrokeWidth > 0) {
             g.setColor(Color.BLACK);
             g.setStroke(new BasicStroke(borderStrokeWidth));
-
-            g.drawRoundRect(
-                (int) (margin.getLeft() + borderStrokeWidth / 2),
-                (int) (margin.getTop() + borderStrokeWidth / 2),
-                (int) (size.width - (margin.getLeft() + margin.getRight()) - borderStrokeWidth),
-                (int) (size.height - (margin.getTop() + margin.getBottom()) - borderStrokeWidth),
-                (int) (borderRadius.getArchWidth() + borderStrokeWidth / 2),
-                (int) (borderRadius.getArchHeight() + borderStrokeWidth / 2)
-            );
         }
+
+        container.setOpaque(false);
+
+        final int width = 100;
+        final int height = 100;
+
+        final int topLeftRadius = (int) borderRadius.getTopLeft() > (width / 2) || (int) borderRadius.getTopLeft() > (height / 2) ? (int) borderRadius.getTopLeft() : (width / 2);
+        final int topRightRadius = (int) borderRadius.getTopRight() > (width / 2) || (int) borderRadius.getTopRight() > (height / 2) ? (int) borderRadius.getTopRight() : (width / 2);
+        final int bottomLeftRadius = (int) borderRadius.getBottomLeft() > (width / 2) || (int) borderRadius.getBottomLeft() > (height / 2) ? (int) borderRadius.getBottomLeft() : (width / 2);
+        final int bottomRightRadius = (int) borderRadius.getBottomRight() > (width / 2) || (int) borderRadius.getBottomRight() > (height / 2) ? (int) borderRadius.getBottomRight() : (width / 2);
+
+        rect = new RoundRectangle(
+            width, 
+            height,
+            (borderStrokeWidth / 2),
+            (borderStrokeWidth / 2),
+            topLeftRadius,
+            topRightRadius,
+            bottomLeftRadius,
+            bottomRightRadius
+        );
+
+        Area area = new Area(rect);
+
+        final int mouseX = MouseInfo.getPointerInfo().getLocation().x;
+        final int mouseY = MouseInfo.getPointerInfo().getLocation().y;
+
+        if (area.contains(mouseX, mouseY)) {
+            mouseOver = true;
+        } else {
+            mouseOver = false;
+        }
+
+        g.draw(rect);
 
         container.paintComponents(g);
         g.dispose();
+
+        // done log
+        System.out.println("Rendered " + getClass().getSimpleName() + ": " + 4567);
+    }
+
+    /**
+     * On mouse event.
+     * 
+     * @param event The mouse event.
+     */
+    @Override
+    public void onMouseEvent(DivMouseEvent event) {
+
     }
 }
