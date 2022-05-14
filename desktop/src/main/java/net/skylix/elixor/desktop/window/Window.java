@@ -197,6 +197,7 @@ class RenderingJComponent extends JComponent {
      */
     public void setContentPane(Div contentPane) {
         removeAll();
+        add(contentPane.getSwingComponent());
 
         this.contentPane = contentPane;
         repaint();

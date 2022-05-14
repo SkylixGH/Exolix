@@ -23,42 +23,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.geom.Path2D;
 
 /**
- * A round rectangle shape
- */
-class RoundRectangle extends Path2D.Float {
-    /**
-     * Create the round rectangle
-     * 
-     * @param width The width of the rectangle
-     * @param height The height of the rectangle
-     * @param x The x position of the rectangle
-     * @param y The y position of the rectangle
-     * @param topLeftRadius The radius of the top left corner
-     * @param topRightRadius The radius of the top right corner
-     * @param bottomLeftRadius The radius of the bottom left corner
-     * @param bottomRightRadius The radius of the bottom right corner
-     */
-    public RoundRectangle(
-        final int width, final int height, final int x, final int y, final int topLeftRadius,
-        final int topRightRadius, final int bottomLeftRadius, final int bottomRightRadius
-    ) {
-        super();
-
-        moveTo(x + topLeftRadius, y);
-        lineTo(x + width - topRightRadius, y);
-        quadTo(x + width, y, x + width, y + topRightRadius);
-        lineTo(x + width, y + height - bottomRightRadius);
-        quadTo(x + width, y + height, x + width - bottomRightRadius, y + height);
-        lineTo(x + bottomLeftRadius, y + height);
-        quadTo(x, y + height, x, y + height - bottomLeftRadius);
-        lineTo(x, y + topLeftRadius);
-        quadTo(x, y, x + topLeftRadius, y);
-
-        closePath();
-    }
-}
-
-/**
  * This element is a container used for holding other elements.
  * One of the default pre defined elements in this framework.
  */
@@ -124,7 +88,6 @@ public class Div extends DivAdapter {
         container = new JPanel() {
             @Override
             public void paintComponent(Graphics g) {
-                System.out.println("Painting");
                 handleMetrics();
                 render((Graphics2D) g);
             }
@@ -395,20 +358,18 @@ public class Div extends DivAdapter {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        if (borderStrokeWidth > 0) {
-            g.setColor(Color.BLACK);
-            g.setStroke(new BasicStroke(borderStrokeWidth));
-        }
-
         container.setOpaque(false);
 
-        final int width = 100;
-        final int height = 100;
+        final int width = getWidth() - 16;
+        final int height = getHeight() - 39;
 
-        final int topLeftRadius = (int) borderRadius.getTopLeft() > (width / 2) || (int) borderRadius.getTopLeft() > (height / 2) ? (int) borderRadius.getTopLeft() : (width / 2);
-        final int topRightRadius = (int) borderRadius.getTopRight() > (width / 2) || (int) borderRadius.getTopRight() > (height / 2) ? (int) borderRadius.getTopRight() : (width / 2);
-        final int bottomLeftRadius = (int) borderRadius.getBottomLeft() > (width / 2) || (int) borderRadius.getBottomLeft() > (height / 2) ? (int) borderRadius.getBottomLeft() : (width / 2);
-        final int bottomRightRadius = (int) borderRadius.getBottomRight() > (width / 2) || (int) borderRadius.getBottomRight() > (height / 2) ? (int) borderRadius.getBottomRight() : (width / 2);
+        final int topLeftRadius = (int) borderRadius.getTopLeft();
+        final int topRightRadius = (int) borderRadius.getTopRight();
+        final int bottomLeftRadius = (int) borderRadius.getBottomLeft();
+        final int bottomRightRadius = (int) borderRadius.getBottomRight();
+
+        // set clip region
+        g.setClip(0, 0, width, height);
 
         rect = new RoundRectangle(
             width, 
@@ -418,7 +379,8 @@ public class Div extends DivAdapter {
             topLeftRadius,
             topRightRadius,
             bottomLeftRadius,
-            bottomRightRadius
+            bottomRightRadius,
+            borderStrokeWidth
         );
 
         Area area = new Area(rect);
@@ -432,13 +394,20 @@ public class Div extends DivAdapter {
             mouseOver = false;
         }
 
-        g.draw(rect);
+        if (borderStrokeWidth > 0) {
+            g.setColor(Color.BLACK);
+            // Add a stroke that does not expand the bounds, make the stroke radius 4px
+            g.setStroke(new BasicStroke(borderStrokeWidth));
+        }
+
+        if (borderStrokeWidth > 0)
+            g.draw(rect);
+
+        g.setColor(Color.pink);
+        g.fill(rect);
 
         container.paintComponents(g);
         g.dispose();
-
-        // done log
-        System.out.println("Rendered " + getClass().getSimpleName() + ": " + 4567);
     }
 
     /**
@@ -449,5 +418,79 @@ public class Div extends DivAdapter {
     @Override
     public void onMouseEvent(DivMouseEvent event) {
 
+    }
+}
+
+/**
+ * A round rectangle shape
+ */
+class RoundRectangle extends Path2D.Float {
+    /**
+     * Create the round rectangle
+     *
+     * @param widthRaw The width of the rectangle
+     * @param heightRaw The height of the rectangle
+     * @param x The x position of the rectangle
+     * @param y The y position of the rectangle
+     * @param topLeftRadius The radius of the top left corner
+     * @param topRightRadius The radius of the top right corner
+     * @param bottomLeftRadius The radius of the bottom left corner
+     * @param bottomRightRadius The radius of the bottom right corner
+     * @param strokeWidth The stroke width
+     */
+    public RoundRectangle(
+            int widthRaw, int heightRaw, int x, int y, int topLeftRadius,
+            int topRightRadius, int bottomLeftRadius, int bottomRightRadius,
+            int strokeWidth
+    ) {
+        super();
+
+        int width = widthRaw - strokeWidth;
+        int height = heightRaw - strokeWidth;
+
+        // render a different way if the curveTo issues happen
+        if (topLeftRadius > width / 2 || topLeftRadius > height / 2) {
+            topLeftRadius = width / 2;
+        }
+
+        if (topRightRadius > width / 2 || topRightRadius > height / 2) {
+            topRightRadius = width / 2;
+        }
+
+        if (bottomLeftRadius > width / 2 || bottomLeftRadius > height / 2) {
+            bottomLeftRadius = width / 2;
+        }
+
+        if (bottomRightRadius > width / 2 || bottomRightRadius > height / 2) {
+            bottomRightRadius = width / 2;
+        }
+
+        if (topLeftRadius > height / 2 || topLeftRadius > width / 2) {
+            topLeftRadius = height / 2;
+        }
+
+        if (topRightRadius > height / 2 || topRightRadius > width / 2) {
+            topRightRadius = height / 2;
+        }
+
+        if (bottomLeftRadius > height / 2 || bottomLeftRadius > width / 2) {
+            bottomLeftRadius = height / 2;
+        }
+
+        if (bottomRightRadius > height / 2 || bottomRightRadius > width / 2) {
+            bottomRightRadius = height / 2;
+        }
+
+        moveTo(x + topLeftRadius, y);
+        lineTo(x + width - topRightRadius, y);
+        quadTo(x + width, y, x + width, y + topRightRadius);
+        lineTo(x + width, y + height - bottomRightRadius);
+        quadTo(x + width, y + height, x + width - bottomRightRadius, y + height);
+        lineTo(x + bottomLeftRadius, y + height);
+        quadTo(x, y + height, x, y + height - bottomLeftRadius);
+        lineTo(x, y + topLeftRadius);
+        quadTo(x, y, x + topLeftRadius, y);
+
+        closePath();
     }
 }

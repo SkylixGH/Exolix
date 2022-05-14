@@ -9,6 +9,7 @@ import javax.swing.event.ChangeListener;
 import net.skylix.elixor.desktop.elements.Div;
 import net.skylix.elixor.desktop.elements.DivAdapter;
 import net.skylix.elixor.desktop.elements.DivMouseEvent;
+import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
@@ -19,7 +20,8 @@ public class MyApp {
         Div div = new Div();
 
         div.setBorderStrokeWidth(10);
-        div.getMargin().setLeft(10);
+
+        div.setBorderRadius(new BorderRadius(4));
 
         JLabel jsb = new JLabel("J = (Compiled in ...");
         jsb.setFont(new Font("Arial", Font.ITALIC, 20));
@@ -37,7 +39,8 @@ public class MyApp {
         win.run();
 
         JFrame setting = new JFrame("Settings");
-        JSlider strokeWidth = new JSlider(0, 100, 10);
+        JSlider strokeWidth = new JSlider(0, 500, 10);
+        JLabel value = new JLabel("0");
 
         strokeWidth.addChangeListener(new ChangeListener() {{
             
@@ -47,12 +50,14 @@ public class MyApp {
         public void stateChanged(ChangeEvent e) {
             // TODO Auto-generated method stub
             div.setBorderStrokeWidth(strokeWidth.getValue());
-            div.getSwingComponent().repaint();
+            value.setText(strokeWidth.getValue() + "");
         }});
 
         setting.setLocation(800, 0);
 
-        setting.add(strokeWidth);
+        setting.setLayout(new BorderLayout());
+        setting.add(strokeWidth, BorderLayout.NORTH);
+        setting.add(value, BorderLayout.SOUTH);
         setting.setSize(300, 500);
         setting.setVisible(true);
     }
