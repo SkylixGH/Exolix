@@ -56,10 +56,11 @@ public class Window {
         // Add the panel to the window.
         window.add(panel);
 
+        // Listen for window resize events
         window.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                panel.repaint();
+                size = window.getSize();
             }
         });
 

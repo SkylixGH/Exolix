@@ -73,6 +73,11 @@ public class Div extends DivAdapter {
     private boolean mouseOver = false;
 
     /**
+     * Is the mouse pressed.
+     */
+    private boolean mouseDown = false;
+
+    /**
      * Create a new div element.
      */
     public Div() {
@@ -124,6 +129,33 @@ public class Div extends DivAdapter {
             public void mouseExited(MouseEvent e) {
                 handleMouseEvent(e);
             }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                mouseDown = true;
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                mouseDown = false;
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+        });
+
+
+        // Listen for mouse movement
+        container.addMouseMotionListener(new MouseInputAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                if (mouseOver)
+                    handleMouseEvent(e);
+            }
         });
     }
 
@@ -136,7 +168,7 @@ public class Div extends DivAdapter {
         if (listeners.size() == 0)
             return;
 
-        DivMouseEvent eventOut = new DivMouseEvent(event.getX(), event.getY(), false, false);
+        DivMouseEvent eventOut = new DivMouseEvent(event.getX(), event.getY(), mouseOver, mouseDown);
 
         executeOnMouseEvent(eventOut);
     }
@@ -350,6 +382,15 @@ public class Div extends DivAdapter {
     }
 
     /**
+     * Check to see if the mouse is pressed.
+     * 
+     * @return True if the mouse is pressed.
+     */
+    public boolean isMouseDown() {
+        return mouseDown;
+    }
+
+    /**
      * Render to a graphics panel.
      * 
      * @param g Graphics renderer.
@@ -396,8 +437,18 @@ public class Div extends DivAdapter {
 
         if (borderStrokeWidth > 0) {
             g.setColor(Color.BLACK);
-            // Add a stroke that does not expand the bounds, make the stroke radius 4px
             g.setStroke(new BasicStroke(borderStrokeWidth));
+
+            // Sometimes the corners don't render at all
+            if (borderStrokeWidth > 0) {
+                if (bottomLeftRadius < 1) {
+                    g.drawRect(0, height - borderStrokeWidth, borderStrokeWidth / 2, borderStrokeWidth / 2);
+                }
+
+                if (bottomRightRadius < 1) {
+                    g.drawRect(width - borderStrokeWidth / 2, height - borderStrokeWidth, borderStrokeWidth / 2, borderStrokeWidth / 2);
+                }
+            }
         }
 
         if (borderStrokeWidth > 0)
