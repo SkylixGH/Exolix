@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This element is a container used for holding other elements.
@@ -42,7 +43,7 @@ public class Div {
     /**
      * All the element children.
      */
-    private final ArrayList<Div> nodes = new ArrayList<>();
+    private final List<Div> nodes = new ArrayList<>();
     /**
      * The size of this element.
      */
@@ -116,6 +117,8 @@ public class Div {
             }
         });
 
+        container.setOpaque(false);
+
         container.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
@@ -159,6 +162,30 @@ public class Div {
                 handleMouseEvent(e);
             }
         });
+    }
+
+    /**
+     * Add an element to the element tree.
+     *
+     * @param node The element to add.
+     */
+    public void add(Div node) {
+        nodes.add(node);
+        container.add(node.getSwingComponent());
+
+        reRender();
+    }
+
+    /**
+     * Remove an element from the element tree.
+     *
+     * @param node The element to remove.
+     */
+    public void remove(Div node) {
+        nodes.remove(node);
+        container.remove(node.getSwingComponent());
+
+        reRender();
     }
 
     /**
@@ -429,15 +456,17 @@ public class Div {
      * Render to a graphics panel.
      *
      * @param g Graphics renderer.
+     * @param clipX The X clip, if this is set to -1, clipping will not be applied from here.
+     * @param clipY The Y clip.
+     * @param clipWidth The width of the clip.
+     * @param clipHeight The height of the clip.
      */
-    public void render(Graphics2D g) {
+    public void render(Graphics2D g, int clipX, int clipY, int clipWidth, int clipHeight) {
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        container.setOpaque(false);
-
-        final int width = getWidth() - 16;
-        final int height = getHeight() - 39;
+        final int width = getWidth();
+        final int height = getHeight();
 
         final int topLeftRadius = (int) borderRadius.getTopLeft();
         final int topRightRadius = (int) borderRadius.getTopRight();
@@ -445,7 +474,10 @@ public class Div {
         final int bottomRightRadius = (int) borderRadius.getBottomRight();
 
         // set clip region
-        g.setClip((int) margin.getLeft(), (int) margin.getLeft(), width - (int) margin.getLeft(), height - (int) margin.getLeft());
+        if (clipX == -1)
+            g.setClip((int) margin.getLeft(), (int) margin.getLeft(), width - (int) margin.getLeft(), height - (int) margin.getLeft());
+        else
+            g.setClip(clipX, clipY, clipWidth, clipHeight);
 
         rect = new RoundRectangle(
                 (int) (width - margin.getLeft()),
@@ -488,8 +520,20 @@ public class Div {
         g.setColor(backgroundColor);
         g.fill(rect);
 
-        container.paintComponents(g);
+        for (Div node : nodes) {
+            node.render(g);
+        }
+
         g.dispose();
+    }
+
+    /**
+     * Render the element to graphics.
+     *
+     * @param g Graphics renderer.
+     */
+    public void render(Graphics2D g) {
+        render(g, -1, 0, container.getWidth(), container.getHeight());
     }
 }
 

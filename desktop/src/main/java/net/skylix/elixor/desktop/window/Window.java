@@ -61,19 +61,6 @@ public class Window {
         window.setSize(size);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Listen for mouse events.
-        panel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                handleMouseEvent(e);
-            }
-
-            @Override
-            public void mouseDragged(MouseEvent e) {
-                handleMouseEvent(e);
-            }
-        });
-
         // Add the panel to the window.
         window.add(panel);
 
@@ -86,30 +73,6 @@ public class Window {
         });
 
         panel.render();
-    }
-
-    /**
-     * Execute all mouse event listeners.
-     *
-     * @param event The mouse event.
-     */
-    private void executeMouseEvents(WindowMouseEvent event) {
-        for (WindowAdapter listener : listeners) {
-            listener.onMouseEvent(event);
-        }
-    }
-
-    /**
-     * Handle a mouse event.
-     *
-     * @param e The mouse event.
-     */
-    private void handleMouseEvent(java.awt.event.MouseEvent e) {
-        // Log info
-        System.out.println("Mouse event: " + e.getX() + ", " + e.getY() + ", " + e.getButton() + ", " + e.isMetaDown());
-        final boolean isMouseOver = e.getX() >= 0 && e.getX() <= size.width && e.getY() >= 0 && e.getY() <= size.height;
-        WindowMouseEvent event = new WindowMouseEvent(e.getX(), e.getY(), e.getButton(), isMouseOver);
-        executeMouseEvents(event);
     }
 
     /**
@@ -240,8 +203,8 @@ class RenderingJComponent extends JComponent {
 
         // Draw content
         if (contentPane != null) {
-            contentPane.setWidth(window.getWidth());
-            contentPane.setHeight(window.getHeight());
+            contentPane.setWidth(window.getWidth() - 16);
+            contentPane.setHeight(window.getHeight() - 39);
         }
 
         paintChildren(g);

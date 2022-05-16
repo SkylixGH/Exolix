@@ -11,7 +11,6 @@ import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Margin;
 import net.skylix.elixor.desktop.window.Window;
 import net.skylix.elixor.desktop.window.WindowAdapter;
-import net.skylix.elixor.desktop.window.WindowMouseEvent;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -45,12 +44,7 @@ public class MyApp {
         div.setBorderStrokeWidth(10);
 
         div.setBorderRadius(new BorderRadius(4));
-        div.setMargin(new Margin(10));
-
-        JLabel jsb = new JLabel("J = (Compiled in ...");
-        jsb.setFont(new Font("Arial", Font.ITALIC, 20));
-
-        div.getSwingComponent().add(jsb);
+        div.setMargin(new Margin(2));
 
         div.addListener(new DivAdapter() {
             @Override 
@@ -59,7 +53,7 @@ public class MyApp {
 
                 if (e.isMouseOver() && !e.isMouseDown()) {
                     div.setBackgroundColor(new Color(255, 0, 0));
-                } else if (e.isMouseOver() && e.isMouseDown()) {
+                } else if (e.isMouseOver()) {
                     div.setBackgroundColor(new Color(0, 0, 255));
                 } else {
                     div.setBackgroundColor(new Color(0, 255, 0));
@@ -81,12 +75,6 @@ public class MyApp {
             }
         });
 
-        win.addWindowListener(new WindowAdapter() {
-            @Override
-            public void onMouseEvent(WindowMouseEvent event) {
-                System.out.println("Window event: X = " + event.getMouseX() + ", Y = " + event.getMouseY() + ", MouseOver = " + event.isMouseOver());
-            }
-        });
 
         win.setRoot(div);
         win.run();
@@ -120,6 +108,29 @@ public class MyApp {
                 }
 
         });
+
+        Div inner = new Div();
+
+        inner.addListener(new DivAdapter() {
+            @Override
+            public void onMouseEvent(DivMouseEvent event) {
+                inner.setWidth(div.getWidth());
+                inner.setMargin(new Margin(10));
+                inner.setBorderRadius(new BorderRadius(10));
+                inner.setBorderStrokeWidth(0);
+
+                 if (event.isMouseOver()) {
+                        inner.setBackgroundColor(new Color(255, 255, 0));
+                    } else {
+                     inner.setBackgroundColor(new Color(255, 0, 255));
+                 }
+            }
+        });
+        inner.setBackgroundColor(new Color(0, 0, 0));
+        inner.setSize(200, 100);
+        inner.setMargin(new Margin(10));
+
+        div.add(inner);
 
         setting.setLocation(800, 0);
 
