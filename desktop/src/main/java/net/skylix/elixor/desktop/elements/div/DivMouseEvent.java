@@ -1,4 +1,4 @@
-package net.skylix.elixor.desktop.elements;
+package net.skylix.elixor.desktop.elements.div;
 
 import net.skylix.elixor.desktop.unit.Position;
 

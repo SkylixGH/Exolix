@@ -3,7 +3,7 @@ package net.skylix.elixor.desktop.window;
 import com.sun.jna.Native;
 import com.sun.jna.platform.win32.WinDef;
 
-import net.skylix.elixor.desktop.elements.Div;
+import net.skylix.elixor.desktop.elements.div.Div;
 
 import javax.swing.*;
 import java.awt.*;

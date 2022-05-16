@@ -1,4 +1,4 @@
-package net.skylix.elixor.desktop.elements;
+package net.skylix.elixor.desktop.elements.div;
 
 import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Margin;
@@ -10,7 +10,6 @@ import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,6 +206,7 @@ public class Div {
         if (listeners.size() == 0)
             return;
 
+        reRender();
         DivMouseEvent eventOut = new DivMouseEvent(event.getX(), event.getY(), mouseOver, mouseDown);
 
         executeOnMouseEvent(eventOut);
