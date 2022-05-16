@@ -126,8 +126,6 @@ public class Div extends DivAdapter {
 
             @Override
             public void mousePressed(MouseEvent e) {
-                if (!mouseOver) return;
-
                 mouseDown = true;
                 handleMouseEvent(e);
             }
@@ -140,8 +138,8 @@ public class Div extends DivAdapter {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (mouseOver)
-                    handleMouseEvent(e);
+                if (!mouseOver) return;
+                handleMouseEvent(e);
             }
         });
 
