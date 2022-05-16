@@ -129,6 +129,7 @@ public class Div {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                if (!mouseOver) return;
                 mouseDown = true;
                 handleMouseEvent(e);
             }

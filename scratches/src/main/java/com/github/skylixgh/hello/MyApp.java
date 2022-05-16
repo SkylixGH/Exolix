@@ -10,6 +10,8 @@ import net.skylix.elixor.desktop.elements.DivMouseEvent;
 import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Margin;
 import net.skylix.elixor.desktop.window.Window;
+import net.skylix.elixor.desktop.window.WindowAdapter;
+import net.skylix.elixor.desktop.window.WindowMouseEvent;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -53,12 +55,14 @@ public class MyApp {
         div.addListener(new DivAdapter() {
             @Override 
             public void onMouseEvent(DivMouseEvent e) {
-                System.out.println("Mouse event: X = " + e.getMouseX() + ", Y = " + e.getMouseY() + ", MouseOver = " + e.isMouseOver() + ", MouseDown = " + e.isMouseDown());
+//                System.out.println("Mouse event: X = " + e.getMouseX() + ", Y = " + e.getMouseY() + ", MouseOver = " + e.isMouseOver() + ", MouseDown = " + e.isMouseDown());
 
-                if (e.isMouseOver()) {
+                if (e.isMouseOver() && !e.isMouseDown()) {
                     div.setBackgroundColor(new Color(255, 0, 0));
-                } else {
+                } else if (e.isMouseOver() && e.isMouseDown()) {
                     div.setBackgroundColor(new Color(0, 0, 255));
+                } else {
+                    div.setBackgroundColor(new Color(0, 255, 0));
                 }
 
                 if (e.isMouseOver()) {
@@ -74,6 +78,13 @@ public class MyApp {
                 }
 
                 statsMousePos.setText("Mouse Position: X = " + e.getMouseX() + ", Y = " + e.getMouseY());
+            }
+        });
+
+        win.addWindowListener(new WindowAdapter() {
+            @Override
+            public void onMouseEvent(WindowMouseEvent event) {
+                System.out.println("Window event: X = " + event.getMouseX() + ", Y = " + event.getMouseY() + ", MouseOver = " + event.isMouseOver());
             }
         });
 

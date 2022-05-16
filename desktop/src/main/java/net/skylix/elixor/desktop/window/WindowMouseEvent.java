@@ -6,14 +6,15 @@ package net.skylix.elixor.desktop.window;
  * @param x      The x coordinate of the mouse.
  * @param y      The y coordinate of the mouse.
  * @param button The button that was pressed.
+ * @param mouseOver Is the mouse over the window.
  */
-public record WindowMouseEvent(int x, int y, int button) {
+public record WindowMouseEvent(int x, int y, int button, boolean mouseOver) {
     /**
      * Get the x coordinate of the mouse.
      *
      * @return The x coordinate of the mouse.
      */
-    public int getX() {
+    public int getMouseX() {
         return x;
     }
 
@@ -22,7 +23,7 @@ public record WindowMouseEvent(int x, int y, int button) {
      *
      * @return The y coordinate of the mouse.
      */
-    public int getY() {
+    public int getMouseY() {
         return y;
     }
 
@@ -33,5 +34,14 @@ public record WindowMouseEvent(int x, int y, int button) {
      */
     public int getButton() {
         return button;
+    }
+
+    /**
+     * is the mouse over the window.
+     *
+     * @return If the mouse is over the window.
+     */
+    public boolean isMouseOver() {
+        return mouseOver;
     }
 }

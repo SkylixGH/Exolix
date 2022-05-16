@@ -9,6 +9,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 /**
@@ -59,6 +61,19 @@ public class Window {
         window.setSize(size);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // Listen for mouse events.
+        panel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                handleMouseEvent(e);
+            }
+        });
+
         // Add the panel to the window.
         window.add(panel);
 
@@ -70,33 +85,15 @@ public class Window {
             }
         });
 
-        // Listen for mouse events
-        window.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mousePressed(java.awt.event.MouseEvent e) {
-                handleMouseEvent(e);
-            }
-
-            @Override
-            public void mouseReleased(java.awt.event.MouseEvent e) {
-                handleMouseEvent(e);
-            }
-
-            @Override
-            public void mouseClicked(java.awt.event.MouseEvent e) {
-                handleMouseEvent(e);
-            }
-        });
-
         panel.render();
     }
 
     /**
-     * Execute all the mouse exit events.
+     * Execute all mouse event listeners.
      *
      * @param event The mouse event.
      */
-    private void executeMouseExitEvents(WindowMouseEvent event) {
+    private void executeMouseEvents(WindowMouseEvent event) {
         for (WindowAdapter listener : listeners) {
             listener.onMouseEvent(event);
         }
@@ -108,9 +105,11 @@ public class Window {
      * @param e The mouse event.
      */
     private void handleMouseEvent(java.awt.event.MouseEvent e) {
-        WindowMouseEvent event = new WindowMouseEvent(e.getX(), e.getY(), e.getButton());
-
-        executeMouseExitEvents(event);
+        // Log info
+        System.out.println("Mouse event: " + e.getX() + ", " + e.getY() + ", " + e.getButton() + ", " + e.isMetaDown());
+        final boolean isMouseOver = e.getX() >= 0 && e.getX() <= size.width && e.getY() >= 0 && e.getY() <= size.height;
+        WindowMouseEvent event = new WindowMouseEvent(e.getX(), e.getY(), e.getButton(), isMouseOver);
+        executeMouseEvents(event);
     }
 
     /**
@@ -150,6 +149,24 @@ public class Window {
         hWnd.setPointer(Native.getComponentPointer(window));
 
         return hWnd;
+    }
+
+    /**
+     * Add a window listener.
+     *
+     * @param listener The window adapter.
+     */
+    public void addWindowListener(WindowAdapter listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Remove a window listener.
+     *
+     * @param listener The window adapter.
+     */
+    public void removeWindowListener(WindowAdapter listener) {
+        listeners.remove(listener);
     }
 
     /**
