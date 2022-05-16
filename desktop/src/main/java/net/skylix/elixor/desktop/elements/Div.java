@@ -1,26 +1,18 @@
 package net.skylix.elixor.desktop.elements;
 
-import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-import javax.swing.SwingUtilities;
-import javax.swing.event.MouseInputAdapter;
-
 import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Margin;
 import net.skylix.elixor.desktop.unit.Padding;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
-import java.awt.Dimension;
+
+import javax.swing.*;
+import javax.swing.event.MouseInputAdapter;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
-import java.awt.geom.Area;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.geom.Area;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 
 /**
  * This element is a container used for holding other elements.
@@ -51,17 +43,14 @@ public class Div extends DivAdapter {
      * All the element children.
      */
     private final ArrayList<Div> nodes = new ArrayList<>();
-
-    /**
-     * The border stroke width.
-     */
-    private int borderStrokeWidth = 1;
-
     /**
      * The size of this element.
      */
     private final Dimension size;
-
+    /**
+     * The border stroke width.
+     */
+    private int borderStrokeWidth = 1;
     /**
      * The graphics panel rectangle.
      */
@@ -76,6 +65,11 @@ public class Div extends DivAdapter {
      * Is the mouse pressed.
      */
     private boolean mouseDown = false;
+
+    /**
+     * The background color.
+     */
+    private Color backgroundColor = Color.WHITE;
 
     /**
      * Create a new div element.
@@ -132,6 +126,8 @@ public class Div extends DivAdapter {
 
             @Override
             public void mousePressed(MouseEvent e) {
+                if (!mouseOver) return;
+
                 mouseDown = true;
                 handleMouseEvent(e);
             }
@@ -144,24 +140,28 @@ public class Div extends DivAdapter {
 
             @Override
             public void mouseClicked(MouseEvent e) {
-                handleMouseEvent(e);
+                if (mouseOver)
+                    handleMouseEvent(e);
             }
         });
-
 
         // Listen for mouse movement
         container.addMouseMotionListener(new MouseInputAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                if (mouseOver)
-                    handleMouseEvent(e);
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseDragged(MouseEvent e) {
+                handleMouseEvent(e);
             }
         });
     }
 
     /**
      * Handle the mouse event.
-     * 
+     *
      * @param event Mouse event.
      */
     private void handleMouseEvent(MouseEvent event) {
@@ -182,14 +182,21 @@ public class Div extends DivAdapter {
     }
 
     /**
+     * Set the background color.
+     *
+     * @param color The color to set.
+     */
+    public void setBackgroundColor(Color color) {
+        backgroundColor = color;
+        reRender();
+    }
+
+    /**
      * Handle the component metrics.
      */
     private void handleMetrics() {
         container.setSize(size);
         container.setPreferredSize(size);
-
-        // TODO: Customise
-        final boolean borderBox = false;
 
         if (margin.getTotal() > 0) {
             container.setBorder(BorderFactory.createEmptyBorder((int) margin.getTop(), (int) margin.getLeft(),
@@ -206,7 +213,7 @@ public class Div extends DivAdapter {
 
     /**
      * Set the size of this element.
-     * 
+     *
      * @param width  The width of this element.
      * @param height The height of this element.
      */
@@ -217,7 +224,7 @@ public class Div extends DivAdapter {
 
     /**
      * Get the size of this element.
-     * 
+     *
      * @return The size of this element.
      */
     public Dimension getSize() {
@@ -229,8 +236,17 @@ public class Div extends DivAdapter {
     }
 
     /**
+     * Get the width
+     *
+     * @return The width of this element.
+     */
+    public int getWidth() {
+        return (int) (size.getWidth() - (margin.getLeft() + margin.getRight()));
+    }
+
+    /**
      * Set the width of this element.
-     * 
+     *
      * @param width The width of this element.
      */
     public void setWidth(int width) {
@@ -239,8 +255,17 @@ public class Div extends DivAdapter {
     }
 
     /**
+     * Get the height
+     *
+     * @return The height of this element.
+     */
+    public int getHeight() {
+        return (int) (size.getHeight() - (margin.getTop() + margin.getBottom()));
+    }
+
+    /**
      * Set the height of this element.
-     * 
+     *
      * @param height The height of this element.
      */
     public void setHeight(int height) {
@@ -249,26 +274,17 @@ public class Div extends DivAdapter {
     }
 
     /**
-     * Get the width
-     * 
-     * @return The width of this element.
+     * Get the margin.
+     *
+     * @return The margin.
      */
-    public int getWidth() {
-        return (int) (size.getWidth() - (margin.getLeft() + margin.getRight()));
-    }
-
-    /**
-     * Get the height
-     * 
-     * @return The height of this element.
-     */
-    public int getHeight() {
-        return (int) (size.getHeight() - (margin.getTop() + margin.getBottom()));
+    public Margin getMargin() {
+        return margin;
     }
 
     /**
      * Set the margin of this element.
-     * 
+     *
      * @param margin The margin to set.
      */
     public void setMargin(Margin margin) {
@@ -281,17 +297,8 @@ public class Div extends DivAdapter {
     }
 
     /**
-     * Get the margin.
-     * 
-     * @return The margin.
-     */
-    public Margin getMargin() {
-        return margin;
-    }
-
-    /**
      * Get the padding.
-     * 
+     *
      * @return The padding.
      */
     public Padding getPadding() {
@@ -300,7 +307,7 @@ public class Div extends DivAdapter {
 
     /**
      * Set the padding of this element.
-     * 
+     *
      * @param padding The padding to set.
      */
     public void setPadding(Padding padding) {
@@ -314,7 +321,7 @@ public class Div extends DivAdapter {
 
     /**
      * Get the border radius.
-     * 
+     *
      * @return The border radius.
      */
     public BorderRadius getBorderRadius() {
@@ -323,7 +330,7 @@ public class Div extends DivAdapter {
 
     /**
      * Set the border radius of this element.
-     * 
+     *
      * @param borderRadius The border radius to set.
      */
     public void setBorderRadius(BorderRadius borderRadius) {
@@ -337,7 +344,7 @@ public class Div extends DivAdapter {
 
     /**
      * Get all the element children.
-     * 
+     *
      * @return The element children.
      */
     public ArrayList<Div> getNodes() {
@@ -346,7 +353,7 @@ public class Div extends DivAdapter {
 
     /**
      * Get JAVAX Swing component.
-     * 
+     *
      * @return The Swing component.
      */
     public JComponent getSwingComponent() {
@@ -354,8 +361,17 @@ public class Div extends DivAdapter {
     }
 
     /**
+     * Get the border stroke width.
+     *
+     * @return The border stroke width.
+     */
+    public int getBorderStrokeWidth() {
+        return borderStrokeWidth;
+    }
+
+    /**
      * Set the border stroke width.
-     * 
+     *
      * @param borderStrokeWidth The border stroke width.
      */
     public void setBorderStrokeWidth(int borderStrokeWidth) {
@@ -364,17 +380,8 @@ public class Div extends DivAdapter {
     }
 
     /**
-     * Get the border stroke width.
-     * 
-     * @return The border stroke width.
-     */
-    public int getBorderStrokeWidth() {
-        return borderStrokeWidth;
-    }
-
-    /**
      * Check to see if the mouse is over this element.
-     * 
+     *
      * @return True if the mouse is over this element.
      */
     public boolean isMouseOver() {
@@ -383,7 +390,7 @@ public class Div extends DivAdapter {
 
     /**
      * Check to see if the mouse is pressed.
-     * 
+     *
      * @return True if the mouse is pressed.
      */
     public boolean isMouseDown() {
@@ -392,7 +399,7 @@ public class Div extends DivAdapter {
 
     /**
      * Render to a graphics panel.
-     * 
+     *
      * @param g Graphics renderer.
      */
     public void render(Graphics2D g) {
@@ -410,30 +417,26 @@ public class Div extends DivAdapter {
         final int bottomRightRadius = (int) borderRadius.getBottomRight();
 
         // set clip region
-        g.setClip(0, 0, width, height);
+        g.setClip((int) margin.getLeft(), (int) margin.getLeft(), width - (int) margin.getLeft(), height - (int) margin.getLeft());
 
         rect = new RoundRectangle(
-            width, 
-            height,
-            (borderStrokeWidth / 2),
-            (borderStrokeWidth / 2),
-            topLeftRadius,
-            topRightRadius,
-            bottomLeftRadius,
-            bottomRightRadius,
-            borderStrokeWidth
+                (int) (width - margin.getLeft()),
+                (int) (height - margin.getTop()),
+                (int) ((borderStrokeWidth / 2) + margin.getLeft()),
+                (int) ((borderStrokeWidth / 2) + margin.getTop()),
+                topLeftRadius,
+                topRightRadius,
+                bottomLeftRadius,
+                bottomRightRadius,
+                borderStrokeWidth
         );
-
-        Area area = new Area(rect);
-
         final int mouseX = MouseInfo.getPointerInfo().getLocation().x;
         final int mouseY = MouseInfo.getPointerInfo().getLocation().y;
 
-        if (area.contains(mouseX, mouseY)) {
-            mouseOver = true;
-        } else {
-            mouseOver = false;
-        }
+        mouseOver = rect.contains(
+                mouseX - container.getLocationOnScreen().x,
+                mouseY - container.getLocationOnScreen().y
+        );
 
         if (borderStrokeWidth > 0) {
             g.setColor(Color.BLACK);
@@ -442,11 +445,11 @@ public class Div extends DivAdapter {
             // Sometimes the corners don't render at all
             if (borderStrokeWidth > 0) {
                 if (bottomLeftRadius < 1) {
-                    g.drawRect(0, height - borderStrokeWidth, borderStrokeWidth / 2, borderStrokeWidth / 2);
+                    g.drawRect(0, height - borderStrokeWidth, borderStrokeWidth, borderStrokeWidth / 2);
                 }
 
                 if (bottomRightRadius < 1) {
-                    g.drawRect(width - borderStrokeWidth / 2, height - borderStrokeWidth, borderStrokeWidth / 2, borderStrokeWidth / 2);
+                    g.drawRect(width - borderStrokeWidth / 2, height - borderStrokeWidth, (borderStrokeWidth / 2) - ((int) margin.getLeft() / 2), borderStrokeWidth / 2);
                 }
             }
         }
@@ -454,7 +457,7 @@ public class Div extends DivAdapter {
         if (borderStrokeWidth > 0)
             g.draw(rect);
 
-        g.setColor(Color.pink);
+        g.setColor(backgroundColor);
         g.fill(rect);
 
         container.paintComponents(g);
@@ -463,7 +466,7 @@ public class Div extends DivAdapter {
 
     /**
      * On mouse event.
-     * 
+     *
      * @param event The mouse event.
      */
     @Override
@@ -479,15 +482,15 @@ class RoundRectangle extends Path2D.Float {
     /**
      * Create the round rectangle
      *
-     * @param widthRaw The width of the rectangle
-     * @param heightRaw The height of the rectangle
-     * @param x The x position of the rectangle
-     * @param y The y position of the rectangle
-     * @param topLeftRadius The radius of the top left corner
-     * @param topRightRadius The radius of the top right corner
-     * @param bottomLeftRadius The radius of the bottom left corner
+     * @param widthRaw          The width of the rectangle
+     * @param heightRaw         The height of the rectangle
+     * @param x                 The x position of the rectangle
+     * @param y                 The y position of the rectangle
+     * @param topLeftRadius     The radius of the top left corner
+     * @param topRightRadius    The radius of the top right corner
+     * @param bottomLeftRadius  The radius of the bottom left corner
      * @param bottomRightRadius The radius of the bottom right corner
-     * @param strokeWidth The stroke width
+     * @param strokeWidth       The stroke width
      */
     public RoundRectangle(
             int widthRaw, int heightRaw, int x, int y, int topLeftRadius,

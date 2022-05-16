@@ -34,6 +34,12 @@ public class MyApp {
             @Override 
             public void onMouseEvent(DivMouseEvent e) {
                 System.out.println("Mouse event: X = " + e.getMouseX() + ", Y = " + e.getMouseY() + ", MouseOver = " + e.isMouseOver() + ", MouseDown = " + e.isMouseDown());
+
+                if (e.isMouseOver()) {
+                    div.setBackgroundColor(new Color(255, 0, 0));
+                } else {
+                    div.setBackgroundColor(new Color(0, 0, 255));
+                }
             }
         });
 
