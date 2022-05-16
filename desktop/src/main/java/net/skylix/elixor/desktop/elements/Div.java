@@ -18,7 +18,7 @@ import java.util.ArrayList;
  * This element is a container used for holding other elements.
  * One of the default pre defined elements in this framework.
  */
-public class Div extends DivAdapter {
+public class Div {
     /**
      * The element padding.
      */
@@ -72,12 +72,15 @@ public class Div extends DivAdapter {
     private Color backgroundColor = Color.WHITE;
 
     /**
+     * All listeners.
+     */
+    private ArrayList<DivAdapter> listeners = new ArrayList<>();
+
+    /**
      * Create a new div element.
      */
     public Div() {
         super();
-
-        addListener(this);
 
         padding = new Padding(0);
         margin = new Margin(0);
@@ -155,6 +158,16 @@ public class Div extends DivAdapter {
                 handleMouseEvent(e);
             }
         });
+    }
+
+    /**
+     * Execute the onMouseEvent method on all listeners.
+     * @param event The div mouse event.
+     */
+    private void executeOnMouseEvent(DivMouseEvent event) {
+        for (DivAdapter listener : listeners) {
+            listener.onMouseEvent(event);
+        }
     }
 
     /**
@@ -396,6 +409,22 @@ public class Div extends DivAdapter {
     }
 
     /**
+     * Add an event listener.
+     * @param listener The listener to add.
+     */
+    public void addListener(DivAdapter listener) {
+        listeners.add(listener);
+    }
+
+    /**
+     * Remove an event listener.
+     * @param listener The listener to remove.
+     */
+    public void removeListener(DivAdapter listener) {
+        listeners.remove(listener);
+    }
+
+    /**
      * Render to a graphics panel.
      *
      * @param g Graphics renderer.
@@ -460,16 +489,6 @@ public class Div extends DivAdapter {
 
         container.paintComponents(g);
         g.dispose();
-    }
-
-    /**
-     * On mouse event.
-     *
-     * @param event The mouse event.
-     */
-    @Override
-    public void onMouseEvent(DivMouseEvent event) {
-
     }
 }
 

@@ -9,6 +9,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.ArrayList;
 
 /**
  * A class for creating a desktop window on a desktop computer.
@@ -33,6 +34,11 @@ public class Window {
      * The window dimensions.
      */
     private Dimension size = new Dimension(800, 500);
+
+    /**
+     * All the event listeners.
+     */
+    private final ArrayList<WindowAdapter> listeners = new ArrayList<>();
 
     /**
      * Create a window with a title.
@@ -64,7 +70,47 @@ public class Window {
             }
         });
 
+        // Listen for mouse events
+        window.addMouseListener(new java.awt.event.MouseAdapter() {
+            @Override
+            public void mousePressed(java.awt.event.MouseEvent e) {
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseReleased(java.awt.event.MouseEvent e) {
+                handleMouseEvent(e);
+            }
+
+            @Override
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                handleMouseEvent(e);
+            }
+        });
+
         panel.render();
+    }
+
+    /**
+     * Execute all the mouse exit events.
+     *
+     * @param event The mouse event.
+     */
+    private void executeMouseExitEvents(WindowMouseEvent event) {
+        for (WindowAdapter listener : listeners) {
+            listener.onMouseEvent(event);
+        }
+    }
+
+    /**
+     * Handle a mouse event.
+     *
+     * @param e The mouse event.
+     */
+    private void handleMouseEvent(java.awt.event.MouseEvent e) {
+        WindowMouseEvent event = new WindowMouseEvent(e.getX(), e.getY(), e.getButton());
+
+        executeMouseExitEvents(event);
     }
 
     /**

@@ -1,8 +1,6 @@
 package com.github.skylixgh.hello;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JSlider;
+import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -14,11 +12,33 @@ import net.skylix.elixor.desktop.unit.Margin;
 import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 public class MyApp {
     public static void main(String[] args) {
         Window win = new Window();
         Div div = new Div();
+
+        JWindow stats = new JWindow();
+
+        JLabel statsMousePos = new JLabel("Mouse Position: ...");
+        JLabel statsMouseDown = new JLabel("Mouse Down: ...");
+        JLabel statsMouseOver = new JLabel("Mouse Over: ...");
+
+        stats.setLayout(new GridLayout(3, 1));
+
+        stats.add(statsMousePos);
+        stats.add(statsMouseDown);
+        stats.add(statsMouseOver);
+
+        stats.setSize(200, 100);
+        stats.setLocation(30, 30);
+
+        // add 8px corners
+        stats.setShape(new RoundRectangle2D.Double(0, 0, 200, 100, 8, 8));
+        stats.setAlwaysOnTop(true);
+
+        stats.setVisible(true);
 
         div.setBorderStrokeWidth(10);
 
@@ -40,6 +60,20 @@ public class MyApp {
                 } else {
                     div.setBackgroundColor(new Color(0, 0, 255));
                 }
+
+                if (e.isMouseOver()) {
+                    statsMouseOver.setText("Mouse Over: true");
+                } else {
+                    statsMouseOver.setText("Mouse Over: false");
+                }
+
+                if (e.isMouseDown()) {
+                    statsMouseDown.setText("Mouse Down: true");
+                } else {
+                    statsMouseDown.setText("Mouse Down: false");
+                }
+
+                statsMousePos.setText("Mouse Position: X = " + e.getMouseX() + ", Y = " + e.getMouseY());
             }
         });
 

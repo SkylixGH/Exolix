@@ -4,8 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Hover detection">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Invalid event firings">
+      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/WindowAdapter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/WindowMouseEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/elements/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/elements/Div.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/elements/DivAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/elements/DivAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/elements/DivMouseEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/elements/DivMouseEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -374,13 +381,6 @@
       <workItem from="1652476036753" duration="3831000" />
       <workItem from="1652493073459" duration="2849000" />
     </task>
-    <task id="LOCAL-00029" summary="[Sync: apiSocket.*] 💕 Message events">
-      <created>1650513441665</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1650513441665</updated>
-    </task>
     <task id="LOCAL-00030" summary="[Sync: apiSocket.*] 💕 Threading overuse">
       <created>1650595502251</created>
       <option name="number" value="00030" />
@@ -717,7 +717,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652664773997</updated>
     </task>
-    <option name="localTasksCounter" value="78" />
+    <task id="LOCAL-00078" summary="fix: Invalid event firings">
+      <created>1652665216991</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1652665216992</updated>
+    </task>
+    <option name="localTasksCounter" value="79" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -736,7 +743,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="feat(desktop.ux): Title bar partialy works" />
     <MESSAGE value="fix(desktop.ux): Windows OS borders have been fixed" />
     <MESSAGE value="fix(desktop.ux): Text and aliasing bug fixed" />
     <MESSAGE value="fix(desktop.ux): System title bar fails to render properly" />
@@ -761,7 +767,8 @@
     <MESSAGE value="refactor: A new start to desktop applications and application development" />
     <MESSAGE value="refactor: Added arching support" />
     <MESSAGE value="fix: Hover detection" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: Hover detection" />
+    <MESSAGE value="fix: Invalid event firings" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Invalid event firings" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
