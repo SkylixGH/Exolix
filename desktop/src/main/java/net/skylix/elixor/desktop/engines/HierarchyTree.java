@@ -1,6 +1,6 @@
 package net.skylix.elixor.desktop.engines;
 
-import net.skylix.elixor.desktop.element.Element;
+import net.skylix.elixor.desktop.element.Component;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,14 +12,28 @@ public class HierarchyTree {
     /**
      * All the sub items.
      */
-    private final List<Element> nodes = new ArrayList<>();
+    private final List<Component> nodes = new ArrayList<>();
+
+    /**
+     * The owner of tree.
+     */
+    private Component owner;
+
+    /**
+     * Create a hierachy tree.
+     * 
+     * @param owner The owner of the tree.
+     */
+    public HierarchyTree(Component owner) {
+        this.owner = owner;
+    }
 
     /**
      * Add an element to the hierarchy tree.
      *
      * @param element The element to add.
      */
-    public void add(Element element) {
+    public void add(Component element) {
         nodes.add(element);
     }
 
@@ -28,7 +42,16 @@ public class HierarchyTree {
      *
      * @return All the elements.
      */
-    public Element[] getElements() {
-        return nodes.toArray(new Element[0]);
+    public Component[] getElements() {
+        return nodes.toArray(new Component[0]);
+    }
+    
+    /**
+     * Get the tree owner.
+     * 
+     * @return The owner of the tree.
+     */
+    public Component getOwner() {
+        return owner;
     }
 }

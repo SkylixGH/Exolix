@@ -38,8 +38,12 @@ class Unit {
     protected void executeOnChange() {
         if (pauseOnChange) return;
 
-        for (UnitAdapter listener : listeners) {
-            listener.onChange();
+        try {
+            for (UnitAdapter listener : listeners) {
+                listener.onChange();
+            }
+        } catch (Exception e) {
+            // Ignore
         }
     }
 

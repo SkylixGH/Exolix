@@ -1,7 +1,6 @@
 package net.skylix.elixor.desktop.engines;
 
 import net.skylix.elixor.desktop.element.Component;
-import net.skylix.elixor.desktop.element.Element;
 import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
@@ -21,14 +20,14 @@ public class HierarchyRenderer {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        // Clear the screen.
-        g2d.clearRect(0, 0, window.getWidth(), window.getHeight());
-
-        for (Element element : tree.getElements()) {
+        for (Component element : tree.getElements()) {
             HierarchyTree contentStore = element.getTree();
 
             if (element instanceof Component) {
-                ((Component) element).render(g2d, window, (Component) element);
+                ((Component) element).render(g2d, window, (Component) tree.getOwner());
+                g2d.setClip(null);
+            } else {
+                System.out.println("Unknown element type: " + element.getClass().getName()); // TODO: Throw
             }
 
             if (contentStore.getElements().length > 0) {

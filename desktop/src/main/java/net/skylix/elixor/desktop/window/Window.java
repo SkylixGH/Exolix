@@ -1,12 +1,12 @@
 package net.skylix.elixor.desktop.window;
 
-import net.skylix.elixor.desktop.element.Element;
 import net.skylix.elixor.desktop.element.div.Div;
 import net.skylix.elixor.desktop.engines.HierarchyRenderer;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
+import net.skylix.elixor.desktop.element.Component;
 
 import javax.swing.*;
 import java.awt.*;
@@ -60,7 +60,7 @@ public class Window {
 
         size = new Size();
         jFrame = new JFrame(title);
-        hierarchyTree = new HierarchyTree();
+        hierarchyTree = new HierarchyTree(null);
         mousePosition = new Position();
 
         final Window self = this;
@@ -68,6 +68,7 @@ public class Window {
         clientArea = new JPanel() {
             @Override
             public void paintComponent(Graphics g3d) {
+
                 Graphics2D g2d = (Graphics2D) g3d;
                 HierarchyRenderer.render(g2d, hierarchyTree, self);
 
@@ -180,7 +181,7 @@ public class Window {
      *
      * @param element The element to add.
      */
-    public void add(Element element) {
+    public void add(Component element) {
         hierarchyTree.add(element);
         refreshWindowProperties();
     }
@@ -228,5 +229,12 @@ public class Window {
      */
     public int getHeight() {
         return size.getHeight();
+    }
+
+    /**
+     * Refresh the renderer, this will cause the content area to be repainted.
+     */
+    public void refresh() {
+        clientArea.repaint();
     }
 }

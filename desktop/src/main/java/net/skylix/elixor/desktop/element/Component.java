@@ -1,14 +1,16 @@
 package net.skylix.elixor.desktop.element;
 
+import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.window.Window;
+import net.skylix.elixor.desktop.element.Component;
 
 import java.awt.*;
 
 /**
  * A component that has some basics required properties.
  */
-public abstract class Component extends Element {
+public abstract class Component {
     /**
      * The element render method.
      *
@@ -19,27 +21,34 @@ public abstract class Component extends Element {
     public abstract void render(Graphics2D g2d, Window window, Component parent);
 
     /**
-     * Get the width.
-     *
-     * @return The width.
+     * Child nodes.
      */
-    public abstract int getWidth();
+    private final HierarchyTree tree = new HierarchyTree(this);
 
     /**
-     * Get the height.
+     * Add an element to the 3D tree.
      *
-     * @return The height.
+     * @param element The element to add.
      */
-    public abstract int getHeight();
+    public void add(Component element) {
+        tree.add(element);
+    }
+
+    /**
+     * Get hierarchy tree.
+     *
+     * @return Hierarchy tree.
+     */
+    public HierarchyTree getTree() {
+        return tree;
+    }
 
     /**
      * Get the size.
-     *
+     * 
      * @return The size.
      */
-    public Size getSize() {
-        return new Size(getWidth(), getHeight());
-    }
+    public abstract Size getSize();
 
     /**
      * Get the minimum size.
@@ -104,4 +113,71 @@ public abstract class Component extends Element {
      * @return The window.
      */
     public abstract Window getWindow();
+
+    /**
+     * Get the width.
+     * 
+     * @return The width.
+     */
+    public int getWidth() {
+        return getSize().getWidth();
+    }
+
+    /**
+     * Get the height.
+     * 
+     * @return The height.
+     */
+    public int getHeight() {
+        return getSize().getHeight();
+    }
+
+    /**
+     * Set the size.
+     * 
+     * @param size The size.
+     */
+    public void setSize(Size size) {
+        Size originalSize = getSize();
+
+        originalSize.setWidth(size.getWidth());
+        originalSize.setHeight(size.getHeight());
+    }
+
+
+    /**
+     * Set the width.
+     *
+     * @param width The width.
+     */
+    public void setWidth(int width) {
+        getSize().setWidth(width);
+    }
+
+    /**
+     * Set the height.
+     *
+     * @param height The height.
+     */
+    public void setHeight(int height) {
+        getSize().setHeight(height);
+    }
+
+    /**
+     * Refresh the component.
+     */
+    protected void refresh() {
+        Window window = getWindow();
+
+        if (window != null) {
+            window.refresh();
+        }
+    }
+
+    /**
+     * Get the shape of the component.
+     * 
+     * @return The shape of the component.
+     */
+    public abstract Shape getShape();
 }
