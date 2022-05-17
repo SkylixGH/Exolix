@@ -96,8 +96,12 @@ public class Window {
         jFrame.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
+                size.pauseOnChange();
+
                 size.setWidth(e.getComponent().getWidth());
                 size.setHeight(e.getComponent().getHeight());
+
+                size.resumeOnChange();
             }
         });
 

@@ -7,7 +7,12 @@ import java.util.ArrayList;
  */
 class Unit {
     /**
-     * All of the listeners.
+     * Whether the event firings are paused.
+     */
+    private boolean pauseOnChange = false;
+
+    /**
+     * All the listeners.
      */
     protected ArrayList<UnitAdapter> listeners = new ArrayList<>();
 
@@ -28,11 +33,36 @@ class Unit {
     }
 
     /**
-     * Execute all of the change listeners.
+     * Execute all the change listeners.
      */
     protected void executeOnChange() {
+        if (pauseOnChange) return;
+
         for (UnitAdapter listener : listeners) {
             listener.onChange();
         }
+    }
+
+    /**
+     * Pause the on change event firing.
+     */
+    public void pauseOnChange() {
+        pauseOnChange = true;
+    }
+
+    /**
+     * Get whether the on change event firing is paused.
+     *
+     * @return Whether the on change event firing is paused.
+     */
+    public boolean isPausedOnChange() {
+        return pauseOnChange;
+    }
+
+    /**
+     * Resume the on change event firing.
+     */
+    public void resumeOnChange() {
+        pauseOnChange = false;
     }
 }

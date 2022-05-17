@@ -13,5 +13,19 @@ public class MyApp {
         game.setSize(new Size(1000, 700));
 
         game.run();
+
+        // set the window size to 800x600 after 1000ms
+        Thread t = new Thread(() -> {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            game.getSize().setWidth(800);
+            game.getSize().setHeight(600);
+        });
+
+        t.start();
     }
 }
