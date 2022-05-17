@@ -10,6 +10,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="elixor.desktop.main" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.jetbrains:annotations:20.1.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: net.java.dev.jna:jna-platform:5.11.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: net.java.dev.jna:jna:5.11.0" level="project" />
   </component>

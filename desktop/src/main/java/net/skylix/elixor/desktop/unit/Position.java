@@ -28,6 +28,13 @@ public class Position extends Unit {
     }
 
     /**
+     * Create a new position instance.
+     */
+    public Position() {
+        this(0, 0);
+    }
+
+    /**
      * Get the X position.
      * 
      * @return The X position.

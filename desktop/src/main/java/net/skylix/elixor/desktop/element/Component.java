@@ -1,6 +1,7 @@
 package net.skylix.elixor.desktop.element;
 
 import net.skylix.elixor.desktop.unit.Size;
+import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
 
@@ -12,8 +13,10 @@ public abstract class Component extends Element {
      * The element render method.
      *
      * @param g2d The graphics output.
+     * @param window The window.
+     * @param parent The parent element.
      */
-    public abstract void render(Graphics2D g2d);
+    public abstract void render(Graphics2D g2d, Window window, Component parent);
 
     /**
      * Get the width.
@@ -43,52 +46,55 @@ public abstract class Component extends Element {
      *
      * @return The minimum size.
      */
-    public Size getMinSize() {
-        return new Size(0, 0);
-    }
+    public abstract Size getMinimumSize();
 
     /**
      * Get the maximum size.
      *
      * @return The maximum size.
      */
-    public Size getMaxSize() {
-        return new Size(Integer.MAX_VALUE, Integer.MAX_VALUE);
-    }
+    public abstract Size getMaximumSize();
 
     /**
-     * Get the minimum width.
+     * Get minimum width.
      *
      * @return The minimum width.
      */
-    public int getMinWidth() {
-        return getMinSize().getWidth();
+    public int getMinimumWidth() {
+        return getMinimumSize().getWidth();
     }
 
     /**
-     * Get the minimum height.
+     * Get minimum height.
      *
      * @return The minimum height.
      */
-    public int getMinHeight() {
-        return getMinSize().getHeight();
+    public int getMinimumHeight() {
+        return getMinimumSize().getHeight();
     }
 
     /**
-     * Get the maximum width.
+     * Get maximum width.
      *
      * @return The maximum width.
      */
-    public int getMaxWidth() {
-        return getMaxSize().getWidth();
+    public int getMaximumWidth() {
+        return getMaximumSize().getWidth();
     }
 
     /**
-     * Get the maximum height.
+     * Get maximum height.
      *
      * @return The maximum height.
      */
-    public int getMaxHeight() {
-        return getMaxSize().getHeight();
+    public int getMaximumHeight() {
+        return getMaximumSize().getHeight();
     }
+
+    /**
+     * Get the parent component.
+     *
+     * @return The parent component.
+     */
+    public abstract Component getParent();
 }

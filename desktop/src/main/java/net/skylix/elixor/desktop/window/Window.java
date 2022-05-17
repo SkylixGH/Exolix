@@ -4,11 +4,16 @@ import net.skylix.elixor.desktop.element.Element;
 import net.skylix.elixor.desktop.element.div.Div;
 import net.skylix.elixor.desktop.engines.HierarchyRenderer;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
+import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 /**
@@ -31,6 +36,11 @@ public class Window {
     private final Size size;
 
     /**
+     * The mouse position.
+     */
+    private final Position mousePosition;
+
+    /**
      * The hierarchy tree of the window.
      */
     private final HierarchyTree hierarchyTree;
@@ -51,31 +61,56 @@ public class Window {
         size = new Size();
         jFrame = new JFrame(title);
         hierarchyTree = new HierarchyTree();
+        mousePosition = new Position();
+
+        final Window self = this;
 
         clientArea = new JPanel() {
             @Override
             public void paintComponent(Graphics g3d) {
                 Graphics2D g2d = (Graphics2D) g3d;
-                HierarchyRenderer.render(g2d, hierarchyTree);
+                HierarchyRenderer.render(g2d, hierarchyTree, self);
 
                 g2d.dispose();
             }
         };
 
+        clientArea.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                mousePosition.setX(e.getX());
+                mousePosition.setY(e.getY());
+
+                refreshWindowProperties();
+            }
+        });
+
         size.addListener(new UnitAdapter() {
             @Override
             public void onChange() {
+                jFrame.setSize(size.getWidth(), size.getHeight());
                 refreshWindowProperties();
+            }
+        });
+
+        jFrame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                size.setWidth(e.getComponent().getWidth());
+                size.setHeight(e.getComponent().getHeight());
             }
         });
 
         jFrame.setContentPane(clientArea);
         jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/assets/defaultIcon.png"))).getImage());
+        clientArea.setOpaque(false);
 
         Div root = new Div();
         Div panel = new Div();
+        Div panel2 = new Div();
 
         root.add(panel);
+        root.add(panel2);
 
         hierarchyTree.add(root);
         refreshWindowProperties();
@@ -85,9 +120,7 @@ public class Window {
      * Calculate and set all the window properties.
      */
     private void refreshWindowProperties() {
-        jFrame.setSize(size.getWidth(), size.getHeight());
-        jFrame.setLocationRelativeTo(null);
-        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        clientArea.repaint();
     }
 
     /**
@@ -153,5 +186,50 @@ public class Window {
      */
     public void add(Element element) {
         hierarchyTree.add(element);
+    }
+
+    /**
+     * Get mouse position.
+     *
+     * @return Mouse position.
+     */
+    public Position getMousePosition() {
+        return mousePosition;
+    }
+
+    /**
+     * Get mouse X position.
+     *
+     * @return Mouse X position.
+     */
+    public int getMouseX() {
+        return mousePosition.getX();
+    }
+
+    /**
+     * Get mouse Y position.
+     *
+     * @return Mouse Y position.
+     */
+    public int getMouseY() {
+        return mousePosition.getY();
+    }
+
+    /**
+     * Get the window width.
+     *
+     * @return The window width.
+     */
+    public int getWidth() {
+        return size.getWidth();
+    }
+
+    /**
+     * Get the window height.
+     *
+     * @return The window height.
+     */
+    public int getHeight() {
+        return size.getHeight();
     }
 }
