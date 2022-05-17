@@ -1,232 +1,157 @@
 package net.skylix.elixor.desktop.window;
 
-import com.sun.jna.Native;
-import com.sun.jna.platform.win32.WinDef;
-
-import net.skylix.elixor.desktop.elements.div.Div;
+import net.skylix.elixor.desktop.element.Element;
+import net.skylix.elixor.desktop.element.div.Div;
+import net.skylix.elixor.desktop.engines.HierarchyRenderer;
+import net.skylix.elixor.desktop.engines.HierarchyTree;
+import net.skylix.elixor.desktop.unit.Size;
+import net.skylix.elixor.desktop.unit.UnitAdapter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import java.util.Objects;
 
 /**
- * A class for creating a desktop window on a desktop computer.
+ * A window class for creating windows.
  */
 public class Window {
     /**
-     * The title for the window.
+     * The title of the window.
      */
     private String title;
 
     /**
-     * The javax swing window.
+     * Swing window.
      */
-    private final JFrame window;
+    private JFrame jFrame;
 
     /**
-     * The root panel of the window.
+     * The window size.
      */
-    private final RenderingJComponent panel;
+    private final Size size;
 
     /**
-     * The window dimensions.
+     * The hierarchy tree of the window.
      */
-    private Dimension size = new Dimension(800, 500);
+    private final HierarchyTree hierarchyTree;
 
     /**
-     * All the event listeners.
+     * The base client area.
      */
-    private final ArrayList<WindowAdapter> listeners = new ArrayList<>();
+    private final JComponent clientArea;
 
     /**
-     * Create a window with a title.
+     * Create a new window.
+     *
      * @param title The title of the window.
      */
     public Window(String title) {
         this.title = title;
 
-        window = new JFrame(title);
+        size = new Size();
+        jFrame = new JFrame(title);
+        hierarchyTree = new HierarchyTree();
 
-        // Modify the panel's paint method, we need to do this so that the framework can actually customise the way things are drawn.
-        panel = new RenderingJComponent();
-
-        // Customise the panel.
-        panel.setBackground(new Color(243, 243, 243));
-
-        // Configure the window metrics and other properties.
-        window.setSize(size);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        // Add the panel to the window.
-        window.add(panel);
-
-        // Listen for window resize events
-        window.addComponentListener(new ComponentAdapter() {
+        clientArea = new JPanel() {
             @Override
-            public void componentResized(ComponentEvent e) {
-                size = window.getSize();
+            public void paintComponent(Graphics g3d) {
+                Graphics2D g2d = (Graphics2D) g3d;
+                HierarchyRenderer.render(g2d, hierarchyTree);
+
+                g2d.dispose();
+            }
+        };
+
+        size.addListener(new UnitAdapter() {
+            @Override
+            public void onChange() {
+                refreshWindowProperties();
             }
         });
 
-        panel.render();
+        jFrame.setContentPane(clientArea);
+        jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/assets/defaultIcon.png"))).getImage());
+
+        Div root = new Div();
+        Div panel = new Div();
+
+        root.add(panel);
+
+        hierarchyTree.add(root);
+        refreshWindowProperties();
     }
 
     /**
-     * Create a window with a blank title.
+     * Calculate and set all the window properties.
      */
-    public Window() {
-        this("");
+    private void refreshWindowProperties() {
+        jFrame.setSize(size.getWidth(), size.getHeight());
+        jFrame.setLocationRelativeTo(null);
+        jFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
     /**
-     * Update the title of this window.
-     * @param title The new title.
-     */
-    public void setTitle(String title) {
-        this.title = title;
-        window.setTitle(title);
-    }
-
-    /**
-     * Set the window's size.
-     * @param width The width of the window.
-     * @param height The height of the window.
-     */
-    public void setSize(int width, int height) {
-        size = new Dimension(width, height);
-        window.setSize(size);
-    }
-
-    /**
-     * Get the window handle for when the window is running on the Windows platform.
-     * @return The window handle if the window is running on the Windows platform.
-     */
-    private WinDef.HWND getWindowHandle() {
-        if (!System.getProperty("os.name").toLowerCase().contains("windows")) return null;
-
-        WinDef.HWND hWnd = new WinDef.HWND();
-        hWnd.setPointer(Native.getComponentPointer(window));
-
-        return hWnd;
-    }
-
-    /**
-     * Add a window listener.
+     * Get the window title.
      *
-     * @param listener The window adapter.
-     */
-    public void addWindowListener(WindowAdapter listener) {
-        listeners.add(listener);
-    }
-
-    /**
-     * Remove a window listener.
-     *
-     * @param listener The window adapter.
-     */
-    public void removeWindowListener(WindowAdapter listener) {
-        listeners.remove(listener);
-    }
-
-    /**
-     * Run the window and allow it to be visible.
-     * If the window is already visible, nothing will happen.
-     */
-    public void run() {
-        if (window.isVisible()) return;
-        window.setVisible(true);
-    }
-
-    /**
-     * Check to see if the window is running.
-     */
-    public boolean isRunning() {
-        return window.isVisible();
-    }
-
-    /**
-     * Get the window's title.
-     * @return The window's title.
+     * @return The window title.
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * Set the root element.
-     * @param element The element to set as the root.
+     * Set the window title.
+     *
+     * @param title The new window title.
      */
-    public void setRoot(Div element) {
-        panel.setContentPane(element);
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
+     * Run the window to make it visible.
+     */
+    public void run() {
+        if (jFrame.isVisible()) return;
+        jFrame.setVisible(true);
+    }
+
+    /**
+     * Set the window dimensions.
+     *
+     * @param size The new window size.
+     */
+    public void setSize(Size size) {
+        this.size.setWidth(size.getWidth());
+        this.size.setHeight(size.getHeight());
+
+        refreshWindowProperties();
+    }
+
+    /**
+     * Get the window size.
+     *
+     * @return The window size.
+     */
+    public Size getSize() {
+        return size;
+    }
+
+    /**
+     * Get the hierarchy tree of the window.
+     *
+     * @return The hierarchy tree of the window.
+     */
+    public HierarchyTree getHierarchyTree() {
+        return hierarchyTree;
+    }
+
+    /**
+     * Add an element to the hierarchy tree.
+     *
+     * @param element The element to add.
+     */
+    public void add(Element element) {
+        hierarchyTree.add(element);
     }
 }
-
-/**
- * The custom rendering panel for the window.
- */
-class RenderingJComponent extends JComponent {
-    /**
-     * All elements.
-     */
-    private Div contentPane;
-
-    /**
-     * The window
-     */
-    private JFrame window = null;
-
-    /**
-     * Create the internal panel.
-     */
-    public RenderingJComponent() {
-        super();
-    }
-
-    /**
-     * The custom rendering method.
-     * @param g3d The graphics object to draw on.
-     */
-    @Override
-    public void paintComponent(Graphics g3d) {
-        super.paintComponent(g3d);
-
-        if (window == null) {
-            window = (JFrame) SwingUtilities.getWindowAncestor(this);
-        }
-
-        // Create the 2D graphics object.
-        Graphics2D g = (Graphics2D) g3d;
-
-        // Draw content
-        if (contentPane != null) {
-            contentPane.setWidth(window.getWidth() - 16);
-            contentPane.setHeight(window.getHeight() - 39);
-        }
-
-        paintChildren(g);
-        g.dispose();
-    }
-
-    /**
-     * Re-render the current panel contents and run the recalculations of the components.
-     */
-    public void render() {
-        repaint();
-    }
-
-    /**
-     * Set the content pane of the window.
-     * @param contentPane The content pane to set.
-     */
-    public void setContentPane(Div contentPane) {
-        removeAll();
-        add(contentPane.getSwingComponent());
-
-        this.contentPane = contentPane;
-        repaint();
-    }
- }

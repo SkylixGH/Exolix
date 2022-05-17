@@ -1,29 +1,17 @@
 package com.github.skylixgh.hello;
 
+import net.skylix.elixor.desktop.unit.Size;
+import net.skylix.elixor.desktop.window.Window;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.*;
 
 public class MyApp {
     public static void main(String[] args) {
-        JFrame w = new JFrame("GPU Process");
+        final Window game = new Window("Elixor");
 
-        JPanel gfx = new JPanel() {
-            @Override
-            public void paintComponent(Graphics g3) {
-                Graphics2D g = (Graphics2D) g3;
-                
-                g.setColor(Color.RED);
-                g.setClip(0, 0, 50, 50);
-                g.fillRect(0, 0, 100, 100);
+        game.setSize(new Size(1000, 700));
 
-                g.setColor(Color.BLACK);
-                g.setClip(0, 0, 20, 20);
-                g.fillRect(0, 0, 50, 50);
-            }
-        };
-
-        w.setContentPane(gfx);
-        w.setVisible(true);
+        game.run();
     }
 }
