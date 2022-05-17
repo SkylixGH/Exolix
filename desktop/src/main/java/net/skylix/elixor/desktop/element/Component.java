@@ -97,4 +97,11 @@ public abstract class Component extends Element {
      * @return The parent component.
      */
     public abstract Component getParent();
+
+    /**
+     * Get the window.
+     *
+     * @return The window.
+     */
+    public abstract Window getWindow();
 }
