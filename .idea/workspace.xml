@@ -4,14 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="feat: Get parent method">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_annotations_20_1_0.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/desktop/elixor.desktop.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/Unit.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/Unit.java" afterDir="false" />
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Resize lagging">
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -381,14 +376,7 @@
       <workItem from="1652493073459" duration="2849000" />
       <workItem from="1652666408160" duration="2569000" />
       <workItem from="1652697573086" duration="17836000" />
-      <workItem from="1652784041451" duration="1359000" />
-    </task>
-    <task id="LOCAL-00035" summary="[Sync: apiSocket.*] 💕 Sadge">
-      <created>1650798458836</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1650798458836</updated>
+      <workItem from="1652784041451" duration="1688000" />
     </task>
     <task id="LOCAL-00036" summary="[Sync: apiSocket.*] 💕 Not working">
       <created>1650801102634</created>
@@ -726,7 +714,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652758524779</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="fix: Resize lagging">
+      <created>1652785863774</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1652785863775</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -745,7 +740,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="feat: Animations for ints" />
     <MESSAGE value="refactor: Updated class name" />
     <MESSAGE value="refactor: Updated color tools" />
     <MESSAGE value="refactor: Remove javafx" />
@@ -770,7 +764,8 @@
     <MESSAGE value="fix: Node rendering" />
     <MESSAGE value="feat: Hierarchy tree is working with its render methods" />
     <MESSAGE value="feat: Get parent method" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Get parent method" />
+    <MESSAGE value="fix: Resize lagging" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Resize lagging" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

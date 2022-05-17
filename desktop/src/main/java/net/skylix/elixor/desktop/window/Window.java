@@ -109,14 +109,6 @@ public class Window {
         jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/assets/defaultIcon.png"))).getImage());
         clientArea.setOpaque(false);
 
-        Div root = new Div();
-        Div panel = new Div();
-        Div panel2 = new Div();
-
-        root.add(panel);
-        root.add(panel2);
-
-        hierarchyTree.add(root);
         refreshWindowProperties();
     }
 
@@ -190,6 +182,7 @@ public class Window {
      */
     public void add(Element element) {
         hierarchyTree.add(element);
+        refreshWindowProperties();
     }
 
     /**
