@@ -1,6 +1,9 @@
 package net.skylix.elixor.desktop.component.div;
 
 import net.skylix.elixor.desktop.component.Component;
+import net.skylix.elixor.desktop.engines.Layout;
+import net.skylix.elixor.desktop.engines.layout.BorderLayout;
+import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
@@ -55,10 +58,28 @@ public class Div extends Component {
     private Path2D.Float shape;
 
     /**
+     * Border radius.
+     */
+    private final BorderRadius radius;
+
+    /**
+     * The element render position.
+     */
+    private final Position position;
+
+    /**
+     * The layout processor.
+     */
+    private Layout layoutEngine;
+
+    /**
      * Create a new division element.
      */
     public Div() {
         size = new Size(0, 0);
+        radius = new BorderRadius();
+        position = new Position();
+        layoutEngine = new BorderLayout();
 
         backgroundColor = new Color(0, 0, 0, 0);
         borderColor = new Color(0, 0, 0);
@@ -86,8 +107,41 @@ public class Div extends Component {
             }
         });
 
-        // Draw a round rect with 8px radius.
-        shape.append(new Path2D.Float(new RoundRectangle2D.Float(0, 0, size.getWidth(), size.getHeight(), 8, 8)), false);
+        position.addListener(new UnitAdapter() {
+            @Override
+            public void onChange() {
+                refresh();
+            }
+        });
+
+        radius.addListener(new UnitAdapter() {
+            @Override
+            public void onChange() {
+                refresh();
+            }
+        });
+
+        final int topLeftRadius = (int) radius.getTopLeft();
+        final int topRightRadius = (int) radius.getTopRight();
+        final int bottomLeftRadius = (int) radius.getBottomLeft();
+        final int bottomRightRadius = (int) radius.getBottomRight();
+
+        final int width = size.getWidth();
+        final int height = size.getHeight();
+
+        final int x = position.getX();
+        final int y = position.getY();
+
+        shape.moveTo(x + topLeftRadius, y);
+        shape.lineTo(x + width - topRightRadius, y);
+        shape.quadTo(x + width, y, x + width, y + topRightRadius);
+        shape.lineTo(x + width, y + height - bottomRightRadius);
+        shape.quadTo(x + width, y + height, x + width - bottomRightRadius, y + height);
+        shape.lineTo(x + bottomLeftRadius, y + height);
+        shape.quadTo(x, y + height, x, y + height - bottomLeftRadius);
+        shape.lineTo(x, y + topLeftRadius);
+        shape.quadTo(x, y, x + topLeftRadius, y);
+        shape.closePath();
 
         if (parent instanceof final Div parentDiv) {
             if (parentDiv.isEdgeClipped()) {
@@ -244,6 +298,105 @@ public class Div extends Component {
      */
     public void disableEdgeClipping() {
         clip = false;
+        refresh();
+    }
+
+    /**
+     * Set the position.
+     * 
+     * @param position The position.
+     */
+    @Override
+    public void setPosition(Position position) {
+        this.position.setX(position.getX());
+        this.position.setY(position.getY());
+    }
+
+    /**
+     * Get the position.
+     * 
+     * @return The position.
+     */
+    @Override
+    public Position getPosition() {
+        return position;
+    }
+
+    /**
+     * Get the border radius.
+     * 
+     * @return The border radius.
+     */
+    public BorderRadius getBorderRadius() {
+        return radius;
+    }
+
+    /**
+     * Get the top left border radius.
+     * 
+     * @return The top left border radius.
+     */
+    public int getTopLeftRadius() {
+        return (int) radius.getTopLeft();
+    }
+
+    /**
+     * Get the top right border radius.
+     * 
+     * @return The top right border radius.
+     */
+    public int getTopRightRadius() {
+        return (int) radius.getTopRight();
+    }
+
+    /**
+     * Get the bottom left border radius.
+     * 
+     * @return The bottom left border radius.
+     */
+    public int getBottomLeftRadius() {
+        return (int) radius.getBottomLeft();
+    }
+
+    /**
+     * Get the bottom right border radius.
+     * 
+     * @return The bottom right border radius.
+     */
+    public int getBottomRightRadius() {
+        return (int) radius.getBottomRight();
+    }
+
+    /**
+     * Set the border radius.
+     * 
+     * @param radius The border radius.
+     */
+    public void setBorderRadius(BorderRadius radius) {
+        this.radius.setTopLeft(radius.getTopLeft());
+        this.radius.setTopRight(radius.getTopRight());
+        this.radius.setBottomLeft(radius.getBottomLeft());
+        this.radius.setBottomRight(radius.getBottomRight());
+    }
+
+    /**
+     * Get the layout engine.
+     * 
+     * @return The layout engine.
+     */
+    @Override
+    public Layout getLayoutEngine() {
+        return layoutEngine;
+    }
+
+    /**
+     * Set the layout engine.
+     * 
+     * @param layoutEngine The layout engine.
+     */
+    @Override
+    public void setLayoutEngine(Layout layoutEngine) {
+        this.layoutEngine = layoutEngine;
         refresh();
     }
 }

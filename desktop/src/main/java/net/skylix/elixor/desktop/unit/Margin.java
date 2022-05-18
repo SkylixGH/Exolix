@@ -118,31 +118,43 @@ public class Margin extends Unit {
      * Set the top margin.
      */
     public void setTop(float top) {
+        final float oldTop = this.top;
         this.top = top;
-        executeOnChange();
+
+        if (oldTop != top)
+            executeOnChange();
     }
 
     /**
      * Set the right margin.
      */
     public void setRight(float right) {
+        final float oldRight = this.right;
         this.right = right;
-        executeOnChange();
+
+        if (oldRight != right)
+            executeOnChange();
     }
 
     /**
      * Set the bottom margin.
      */
     public void setBottom(float bottom) {
+        final float oldBottom = this.bottom;
         this.bottom = bottom;
-        executeOnChange();
+
+        if (oldBottom != bottom)
+            executeOnChange();
     }
 
     /**
      * Set the left margin.
      */
     public void setLeft(float left) {
+        final float oldLeft = this.left;
         this.left = left;
-        executeOnChange();
+
+        if (oldLeft != left)
+            executeOnChange();
     }
 }

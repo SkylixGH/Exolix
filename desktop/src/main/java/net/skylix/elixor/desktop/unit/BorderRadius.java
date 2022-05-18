@@ -56,6 +56,13 @@ public class BorderRadius extends Unit {
     }
 
     /**
+     * Create a new border radius.
+     */
+    public BorderRadius() {
+        this(0);
+    }
+
+    /**
      * Get the top left radius.
      * @return The top left radius.
      */
@@ -68,8 +75,11 @@ public class BorderRadius extends Unit {
      * @param topLeft The top left radius.
      */
     public void setTopLeft(float topLeft) {
+        final float oldTopLeft = this.topLeft;
         this.topLeft = topLeft;
-        executeOnChange();
+
+        if (oldTopLeft != topLeft)
+            executeOnChange();
     }
 
     /**
@@ -85,8 +95,11 @@ public class BorderRadius extends Unit {
      * @param topRight The top right radius.
      */
     public void setTopRight(float topRight) {
+        final float oldTopRight = this.topRight;
         this.topRight = topRight;
-        executeOnChange();
+
+        if (oldTopRight != topRight)
+            executeOnChange();
     }
 
     /**
@@ -102,8 +115,11 @@ public class BorderRadius extends Unit {
      * @param bottomLeft The bottom left radius.
      */
     public void setBottomLeft(float bottomLeft) {
+        final float oldBottomLeft = this.bottomLeft;
         this.bottomLeft = bottomLeft;
-        executeOnChange();
+
+        if (oldBottomLeft != bottomLeft)
+            executeOnChange();
     }
 
     /**
@@ -119,8 +135,11 @@ public class BorderRadius extends Unit {
      * @param bottomRight The bottom right radius.
      */
     public void setBottomRight(float bottomRight) {
+        final float oldBottomRight = this.bottomRight;
         this.bottomRight = bottomRight;
-        executeOnChange();
+
+        if (oldBottomRight != bottomRight)
+            executeOnChange();
     }
 
     /**

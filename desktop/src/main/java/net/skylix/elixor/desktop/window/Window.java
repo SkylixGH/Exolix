@@ -2,6 +2,7 @@ package net.skylix.elixor.desktop.window;
 
 import net.skylix.elixor.desktop.engines.HierarchyRenderer;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
+import net.skylix.elixor.desktop.engines.Layout;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
@@ -102,11 +103,14 @@ public class Window {
                 size.setHeight(e.getComponent().getHeight());
 
                 size.resumeOnChange();
+                refresh();
             }
         });
 
         jFrame.setContentPane(clientArea);
         jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/assets/defaultIcon.png"))).getImage());
+        jFrame.setBackground(new Color(20, 20, 20));
+        
         clientArea.setOpaque(false);
 
         refreshWindowProperties();
@@ -235,5 +239,25 @@ public class Window {
      */
     public void refresh() {
         clientArea.repaint();
+
+        recursivlyProcessLayouts(hierarchyTree);
+    }
+
+    /**
+     * Recursivly re-process all of the layouts information.
+     * 
+     * @param tree The hierarchy tree.
+     */
+    public void recursivlyProcessLayouts(HierarchyTree tree) {
+        for (Component child : tree.getElements()) {
+            final Layout layout = child.getLayoutEngine();
+
+            if (layout != null) {
+                layout.process(child.getTree(), child.getParent());
+            }
+
+            if (child.getTree().getElements().length > 0) 
+                recursivlyProcessLayouts(child.getTree());
+        }    
     }
 }

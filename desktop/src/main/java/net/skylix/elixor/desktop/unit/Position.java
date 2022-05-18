@@ -58,8 +58,11 @@ public class Position extends Unit {
      * @param x The X position.
      */
     public void setX(int x) {
+        final int oldX = this.x;
         this.x = x;
-        executeOnChange();
+
+        if (oldX != x) 
+            executeOnChange();
     }
 
     /**
@@ -68,8 +71,11 @@ public class Position extends Unit {
      * @param y The Y position.
      */
     public void setY(int y) {
+        final int oldY = this.y;
         this.y = y;
-        executeOnChange();
+
+        if (oldY != y) 
+            executeOnChange();
     }
 
     /**

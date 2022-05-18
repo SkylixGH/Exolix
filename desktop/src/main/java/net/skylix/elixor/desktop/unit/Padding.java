@@ -116,33 +116,53 @@ public class Padding extends Unit {
 
     /**
      * Set the top padding.
+     *
+     * @param top The top padding.
      */
     public void setTop(float top) {
+        final float oldTop = this.top;
         this.top = top;
-        executeOnChange();
+
+        if (oldTop != top)
+            executeOnChange();
     }
 
     /**
      * Set the right padding.
+     *
+     * @param right The right padding.
      */
     public void setRight(float right) {
+        final float oldRight = this.right;
         this.right = right;
-        executeOnChange();
+
+        if (oldRight != right)
+            executeOnChange();
     }
 
     /**
      * Set the bottom padding.
+     *
+     * @param bottom The bottom padding.
      */
     public void setBottom(float bottom) {
+        final float oldBottom = this.bottom;
         this.bottom = bottom;
-        executeOnChange();
+
+        if (oldBottom != bottom)
+            executeOnChange();  
     }
 
     /**
      * Set the left padding.
+     *
+     * @param left The left padding.
      */
     public void setLeft(float left) {
+        final float oldLeft = this.left;
         this.left = left;
-        executeOnChange();
+
+        if (oldLeft != left)
+            executeOnChange();
     }
 }

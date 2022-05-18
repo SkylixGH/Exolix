@@ -1,6 +1,7 @@
 package net.skylix.elixor.desktop.component;
 
 import net.skylix.elixor.desktop.engines.HierarchyTree;
+import net.skylix.elixor.desktop.engines.Layout;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.window.Window;
@@ -169,9 +170,8 @@ public abstract class Component {
     protected void refresh() {
         Window window = getWindow();
 
-        if (window != null) {
+        if (window != null)
             window.refresh();
-        }
     }
 
     /**
@@ -194,7 +194,7 @@ public abstract class Component {
      * @return The mouse X position.
      */
     public int getMouseX() {
-        return getMousePosition().getX();
+        return getMousePosition().getX(); // !! TODO: This is not correct.
     }
 
     /**
@@ -203,6 +203,70 @@ public abstract class Component {
      * @return The mouse Y position.
      */
     public int getMouseY() {
-        return getMousePosition().getY();
+        return getMousePosition().getY(); // !! TODO: This is not correct.
     }
+
+    /**
+     * Set the position.
+     * 
+     * @param position The position.
+     */
+    public abstract void setPosition(Position position);
+
+    /**
+     * Set the X position.
+     * 
+     * @param x The X position.
+     */
+    public void setX(int x) {
+        setPosition(new Position(x, getYPosition()));
+    }
+
+    /**
+     * Set the Y position.
+     * 
+     * @param y The Y position.
+     */
+    public void setY(int y) {
+        setPosition(new Position(getXPosition(), y));
+    }
+
+    /**
+     * Get the X position.
+     * 
+     * @return The X position.
+     */
+    public int getXPosition() {
+        return getPosition().getX();
+    }
+
+    /**
+     * Get the Y position.
+     * 
+     * @return The Y position.
+     */
+    public int getYPosition() {
+        return getPosition().getY();
+    }
+
+    /**
+     * Get the position.
+     * 
+     * @return The position.
+     */
+    public abstract Position getPosition();
+
+    /**
+     * Set the layout engine.
+     * 
+     * @param layoutEngine The layout engine.
+     */
+    public abstract void setLayoutEngine(Layout layoutEngine);
+
+    /**
+     * Get the layout engine.
+     * 
+     * @return The layout engine.
+     */
+    public abstract Layout getLayoutEngine();
 }
