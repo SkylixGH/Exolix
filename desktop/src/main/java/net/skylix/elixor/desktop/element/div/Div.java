@@ -1,12 +1,14 @@
 package net.skylix.elixor.desktop.element.div;
 
 import net.skylix.elixor.desktop.element.Component;
+import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * A simple division element, this is a generic element.
@@ -84,17 +86,15 @@ public class Div extends Component {
             }
         });
 
-        shape.moveTo(0, 0);
-        shape.lineTo(size.getWidth(), 0);
-        shape.lineTo(size.getWidth(), size.getHeight());
-        shape.lineTo(0, size.getHeight());
-        shape.closePath();
+        // Draw a round rect with 8px radius.
+        shape.append(new Path2D.Float(new RoundRectangle2D.Float(0, 0, size.getWidth(), size.getHeight(), 8, 8)), false);
 
-        if (parent != null)
-            g2d.setClip(0, 0, getParent().getSize().getWidth(), getParent().getSize().getHeight());
+        if (parent instanceof Div) {
+            final Div parentDiv = (Div) parent;
 
-        if (getParent() != null) {
-            System.out.println("Parent: " + getParent().getClass().getSimpleName() + " Height: " + getParent().getSize().getHeight());
+            if (parentDiv.isEdgeClipped()) {
+                g2d.setClip(parentDiv.getShape());
+            }
         }
 
         g2d.setColor(backgroundColor);
@@ -212,5 +212,40 @@ public class Div extends Component {
     @Override
     public Shape getShape() {
         return shape != null ? shape : new Path2D.Float();
+    }
+
+    /**
+     * Get mouse position.
+     *
+     * @return The mouse position.
+     */
+    @Override
+    public Position getMousePosition() {
+        return new Position(window.getMouseX(), window.getMouseY());
+    }
+
+    /**
+     * Is edge clipping enabled.
+     *
+     * @return True if enabled.
+     */
+    public boolean isEdgeClipped() {
+        return clip;
+    }
+
+    /**
+     * Enable edge clipping.
+     */
+    public void enableEdgeClipping() {
+        clip = true;
+        refresh();
+    }
+
+    /**
+     * Disable edge clipping.
+     */
+    public void disableEdgeClipping() {
+        clip = false;
+        refresh();
     }
 }

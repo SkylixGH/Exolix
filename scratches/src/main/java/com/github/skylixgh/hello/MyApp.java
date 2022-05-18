@@ -7,6 +7,9 @@ import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
 
+import javax.sound.sampled.AudioFormat;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.SourceDataLine;
 import javax.swing.JFrame;
 // import InputEvent
 // import KeyEvent
@@ -23,41 +26,33 @@ public class MyApp {
         final Div box = new Div();
 
         root.setWidth(100);
-        box.setBackgroundColor(new Color(255, 0, 0, 100));
+        root.setBackgroundColor(new Color(0, 0, 0, 15));
         box.setWidth(30);
-        root.setBackgroundColor(new Color(255, 255, 0));
+        box.setBackgroundColor(new Color(0, 0, 0));
         game.setSize(new Size(1000, 700));
         game.add(root);
         root.add(box);
         game.run();
 
+        root.disableEdgeClipping();
+
+        root.setSize(new Size(100, 100));
+
         new Thread(() -> {
             while (true) {
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
-                Div parent = (Div) box.getParent();
                 Div box2 = new Div();
                 box.setWidth(100);
 
                 // set 100% random color
                 box2.setBackgroundColor(new Color((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255), 100));
 
-                if (full) {
-                    box.setHeight(1000);
-                    box.setBackgroundColor(new Color(255, 0, 0, 255));
-                    parent.setBackgroundColor(new Color(255, 30, 0, 255));
-                    
-                    full = false;
-                } else {
-                    box.setBackgroundColor(new Color(255, 0, 0, 100));
-                    box.setHeight(50);
-                    parent.setBackgroundColor(new Color(255, 255, 0, 255));
-                    full = true;
-                }
+                box.setHeight(game.getMouseX() / 10);
             }
         }).start();
     }

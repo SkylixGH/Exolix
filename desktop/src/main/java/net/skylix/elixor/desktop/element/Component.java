@@ -1,6 +1,7 @@
 package net.skylix.elixor.desktop.element;
 
 import net.skylix.elixor.desktop.engines.HierarchyTree;
+import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.window.Window;
 import net.skylix.elixor.desktop.element.Component;
@@ -180,4 +181,29 @@ public abstract class Component {
      * @return The shape of the component.
      */
     public abstract Shape getShape();
+
+    /**
+     * Get the mouse position.
+     *
+     * @return The mouse position.
+     */
+    public abstract Position getMousePosition();
+
+    /**
+     * Get the mouse X position.
+     *
+     * @return The mouse X position.
+     */
+    public int getMouseX() {
+        return getMousePosition().getX();
+    }
+
+    /**
+     * Get the mouse Y position.
+     *
+     * @return The mouse Y position.
+     */
+    public int getMouseY() {
+        return getMousePosition().getY();
+    }
 }
