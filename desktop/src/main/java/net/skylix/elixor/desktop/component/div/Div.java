@@ -1,6 +1,6 @@
-package net.skylix.elixor.desktop.element.div;
+package net.skylix.elixor.desktop.component.div;
 
-import net.skylix.elixor.desktop.element.Component;
+import net.skylix.elixor.desktop.component.Component;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
@@ -89,9 +89,7 @@ public class Div extends Component {
         // Draw a round rect with 8px radius.
         shape.append(new Path2D.Float(new RoundRectangle2D.Float(0, 0, size.getWidth(), size.getHeight(), 8, 8)), false);
 
-        if (parent instanceof Div) {
-            final Div parentDiv = (Div) parent;
-
+        if (parent instanceof final Div parentDiv) {
             if (parentDiv.isEdgeClipped()) {
                 g2d.setClip(parentDiv.getShape());
             }

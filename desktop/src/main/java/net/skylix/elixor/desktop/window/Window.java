@@ -1,12 +1,11 @@
 package net.skylix.elixor.desktop.window;
 
-import net.skylix.elixor.desktop.element.div.Div;
 import net.skylix.elixor.desktop.engines.HierarchyRenderer;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
-import net.skylix.elixor.desktop.element.Component;
+import net.skylix.elixor.desktop.component.Component;
 
 import javax.swing.*;
 import java.awt.*;

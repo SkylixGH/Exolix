@@ -1,6 +1,6 @@
 package net.skylix.elixor.desktop.engines;
 
-import net.skylix.elixor.desktop.element.Component;
+import net.skylix.elixor.desktop.component.Component;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,10 +1,9 @@
-package net.skylix.elixor.desktop.element;
+package net.skylix.elixor.desktop.component;
 
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.window.Window;
-import net.skylix.elixor.desktop.element.Component;
 
 import java.awt.*;
 

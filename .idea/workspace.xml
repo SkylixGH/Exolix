@@ -4,10 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="feat: More structure changes">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="feat: Support for clip enable/disable">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/Component.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/div/Div.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/Component.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyRenderer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -378,14 +381,7 @@
       <workItem from="1652493073459" duration="2849000" />
       <workItem from="1652666408160" duration="2569000" />
       <workItem from="1652697573086" duration="17836000" />
-      <workItem from="1652784041451" duration="7207000" />
-    </task>
-    <task id="LOCAL-00038" summary="[Sync: elixorfx.*] 💕 Windows User32 titlebar working">
-      <created>1650854247810</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1650854247810</updated>
+      <workItem from="1652784041451" duration="11109000" />
     </task>
     <task id="LOCAL-00039" summary="[Sync: elixorfx.*] 💕 Windows BTN radius">
       <created>1650943574373</created>
@@ -723,7 +719,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652786721272</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="feat: Support for clip enable/disable">
+      <created>1652833665314</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1652833665315</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -742,7 +745,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="refactor: Remove javafx" />
     <MESSAGE value="feat: Animation for color's is working" />
     <MESSAGE value="fix: Fixed up window event syncing" />
     <MESSAGE value="feat: Added labels" />
@@ -767,7 +769,8 @@
     <MESSAGE value="fix: Resize lagging" />
     <MESSAGE value="fix: Removed auto render elements" />
     <MESSAGE value="feat: More structure changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: More structure changes" />
+    <MESSAGE value="feat: Support for clip enable/disable" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Support for clip enable/disable" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
