@@ -239,16 +239,15 @@ public class Window {
      */
     public void refresh() {
         clientArea.repaint();
-
-        recursivlyProcessLayouts(hierarchyTree);
+        recursivelyProcessLayouts(hierarchyTree);
     }
 
     /**
-     * Recursivly re-process all of the layouts information.
+     * Recursively re-process all the layouts' information.
      * 
      * @param tree The hierarchy tree.
      */
-    public void recursivlyProcessLayouts(HierarchyTree tree) {
+    public void recursivelyProcessLayouts(HierarchyTree tree) {
         for (Component child : tree.getElements()) {
             final Layout layout = child.getLayoutEngine();
 
@@ -257,7 +256,7 @@ public class Window {
             }
 
             if (child.getTree().getElements().length > 0) 
-                recursivlyProcessLayouts(child.getTree());
+                recursivelyProcessLayouts(child.getTree());
         }    
     }
 }

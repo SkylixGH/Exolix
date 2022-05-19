@@ -1,7 +1,10 @@
 package com.github.skylixgh.hello;
 
+import net.skylix.elixor.desktop.component.Component;
 import net.skylix.elixor.desktop.component.div.Div;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
+import net.skylix.elixor.desktop.engines.Layout;
+import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.window.Window;
@@ -15,27 +18,30 @@ import java.awt.*;
 public class MyApp {
     public static void main(String[] args) {
         final Window window = new Window("Elixor");
-        final HierarchyTree tree = window.getHierarchyTree();
 
-        // Components
-        final Div root = new Div();
-        final Div subItem = new Div();
+        configureWindow(window);
 
-        // Add elements
-        tree.add(root);
-        root.add(subItem);
+        final Div div = new Div();
 
-        subItem.setSize(new Size(50, 50));
-        subItem.setBackgroundColor(Color.BLACK);
+        div.setSize(new Size(window.getWidth() - 16, window.getHeight() - 39));
+        div.setBackgroundColor(new Color(255, 255, 255));
+        div.setPosition(new Position(8, 24));
 
-        root.setBackgroundColor(Color.LIGHT_GRAY);
-        root.setSize(new Size(200, 200));
-        root.getBorderRadius().setTopRight(30);
+        for (int i = 0; i < 20; i++) {
+            final Div div2 = new Div();
 
-        // Set window information
-        window.setSize(new Size(1200, 600));
+            div2.setSize(new Size(10, 10));
+            div2.setBackgroundColor(new Color(83, 150, 255));
 
+            div.add(div2);
+        }
+
+        window.add(div);
         window.run();
+    }
+
+    private static void configureWindow(Window win) {
+        win.setSize(new Size(800, 500));
     }
 }
  

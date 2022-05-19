@@ -4,12 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="feat: Support for clip enable/disable">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="feat: Updated tree rendering">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/Component.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/Component.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/element/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyRenderer.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyRenderer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyTree.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyTree.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/layout/BorderLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/layout/BorderLayout.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
@@ -381,14 +378,8 @@
       <workItem from="1652493073459" duration="2849000" />
       <workItem from="1652666408160" duration="2569000" />
       <workItem from="1652697573086" duration="17836000" />
-      <workItem from="1652784041451" duration="11109000" />
-    </task>
-    <task id="LOCAL-00039" summary="[Sync: elixorfx.*] 💕 Windows BTN radius">
-      <created>1650943574373</created>
-      <option name="number" value="00039" />
-      <option name="presentableId" value="LOCAL-00039" />
-      <option name="project" value="LOCAL" />
-      <updated>1650943574373</updated>
+      <workItem from="1652784041451" duration="11401000" />
+      <workItem from="1652912040589" duration="5466000" />
     </task>
     <task id="LOCAL-00040" summary="[Sync: apiSocket.*] 💕 Remove [ - ]">
       <created>1650969729718</created>
@@ -726,7 +717,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652833665315</updated>
     </task>
-    <option name="localTasksCounter" value="88" />
+    <task id="LOCAL-00088" summary="feat: Updated tree rendering">
+      <created>1652843402809</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1652843402809</updated>
+    </task>
+    <option name="localTasksCounter" value="89" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -745,7 +743,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="feat: Animation for color's is working" />
     <MESSAGE value="fix: Fixed up window event syncing" />
     <MESSAGE value="feat: Added labels" />
     <MESSAGE value="feat: Custom drag regions supports" />
@@ -770,7 +767,8 @@
     <MESSAGE value="fix: Removed auto render elements" />
     <MESSAGE value="feat: More structure changes" />
     <MESSAGE value="feat: Support for clip enable/disable" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Support for clip enable/disable" />
+    <MESSAGE value="feat: Updated tree rendering" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Updated tree rendering" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
