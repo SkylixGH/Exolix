@@ -3,10 +3,13 @@ package net.skylix.elixor.desktop.window;
 import net.skylix.elixor.desktop.engines.HierarchyRenderer;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.engines.Layout;
+import net.skylix.elixor.desktop.system.microsoft.windows.WindowsJFrameProcess;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 import net.skylix.elixor.desktop.component.Component;
+import com.sun.jna.platform.win32.WinDef;
+import com.sun.jna.Native;
 
 import javax.swing.*;
 import java.awt.*;
@@ -49,6 +52,11 @@ public class Window {
      * The base client area.
      */
     private final JComponent clientArea;
+
+    /**
+     * The window JFrame process for the Windows OS.
+     */
+    private WindowsJFrameProcess winJFP;
 
     /**
      * Create a new window.
@@ -147,6 +155,26 @@ public class Window {
     public void run() {
         if (jFrame.isVisible()) return;
         jFrame.setVisible(true);
+
+        winJFP = new WindowsJFrameProcess(true, 32, jFrame);
+        winJFP.initializeProcess(getWindowsHandle());
+
+        // winJFP.addTitleBarDragRegion(new Point[] {
+        //     new Point(0, 0),
+        //     new Point(size.getWidth(), 32),
+        // });
+    }
+
+    /**
+     * Get the window handle.
+     * 
+     * @return The window handle.
+     */
+    private WinDef.HWND getWindowsHandle() {
+        WinDef.HWND handle = new WinDef.HWND();
+        handle.setPointer(Native.getComponentPointer(jFrame));
+
+        return handle;
     }
 
     /**

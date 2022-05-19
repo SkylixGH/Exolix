@@ -399,4 +399,21 @@ public class Div extends Component {
         this.layoutEngine = layoutEngine;
         refresh();
     }
+
+    /**
+     * Check to see if the mouse is over the element.
+     * 
+     * @return True if the mouse is over the element.
+     */
+    @Override
+    public boolean isMouseOver() {
+        try {
+            return getShape().contains(
+                getMouseX(),
+                getMouseY()
+            );
+        } catch (Exception error) {
+            return false;
+        }
+    }
 }

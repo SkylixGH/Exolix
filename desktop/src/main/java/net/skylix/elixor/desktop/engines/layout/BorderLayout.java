@@ -20,14 +20,12 @@ public class BorderLayout extends Layout {
         int lastX = parent != null ? parent.getXPosition() : 0;
         int lastY = parent != null ? parent.getYPosition() : 0;
 
-        System.out.println("Parent: " + parent);
-
         for (Component node : tree.getElements()) {
             if (node.getXPosition() == 0) {
                 node.setPosition(new Position(lastX, lastY));
             }
 
-            lastX = node.getXPosition() + node.getWidth();
+            lastX = node.getXPosition() + node.getWidth() + 1;
         }
     }
 }

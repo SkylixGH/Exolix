@@ -269,4 +269,11 @@ public abstract class Component {
      * @return The layout engine.
      */
     public abstract Layout getLayoutEngine();
+
+    /**
+     * Check to see if the mouse is over the element.
+     * 
+     * @return True if the mouse is over the element.
+     */
+    public abstract boolean isMouseOver();
 }
