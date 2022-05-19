@@ -252,7 +252,7 @@ public class Window {
             final Layout layout = child.getLayoutEngine();
 
             if (layout != null) {
-                layout.process(child.getTree(), child.getParent());
+                layout.process(child.getTree(), child.getTree().getOwner());
             }
 
             if (child.getTree().getElements().length > 0) 
