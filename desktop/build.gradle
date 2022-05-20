@@ -1,6 +1,5 @@
 plugins {
     id 'java'
-    id 'org.openjfx.javafxplugin' version '0.0.10'
 }
 
 group 'net.skylix'
@@ -15,18 +14,8 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation group: 'net.java.dev.jna', name: 'jna', version: '5.11.0'
     implementation group: 'net.java.dev.jna', name: 'jna-platform', version: '5.11.0'
-    implementation project(':terminal')
-    implementation 'com.google.code.gson:gson:2.9.0'
 }
 
 test {
     useJUnitPlatform()
-}
-
-jar {
-    from {
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it)}
-    }
-
-    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 }

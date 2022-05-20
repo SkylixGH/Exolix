@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: net.java.dev.jna:jna:5.11.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.11.0/27770efb6329f092f895c7329662d1aa8ee8c0ac/jna-5.11.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.11.0/e410fd6ea73bae2f368131d2573aa4e284744300/jna-5.11.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
