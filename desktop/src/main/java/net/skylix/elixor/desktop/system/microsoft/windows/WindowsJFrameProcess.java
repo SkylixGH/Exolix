@@ -151,7 +151,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
         if (!tempIgnoreHitTest)
             if (
-                // Top left corner resize
+                // Top left corner resize 
                     mouseX >= 0
                             && mouseX < frameResizeBorderThickness
                             && mouseY >= 0
@@ -214,11 +214,58 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                             && mouseY < height
             ) {
                 hitTestResult = Constants.HTBOTTOM;
+            } else if (
+                // Check drag regions
+                isInDragRegion(mouseX, mouseY)
+            ) {
+                hitTestResult = Constants.HTCAPTION;
+                System.out.println("HTCAPTION");
             } else {
                 hitTestResult = Constants.HTCLIENT;
             }
 
         return new LRESULT(hitTestResult);
+    }
+
+    private boolean isInDragRegion(int x, int y) {
+        boolean result = false;
+
+        final ArrayList<Point[]> dragRegionsClone = new ArrayList<>(dragRegions);
+        final ArrayList<Point[]> excludedDragRegionsClone = new ArrayList<>(excludedDragRegions);
+
+        for (Point[] region : dragRegionsClone) {
+            try {
+                if (
+                        x >= region[0].x
+                                && x <= region[1].x
+                                && y >= region[0].y
+                                && y <= region[1].y
+                ) {
+                    result = true;
+                    break;
+                }
+            } catch (Exception e) {
+                // Ignore
+            }
+        }
+
+        for (Point[] region : excludedDragRegionsClone) {
+            try {
+                if (
+                        x >= region[0].x
+                                && x <= region[1].x
+                                && y >= region[0].y
+                                && y <= region[1].y
+                ) {
+                    result = false;
+                    break;
+                }
+            } catch (Exception e) {
+                // Ignore
+            }
+        }
+
+        return result;
     }
 
     private void applyMargins(HWND hWnd) {
@@ -295,5 +342,10 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
 
     public void setTempIgnoreHitTest(boolean tempIgnoreHitTest) {
         this.tempIgnoreHitTest = tempIgnoreHitTest;
+    }
+
+    public void clearAllDragInfo() {
+        dragRegions.clear();
+        excludedDragRegions.clear();
     }
 }

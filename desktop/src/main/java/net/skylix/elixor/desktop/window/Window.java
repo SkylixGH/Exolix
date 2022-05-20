@@ -9,6 +9,8 @@ import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
 import net.skylix.elixor.desktop.component.Component;
+import net.skylix.elixor.desktop.component.WindowDragState;
+
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.Native;
 
@@ -16,6 +18,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -257,25 +260,42 @@ public class Window {
      * Refresh the renderer, this will cause the content area to be repainted.
      */
     public void refresh() {
+        if (winJFP != null)
+            winJFP.clearAllDragInfo();
+    
         clientArea.repaint();
-        recursivelyProcessLayouts(hierarchyTree);
+        recursivelyProcessLayoutsNative(hierarchyTree);
     }
 
     /**
-     * Recursively re-process all the layouts' information.
+     * Recursively re-process all the layouts' information, and handle native properties.
      *
      * @param tree The hierarchy tree.
      */
-    public void recursivelyProcessLayouts(HierarchyTree tree) {
+    public void recursivelyProcessLayoutsNative(HierarchyTree tree) {
         for (Component child : tree.getElements()) {
             final Layout layout = child.getLayoutEngine();
+            final Component owner = child.getTree().getOwner();
+
+            if (winJFP != null)
+                if (owner.getWindowDragState() == WindowDragState.ALLOW) {
+                    winJFP.addTitleBarDragRegion(new Point[] {
+                        new Point(owner.getXPosition(), owner.getYPosition()),
+                        new Point(owner.getXPosition() + owner.getWidth(), owner.getYPosition() + owner.getHeight()),
+                    });
+                } else if (owner.getWindowDragState() == WindowDragState.DENY) {
+                    winJFP.addTitleBarExcludedDragRegion(new Point[] {
+                        new Point(owner.getXPosition(), owner.getYPosition()),
+                        new Point(owner.getXPosition() + owner.getWidth(), owner.getYPosition() + owner.getHeight()),
+                    });
+                }
 
             if (layout != null) {
-                layout.process(child.getTree(), child.getTree().getOwner());
+                layout.process(child.getTree(), owner);
             }
 
             if (child.getTree().getElements().length > 0)
-                recursivelyProcessLayouts(child.getTree());
+                recursivelyProcessLayoutsNative(child.getTree());
         }
     }
 
@@ -296,8 +316,6 @@ public class Window {
     public void setVirtualMousePosition(Position position) {
         mousePosition.setX(position.getXPosition());
         mousePosition.setY(position.getYPosition());
-
-        System.out.println("Mouse position: " + mousePosition.getXPosition() + ", " + mousePosition.getYPosition());
 
         refreshWindowProperties();
     }

@@ -1,6 +1,7 @@
 package com.github.skylixgh.hello;
 
 import net.skylix.elixor.desktop.component.Component;
+import net.skylix.elixor.desktop.component.WindowDragState;
 import net.skylix.elixor.desktop.component.div.Div;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.engines.Layout;
@@ -65,6 +66,8 @@ public class MyApp {
             bl.add(div2);
         }
 
+        closeButton.setWindowDragState(WindowDragState.ALLOW);
+
         div.setPosition(new Position(20, 20));
         new Thread(() -> {
             while (true) { 
@@ -76,14 +79,8 @@ public class MyApp {
 
                 if (closeButton.isMouseOver()) {
                     closeButton.setBackgroundColor(new Color(255, 83, 24));
-
-                    if (wc != null)
-                        wc.enableSnapLayout();
                 } else {
                     closeButton.setBackgroundColor(new Color(0, 0, 0));
-
-                    if (wc != null)
-                        wc.disableSnapLayout();
                 }
 
                 for (Div el : bl) {

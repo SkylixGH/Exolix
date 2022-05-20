@@ -88,4 +88,9 @@ public class Constants {
      * The bottom border hit test message.
      */
     public static final int HTBOTTOM = 15;
+
+    /**
+     * Win32 message for when the mouse leaves the window.
+     */
+    public static final int WM_MOUSELEAVE = 0x02A3;
 }

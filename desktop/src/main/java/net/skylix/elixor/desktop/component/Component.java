@@ -13,6 +13,11 @@ import java.awt.*;
  */
 public abstract class Component {
     /**
+     * Whether this element can move the window on drag.
+     */
+    private WindowDragState windowDragState = WindowDragState.NONE;
+
+    /**
      * The element render method.
      *
      * @param g2d The graphics output.
@@ -42,6 +47,24 @@ public abstract class Component {
      */
     public HierarchyTree getTree() {
         return tree;
+    }
+
+    /**
+     * Set the window drag state.
+     *
+     * @param windowDragState The window drag state.
+     */
+    public void setWindowDragState(WindowDragState windowDragState) {
+        this.windowDragState = windowDragState;
+    }
+
+    /**
+     * Get the window drag state.
+     *
+     * @return The window drag state.
+     */
+    public WindowDragState getWindowDragState() {
+        return windowDragState;
     }
 
     /**
