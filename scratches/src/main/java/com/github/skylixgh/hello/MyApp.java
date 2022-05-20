@@ -42,15 +42,15 @@ public class MyApp {
 
         titleBar.setSize(new Size(window.getWidth(), 32));
         titleBar.setPosition(new Position(0, 0));
-        titleBar.setBackgroundColor(new Color(12, 12, 12));
+        titleBar.setBackgroundColor(new Color(32, 32, 32));
 
         final Div closeButton = new Div();
-
+ 
         titleBar.add(closeButton);
         titleBar.disableEdgeClipping();
 
         closeButton.setPosition(new Position(
-            window.getWidth() - 45,
+            window.getWidth() - 45, 
             0
         ));
 
@@ -66,7 +66,8 @@ public class MyApp {
             bl.add(div2);
         }
 
-        closeButton.setWindowDragState(WindowDragState.ALLOW);
+        titleBar.setWindowDragState(WindowDragState.ALLOW);
+        closeButton.setWindowDragState(WindowDragState.DENY);
 
         div.setPosition(new Position(20, 20));
         new Thread(() -> {
@@ -86,8 +87,10 @@ public class MyApp {
                 for (Div el : bl) {
                     if (el.isMouseOver()) {
                         el.setBackgroundColor(new Color(255, 84, 20));
+                        el.setSize(new Size(20, 20));
                     } else {
                         el.setBackgroundColor(new Color(83, 150, 255));
+                        el.setSize(new Size(10, 20));
                     }
                 }
             }

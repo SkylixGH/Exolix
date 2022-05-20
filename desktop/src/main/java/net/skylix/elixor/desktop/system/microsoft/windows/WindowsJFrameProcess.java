@@ -70,6 +70,11 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private boolean tempIgnoreHitTest = false;
 
     /**
+     * If the window is in its maximized state.
+     */
+    private boolean isMaximized = false;
+
+    /**
      * Create a new windows JFrame process.
      *
      * @param frame The Java Swing window frame.
@@ -132,9 +137,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     }
 
     private WinDef.LRESULT borderLessHitTest(HWND hWnd, int uMsg, WPARAM wParam, LPARAM lParam) {
-        int maximizedWindowFrameThickness = 10;
-        int frameResizeBorderThickness = 10; // TODO: For touch screens make this 16 and handle the touch events.
-        int frameBorderThickness = 1;
+        int frameResizeBorderThickness = isMaximized ? 0 : 10;
 
         POINT pointMouse = new POINT();
         RECT rectWindow = new RECT();
@@ -219,7 +222,6 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 isInDragRegion(mouseX, mouseY)
             ) {
                 hitTestResult = Constants.HTCAPTION;
-                System.out.println("HTCAPTION");
             } else {
                 hitTestResult = Constants.HTCLIENT;
             }
@@ -305,13 +307,13 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
             }
 
             case WM_SIZE -> {
-                // if (wParam.intValue() == SIZE_MAXIMIZED) {
-                //     if (!frame.hasTriggeredMaximized())
-                //         frame.triggerMaximized();
-                // } else {
-                //     if (frame.hasTriggeredMaximized())
-                //         frame.triggerUnMaximized();
-                // }
+                if (wParam.intValue() == Constants.SIZE_MAXIMIZED) {
+                    applyMargins(hWnd);
+                    isMaximized = true;
+                } else {
+                    applyMargins(hWnd);
+                    isMaximized = false;
+                }
 
                 result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
                 return result;

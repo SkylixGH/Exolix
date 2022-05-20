@@ -112,9 +112,10 @@ public class Window {
             }
         });
 
+        clientArea.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         jFrame.setContentPane(clientArea);
         jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/assets/defaultIcon.png"))).getImage());
-        jFrame.setBackground(new Color(20, 20, 20));
+        jFrame.setBackground(new Color(39, 39, 39));
 
         clientArea.setOpaque(false);
 
