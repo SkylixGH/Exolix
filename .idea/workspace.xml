@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="feat: Updated tree rendering">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="refactor: Updated scratch file">
+      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/layout/BorderLayout.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/layout/BorderLayout.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,9 +80,9 @@
         <option value="AnnotationType" />
         <option value="JavaFXApplication" />
         <option value="Interface" />
-        <option value="Enum" />
         <option value="HTML File" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -105,14 +105,21 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_2.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/desktop/build.gradle" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/Component.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/BorderRadius.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.11.0/e410fd6ea73bae2f368131d2573aa4e284744300/jna-5.11.0-sources.jar!/com/sun/jna/NativeLibrary.java" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/Position.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/layout/BorderLayout.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/display/Display.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/display/DisplayManager.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyRenderer.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyTree.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/OneDrive/Desktop/win.hta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/settings.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
@@ -140,7 +147,7 @@
     <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
     <property name="com.intellij.ide.scratch.ScratchImplUtil$2/New Scratch File" value="JAVA&#10;PLAIN_TEXT" />
     <property name="jdk.selected.JAVA_MODULE" value="17" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/DecompilerMC-win/DecompilerMC-win" />
+    <property name="last_opened_file_path" value="$USER_HOME$/OneDrive/Documents/NexoTemp" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
@@ -379,14 +386,8 @@
       <workItem from="1652666408160" duration="2569000" />
       <workItem from="1652697573086" duration="17836000" />
       <workItem from="1652784041451" duration="11401000" />
-      <workItem from="1652912040589" duration="5466000" />
-    </task>
-    <task id="LOCAL-00040" summary="[Sync: apiSocket.*] 💕 Remove [ - ]">
-      <created>1650969729718</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1650969729718</updated>
+      <workItem from="1652912040589" duration="6390000" />
+      <workItem from="1652999519411" duration="10503000" />
     </task>
     <task id="LOCAL-00041" summary="[Sync: apiSocket.*] 💕 Add [ + ]">
       <created>1650969752036</created>
@@ -724,7 +725,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652843402809</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="refactor: Updated scratch file">
+      <created>1652929917736</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1652929917737</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -743,7 +751,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix: Fixed up window event syncing" />
     <MESSAGE value="feat: Added labels" />
     <MESSAGE value="feat: Custom drag regions supports" />
     <MESSAGE value="fix: Dragging" />
@@ -768,7 +775,8 @@
     <MESSAGE value="feat: More structure changes" />
     <MESSAGE value="feat: Support for clip enable/disable" />
     <MESSAGE value="feat: Updated tree rendering" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Updated tree rendering" />
+    <MESSAGE value="refactor: Updated scratch file" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: Updated scratch file" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

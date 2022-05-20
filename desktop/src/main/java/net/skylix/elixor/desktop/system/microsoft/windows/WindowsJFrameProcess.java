@@ -1,7 +1,6 @@
 package net.skylix.elixor.desktop.system.microsoft.windows;
 
 import com.sun.jna.Native;
-import com.sun.jna.Structure;
 import com.sun.jna.platform.win32.BaseTSD;
 import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
@@ -11,7 +10,6 @@ import com.sun.jna.win32.W32APIOptions;
 import javax.swing.*;
 
 import java.awt.*;
-import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import static com.sun.jna.platform.win32.WinUser.*;
@@ -21,42 +19,12 @@ import static com.sun.jna.platform.win32.WinUser.*;
  */
 public class WindowsJFrameProcess implements WinUser.WindowProc {
     /**
-     * Win32 event constant SC_RESTORE.
-     */
-    private static final int SC_RESTORE = 0xF120;
-
-    /**
-     * Win32 event constant WM_NCCALCSIZE.
-     */
-    private static final int WM_NCCALCSIZE = 0x0083;
-
-    /**
-     * Win32 event constant WM_NCHITTEST.
-     */
-    private static final int WM_NCHITTEST = 0x0084;
-
-    /**
-     * Win32 event constant SIZE_MAXIMIZED.
-     */
-    private static final int SIZE_MAXIMIZED = 2;
-
-    /**
-     * Whether the titlebar is rendered.
-     */
-    private final int renderedTitleBarHeight;
-
-    /**
-     * Whether to use a custom titlebar.
-     */
-    private final boolean useCustomTitleBarHitTest;
-
-    /**
-     * All of the drag regions.
+     * All the drag regions.
      */
     private final ArrayList<Point[]> dragRegions = new ArrayList<>();
 
     /**
-     * All of the drag regions to ignore.
+     * All the drag regions to ignore.
      */
     private final ArrayList<Point[]> excludedDragRegions = new ArrayList<>();
 
@@ -81,20 +49,25 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private BaseTSD.LONG_PTR definedWindowProcess;
 
     /**
-     * The window frame fr Java Swing.
+     * The window frame for Java Swing.
      */
     private final JFrame frame;
 
     /**
+     * The current hit test result.
+     */
+    private int hitTestResult;
+
+    /**
+     *
+     */
+
+    /**
      * Create a new windows JFrame process.
-     * 
-     * @param customHitTest Whether to use a custom titlebar hit test.
-     * @param titleBarHeightForHitTest HUH????
+     *
      * @param frame The Java Swing window frame.
      */
-    public WindowsJFrameProcess(boolean customHitTest, int titleBarHeightForHitTest, JFrame frame) {
-        renderedTitleBarHeight = titleBarHeightForHitTest == 0 ? -10 : titleBarHeightForHitTest;
-        useCustomTitleBarHitTest = customHitTest;
+    public WindowsJFrameProcess(JFrame frame) {
         this.frame = frame;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
@@ -118,10 +91,6 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     }
 
     public final void initializeProcess(WinDef.HWND hWnd) {
-        if (!useCustomTitleBarHitTest) {
-            return;
-        }
-
         this.hWnd = hWnd;
         definedWindowProcess = INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, this);
 
@@ -139,6 +108,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         INSTANCE.SetWindowLong(hWnd, User32Ex.GWL_EXSTYLE, INSTANCE.GetWindowLong(hWnd, User32Ex.GWL_EXSTYLE) | User32Ex.WS_EX_LAYERED);
 
         RECT bounds = new RECT();
+
         bounds.left = 0;
         bounds.top = 0;
         bounds.right = 0;
@@ -153,16 +123,9 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     }
 
     private WinDef.LRESULT borderLessHitTest(HWND hWnd, int uMsg, WPARAM wParam, LPARAM lParam) {
-        int controlBoxWidth = 135;
-        int iconWidth = 27;
-        int extraLeftReservedWidth = 0;
-        int extraRightReservedWidth = 0;
         int maximizedWindowFrameThickness = 10;
-        int frameResizeBorderThickness = 4;
+        int frameResizeBorderThickness = 10; // TODO: For touch screens make this 16 and handle the touch events.
         int frameBorderThickness = 1;
-
-        int borderOffset = 10;
-        int borderThickness = 4;
 
         POINT pointMouse = new POINT();
         RECT rectWindow = new RECT();
@@ -170,113 +133,85 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         User32.INSTANCE.GetCursorPos(pointMouse);
         User32.INSTANCE.GetWindowRect(hWnd, rectWindow);
 
-        int uRow = 1;
-        int uColumn = 1;
-
-        boolean frameOnResizeBorder = false;
-        boolean frameOnFrameDrag = false;
-        boolean frameOnIcon = false;
-
-        int pointMouseXRelativeToWindow = pointMouse.x - rectWindow.left;
-        int pointMouseYRelativeToWindow = pointMouse.y - rectWindow.top;
+        final int mouseX = pointMouse.x - rectWindow.left;
+        final int mouseY = pointMouse.y - rectWindow.top;
+        final int width = rectWindow.right - rectWindow.left;
+        final int height = rectWindow.bottom - rectWindow.top;
 
         if (
-//                pointMouse.y >= rectWindow.top
-//                        && pointMouse.y < rectWindow.top + rectWindow.bottom + borderOffset
-                pointMouseYRelativeToWindow <= frame.getHeight() - borderThickness - borderOffset
-                    && pointMouseXRelativeToWindow <= frame.getWidth() - borderThickness - borderOffset
+            // Top left corner resize
+                mouseX >= 0
+                    && mouseX < frameResizeBorderThickness
+                    && mouseY >= 0
+                    && mouseY < frameResizeBorderThickness
         ) {
-            // If the top is being resized
-            frameOnResizeBorder = (pointMouse.y < (rectWindow.top + borderThickness));
-
-            if (!frameOnResizeBorder) {
-                frameOnIcon = (pointMouse.y <= rectWindow.top + renderedTitleBarHeight)
-                        && (pointMouse.x > rectWindow.left)
-                        && (pointMouse.x < (rectWindow.left + iconWidth + borderOffset));
-
-                if (!frameOnIcon) {
-
-                    try {
-                        for (Point[] region : dragRegions) {
-                            if (pointMouseXRelativeToWindow >= region[0].x && pointMouseXRelativeToWindow <= region[1].x && pointMouseYRelativeToWindow >= region[0].y && pointMouseYRelativeToWindow <= (region[1].y + borderOffset)) {
-                                frameOnFrameDrag = true;
-                                break;
-                            }
-                        }
-                    } catch (Exception e) {
-                        // Ignore
-                    }
-
-                    try {
-                        for (Point[] region : excludedDragRegions) {
-                            if (pointMouseXRelativeToWindow >= region[0].x && pointMouseXRelativeToWindow <= region[1].x && pointMouseYRelativeToWindow >= region[0].y && pointMouseYRelativeToWindow <= (region[1].y + borderOffset)) {
-                                frameOnFrameDrag = false;
-                                break;
-                            }
-                        }
-                    } catch (Exception e) {
-                        // Ignore
-                    }
-                }
-            }
-
-            uRow = 0;
+            hitTestResult = Constants.HTTOPLEFT;
         } else if (
-                pointMouse.y < rectWindow.bottom
-                        && pointMouse.y >= rectWindow.bottom - borderThickness
+            // Top right corner resize
+                mouseX >= width - frameResizeBorderThickness
+                    && mouseX < width
+                    && mouseY >= 0
+                    && mouseY < frameResizeBorderThickness
         ) {
-            // The bottom is being resized
-            uRow = 2;
+            hitTestResult = Constants.HTTOPRIGHT;
+        } else if (
+            // Bottom left corner resize
+                mouseX >= 0
+                    && mouseX < frameResizeBorderThickness
+                    && mouseY >= height - frameResizeBorderThickness
+                    && mouseY < height
+        ) {
+            hitTestResult = Constants.HTBOTTOMLEFT;
+        } else if (
+                // Bottom right corner resize
+                    mouseX >= width - frameResizeBorderThickness
+                        && mouseX < width
+                        && mouseY >= height - frameResizeBorderThickness
+                        && mouseY < height
+        ) {
+            hitTestResult = Constants.HTBOTTOMRIGHT;
+        } else if (
+                // Left border resize
+                    mouseX >= 0
+                        && mouseX < frameResizeBorderThickness
+                        && mouseY >= frameResizeBorderThickness
+                        && mouseY < height - frameResizeBorderThickness
+        ) {
+            hitTestResult = Constants.HTLEFT;
+        } else if (
+                // Right border resize
+                    mouseX >= width - frameResizeBorderThickness
+                        && mouseX < width
+                        && mouseY >= frameResizeBorderThickness
+                        && mouseY < height - frameResizeBorderThickness
+        ) {
+            hitTestResult = Constants.HTRIGHT;
+        } else if (
+                // Top border resize
+                    mouseX >= frameResizeBorderThickness
+                        && mouseX < width - frameResizeBorderThickness
+                        && mouseY >= 0
+                        && mouseY < frameResizeBorderThickness
+        ) {
+            hitTestResult = Constants.HTTOP;
+        } else if (
+                // Bottom border resize
+                    mouseX >= frameResizeBorderThickness
+                        && mouseX < width - frameResizeBorderThickness
+                        && mouseY >= height - frameResizeBorderThickness
+                        && mouseY < height
+        ) {
+            hitTestResult = Constants.HTBOTTOM;
+        } else {
+            hitTestResult = Constants.HTCLIENT;
         }
 
-        if (
-                pointMouse.x >= rectWindow.left
-                        && pointMouse.x < rectWindow.left + borderThickness
-        ) {
-            // The left size is being resized
-            uColumn = 0;
-        } else if (
-                pointMouse.x < rectWindow.right
-                        && pointMouse.x >= rectWindow.right - borderThickness
-        ) {
-            // The right size is being resized
-            uColumn = 2;
-        }
-
-        final int htTopLeft = 13;
-        final int htTop = 12;
-        final int htCaption = 2;
-        final int htTopRight = 15;
-        final int htLeft = 10;
-        final int htNoWhere = 0;
-        final int htRight = 11;
-        final int htBottomLeft = 16;
-        final int htBottom = 15;
-        final int htBottomRight = 17;
-        final int htSystemMenu = 3;
-
-        int[][] hitTestsAll = {
-                {
-                        htTopLeft,
-                        frameOnResizeBorder ? htTop : frameOnIcon ? htSystemMenu : frameOnFrameDrag ? htCaption : htNoWhere, htTopRight
-                },
-                {
-                        htLeft,
-                        htNoWhere,
-                        htRight
-                },
-                {
-                        htBottomLeft,
-                        htBottom,
-                        htBottomRight
-                }
-        };
-
-        return new LRESULT(hitTestsAll[uRow][uColumn]);
+        return new LRESULT(hitTestResult);
     }
 
     private void applyMargins(HWND hWnd) {
         Margins margins = new Margins();
+
         margins.cxLeftWidth = 0;
         margins.cxRightWidth = 0;
         margins.cyTopHeight = 0;
@@ -289,23 +224,13 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     public final WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
         LRESULT result;
 
-        if (!useCustomTitleBarHitTest) {
-            result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
-            return result;
-        }
-
         switch (uMsg) {
-            case WM_NCCALCSIZE -> {
+            case Constants.WM_NCCALCSIZE, User32Dwm.WM_ACTIVATE -> {
                 applyMargins(hWnd);
                 return new LRESULT(0);
             }
 
-            case User32Dwm.WM_ACTIVATE -> {
-                applyMargins(hWnd);
-                return new LRESULT(0);
-            }
-
-            case WM_NCHITTEST -> {
+            case Constants.WM_NCHITTEST -> {
                 result = borderLessHitTest(hWnd, uMsg, wParam, lParam);
 
                 if (result.intValue() == new LRESULT(0).intValue()) {
@@ -328,15 +253,6 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 //     if (frame.hasTriggeredMaximized())
                 //         frame.triggerUnMaximized();
                 // }
-
-                frame.getContentPane().repaint();
-
-                result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
-                return result;
-            }
-
-            case WM_CLOSE -> {
-                // frame.triggerClosing();
 
                 result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
                 return result;

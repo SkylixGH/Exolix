@@ -156,7 +156,7 @@ public class Window {
         if (jFrame.isVisible()) return;
         jFrame.setVisible(true);
 
-        winJFP = new WindowsJFrameProcess(true, 32, jFrame);
+        winJFP = new WindowsJFrameProcess(jFrame);
         winJFP.initializeProcess(getWindowsHandle());
 
         // winJFP.addTitleBarDragRegion(new Point[] {
