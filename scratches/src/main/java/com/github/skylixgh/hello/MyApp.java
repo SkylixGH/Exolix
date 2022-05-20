@@ -5,6 +5,7 @@ import net.skylix.elixor.desktop.component.div.Div;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.engines.Layout;
 import net.skylix.elixor.desktop.engines.layout.BorderLayout;
+import net.skylix.elixor.desktop.system.microsoft.windowsUtil.MicrosoftWindowsController;
 import net.skylix.elixor.desktop.unit.BorderRadius;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
@@ -23,7 +24,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.plaf.metal.OceanTheme;
 
-public class MyApp {    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+public class MyApp {
+    private static MicrosoftWindowsController wc = null;
+    public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         final Window window = new Window("Elixor");
  
         configureWindow(window);
@@ -63,7 +66,6 @@ public class MyApp {    public static void main(String[] args) throws ClassNotFo
         }
 
         div.setPosition(new Position(20, 20));
-
         new Thread(() -> {
             while (true) { 
                 try {
@@ -74,8 +76,14 @@ public class MyApp {    public static void main(String[] args) throws ClassNotFo
 
                 if (closeButton.isMouseOver()) {
                     closeButton.setBackgroundColor(new Color(255, 83, 24));
+
+                    if (wc != null)
+                        wc.enableSnapLayout();
                 } else {
                     closeButton.setBackgroundColor(new Color(0, 0, 0));
+
+                    if (wc != null)
+                        wc.disableSnapLayout();
                 }
 
                 for (Div el : bl) {
@@ -96,6 +104,8 @@ public class MyApp {    public static void main(String[] args) throws ClassNotFo
 
         window.add(div);
         window.run();
+
+        wc = window.getOSWindowsController();
     }
 
     private static void configureWindow(Window win) {

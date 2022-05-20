@@ -6,9 +6,10 @@ import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.W32APIOptions;
+import net.skylix.elixor.desktop.unit.Position;
+import net.skylix.elixor.desktop.window.Window;
 
 import javax.swing.*;
-
 import java.awt.*;
 import java.util.ArrayList;
 
@@ -29,11 +30,6 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private final ArrayList<Point[]> excludedDragRegions = new ArrayList<>();
 
     /**
-     * The window's handle.
-     */
-    private HWND hWnd;
-
-    /**
      * Win32 instance,
      */
     private final User32Ex INSTANCE;
@@ -44,53 +40,66 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private final User32Dwm INSTANCEDwm;
 
     /**
-     * The defined window process.
-     */
-    private BaseTSD.LONG_PTR definedWindowProcess;
-
-    /**
      * The window frame for Java Swing.
      */
     private final JFrame frame;
 
     /**
-     * The current hit test result.
+     * The window's handle.
      */
-    private int hitTestResult;
+    private HWND hWnd;
 
     /**
-     *
+     * The Elixor high level API.
      */
+    private final Window window;
+
+    /**
+     * The defined window process.
+     */
+    private BaseTSD.LONG_PTR definedWindowProcess;
+
+    /**
+     * The current hit test result.
+     */
+    private int hitTestResult = Constants.HTCLIENT;
+
+    /**
+     * Whether to ignore hit test calculation in the hit tester method.
+     */
+    private boolean tempIgnoreHitTest = false;
 
     /**
      * Create a new windows JFrame process.
      *
      * @param frame The Java Swing window frame.
+     * @param window The Elixor high level API.
      */
-    public WindowsJFrameProcess(JFrame frame) {
+    public WindowsJFrameProcess(JFrame frame, Window window) {
         this.frame = frame;
+        this.window = window;
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
         INSTANCEDwm = Native.load("dwmapi", User32Dwm.class, W32APIOptions.DEFAULT_OPTIONS);
     }
 
-    public final void addTitleBarDragRegion(Point[] region) {
+    public void addTitleBarDragRegion(Point[] region) {
         dragRegions.add(region);
     }
 
-    public final void removeTitleBarDragRegion(Point[] region) {
+    public void removeTitleBarDragRegion(Point[] region) {
         dragRegions.remove(region);
     }
 
-    public final void addTitleBarExcludedDragRegion(Point[] region) {
+    public void addTitleBarExcludedDragRegion(Point[] region) {
         excludedDragRegions.add(region);
     }
 
-    public final void removeTitleBarExcludedDragRegion(Point[] region) {
+    public void removeTitleBarExcludedDragRegion(Point[] region) {
         excludedDragRegions.remove(region);
     }
 
-    public final void initializeProcess(WinDef.HWND hWnd) {
+    public void initializeProcess(WinDef.HWND hWnd) {
         this.hWnd = hWnd;
         definedWindowProcess = INSTANCE.SetWindowLongPtr(hWnd, User32Ex.GWLP_WNDPROC, this);
 
@@ -138,73 +147,76 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         final int width = rectWindow.right - rectWindow.left;
         final int height = rectWindow.bottom - rectWindow.top;
 
-        if (
-            // Top left corner resize
-                mouseX >= 0
-                    && mouseX < frameResizeBorderThickness
-                    && mouseY >= 0
-                    && mouseY < frameResizeBorderThickness
-        ) {
-            hitTestResult = Constants.HTTOPLEFT;
-        } else if (
-            // Top right corner resize
-                mouseX >= width - frameResizeBorderThickness
-                    && mouseX < width
-                    && mouseY >= 0
-                    && mouseY < frameResizeBorderThickness
-        ) {
-            hitTestResult = Constants.HTTOPRIGHT;
-        } else if (
-            // Bottom left corner resize
-                mouseX >= 0
-                    && mouseX < frameResizeBorderThickness
-                    && mouseY >= height - frameResizeBorderThickness
-                    && mouseY < height
-        ) {
-            hitTestResult = Constants.HTBOTTOMLEFT;
-        } else if (
+        window.setVirtualMousePosition(new Position(mouseX, mouseY));
+
+        if (!tempIgnoreHitTest)
+            if (
+                // Top left corner resize
+                    mouseX >= 0
+                            && mouseX < frameResizeBorderThickness
+                            && mouseY >= 0
+                            && mouseY < frameResizeBorderThickness
+            ) {
+                hitTestResult = Constants.HTTOPLEFT;
+            } else if (
+                // Top right corner resize
+                    mouseX >= width - frameResizeBorderThickness
+                            && mouseX < width
+                            && mouseY >= 0
+                            && mouseY < frameResizeBorderThickness
+            ) {
+                hitTestResult = Constants.HTTOPRIGHT;
+            } else if (
+                // Bottom left corner resize
+                    mouseX >= 0
+                            && mouseX < frameResizeBorderThickness
+                            && mouseY >= height - frameResizeBorderThickness
+                            && mouseY < height
+            ) {
+                hitTestResult = Constants.HTBOTTOMLEFT;
+            } else if (
                 // Bottom right corner resize
                     mouseX >= width - frameResizeBorderThickness
-                        && mouseX < width
-                        && mouseY >= height - frameResizeBorderThickness
-                        && mouseY < height
-        ) {
-            hitTestResult = Constants.HTBOTTOMRIGHT;
-        } else if (
+                            && mouseX < width
+                            && mouseY >= height - frameResizeBorderThickness
+                            && mouseY < height
+            ) {
+                hitTestResult = Constants.HTBOTTOMRIGHT;
+            } else if (
                 // Left border resize
                     mouseX >= 0
-                        && mouseX < frameResizeBorderThickness
-                        && mouseY >= frameResizeBorderThickness
-                        && mouseY < height - frameResizeBorderThickness
-        ) {
-            hitTestResult = Constants.HTLEFT;
-        } else if (
+                            && mouseX < frameResizeBorderThickness
+                            && mouseY >= frameResizeBorderThickness
+                            && mouseY < height - frameResizeBorderThickness
+            ) {
+                hitTestResult = Constants.HTLEFT;
+            } else if (
                 // Right border resize
                     mouseX >= width - frameResizeBorderThickness
-                        && mouseX < width
-                        && mouseY >= frameResizeBorderThickness
-                        && mouseY < height - frameResizeBorderThickness
-        ) {
-            hitTestResult = Constants.HTRIGHT;
-        } else if (
+                            && mouseX < width
+                            && mouseY >= frameResizeBorderThickness
+                            && mouseY < height - frameResizeBorderThickness
+            ) {
+                hitTestResult = Constants.HTRIGHT;
+            } else if (
                 // Top border resize
                     mouseX >= frameResizeBorderThickness
-                        && mouseX < width - frameResizeBorderThickness
-                        && mouseY >= 0
-                        && mouseY < frameResizeBorderThickness
-        ) {
-            hitTestResult = Constants.HTTOP;
-        } else if (
+                            && mouseX < width - frameResizeBorderThickness
+                            && mouseY >= 0
+                            && mouseY < frameResizeBorderThickness
+            ) {
+                hitTestResult = Constants.HTTOP;
+            } else if (
                 // Bottom border resize
                     mouseX >= frameResizeBorderThickness
-                        && mouseX < width - frameResizeBorderThickness
-                        && mouseY >= height - frameResizeBorderThickness
-                        && mouseY < height
-        ) {
-            hitTestResult = Constants.HTBOTTOM;
-        } else {
-            hitTestResult = Constants.HTCLIENT;
-        }
+                            && mouseX < width - frameResizeBorderThickness
+                            && mouseY >= height - frameResizeBorderThickness
+                            && mouseY < height
+            ) {
+                hitTestResult = Constants.HTBOTTOM;
+            } else {
+                hitTestResult = Constants.HTCLIENT;
+            }
 
         return new LRESULT(hitTestResult);
     }
@@ -221,7 +233,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     }
 
     @Override
-    public final WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
+    public WinDef.LRESULT callback(WinDef.HWND hWnd, int uMsg, WinDef.WPARAM wParam, WinDef.LPARAM lParam) {
         LRESULT result;
 
         switch (uMsg) {
@@ -265,15 +277,23 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         }
     }
 
-    public final void maximize() {
+    public void maximize() {
         User32.INSTANCE.ShowWindow(hWnd, SW_MAXIMIZE);
     }
 
-    public final void minimize() {
+    public void minimize() {
         User32.INSTANCE.ShowWindow(hWnd, SW_MINIMIZE);
     }
 
-    public final void closeWindowNative() {
+    public void closeWindowNative() {
         INSTANCE.ShowWindow(hWnd, SW_HIDE);
+    }
+
+    public void setHitTestResult(int hitTestResult) {
+        this.hitTestResult = hitTestResult;
+    }
+
+    public void setTempIgnoreHitTest(boolean tempIgnoreHitTest) {
+        this.tempIgnoreHitTest = tempIgnoreHitTest;
     }
 }

@@ -194,7 +194,7 @@ public abstract class Component {
      * @return The mouse X position.
      */
     public int getMouseX() {
-        return getMousePosition().getX(); // !! TODO: This is not correct.
+        return getMousePosition().getXPosition(); // !! TODO: This is not correct.
     }
 
     /**
@@ -203,7 +203,7 @@ public abstract class Component {
      * @return The mouse Y position.
      */
     public int getMouseY() {
-        return getMousePosition().getY(); // !! TODO: This is not correct.
+        return getMousePosition().getYPosition(); // !! TODO: This is not correct.
     }
 
     /**
@@ -237,7 +237,7 @@ public abstract class Component {
      * @return The X position.
      */
     public int getXPosition() {
-        return getPosition().getX();
+        return getPosition().getXPosition();
     }
 
     /**
@@ -246,7 +246,7 @@ public abstract class Component {
      * @return The Y position.
      */
     public int getYPosition() {
-        return getPosition().getY();
+        return getPosition().getYPosition();
     }
 
     /**

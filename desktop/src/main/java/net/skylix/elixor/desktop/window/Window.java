@@ -4,6 +4,7 @@ import net.skylix.elixor.desktop.engines.HierarchyRenderer;
 import net.skylix.elixor.desktop.engines.HierarchyTree;
 import net.skylix.elixor.desktop.engines.Layout;
 import net.skylix.elixor.desktop.system.microsoft.windows.WindowsJFrameProcess;
+import net.skylix.elixor.desktop.system.microsoft.windowsUtil.MicrosoftWindowsController;
 import net.skylix.elixor.desktop.unit.Position;
 import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.unit.UnitAdapter;
@@ -15,8 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.Objects;
 
 /**
@@ -59,6 +58,11 @@ public class Window {
     private WindowsJFrameProcess winJFP;
 
     /**
+     * The Windows OS util controller.
+     */
+    private MicrosoftWindowsController osWindowsController;
+
+    /**
      * Create a new window.
      *
      * @param title The title of the window.
@@ -84,16 +88,6 @@ public class Window {
             }
         };
 
-        clientArea.addMouseMotionListener(new MouseAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                mousePosition.setX(e.getX());
-                mousePosition.setY(e.getY());
-
-                refreshWindowProperties();
-            }
-        });
-
         size.addListener(new UnitAdapter() {
             @Override
             public void onChange() {
@@ -118,7 +112,7 @@ public class Window {
         jFrame.setContentPane(clientArea);
         jFrame.setIconImage(new ImageIcon(Objects.requireNonNull(getClass().getResource("/assets/defaultIcon.png"))).getImage());
         jFrame.setBackground(new Color(20, 20, 20));
-        
+
         clientArea.setOpaque(false);
 
         refreshWindowProperties();
@@ -156,18 +150,15 @@ public class Window {
         if (jFrame.isVisible()) return;
         jFrame.setVisible(true);
 
-        winJFP = new WindowsJFrameProcess(jFrame);
+        winJFP = new WindowsJFrameProcess(jFrame, this);
         winJFP.initializeProcess(getWindowsHandle());
 
-        // winJFP.addTitleBarDragRegion(new Point[] {
-        //     new Point(0, 0),
-        //     new Point(size.getWidth(), 32),
-        // });
+        osWindowsController = new MicrosoftWindowsController(winJFP);
     }
 
     /**
      * Get the window handle.
-     * 
+     *
      * @return The window handle.
      */
     private WinDef.HWND getWindowsHandle() {
@@ -232,7 +223,7 @@ public class Window {
      * @return Mouse X position.
      */
     public int getMouseX() {
-        return mousePosition.getX();
+        return mousePosition.getXPosition();
     }
 
     /**
@@ -241,7 +232,7 @@ public class Window {
      * @return Mouse Y position.
      */
     public int getMouseY() {
-        return mousePosition.getY();
+        return mousePosition.getYPosition();
     }
 
     /**
@@ -272,7 +263,7 @@ public class Window {
 
     /**
      * Recursively re-process all the layouts' information.
-     * 
+     *
      * @param tree The hierarchy tree.
      */
     public void recursivelyProcessLayouts(HierarchyTree tree) {
@@ -283,8 +274,31 @@ public class Window {
                 layout.process(child.getTree(), child.getTree().getOwner());
             }
 
-            if (child.getTree().getElements().length > 0) 
+            if (child.getTree().getElements().length > 0)
                 recursivelyProcessLayouts(child.getTree());
-        }    
+        }
+    }
+
+    /**
+     * Get the OS windows controller to handle specific operations related to the Windows OS.
+     *
+     * @return The OS windows controller.
+     */
+    public MicrosoftWindowsController getOSWindowsController() {
+        return osWindowsController;
+    }
+
+    /**
+     * Set virtual mouse location.
+     *
+     * @param position The new virtual mouse location.
+     */
+    public void setVirtualMousePosition(Position position) {
+        mousePosition.setX(position.getXPosition());
+        mousePosition.setY(position.getYPosition());
+
+        System.out.println("Mouse position: " + mousePosition.getXPosition() + ", " + mousePosition.getYPosition());
+
+        refreshWindowProperties();
     }
 }

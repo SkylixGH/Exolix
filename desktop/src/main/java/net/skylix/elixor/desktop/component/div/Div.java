@@ -11,7 +11,6 @@ import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.*;
 import java.awt.geom.Path2D;
-import java.awt.geom.RoundRectangle2D;
 
 /**
  * A simple division element, this is a generic element.
@@ -129,8 +128,8 @@ public class Div extends Component {
         final int width = size.getWidth();
         final int height = size.getHeight();
 
-        final int x = position.getX();
-        final int y = position.getY();
+        final int x = position.getXPosition();
+        final int y = position.getYPosition();
 
         shape.moveTo(x + topLeftRadius, y);
         shape.lineTo(x + width - topRightRadius, y);
@@ -273,7 +272,10 @@ public class Div extends Component {
      */
     @Override
     public Position getMousePosition() {
-        return new Position(window.getMouseX(), window.getMouseY());
+        return new Position(
+                window.getMousePosition().getXPosition() - position.getXPosition(),
+                window.getMousePosition().getYPosition() - position.getYPosition()
+        );
     }
 
     /**
@@ -308,8 +310,8 @@ public class Div extends Component {
      */
     @Override
     public void setPosition(Position position) {
-        this.position.setX(position.getX());
-        this.position.setY(position.getY());
+        this.position.setX(position.getXPosition());
+        this.position.setY(position.getYPosition());
     }
 
     /**
@@ -409,8 +411,8 @@ public class Div extends Component {
     public boolean isMouseOver() {
         try {
             return getShape().contains(
-                getMouseX(),
-                getMouseY()
+                getMouseX() + getPosition().getXPosition(),
+                getMouseY() + getPosition().getYPosition()
             );
         } catch (Exception error) {
             return false;

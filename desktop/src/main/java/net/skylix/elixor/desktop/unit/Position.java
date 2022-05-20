@@ -39,7 +39,7 @@ public class Position extends Unit {
      * 
      * @return The X position.
      */
-    public int getX() {
+    public int getXPosition() {
         return x;
     }
 
@@ -48,7 +48,7 @@ public class Position extends Unit {
      * 
      * @return The Y position.
      */
-    public int getY() {
+    public int getYPosition() {
         return y;
     }
 
