@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;">
-      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windowsUtil/MicrosoftWindowsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -63,11 +60,6 @@
                 <item name="scratches" type="2d1252cf:ModuleNode" />
                 <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
               </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="elixor" type="f1a62948:ProjectNode" />
-                <item name="terminal" type="2d1252cf:ModuleNode" />
-              </path>
             </expand>
             <select />
           </tree_state>
@@ -82,9 +74,9 @@
         <option value="AnnotationType" />
         <option value="JavaFXApplication" />
         <option value="Interface" />
-        <option value="HTML File" />
         <option value="Enum" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -319,8 +311,8 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.elixor [jar]" />
         <item itemvalue="Gradle.elixor [launch4j]" />
+        <item itemvalue="Gradle.elixor [jar]" />
         <item itemvalue="Gradle.elixor [distZip]" />
         <item itemvalue="Gradle.elixor [dependencies]" />
         <item itemvalue="Gradle.elixor [build]" />
@@ -390,6 +382,7 @@
       <workItem from="1652784041451" duration="11401000" />
       <workItem from="1652912040589" duration="6390000" />
       <workItem from="1652999519411" duration="12624000" />
+      <workItem from="1653074989766" duration="3962000" />
     </task>
     <task id="LOCAL-00042" summary="[Sync: *] 💕 Theme system">
       <created>1651031237505</created>
@@ -779,6 +772,13 @@
     <MESSAGE value="refactor: Updated scratch file" />
     <MESSAGE value="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;" />
     <option name="LAST_COMMIT_MESSAGE" value="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="GradleRunConfiguration">
+        <watch expression=" System.out.println(&quot;UwU&quot;)" language="JAVA" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

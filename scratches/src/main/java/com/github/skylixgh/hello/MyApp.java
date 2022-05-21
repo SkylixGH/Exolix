@@ -70,31 +70,6 @@ public class MyApp {
         closeButton.setWindowDragState(WindowDragState.DENY);
 
         div.setPosition(new Position(20, 20));
-        new Thread(() -> {
-            while (true) { 
-                try {
-                    Thread.sleep(10);
-                } catch (Exception e) {
-                    // Ignore 
-                }
-
-                if (closeButton.isMouseOver()) {
-                    closeButton.setBackgroundColor(new Color(255, 83, 24));
-                } else {
-                    closeButton.setBackgroundColor(new Color(0, 0, 0));
-                }
-
-                for (Div el : bl) {
-                    if (el.isMouseOver()) {
-                        el.setBackgroundColor(new Color(255, 84, 20));
-                        el.setSize(new Size(20, 20));
-                    } else {
-                        el.setBackgroundColor(new Color(83, 150, 255));
-                        el.setSize(new Size(10, 20));
-                    }
-                }
-            }
-        }).start();
 
         closeButton.setSize(new Size(45, 32));
 

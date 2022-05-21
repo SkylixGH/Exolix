@@ -97,6 +97,8 @@ public class Div extends Component {
         this.parent = parent;
         this.window = window;
 
+        System.out.println("Div render");
+
         shape = new Path2D.Float();
 
         size.addListener(new UnitAdapter() {
