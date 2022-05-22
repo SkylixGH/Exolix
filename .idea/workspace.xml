@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="refactor: Updated scratch file">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Mouse leave fix">
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-05-12_4_34_p_m___Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_2022-05-12_4_34_p_m___Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" afterDir="false" />
@@ -391,14 +391,7 @@
       <workItem from="1652999519411" duration="12624000" />
       <workItem from="1653074989766" duration="4479000" />
       <workItem from="1653178459556" duration="6562000" />
-      <workItem from="1653239098538" duration="1942000" />
-    </task>
-    <task id="LOCAL-00043" summary="[Sync: *] 💕 Bug with transparency">
-      <created>1651032706719</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1651032706719</updated>
+      <workItem from="1653239098538" duration="2253000" />
     </task>
     <task id="LOCAL-00044" summary="[Optimised terminal] Module has been optimised for performance">
       <created>1651056770035</created>
@@ -736,7 +729,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653102565184</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="fix: Mouse leave fix">
+      <created>1653241914803</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1653241914804</updated>
+    </task>
+    <option name="localTasksCounter" value="93" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -755,7 +755,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix: Dragging" />
     <MESSAGE value="fix: Dragging relativity of component" />
     <MESSAGE value="fix: Dragging exc of component" />
     <MESSAGE value="fix: Dragging relativity of window fixes" />
@@ -780,7 +779,8 @@
     <MESSAGE value="refactor: Updated scratch file" />
     <MESSAGE value="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;" />
     <MESSAGE value="fix: Memory reaching 4gb usage" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: Memory reaching 4gb usage" />
+    <MESSAGE value="fix: Mouse leave fix" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Mouse leave fix" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
