@@ -20,6 +20,9 @@ import javax.swing.*;
 public class MyApp {
     private static MicrosoftWindowsController wc = null;
     public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+        // Enable hardware acceleration
+//        System.setProperty("sun.java2d.opengl", "true");
+
         final Window window = new Window("Elixor");
  
         configureWindow(window);
