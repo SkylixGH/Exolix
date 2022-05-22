@@ -6,7 +6,8 @@ import com.sun.jna.platform.win32.User32;
 import com.sun.jna.platform.win32.WinDef;
 import com.sun.jna.platform.win32.WinUser;
 import com.sun.jna.win32.W32APIOptions;
-import net.skylix.elixor.desktop.unit.Position;
+import net.skylix.elixor.desktop.events.MouseEvent;
+import net.skylix.elixor.desktop.events.MouseEventType;
 import net.skylix.elixor.desktop.window.Window;
 
 import javax.swing.*;
@@ -33,26 +34,30 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
      * Win32 instance,
      */
     private final User32Ex INSTANCE;
-
     /**
      * Win32 instance for the desktop window manager.
      */
     private final User32Dwm INSTANCEDwm;
-
     /**
      * The window frame for Java Swing.
      */
     private final JFrame frame;
-
-    /**
-     * The window's handle.
-     */
-    private HWND hWnd;
-
     /**
      * The Elixor high level API.
      */
     private final Window window;
+    /**
+     * The current mouse button.
+     */
+    private int mouseButton = 0;
+    /**
+     * The window's handle.
+     */
+    private HWND hWnd;
+    /**
+     * If the mouse is pressed.
+     */
+    private boolean mousePressed = false;
 
     /**
      * The defined window process.
@@ -77,7 +82,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     /**
      * Create a new windows JFrame process.
      *
-     * @param frame The Java Swing window frame.
+     * @param frame  The Java Swing window frame.
      * @param window The Elixor high level API.
      */
     public WindowsJFrameProcess(JFrame frame, Window window) {
@@ -150,7 +155,8 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
         final int width = rectWindow.right - rectWindow.left;
         final int height = rectWindow.bottom - rectWindow.top;
 
-        window.setVirtualMousePosition(new Position(mouseX, mouseY));
+        final MouseEvent event = new MouseEvent(mouseX, mouseY, mouseButton, mousePressed, MouseEventType.ANY);
+        window.setVirtualMouseMeta(event);
 
         if (!tempIgnoreHitTest)
             if (
@@ -219,7 +225,7 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                 hitTestResult = Constants.HTBOTTOM;
             } else if (
                 // Check drag regions
-                isInDragRegion(mouseX, mouseY)
+                    isInDragRegion(mouseX, mouseY)
             ) {
                 hitTestResult = Constants.HTCAPTION;
             } else {
@@ -298,6 +304,60 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
                     return INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
                 }
 
+                return result;
+            }
+
+            case Constants.WM_MOUSEMOVE -> {
+                final int button = wParam.intValue();
+                final int x = lParam.intValue() & 0xFFFF;
+                final int y = lParam.intValue() >> 16;
+                final boolean isPressed = button != 0;
+
+                mouseButton = button;
+
+                final MouseEvent event = new MouseEvent(x, y, button, isPressed, MouseEventType.MOUSE_MOVED);
+                window.setVirtualMouseMeta(event);
+
+                result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
+                return result;
+            }
+
+            // all mouse buttons
+            case Constants.WM_LBUTTONDOWN,
+                    Constants.WM_LBUTTONUP,
+                    Constants.WM_RBUTTONDOWN,
+                    Constants.WM_RBUTTONUP,
+                    Constants.WM_MBUTTONDOWN,
+                    Constants.WM_MBUTTONUP -> {
+                final int button = wParam.intValue();
+                final int x = lParam.intValue() & 0xFFFF;
+                final int y = lParam.intValue() >> 16;
+
+                final MouseEventType causedBy = switch (uMsg) {
+                    case Constants.WM_LBUTTONDOWN, Constants.WM_LBUTTONUP, Constants.WM_RBUTTONDOWN, Constants.WM_RBUTTONUP, Constants.WM_MBUTTONDOWN, Constants.WM_MBUTTONUP -> MouseEventType.MOUSE_BUTTON_INTERACT;
+                    default -> MouseEventType.MOUSE_MOVED;
+                };
+
+                mouseButton = button;
+
+                switch (uMsg) {
+                    case Constants.WM_LBUTTONDOWN,
+                            Constants.WM_RBUTTONDOWN,
+                            Constants.WM_MBUTTONDOWN -> {
+                        mousePressed = true;
+                    }
+
+                    case Constants.WM_LBUTTONUP,
+                            Constants.WM_RBUTTONUP,
+                            Constants.WM_MBUTTONUP -> {
+                        mousePressed = false;
+                    }
+                }
+
+                final MouseEvent event = new MouseEvent(x, y, button, mousePressed, causedBy);
+                window.setVirtualMouseMeta(event);
+
+                result = INSTANCE.CallWindowProc(definedWindowProcess, hWnd, uMsg, wParam, lParam);
                 return result;
             }
 

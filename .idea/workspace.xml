@@ -4,9 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Memory reaching 4gb usage">
+      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/events/MouseEvent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/events/MouseEventType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/UnitAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/UnitAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/WindowAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/WindowAdapter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -70,13 +77,13 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Record" />
         <option value="AnnotationType" />
         <option value="JavaFXApplication" />
         <option value="Interface" />
-        <option value="Enum" />
         <option value="Class" />
         <option value="HTML File" />
+        <option value="Record" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -382,14 +389,8 @@
       <workItem from="1652784041451" duration="11401000" />
       <workItem from="1652912040589" duration="6390000" />
       <workItem from="1652999519411" duration="12624000" />
-      <workItem from="1653074989766" duration="3962000" />
-    </task>
-    <task id="LOCAL-00042" summary="[Sync: *] 💕 Theme system">
-      <created>1651031237505</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1651031237508</updated>
+      <workItem from="1653074989766" duration="4479000" />
+      <workItem from="1653178459556" duration="6562000" />
     </task>
     <task id="LOCAL-00043" summary="[Sync: *] 💕 Bug with transparency">
       <created>1651032706719</created>
@@ -727,7 +728,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653015150829</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="fix: Memory reaching 4gb usage">
+      <created>1653102565181</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1653102565184</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -746,7 +754,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="feat: Custom drag regions supports" />
     <MESSAGE value="fix: Dragging" />
     <MESSAGE value="fix: Dragging relativity of component" />
     <MESSAGE value="fix: Dragging exc of component" />
@@ -771,7 +778,8 @@
     <MESSAGE value="feat: Updated tree rendering" />
     <MESSAGE value="refactor: Updated scratch file" />
     <MESSAGE value="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;" />
+    <MESSAGE value="fix: Memory reaching 4gb usage" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Memory reaching 4gb usage" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
