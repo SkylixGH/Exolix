@@ -15,6 +15,7 @@ import java.awt.*;
 import java.util.ArrayList;
 
 import static com.sun.jna.platform.win32.WinUser.*;
+import static net.skylix.elixor.desktop.system.microsoft.windows.Constants.WM_MOUSELEAVE;
 
 /**
  * A JFrame window process for the Windows platform.
@@ -70,6 +71,11 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     private int hitTestResult = Constants.HTCLIENT;
 
     /**
+     * Mouse leave tracker.
+     */
+    private final Thread mouseLeaveTracker;
+
+    /**
      * Whether to ignore hit test calculation in the hit tester method.
      */
     private boolean tempIgnoreHitTest = false;
@@ -88,6 +94,25 @@ public class WindowsJFrameProcess implements WinUser.WindowProc {
     public WindowsJFrameProcess(JFrame frame, Window window) {
         this.frame = frame;
         this.window = window;
+
+        mouseLeaveTracker = new Thread(() -> {
+            boolean mouseOut = false;
+
+            while (true) {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+                mouseOut = !frame.getBounds().contains(MouseInfo.getPointerInfo().getLocation());
+                final MouseEvent mouseMeta = new MouseEvent(mouseOut ? -1 : window.getMouseX(), mouseOut ? -1 : window.getMouseY(), mouseButton, mousePressed, MouseEventType.ANY);
+
+                window.setVirtualMouseMeta(mouseMeta);
+            }
+        });
+
+        mouseLeaveTracker.start();
 
         INSTANCE = Native.load("user32", User32Ex.class, W32APIOptions.DEFAULT_OPTIONS);
         INSTANCEDwm = Native.load("dwmapi", User32Dwm.class, W32APIOptions.DEFAULT_OPTIONS);

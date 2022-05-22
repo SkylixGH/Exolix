@@ -120,10 +120,26 @@ public class Div extends Component {
             }
         });
 
-        final int topLeftRadius = (int) radius.getTopLeft();
-        final int topRightRadius = (int) radius.getTopRight();
-        final int bottomLeftRadius = (int) radius.getBottomLeft();
-        final int bottomRightRadius = (int) radius.getBottomRight();
+        int topLeftRadius = (int) radius.getTopLeft();
+        int topRightRadius = (int) radius.getTopRight();
+        int bottomLeftRadius = (int) radius.getBottomLeft();
+        int bottomRightRadius = (int) radius.getBottomRight();
+
+        if (topLeftRadius > size.getWidth() / 2) {
+            topLeftRadius = size.getWidth() / 2;
+        }
+
+        if (topRightRadius > size.getWidth() / 2) {
+            topRightRadius = size.getWidth() / 2;
+        }
+
+        if (bottomLeftRadius > size.getWidth() / 2) {
+            bottomLeftRadius = (int) size.getWidth() / 2;
+        }
+
+        if (bottomRightRadius > size.getWidth() / 2) {
+            bottomRightRadius = (int) size.getWidth() / 2;
+        }
 
         final int width = size.getWidth();
         final int height = size.getHeight();

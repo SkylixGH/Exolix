@@ -2,6 +2,7 @@ package com.github.skylixgh.hello;
 
 import net.skylix.elixor.desktop.component.WindowDragState;
 import net.skylix.elixor.desktop.component.div.Div;
+import net.skylix.elixor.desktop.engines.layout.BorderLayout;
 import net.skylix.elixor.desktop.events.MouseEvent;
 import net.skylix.elixor.desktop.system.microsoft.windowsUtil.MicrosoftWindowsController;
 import net.skylix.elixor.desktop.unit.BorderRadius;
@@ -88,24 +89,13 @@ public class MyApp {
             add(createLED());
         }};
 
-        ctxb.setLayoutEngine(null);
+        ctxb.setLayoutEngine(new BorderLayout());
 
-        int indexx = 0;
-        for (Div l : leds) {
-            if (indexx == 0) {
-                l.setPosition(new Position(((380 / 2) - (10 * 3) - 3), (400 / 2) - (10 / 2)));
-            } else if (indexx == 1) {
-                l.setPosition(new Position(((380 / 2) - (10 * 2) - 2), (400 / 2) - (10 / 2)));
-            } else {
-                l.setPosition(new Position(((380 / 2) - (10 * 1) - 1), (400 / 2) - (10 / 2)));
-            }
+        ctxb.add(leds.get(0));
+        ctxb.add(leds.get(1));
+        ctxb.add(leds.get(2));
 
-            indexx++;
-        }
-
-        ctx.add(leds.get(0));
-        ctx.add(leds.get(1));
-        ctx.add(leds.get(2));
+        ctx.add(ctxb);
 
         new Thread(() -> {
             while (true) {
@@ -150,8 +140,6 @@ public class MyApp {
                     closeButton.setBackgroundColor(new Color(32, 32, 32));
                 }
 
-                System.out.println("TM = " + titleBar.isMouseOver() + " CMO = " + closeButton.isMouseOver() + " Btn = " + event.pressed());
-
                 if (!titleBar.isMouseOver() && !closeButton.isMouseOver() && event.pressed()) {
                     ctx.moveToCenter();
                     ctx.run();
@@ -187,9 +175,9 @@ public class MyApp {
     private static Div createLED() {
         final Div led = new Div();
 
-        led.setSize(new Size(10, 10));
+        led.setSize(new Size(20, 20));
         led.setBackgroundColor(new Color(0, 0, 0));
-        led.setBorderRadius(new BorderRadius(5));
+        led.setBorderRadius(new BorderRadius(50));
 
         return led;
     }
