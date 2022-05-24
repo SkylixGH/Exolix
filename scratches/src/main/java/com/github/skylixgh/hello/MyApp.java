@@ -1,6 +1,7 @@
 package com.github.skylixgh.hello;
 
 import java.awt.AWTException;
+import java.awt.geom.Path2D;
 
 import javax.swing.JFrame;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -31,11 +32,12 @@ public class MyApp {
 
                 Graphics g = new Graphics(sg);
 
-                g.drawRect(0, 0, 100, 100, new CornerRadius(50, 50, 50, 50), new Color(255, 83, 21, 255), 0, new Color(0, 0, 0, 0));
+                Path2D.Float s = g.drawRect(10, 10, 50, 50, new CornerRadius(50, 50, 50, 50), new Color(255, 83, 21, 255), 0, new Color(0, 0, 0, 0));
             }
         };
 
         frame.add(canvas);
+        frame.repaint();
     }
 }
  

@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;">
-      <change afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windowsUtil/MicrosoftWindowsController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/renderer/element/Element.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/renderer/element/Element.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,7 +41,19 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="elixor" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="application" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="build" type="c8890929:TasksNode$1" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="elixor" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="build setup" type="c8890929:TasksNode$1" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
@@ -62,11 +71,6 @@
                 <item name="elixor" type="f1a62948:ProjectNode" />
                 <item name="scratches" type="2d1252cf:ModuleNode" />
                 <item name="Dependencies" type="6de06a37:ExternalSystemViewDefaultContributor$MyDependenciesNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="elixor" type="f1a62948:ProjectNode" />
-                <item name="terminal" type="2d1252cf:ModuleNode" />
               </path>
             </expand>
             <select />
@@ -91,7 +95,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="rewrite" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -107,21 +111,10 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_1.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch_2.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/div/Div.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/desktop/build.gradle" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/component/Component.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/BorderRadius.java" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/scratches/scratch.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.java.dev.jna/jna/5.11.0/e410fd6ea73bae2f368131d2573aa4e284744300/jna-5.11.0-sources.jar!/com/sun/jna/NativeLibrary.java" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/unit/Position.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/layout/BorderLayout.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/display/Display.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/display/DisplayManager.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyRenderer.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/engines/HierarchyTree.java" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/system/microsoft/windows/WindowsJFrameProcess.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$USER_HOME$/OneDrive/Desktop/win.hta" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/settings.gradle" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/build.gradle" root0="FORCE_HIGHLIGHTING" />
