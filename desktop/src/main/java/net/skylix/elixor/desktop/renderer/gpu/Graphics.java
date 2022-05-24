@@ -95,7 +95,7 @@ public class Graphics {
         }
 
         shape.closePath();
-
+        
         javaGraphics.setColor(color.getJavaColor());
         javaGraphics.fill(shape);
 

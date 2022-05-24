@@ -8,19 +8,26 @@ package net.skylix.elixor.desktop.renderer.color;
  * @param blue The blue component of the color.
  * @param alpha The alpha component of the color.
  */
-public record Color(int red, int green, int blue, int alpha) {
+public class Color {
     /**
      * The Java AWT color.
      */
-    private static java.awt.Color javaColor;
+    private final java.awt.Color javaColor;
+
+    /**
+     * Create a new color instance.
+     */
+    public Color(int red, int green, int blue, int alpha) {
+        this.javaColor = new java.awt.Color(red, green, blue, alpha);
+    }
 
     /**
      * Get the color as a hexadecimal string.
      * 
      * @return The color as a hexadecimal string.
-     */
+     */   
     public String toHex() {
-        return String.format("#%02x%02x%02x", red, green, blue);
+        return "#" + Integer.toHexString(this.javaColor.getRGB()).substring(2);
     }
 
     /**
@@ -29,7 +36,7 @@ public record Color(int red, int green, int blue, int alpha) {
      * @return The color as a string.
      */
     public String toString() {
-        return String.format("(%d, %d, %d, %d)", red, green, blue, alpha);
+        return this.javaColor.toString();
     }
 
     /**
@@ -38,10 +45,42 @@ public record Color(int red, int green, int blue, int alpha) {
      * @return The Java AWT color.
      */
     public java.awt.Color getJavaColor() {
-        if (javaColor == null) {
-            javaColor = new java.awt.Color(red, green, blue, alpha);
-        }
-
         return javaColor;
+    }
+
+    /**
+     * Get the red component of the color.
+     * 
+     * @return The red component of the color.
+     */
+    public int getRed() {
+        return javaColor.getRed();
+    }
+
+    /**
+     * Get the green component of the color.
+     * 
+     * @return The green component of the color.
+     */
+    public int getGreen() {
+        return javaColor.getGreen();
+    }
+
+    /**
+     * Get the blue component of the color.
+     * 
+     * @return The blue component of the color.
+     */
+    public int getBlue() {
+        return javaColor.getBlue();
+    }
+
+    /**
+     * Get the alpha component of the color.
+     * 
+     * @return The alpha component of the color.
+     */
+    public int getAlpha() {
+        return javaColor.getAlpha();
     }
 }
