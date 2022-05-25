@@ -5,8 +5,10 @@ import java.awt.geom.Path2D;
 import java.awt.geom.Path2D.Float;
 
 import javax.swing.JFrame;
+import javax.swing.Timer;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import net.skylix.elixor.desktop.generic.div.Div;
 import net.skylix.elixor.desktop.presets.layout.BorderLayout;
 import net.skylix.elixor.desktop.renderer.canvas.Canvas;
 import net.skylix.elixor.desktop.renderer.color.Color;
@@ -28,13 +30,23 @@ public class MyApp {
         // Log debug information
         System.out.println("Refresh Rate: " + GPU.getFrameRate());
 
-        window.setRootElement(new Element() {
-            @Override
-            public Path2D.Float render(Graphics gx) {
-                gx.drawRect(0, 0, 100, 100, new CornerRadius(0, 0, 0, 0), new Color(255, 63, 83, 255), 0, null);
-                return null;
-            }
-        });
+        final Div el = new Div();
+
+        el.setSize(new Size(100, 200));
+        // el.setBackgroundColor(new Color(0, 255, 84, 255));
+
+        for (int i = 0; i < 10; i++) {
+            final Div e2 = new Div();
+
+            e2.setSize(new Size(20, 20));
+            e2.setBackgroundColor(new Color(255, 0, 0, 255));
+
+            el.add(e2);
+        }
+
+        el.setLayoutEngine(new BorderLayout());
+
+        window.setRootElement(el);
         window.run();
     }
 
