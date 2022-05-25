@@ -11,6 +11,7 @@ import net.skylix.elixor.desktop.presets.layout.BorderLayout;
 import net.skylix.elixor.desktop.renderer.canvas.Canvas;
 import net.skylix.elixor.desktop.renderer.color.Color;
 import net.skylix.elixor.desktop.renderer.element.Element;
+import net.skylix.elixor.desktop.renderer.gpu.GPU;
 import net.skylix.elixor.desktop.renderer.gpu.Graphics;
 import net.skylix.elixor.desktop.renderer.gpu.Renderer;
 import net.skylix.elixor.desktop.unit.CornerRadius;
@@ -19,131 +20,30 @@ import net.skylix.elixor.desktop.unit.Size;
 import net.skylix.elixor.desktop.window.Window;
 
 public class MyApp {
-    private static Canvas canvas;
-    public static void main(String[] args) throws AWTException {
-        try {
-            javax.swing.UIManager.setLookAndFeel(javax.swing.UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
+    private final Window window;
 
-        JFrame frame = new JFrame("Hello World");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(556, 656);
-        frame.setLocationRelativeTo(null);
+    public MyApp() {
+        window = new Window("Hello World", new Size(1000, 600));
 
-        A tag = new A();
-        A tagg = new A();
+        // Log debug information
+        System.out.println("Refresh Rate: " + GPU.getFrameRate());
 
-        tagg.setSize(new Size(50, 50));
-        tag.setSize(new Size(20, 50));
-//        tagg.setMinSize();
-
-        tag.add(tagg);
-        tag.setMinSize(new Size(20, 100));
-        tag.setMaxSize(new Size(20, 100));
-        tag.setBackgroundColor(new Color(24, 84, 255, 72));
-
-        tagg.setMinSize(new Size(50, 50));
-        tagg.setMaxSize(new Size(500, 500));
-        tagg.setBackgroundColor(new Color(255, 0, 255, 80));
-
-        Window w = new Window() {
+        window.setRootElement(new Element() {
             @Override
-            public void refresh() {
-                canvas.repaint();
+            public Path2D.Float render(Graphics gx) {
+                gx.drawRect(0, 0, 100, 100, new CornerRadius(0, 0, 0, 0), new Color(255, 63, 83, 255), 0, null);
+                return null;
             }
-        };
-
-        canvas = new Canvas() {
-            @Override
-            public void paintComponent(java.awt.Graphics sg) {
-                super.paintComponent(sg);
-
-                Graphics g = new Graphics(sg);
-                Renderer.render(g, tag, w);
-            }
-        };
-
-        new Thread(() -> {
-            boolean a = false;
-
-            while (true) {
-                try {
-                    Thread.sleep(500);
-                } catch (Exception e) {
-
-                }
-
-                a = !a;
-
-                if (a) {
-                    tagg.setBackgroundColor(new Color(21, 255, 84, 0));
-                } else {
-                    tagg.setBackgroundColor(new Color(21, 200, 84, 80));
-                }
-            }
-        }).start();
-
-        tag.setPosition(new Location(0, 0));
-        tagg.setPosition(new Location(0, 0));
-        tagg.setSize(new Size(50, 50));
-
-        frame.add(canvas);
-        frame.repaint();
-
-        frame.setVisible(true);
+        });
+        window.run();
     }
 
-    private static class A extends Element {
-        private Color bklr = new Color(0, 0, 0, 255);
-        private Window pw;
-        private Path2D.Float shp;
-        private int w = 100;
-        private int repaintsPerSecond = 60;
+    public static void main(String[] args) throws AWTException {
+        new MyApp();
+    }
 
-        @Override
-        public Float render(Graphics graphics) {
-            final Size size = getSize() != null ? getSize() : getAutoSize();
-            final Size maxSize = getMaxSize();
-            final Size minSize = getMinSize();
-
-            // repaints per second
-            final int rps = repaintsPerSecond;
-            final int rps_ms = 1000 / rps;
-
-            repaintsPerSecond = rps_ms;
-            System.out.println("rps: " + rps);
-
-            int width = size.width();
-            int height = size.height();
-
-            if (width > maxSize.width()) {
-                width = maxSize.width();
-            } else if (width < minSize.width()) {
-                width = minSize.width();
-            }
-
-            if (height > maxSize.height()) {
-                height = maxSize.height();
-            } else if (height < minSize.height()) {
-                height = minSize.height();
-            }
-
-            Path2D.Float e=graphics.drawRect(
-                    getPosition().x(),
-                    getPosition().y(),
-                    width,
-                    height,
-                    getCornerRadius(),
-                    getBackgroundColor(),
-                    0,
-                    null
-            );
-
-            shp = e;
-            return e;
-        }
+    public Window getWindow() {
+        return window;
     }
 }
  

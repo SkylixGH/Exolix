@@ -25,6 +25,7 @@ public class Renderer {
         root.setParent(root);
         root.setParentWindow(rootWindow);
 
+        root.processLayout();
         root.render(gx);
 
         for (Element e : root.getNodes()) {

@@ -19,6 +19,11 @@ public class BorderLayout extends Layout {
      */
     @Override
     public void render(Element element, Element parent) {
-        element.setPosition(new Location(10, 15));
+        int lx = 0;
+
+        for (Element e : element.getNodes()) {
+            e.setPosition(new Location(lx, 0));
+            lx += 10 + e.getWidth();
+        }
     }
 }

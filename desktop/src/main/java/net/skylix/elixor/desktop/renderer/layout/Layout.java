@@ -14,4 +14,16 @@ public abstract class Layout {
      * @param parent The parent of the element.
      */
     public abstract void render(Element element, Element parent);
+
+    /**
+     * Apply this layout to the element. This application isn't
+     * permanant, any position changes or anything else on the element
+     * will not trigger a layout recalculation, unless specificly programmeed
+     * to do so.
+     * 
+     * @param element The element to apply the layout to.
+     */
+    public void apply(Element element) {
+        render(element, element.getParent());
+    }
 }

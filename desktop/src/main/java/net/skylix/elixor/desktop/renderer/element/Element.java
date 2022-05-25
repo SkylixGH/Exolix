@@ -2,6 +2,7 @@ package net.skylix.elixor.desktop.renderer.element;
 
 import net.skylix.elixor.desktop.renderer.color.Color;
 import net.skylix.elixor.desktop.renderer.gpu.Graphics;
+import net.skylix.elixor.desktop.renderer.layout.Layout;
 import net.skylix.elixor.desktop.unit.CornerRadius;
 import net.skylix.elixor.desktop.unit.Location;
 import net.skylix.elixor.desktop.unit.Size;
@@ -67,6 +68,11 @@ public abstract class Element {
     private Window parentWindow;
 
     /**
+     * The layout engine.
+     */
+    private Layout layout;
+
+    /**
      * The size of this element.
      */
     private Size size = null;
@@ -118,6 +124,24 @@ public abstract class Element {
     }
 
     /**
+     * Set the viewport layout prcessing engine.
+     * 
+     * @param engine The engine to set.
+     */
+    public void setLayoutEngine(Layout engine) {
+        layout = engine;
+    }
+
+    /**
+     * Get the current layout engine.
+     * 
+     * @return The current layout engine.
+     */
+    public Layout getLayoutEngine() {
+        return layout;
+    }
+
+    /**
      * Get the minimum possible size that is allowed for the element
      * during the rendering stage.
      *
@@ -144,7 +168,6 @@ public abstract class Element {
      */
     public void setSize(final Size size) {
         this.size = size;
-        refresh();
     }
 
     /**
@@ -154,7 +177,6 @@ public abstract class Element {
      */
     public void setAutoSize(final Size autoSize) {
         this.autoSize = autoSize;
-        refresh();
     }
 
     /**
@@ -164,7 +186,6 @@ public abstract class Element {
      */
     public void setMinSize(final Size size) {
         this.minSize = size;
-        refresh();
     }
 
     /**
@@ -174,7 +195,6 @@ public abstract class Element {
      */
     public void setMaxSize(final Size size) {
         this.maxSize = size;
-        refresh();
     }
 
     /**
@@ -223,7 +243,6 @@ public abstract class Element {
      */
     public void setId(final String id) {
         this.id = id;
-        refresh();
     }
 
     /**
@@ -233,7 +252,6 @@ public abstract class Element {
      */
     public void add(final Element element) {
         nodes.add(element);
-        refresh();
     }
 
     /**
@@ -244,6 +262,17 @@ public abstract class Element {
      */
     public void setParent(final Element parent) {
         this.parent = parent;
+    }
+
+    /**
+     * Process the layout engine. This will trigger 
+     * the current layout engine if it is configured
+     * and working correctly.
+     */
+    public void processLayout() {
+        if (layout != null) {
+            layout.apply(this);
+        }
     }
 
     /**
@@ -264,7 +293,6 @@ public abstract class Element {
      */
     public void setBackgroundColor(final Color color) {
         backgroundColor = color;
-        refresh();
     }
 
     /**
@@ -292,7 +320,6 @@ public abstract class Element {
      */
     public void setCornerRadius(final CornerRadius cornerRadius) {
         this.cornerRadius = cornerRadius;
-        refresh();
     }
 
     /**
@@ -351,7 +378,6 @@ public abstract class Element {
      */
     public void setPosition(final Location position) {
         this.position = position;
-        refresh();
     }
 
     /**
@@ -361,24 +387,5 @@ public abstract class Element {
      */
     public Location getPosition() {
         return position;
-    }
-
-    /**
-     * Refresh the entire rendering scene and repaint all pixels.
-     */
-    public void refresh() {
-        if (parentWindow != null && !skipDispatcher) {
-            parentWindow.refresh();
-        }
-    }
-
-    /**
-     * Set dispatcher event mode. When set to false, a refresh will not be fired when properties
-     * are changed, or when the refresh method is called.
-     *
-     * @param enable True to enable dispatcher event mode, false to disable.
-     */
-    public void setDispatcherEventMode(final boolean enable) {
-        skipDispatcher = !enable;
     }
 }
