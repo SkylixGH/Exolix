@@ -15,6 +15,11 @@ public class Color {
     private final java.awt.Color javaColor;
 
     /**
+     * A transparent static constant color.
+     */
+    public static final Color TRANSPARENT = new Color(0, 0, 0, 0);
+
+    /**
      * Create a new color instance.
      */
     public Color(int red, int green, int blue, int alpha) {

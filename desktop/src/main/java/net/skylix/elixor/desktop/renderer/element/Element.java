@@ -3,7 +3,9 @@ package net.skylix.elixor.desktop.renderer.element;
 import net.skylix.elixor.desktop.renderer.color.Color;
 import net.skylix.elixor.desktop.renderer.gpu.Graphics;
 import net.skylix.elixor.desktop.unit.CornerRadius;
+import net.skylix.elixor.desktop.unit.Location;
 import net.skylix.elixor.desktop.unit.Size;
+import net.skylix.elixor.desktop.window.Window;
 
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ import java.util.List;
 public abstract class Element {
     /**
      * All of th element children that nest
-     * inside of this element, to later be rendered
+     * inside this element, to later be rendered
      * via recursion.
      */
     private final List<Element> nodes = new ArrayList<>();
@@ -27,6 +29,11 @@ public abstract class Element {
     private String id = "";
 
     /**
+     * The background color.
+     */
+    private Color backgroundColor = Color.TRANSPARENT;
+
+    /**
      * The parent of this element, this value will
      * be null if this element is either in the root 
      * or if the UI/X has not rendered.
@@ -34,68 +41,141 @@ public abstract class Element {
     private Element parent;
 
     /**
+     * Whether to skip dispatcher refresh jobs.
+     */
+    private boolean skipDispatcher = false;
+
+    /**
+     * The current absolute position of this element
+     * that is relative to the base viewport.
+     */
+    private Location position = new Location(0, 0);
+
+    /**
+     * The current element shape.
+     */
+    private Path2D.Float shape;
+
+    /**
+     * The corner radius.
+     */
+    private CornerRadius cornerRadius = new CornerRadius(0, 0, 0, 0);
+
+    /**
+     * The parent window.
+     */
+    private Window parentWindow;
+
+    /**
+     * The size of this element.
+     */
+    private Size size = null;
+
+    /**
+     * The automatic size from the layout.
+     */
+    private Size autoSize = new Size(0, 0);
+
+    /**
+     * The minimum size of this element.
+     */
+    private Size minSize = new Size(0, 0);
+
+    /**
+     * The maximum size of this element.
+     */
+    private Size maxSize = new Size(0, 0);
+
+    /**
      * The render method for the element. This method will draw all base shape of the element,
      * children of this element will be rendered, by, and only by the core rendering engine based on this element's
      * width, height, borders, margins, paddings, and other related properties.
-     * 
-     * @param g The graphics object to render to.
+     *
+     * @param graphics The graphics object to render to.
      * @return The shape of the rendered element.
      */
-    public abstract Path2D.Float render(Graphics graphics);
+    public abstract Path2D.Float render(final Graphics graphics);
 
     /**
      * Get the size of the element. This size is in the form of a record
      * containing the width and height.
-     * 
+     *
      * @return The size of the element.
      */
-    public abstract Size getSize();
+    public Size getSize() {
+        return size;
+    }
 
     /**
-     * Get the prefered layout size, this is the size that
+     * Get the preferred layout size, this is the size that
      * the element would like to be, this size is generally determined
      * by the element parent's layout manager.
-     * 
-     * @return The prefered layout size.
+     *
+     * @return The preferred layout size.
      */
-    public abstract Size getAutoSize();
+    public Size getAutoSize() {
+        return autoSize;
+    }
 
     /**
      * Get the minimum possible size that is allowed for the element
      * during the rendering stage.
-     * 
+     *
      * @return The minimum possible size.
      */
-    public abstract Size getMinSize();
+    public Size getMinSize() {
+        return minSize;
+    }
 
     /**
      * Get the maximum possible size that is allowed for the element
      * during the rendering stage.
-     * 
+     *
      * @return The maximum possible size.
      */
-    public abstract Size getMaxSize();
+    public Size getMaxSize() {
+        return maxSize;
+    }
 
     /**
      * Set the size of the element.
-     * 
+     *
      * @param size The size of the element.
      */
-    public abstract void setSize(Size size);
+    public void setSize(final Size size) {
+        this.size = size;
+        refresh();
+    }
+
+    /**
+     * Set the automatic size of the element.
+     *
+     * @param autoSize The automatic size of the element.
+     */
+    public void setAutoSize(final Size autoSize) {
+        this.autoSize = autoSize;
+        refresh();
+    }
 
     /**
      * Set the minimum size of the element.
-     * 
+     *
      * @param size The minimum size of the element.
      */
-    public abstract void setMinSize(Size size);
+    public void setMinSize(final Size size) {
+        this.minSize = size;
+        refresh();
+    }
 
     /**
      * Set the maximum size of the element.
-     * 
+     *
      * @param size The maximum size of the element.
      */
-    public abstract void setMaxSize(Size size);
+    public void setMaxSize(final Size size) {
+        this.maxSize = size;
+        refresh();
+    }
 
     /**
      * Get the width of this element.
@@ -116,10 +196,10 @@ public abstract class Element {
     }
 
     /**
-     * Get all of the nested nodes
+     * Get all the nested nodes
      * from this element.
      * 
-     * @return All of the nested nodes.
+     * @return All the nested nodes.
      */
     public Element[] getNodes() {
         return nodes.toArray(new Element[0]);
@@ -141,8 +221,9 @@ public abstract class Element {
      * 
      * @param id The identifier for this element.
      */
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
+        refresh();
     }
 
     /**
@@ -150,8 +231,9 @@ public abstract class Element {
      * 
      * @param element The element to add.
      */
-    public void add(Element element) {
+    public void add(final Element element) {
         nodes.add(element);
+        refresh();
     }
 
     /**
@@ -160,8 +242,9 @@ public abstract class Element {
      * 
      * @param parent The parent element.
      */
-    public void setParent(Element parent) {
+    public void setParent(final Element parent) {
         this.parent = parent;
+        refresh();
     }
 
     /**
@@ -172,6 +255,7 @@ public abstract class Element {
      * @return The parent element.
      */
     public Element getParent() {
+        refresh();
         return parent;
     }
 
@@ -180,26 +264,131 @@ public abstract class Element {
      * 
      * @param color The background color.
      */
-    public abstract void setBackgroundColor(Color color);
+    public void setBackgroundColor(final Color color) {
+        backgroundColor = color;
+        refresh();
+    }
 
     /**
      * Get the background color.
      * 
      * @return The background color.
      */
-    public abstract Color getBackgroundColor();
+    public Color getBackgroundColor() {
+        return backgroundColor;
+    }
 
     /**
      * Get the border/corner radius.
      * 
      * @return The border radius.
      */
-    public abstract CornerRadius getCornerRadius();
+    public CornerRadius getCornerRadius() {
+        return cornerRadius;
+    }
 
     /**
      * Set the border/corner radius.
      * 
      * @param cornerRadius The border radius.
      */
-    public abstract void setCornerRadius(CornerRadius cornerRadius);
+    public void setCornerRadius(final CornerRadius cornerRadius) {
+        this.cornerRadius = cornerRadius;
+        refresh();
+    }
+
+    /**
+     * Get the shape of the element. This shape is great for collision detection
+     * and other things.
+     *
+     * @return The shape of the element.
+     */
+    public Path2D.Float getShape() {
+        return shape;
+    }
+
+    /**
+     * Check to see if the application's virtual cursor is
+     * directly above the element, it doesn't matter if this
+     * element is being covered by another element, as long
+     * as the mouse is directly above this element and or
+     * inside this element.
+     *
+     * @return True if the cursor is inside the element, false if it is not.
+     */
+    public boolean isVCursorOverDirect() {
+        final Path2D.Float shape = getShape();
+
+        if (shape == null) {
+            return false;
+        }
+
+        return true; /// TODO: Implement
+    }
+
+    /**
+     * Set the parent window.
+     *
+     * @param window The parent window.
+     */
+    public void setParentWindow(final Window window) {
+        parentWindow = window;
+        refresh();
+    }
+
+    /**
+     * Get the parent window.
+     *
+     * @return The parent window.
+     */
+    public Window getParentWindow() {
+        return parentWindow;
+    }
+
+    /**
+     * Set the absolute position of the element.
+     * This position is directly relative to
+     * the viewport.
+     *
+     * @param position The absolute position.
+     */
+    public void setPosition(final Location position) {
+        this.position = position;
+        refresh();
+    }
+
+    /**
+     * Get the absolute position of the element.
+     *
+     * @return The absolute position.
+     */
+    public Location getPosition() {
+        return position;
+    }
+
+    /**
+     * Refresh the entire rendering scene and repaint all pixels.
+     */
+    public void refresh() {
+        if (parentWindow != null && !skipDispatcher) {
+            parentWindow.refresh();
+        }
+
+        // Log skip dispatcher
+        if (skipDispatcher) {
+            System.out.println("Skip dispatcher");
+        } else {
+            System.out.println("Dispatch");
+        }
+    }
+
+    /**
+     * Set dispatcher event mode. When set to false, a refresh will not be fired when properties
+     * are changed, or when the refresh method is called.
+     *
+     * @param enable True to enable dispatcher event mode, false to disable.
+     */
+    public void setDispatcherEventMode(final boolean enable) {
+        skipDispatcher = !enable;
+    }
 }
