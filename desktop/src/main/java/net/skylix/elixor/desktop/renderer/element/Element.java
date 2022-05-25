@@ -244,7 +244,6 @@ public abstract class Element {
      */
     public void setParent(final Element parent) {
         this.parent = parent;
-        refresh();
     }
 
     /**
@@ -255,7 +254,6 @@ public abstract class Element {
      * @return The parent element.
      */
     public Element getParent() {
-        refresh();
         return parent;
     }
 
@@ -333,7 +331,6 @@ public abstract class Element {
      */
     public void setParentWindow(final Window window) {
         parentWindow = window;
-        refresh();
     }
 
     /**
@@ -372,13 +369,6 @@ public abstract class Element {
     public void refresh() {
         if (parentWindow != null && !skipDispatcher) {
             parentWindow.refresh();
-        }
-
-        // Log skip dispatcher
-        if (skipDispatcher) {
-            System.out.println("Skip dispatcher");
-        } else {
-            System.out.println("Dispatch");
         }
     }
 

@@ -51,7 +51,7 @@ public class MyApp {
         Window w = new Window() {
             @Override
             public void refresh() {
-                frame.repaint();
+                canvas.repaint();
             }
         };
 
@@ -100,12 +100,20 @@ public class MyApp {
         private Window pw;
         private Path2D.Float shp;
         private int w = 100;
+        private int repaintsPerSecond = 60;
 
         @Override
         public Float render(Graphics graphics) {
             final Size size = getSize() != null ? getSize() : getAutoSize();
             final Size maxSize = getMaxSize();
             final Size minSize = getMinSize();
+
+            // repaints per second
+            final int rps = repaintsPerSecond;
+            final int rps_ms = 1000 / rps;
+
+            repaintsPerSecond = rps_ms;
+            System.out.println("rps: " + rps);
 
             int width = size.width();
             int height = size.height();
