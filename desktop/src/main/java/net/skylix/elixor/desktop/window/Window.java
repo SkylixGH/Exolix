@@ -6,6 +6,7 @@ import net.skylix.elixor.desktop.renderer.canvas.Canvas;
 import net.skylix.elixor.desktop.renderer.color.Color;
 import net.skylix.elixor.desktop.renderer.element.Element;
 import net.skylix.elixor.desktop.renderer.gpu.GPU;
+import net.skylix.elixor.desktop.renderer.gpu.Renderer;
 import net.skylix.elixor.desktop.unit.Location;
 import net.skylix.elixor.desktop.unit.Size;
 
@@ -64,6 +65,8 @@ public class Window {
         swingWindow.setLocation(location.x(), location.y());
         swingWindow.setSize(size.width(), size.height());
 
+        final Window window = this;
+
         final Canvas viewport = new Canvas() {
             @Override
             public void paintComponent(Graphics g3d) {
@@ -72,7 +75,7 @@ public class Window {
                 if (rootElement == null) return;
 
                 final net.skylix.elixor.desktop.renderer.gpu.Graphics g = new net.skylix.elixor.desktop.renderer.gpu.Graphics((Graphics2D) g3d);
-                rootElement.render(g);
+                Renderer.render(g, rootElement, window);
             }
         };
 
@@ -109,7 +112,7 @@ public class Window {
      * Refresh the window.
      */
     public void refresh() {
-        swingWindow.repaint();
+        swingWindow.getRootPane().repaint();
     }
 
     /**

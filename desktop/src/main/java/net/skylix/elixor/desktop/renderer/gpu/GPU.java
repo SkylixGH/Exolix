@@ -14,5 +14,20 @@ public class GPU {
     public static int getFrameRate() {
         return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDisplayMode().getRefreshRate();
     }
+
+    /**
+     * Set hardware acceleration state. Enabling this means that all supported GPU features will be used.
+     * Although this package is included in the desktop module for the Elixor framework, it can be used in other
+     * applications.
+     *
+     * @param state The state to set hardware acceleration to.
+     */
+    public static void setHardwareAcceleration(boolean state) {
+        if (state) {
+            System.setProperty("sun.java2d.opengl", "true");
+        } else {
+            System.setProperty("sun.java2d.opengl", "false");
+        }
+    }
 }
  

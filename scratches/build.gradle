@@ -4,6 +4,8 @@ plugins {
     id 'edu.sc.seis.launch4j' version '2.5.3'
 }
 
+project.ext.lwjglVersion = "3.0.0a"
+
 launch4j {
     mainClassName = 'com.github.skylixgh.hello.MyApp'
 }
@@ -23,6 +25,10 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     implementation project(':desktop')
+    implementation "org.lwjgl:lwjgl:${lwjglVersion}"
+    implementation "org.lwjgl:lwjgl-platform:${lwjglVersion}:natives-windows"
+    implementation "org.lwjgl:lwjgl-platform:${lwjglVersion}:natives-linux"
+    implementation "org.lwjgl:lwjgl-platform:${lwjglVersion}:natives-osx"
 }
 
 test {

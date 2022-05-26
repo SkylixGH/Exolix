@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Scale rendering">
+    <list default="true" id="fdefd240-8c21-4cb7-86f2-ac52b458db59" name="Changes" comment="fix: Fixed render memory leak">
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_lwjgl_lwjgl_3_0_0a.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_lwjgl_lwjgl_platform_natives_linux_3_0_0a.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_lwjgl_lwjgl_platform_natives_osx_3_0_0a.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_lwjgl_lwjgl_platform_natives_windows_3_0_0a.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/SharedLibraryLoader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.main.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules/scratches/elixor.scratches.test.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/renderer/element/Element.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/renderer/element/Element.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/generic/div/Div.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/generic/div/Div.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/renderer/gpu/GPU.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/renderer/gpu/GPU.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/desktop/src/main/java/net/skylix/elixor/desktop/window/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scratches/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/build.gradle" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/scratches/src/main/java/com/github/skylixgh/hello/MyApp.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -87,8 +97,8 @@
         <option value="Interface" />
         <option value="HTML File" />
         <option value="Enum" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -384,14 +394,8 @@
       <workItem from="1652784041451" duration="11401000" />
       <workItem from="1652912040589" duration="6390000" />
       <workItem from="1652999519411" duration="12624000" />
-      <workItem from="1653422859939" duration="12551000" />
-    </task>
-    <task id="LOCAL-00044" summary="[Optimised terminal] Module has been optimised for performance">
-      <created>1651056770035</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1651056770035</updated>
+      <workItem from="1653422859939" duration="12618000" />
+      <workItem from="1653516723212" duration="8664000" />
     </task>
     <task id="LOCAL-00045" summary="[Optimised desktop] Module has been optimised for performance">
       <created>1651057180163</created>
@@ -729,7 +733,14 @@
       <option name="project" value="LOCAL" />
       <updated>1653448820000</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="fix: Fixed render memory leak">
+      <created>1653449962085</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1653449962085</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -748,7 +759,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="fix: Dragging relativity of component" />
     <MESSAGE value="fix: Dragging exc of component" />
     <MESSAGE value="fix: Dragging relativity of window fixes" />
     <MESSAGE value="fix: Fixed titlebar cutoff issue" />
@@ -773,7 +783,8 @@
     <MESSAGE value="fix: Frame resize fix&#10;&#10;Co-authored-by: EmeraldMike &lt;EmeraldMike@users.noreply.github.com&gt;" />
     <MESSAGE value="fix: Code" />
     <MESSAGE value="fix: Scale rendering" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: Scale rendering" />
+    <MESSAGE value="fix: Fixed render memory leak" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Fixed render memory leak" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

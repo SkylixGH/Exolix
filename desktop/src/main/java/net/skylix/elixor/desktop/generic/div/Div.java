@@ -12,7 +12,7 @@ public class Div extends Element {
     /**
      * The div render method.
      * 
-     * @param g The graphccs painter object.
+     * @param g The graphics painter object.
      */
     @Override
     public Path2D.Float render(Graphics g) {
