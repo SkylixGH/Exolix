@@ -10,8 +10,16 @@ set (ElixorFramework_VERSION_TAG "dev")
 
 # Add the core library
 add_subdirectory (ElixorCore)
-include_directories(ElixorCore ElixorCore/Source)
+include_directories(ElixorCore ElixorCore/ElixorCore)
 
 # Scratch testing files
-add_executable (ElixorFramework ElixorCore Scratch.cxx)
-target_link_libraries (ElixorFramework ElixorCore)
+add_subdirectory(Scratch)
+
+# Make Scratch.cxx.
+add_executable(ScratchEx Scratch/Scratch/Scratch.cxx)
+
+# Make ElixorRuntime.cxx.
+add_executable(ElixorRuntimeEx ElixorRuntime/ElixorRuntime/ElixorRuntime.cxx)
+
+# Join dependencies
+target_link_libraries(ScratchEx ElixorCore)
