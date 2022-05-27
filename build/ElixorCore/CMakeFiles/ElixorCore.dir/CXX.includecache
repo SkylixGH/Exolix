@@ -1,0 +1,16 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/workspaces/Elixor/ElixorCore/Source/ElixorCore/StringUtil/StringUtil.cxx
+StringUtil.h
+/workspaces/Elixor/ElixorCore/Source/ElixorCore/StringUtil/StringUtil.h
+iostream
+-
+
+/workspaces/Elixor/ElixorCore/Source/ElixorCore/StringUtil/StringUtil.h
+
