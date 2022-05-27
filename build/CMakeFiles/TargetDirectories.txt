@@ -1,6 +1,0 @@
-/workspaces/Elixor/build/CMakeFiles/rebuild_cache.dir
-/workspaces/Elixor/build/CMakeFiles/edit_cache.dir
-/workspaces/Elixor/build/CMakeFiles/ElixorFramework.dir
-/workspaces/Elixor/build/ElixorCore/CMakeFiles/rebuild_cache.dir
-/workspaces/Elixor/build/ElixorCore/CMakeFiles/edit_cache.dir
-/workspaces/Elixor/build/ElixorCore/CMakeFiles/ElixorCore.dir
