@@ -5,16 +5,13 @@ using namespace std;
 using namespace ElixorFramework::ElixorCore;
 
 int main() {
-    // HWND hwnd = GetConsoleWindow();
+    auto s = StringUtil::Split("Print('ElixorIsKewl');", "");
+    
+    cout << "Element 1 is: " << s[0] << endl;
 
-    // if (hwnd != NULL) {
-    //     ShowWindow(hwnd, SW_SHOW);
-    // } else {
-    //     std::cout << "???";
-    // }
-
-    StringUtil sut = StringUtil();
-    sut.hiLol();
+    for (auto i : s) {
+        cout << i << endl;
+    }
     
     return 0;
 }
