@@ -1,3 +1,6 @@
+@rem Clone externals
+git submodule update --init --recursive
+
 @rem Generate build directory.
 mkdir Build
 

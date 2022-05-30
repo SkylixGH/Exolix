@@ -11,17 +11,17 @@ bool StringUtil::Contains(string line, string substring) {
 
 vector<string> StringUtil::Split(string line, string delimiter) {
     if (delimiter.empty()) {
-        vector<string> * segments = new vector<string>();
+        auto * segments = new vector<string>();
         for (char c : line) {
             segments->push_back(string(1, c));
         }
         
         return * segments;
     } else if (!StringUtil::Contains(line, delimiter)) {
-        return vector<string>();
+        return {};
     }
 
-    vector<string> * segments = new vector<string>();
+    auto * segments = new vector<string>();
 
     size_t pos = 0;
     string token;
