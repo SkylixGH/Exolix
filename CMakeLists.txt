@@ -1,6 +1,7 @@
 # Set CMake version
-cmake_minimum_required (VERSION 2.8)
+cmake_minimum_required (VERSION 3.2)
 project (ElixorFramework)
+include(FetchContent)
 
 # C++ version 23 min
 set (CMAKE_CXX_STANDARD 23)
@@ -25,11 +26,15 @@ add_executable(ScratchEx Scratch/Scratch/Scratch.cxx)
 add_executable(ElixorRuntimeEx ElixorRuntime/ElixorRuntime/ElixorRuntime.cxx)
 
 # Find dependencies
-#Add vulkan from ./Dependencies/KhronosGroup
-add_subdirectory(Externals/glfw/glfw)
-add_subdirectory(Externals/sfml/sfml)
-add_subdirectory(Externals/KhronosGroup/Vulkan-Hpp)
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Externals/KhronosGroup/Vulkan-Hpp/Vulkan-Headers")
+add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Externals/KhronosGroup/Vulkan-Hpp/glfw")
+
+target_include_directories(ElixorRuntimeEx PRIVATE Externals/KhronosGroup/Vulkan-Hpp/glfw/include)
+target_include_directories(ElixorRuntimeEx PRIVATE Externals/SFML/SFML/include)
+
+target_link_libraries(ElixorRuntimeEx PUBLIC glfw)
+find_package(Vulkan REQUIRED FATAL_ERROR)
 
 # Join dependencies
 target_link_libraries(ScratchEx ElixorCore)
-target_link_libraries(ElixorRuntime vulkan)
+target_link_libraries(ElixorRuntimeEx Vulkan::Vulkan)
