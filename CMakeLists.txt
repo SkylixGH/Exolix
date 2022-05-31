@@ -32,7 +32,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Externals/KhronosGroup/Vulkan-Hpp/
 target_include_directories(ElixorRuntimeEx PRIVATE Externals/KhronosGroup/Vulkan-Hpp/glfw/include)
 target_include_directories(ElixorRuntimeEx PRIVATE Externals/SFML/SFML/include)
 
-target_link_libraries(ElixorRuntimeEx PUBLIC glfw)
+target_link_libraries(ElixorRuntimeEx glfw)
 find_package(Vulkan REQUIRED FATAL_ERROR)
 
 # Join dependencies
