@@ -1,65 +1,77 @@
-#include <iostream>
 #include <GLFW/glfw3.h>
-#include <vulkan/vulkan.h>
-#include <thread>
-#include <chrono>
-#include <vector>
+#include <vulkan/vulkan.hpp>
+#include <iostream>
+#include <stdlib.h>
 
 using namespace std;
 
-int main(int argc, char ** argv) {
-    // Simple vulkan example
+class ElixorRuntime {
+public:
+    GLFWwindow * window;
+    VkInstance * instance;
 
-    glfwInit();
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-    GLFWwindow * window = glfwCreateWindow(800, 600, "Vulkan", nullptr, nullptr);
-
-    VkApplicationInfo appInfo{};
-    appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-    appInfo.pApplicationName = "Hello Triangle";
-    appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-    appInfo.pEngineName = "No Engine";
-    appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-    appInfo.apiVersion = VK_API_VERSION_1_0;
-
-    VkInstanceCreateInfo createInfo{};
-    createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-    createInfo.pApplicationInfo = &appInfo;
-
-    uint32_t glfwExtensionCount = 0;
-    const char** glfwExtensions;
-
-    glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-
-    createInfo.enabledExtensionCount = glfwExtensionCount;
-    createInfo.ppEnabledExtensionNames = glfwExtensions;
-
-    createInfo.enabledLayerCount = 0;
-
-    VkInstance instance;
-
-    VkResult result = vkCreateInstance(&createInfo, nullptr, &instance);
-
-    if (vkCreateInstance(&createInfo, nullptr, &instance) != VK_SUCCESS) {
-        throw std::runtime_error("failed to create instance!");
+    void Init() {
+        glfwInit();
     }
 
-    // Create the msot minimal vulak instance
-//    VkInstance instance;
-//    VkResult result = vkCreateInstance(nullptr, nullptr, &instance);
-//    if (result != VK_SUCCESS) {
-//        cout << "Failed to create vulkan instance" << endl;
-//        return -1;
-//    }
-
-    glfwShowWindow(window);
-    // Set resizable with hint
-    glfwSetWindowAttrib(window, GLFW_RESIZABLE, GLFW_TRUE);
-
-    while (!glfwWindowShouldClose(window)) {
-        glfwPollEvents();
+    void setupWindow() {
+        window = glfwCreateWindow(1200, 600, "Vulkan Demo", nullptr, nullptr);
+        glfwShowWindow(window);
     }
 
-    return 0;
+    void startLoop() {
+        while (!glfwWindowShouldClose(window)) {
+            glfwPollEvents();
+        }
+    }
+
+    void setVulkan() {
+        auto * appInfo = new VkApplicationInfo();
+
+        appInfo->sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
+        appInfo->pApplicationName = "Vulkan Demo";
+        appInfo->applicationVersion = VK_MAKE_VERSION(1, 0, 0);
+        appInfo->pEngineName = "No Engine";
+        appInfo->engineVersion = VK_MAKE_VERSION(1, 0, 0);
+        appInfo->apiVersion = VK_API_VERSION_1_0;
+
+        auto * createInfo = new VkInstanceCreateInfo();
+
+        createInfo->sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        createInfo->pApplicationInfo = appInfo;
+
+        uint32_t glfwExtensionCount = 0;
+        const char ** glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
+
+        createInfo->enabledExtensionCount = glfwExtensionCount;
+        createInfo->ppEnabledExtensionNames = glfwExtensions;
+
+        createInfo->enabledLayerCount = 0;
+
+        auto result = vkCreateInstance(createInfo, nullptr, instance);
+
+        if (result != VK_SUCCESS) {
+            cout << "Failed to create instance ERROR = " << result << endl;
+            exit(1);
+        }
+
+        cout << "Extensions: " << glfwExtensionCount << endl;
+    }
+
+    ElixorRuntime() {
+        Init();
+        setupWindow();
+
+        setVulkan();
+
+        startLoop();
+    }
+
+    ~ElixorRuntime() {
+        glfwTerminate();
+    }
+};
+
+int main() {
+    auto * rt = new ElixorRuntime();
 }

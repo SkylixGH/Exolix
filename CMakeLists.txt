@@ -22,6 +22,11 @@ add_subdirectory(Scratch)
 # Make Scratch.cxx.
 add_executable(ScratchEx Scratch/Scratch/Scratch.cxx)
 
+# If Linux enable X11 with -lX11
+if (UNIX)
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lX11")
+endif()
+
 # Make ElixorRuntime.cxx.
 add_executable(ElixorRuntimeEx ElixorRuntime/ElixorRuntime/ElixorRuntime.cxx)
 
