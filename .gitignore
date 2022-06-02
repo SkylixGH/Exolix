@@ -1,4 +1,2 @@
-# Build files
-Build/
+# Compiled build files
 build/
-cmake-build-debug/

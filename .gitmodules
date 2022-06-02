@@ -1,6 +1,0 @@
-[submodule "Externals/KhronosGroup/Vulkan-Hpp"]
-	path = Externals/KhronosGroup/Vulkan-Hpp
-	url = https://github.com/KhronosGroup/Vulkan-Hpp
-[submodule "Externals/SFML/SFML"]
-	path = Externals/SFML/SFML
-	url = https://github.com/SFML/SFML

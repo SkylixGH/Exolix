@@ -1,45 +1,17 @@
-# Set CMake version
-cmake_minimum_required (VERSION 3.2)
-project (ElixorFramework)
-include(FetchContent)
+# Project configuration
+cmake_minimum_required(VERSION 3.1)
+project("__Elixor__")
+set(CXX_STANDARD 23)
 
-# C++ version 23 min
-set (CMAKE_CXX_STANDARD 23)
+include_directories(includes)
 
-# Set the version configuration
-set (ElixorFramework_VERSION_MAJOR 1)
-set (ElixorFramework_VERSION_MINOR 0)
-set (ElixorFramework_VERSION_PATCH 0)
-set (ElixorFramework_VERSION_TAG "dev")
+# Add runtime to project
+add_subdirectory(runtime)
+add_subdirectory(elixor)
 
-# Add the core library
-add_subdirectory (ElixorCore)
-include_directories(ElixorCore ElixorCore/ElixorCore)
+# Compile runtime executable
+add_executable(ExeRuntime runtime/src/Main.cxx)
 
-# Scratch testing files
-add_subdirectory(Scratch)
-
-# Make Scratch.cxx.
-add_executable(ScratchEx Scratch/Scratch/Scratch.cxx)
-
-# If Linux enable X11 with -lX11
-if (UNIX)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lX11")
-endif()
-
-# Make ElixorRuntime.cxx.
-add_executable(ElixorRuntimeEx ElixorRuntime/ElixorRuntime/ElixorRuntime.cxx)
-
-# Find dependencies
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Externals/KhronosGroup/Vulkan-Hpp/Vulkan-Headers")
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Externals/KhronosGroup/Vulkan-Hpp/glfw")
-
-target_include_directories(ElixorRuntimeEx PRIVATE Externals/KhronosGroup/Vulkan-Hpp/glfw/include)
-target_include_directories(ElixorRuntimeEx PRIVATE Externals/SFML/SFML/include)
-
-target_link_libraries(ElixorRuntimeEx glfw)
-find_package(Vulkan REQUIRED FATAL_ERROR)
-
-# Join dependencies
-target_link_libraries(ScratchEx ElixorCore)
-target_link_libraries(ElixorRuntimeEx Vulkan::Vulkan)
+# Link libs
+target_include_directories(ExeRuntime PRIVATE includes)
+target_link_libraries(ExeRuntime PRIVATE elixor)
