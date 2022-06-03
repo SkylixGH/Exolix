@@ -15,7 +15,7 @@ namespace Skylix::Elixor {
          * @param delimeter The string split separator.
          * @return All the segments of the string, without the delimeter.
          */
-        static vector<string> Split(const string * full, const string * delimeter);
+        static vector<string> Split(string full, const string delimeter);
 
         /**
          * @brief Check to see if a string contains a specific string.
@@ -24,6 +24,6 @@ namespace Skylix::Elixor {
          * @param query The string to use for searching.
          * @return If the query exists somewhere in the string.
          */
-        static bool Contains(const string * full, const string * query);
-    }
+        static bool Contains(const string full, const string query);
+    };
 }

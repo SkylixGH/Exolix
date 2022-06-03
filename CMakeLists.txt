@@ -1,7 +1,9 @@
 # Project configuration
 cmake_minimum_required(VERSION 3.1)
 project("__Elixor__")
-set(CXX_STANDARD 23)
+
+set (CXX_STANDARD 23)
+set (CMAKE_CXX_STANDARD 23)
 
 include_directories(includes)
 
