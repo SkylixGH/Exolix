@@ -1,0 +1,113 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				},
+				{
+					"build" : "runtime",
+					"jsonFile" : "directory-runtime-Debug-aa77dd525374e6c519b8.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "runtime",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "elixor",
+					"jsonFile" : "directory-elixor-Debug-29dc11c1bbe5d78452f4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "elixor",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1,
+						2
+					],
+					"name" : "__Elixor__",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ExeRuntime::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ExeRuntime-Debug-2c7908922e9ef79fca3a.json",
+					"name" : "ExeRuntime",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "elixor::@dc3890e7cfe6d1cfd2c3",
+					"jsonFile" : "target-elixor-Debug-d5ecdec596ace9d4f5ad.json",
+					"name" : "elixor",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "runtime::@dcf6d6b3a78d87189fa9",
+					"jsonFile" : "target-runtime-Debug-fca704845fb11f53bddf.json",
+					"name" : "runtime",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/XFaon/CLionProjects/Elixor/cmake-build-debug",
+		"source" : "/home/XFaon/CLionProjects/Elixor"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

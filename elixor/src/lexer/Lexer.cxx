@@ -32,7 +32,11 @@ Lexer::Lexer(const string data) {
         token.index = index;
         token.value = symbol;
 
+        cout << "Token: " << token.value << " at " << token.line << ":" << token.column << endl;
+
         tokens.push_back(token);
+
+        column++;
         index++;
     }
 }

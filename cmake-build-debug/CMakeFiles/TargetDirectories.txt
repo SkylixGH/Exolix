@@ -1,0 +1,9 @@
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/CMakeFiles/ExeRuntime.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/runtime/CMakeFiles/edit_cache.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/runtime/CMakeFiles/rebuild_cache.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/runtime/CMakeFiles/runtime.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/elixor/CMakeFiles/rebuild_cache.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/elixor/CMakeFiles/edit_cache.dir
+/home/XFaon/CLionProjects/Elixor/cmake-build-debug/elixor/CMakeFiles/elixor.dir
