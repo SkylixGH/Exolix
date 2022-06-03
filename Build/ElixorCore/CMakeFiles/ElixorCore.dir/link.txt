@@ -1,2 +1,0 @@
-/usr/bin/ar qc libElixorCore.a CMakeFiles/ElixorCore.dir/ElixorCore/StringUtil/StringUtil.cxx.o
-/usr/bin/ranlib libElixorCore.a

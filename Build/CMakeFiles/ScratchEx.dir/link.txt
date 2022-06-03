@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/ScratchEx.dir/Scratch/Scratch/Scratch.cxx.o -o ScratchEx  ElixorCore/libElixorCore.a 

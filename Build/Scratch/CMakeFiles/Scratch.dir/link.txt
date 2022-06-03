@@ -1,2 +1,0 @@
-/usr/bin/ar qc libScratch.a CMakeFiles/Scratch.dir/Scratch/Scratch.cxx.o
-/usr/bin/ranlib libScratch.a

@@ -1,1 +1,0 @@
-/usr/bin/c++ -rdynamic CMakeFiles/ElixorRuntimeEx.dir/ElixorRuntime/ElixorRuntime/ElixorRuntime.cxx.o -o ElixorRuntimeEx  Externals/KhronosGroup/Vulkan-Hpp/glfw/src/libglfw3.a /usr/lib/x86_64-linux-gnu/libvulkan.so -lpthread -lrt -lm -ldl 
