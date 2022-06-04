@@ -7,7 +7,12 @@ using namespace std;
 using namespace Skylix::Elixor;
 
 vector<Token> Lexer::GetTokens() {
-    return this->tokens;
+    vector<Token> tokens;
+    for (Token token : this->tokens) {
+        tokens.push_back(token);
+    }
+
+    return tokens;
 }
 
 Lexer::Lexer(const string data) {
@@ -31,8 +36,6 @@ Lexer::Lexer(const string data) {
         token.line = line;
         token.index = index;
         token.value = symbol;
-
-        cout << "Token: " << token.value << " at " << token.line << ":" << token.column << endl;
 
         tokens.push_back(token);
 
