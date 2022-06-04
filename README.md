@@ -5,7 +5,10 @@
     <img src="./docs/__readme__/ElixorLogo.svg" alt="Elixor Logo" width="200" />
 </div>
 
-<h1 align="center">E l i x o r</h1>
+<br />
+<br />
+<br />
+
 <p align="center">A framework for building full Java applications from the server to the client!</p>
 
 ## What is **Elixor**?
