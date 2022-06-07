@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-desktop",
+  "version": "1.0.0-alpha",
+  "description": "This library is used for making desktop applications.",
+  "homepage": "https://skylix.net/foss/elixor/desktop",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}

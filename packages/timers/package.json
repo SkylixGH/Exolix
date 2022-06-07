@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-timers",
+  "version": "1.0.0-alpha",
+  "description": "This library is used for precision timing in NodeJS.",
+  "homepage": "https://skylix.net/foss/elixor/timers",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}

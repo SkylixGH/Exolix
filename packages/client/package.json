@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-client",
+  "version": "1.0.0-alpha",
+  "description": "This library connects to Elixor based API servers! It's also compatible with generic WebSocket or TCP based servers with a custom interaction interface.",
+  "homepage": "https://skylix.net/foss/elixor/client",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}

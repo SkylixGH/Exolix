@@ -1,7 +1,7 @@
 {
   "name": "root",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.0.0-alpha",
   "workspaces": [],
   "devDependencies": {
     "esbuild": "^0.14.42"

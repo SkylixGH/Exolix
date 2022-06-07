@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-pluginHost",
+  "version": "1.0.0-alpha",
+  "description": "This library is used for writing plugin engines.",
+  "homepage": "https://skylix.net/foss/elixor/pluginHost",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}

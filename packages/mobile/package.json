@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-mobile",
+  "version": "1.0.0-alpha",
+  "description": "This library is used to make mobile applications.",
+  "homepage": "https://skylix.net/foss/elixor/mobile",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}

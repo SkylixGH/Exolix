@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-terminal",
+  "version": "1.0.0-alpha",
+  "description": "This library is used for interacting with the command line.",
+  "homepage": "https://skylix.net/foss/elixor/terminal",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}
