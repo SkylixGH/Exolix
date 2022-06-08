@@ -1,0 +1,9 @@
+{
+  "name": "xb",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "esbuild": "^0.14.43",
+    "chokidar": "^3.5.3"
+  }
+}
