@@ -8,9 +8,13 @@ const dirName = path.dirname(fileName);
 const projects = fs.readdirSync(path.join(dirName, "../../../packages/"));
 
 export default function sync() {
+    const elixorDependencies = {};
+
     projects.forEach(project => {
         const data = new Project(project);
         const opkg = data.pkg;
+
+        elixorDependencies[project] = "file:../packages/" + project;
 
         const packageData = {
             name: opkg.name,
@@ -43,4 +47,11 @@ export default function sync() {
 
         data.pkg = packageData;
     });
+
+    const scratchJSON = {
+        "name": "xs",
+        "dependencies": elixorDependencies,
+    };
+
+    fs.writeFileSync(path.join(dirName, "../../../xs/package.json"), JSON.stringify(scratchJSON, null, 4) + "\n");
 }

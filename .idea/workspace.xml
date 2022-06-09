@@ -4,10 +4,12 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added build sync to help keep consistency">
-      <change afterPath="$PROJECT_DIR$/REAMDE.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/ElixorLogo.svg" afterDir="false" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Updated LOGO spacing">
+      <change afterPath="$PROJECT_DIR$/xs/lead.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xs/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,8 +23,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="TypeScript File" />
-        <option value="package.json" />
         <option value="JavaScript File" />
+        <option value="package.json" />
       </list>
     </option>
   </component>
@@ -126,7 +128,7 @@
       <workItem from="1654780896497" duration="57000" />
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
-      <workItem from="1654781604828" duration="3893000" />
+      <workItem from="1654781604828" duration="5116000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -135,7 +137,28 @@
       <option name="project" value="LOCAL" />
       <updated>1654785254586</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="feat: Implemented README">
+      <created>1654785930967</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1654785930967</updated>
+    </task>
+    <task id="LOCAL-00003" summary="fix: Readme.md file name">
+      <created>1654785965674</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1654785965674</updated>
+    </task>
+    <task id="LOCAL-00004" summary="feat: Updated LOGO spacing">
+      <created>1654785996412</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1654785996412</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -154,7 +177,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="feat: Added build sync to help keep consistency" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added build sync to help keep consistency" />
+    <MESSAGE value="feat: Implemented README" />
+    <MESSAGE value="fix: Readme.md file name" />
+    <MESSAGE value="feat: Updated LOGO spacing" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Updated LOGO spacing" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

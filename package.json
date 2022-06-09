@@ -4,7 +4,8 @@
   "version": "1.0.0-alpha",
   "workspaces": [
     "packages/*/",
-    "xb/"
+    "xb/",
+    "xs/"
   ],
   "scripts": {
     "build": "node xb/src/Build.js"

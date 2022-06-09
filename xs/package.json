@@ -1,0 +1,15 @@
+{
+    "name": "xs",
+    "dependencies": {
+        "client": "file:../packages/client",
+        "desktop": "file:../packages/desktop",
+        "lexer": "file:../packages/lexer",
+        "mobile": "file:../packages/mobile",
+        "pluginHost": "file:../packages/pluginHost",
+        "runtime": "file:../packages/runtime",
+        "server": "file:../packages/server",
+        "terminal": "file:../packages/terminal",
+        "threads": "file:../packages/threads",
+        "timers": "file:../packages/timers"
+    }
+}
