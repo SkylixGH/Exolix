@@ -1,0 +1,13 @@
+{
+  "name": "@skylixgh/elixor-runtime",
+  "version": "1.0.0-alpha",
+  "description": "This library is the runtime for desktop apps built with Elixor.",
+  "homepage": "https://skylix.net/foss/elixor/runtime",
+  "author": {
+    "name": "Skylix",
+    "email": "support@skylix.net",
+    "url": "https://skylix.net/foss"
+  },
+  "dependencies": {
+  }
+}
