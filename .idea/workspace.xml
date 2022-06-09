@@ -4,17 +4,10 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/packages/lexer/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/lexer/src/Main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/Build.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added build sync to help keep consistency">
+      <change afterPath="$PROJECT_DIR$/REAMDE.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/ElixorLogo.svg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/Watch.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Project.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +67,7 @@
     "cidr.known.project.marker": "true",
     "javascript.nodejs.core.library.configured.version": "18.3.0",
     "javascript.nodejs.core.library.typings.version": "17.0.41",
-    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor34/packages/lexer",
+    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor34/resources",
     "nodejs_interpreter_path": "/home/XFaon/Downloads/node-v18.3.0-linux-x64/node-v18.3.0-linux-x64/bin/node",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -84,6 +77,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/resources" />
       <recent name="$PROJECT_DIR$/packages/lexer" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -132,8 +126,16 @@
       <workItem from="1654780896497" duration="57000" />
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
-      <workItem from="1654781604828" duration="3120000" />
+      <workItem from="1654781604828" duration="3893000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
+      <created>1654785254586</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1654785254586</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -149,6 +151,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Added build sync to help keep consistency" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added build sync to help keep consistency" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
