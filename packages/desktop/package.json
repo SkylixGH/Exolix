@@ -5,6 +5,7 @@
     "description": "This library is used for making desktop applications.",
     "homepage": "https://skylix.net/foss/elixor/desktop",
     "main": "./build/cjs/build.js",
+    "types": "./build/types/Main.d.ts",
     "exports": {
         "import": "./build/esm/build.js",
         "require": "./build/cjs/build.js"

@@ -8,5 +8,9 @@
     "jsx": "react-jsx",
     "moduleResolution": "Node",
     "declaration": true
-  }
+  },
+  "include": [
+    "**/**/*.ts",
+    "**/**/*.tsx"
+  ]
 }

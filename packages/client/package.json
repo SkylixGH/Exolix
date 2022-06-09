@@ -5,6 +5,7 @@
     "description": "This library connects to Elixor based API servers! It's also compatible with generic WebSocket or TCP based servers with a custom interaction interface.",
     "homepage": "https://skylix.net/foss/elixor/client",
     "main": "./build/cjs/build.js",
+    "types": "./build/types/Main.d.ts",
     "exports": {
         "import": "./build/esm/build.js",
         "require": "./build/cjs/build.js"

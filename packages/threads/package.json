@@ -5,6 +5,7 @@
     "description": "This library is used for multithreading in NodeJS.",
     "homepage": "https://skylix.net/foss/elixor/threads",
     "main": "./build/cjs/build.js",
+    "types": "./build/types/Main.d.ts",
     "exports": {
         "import": "./build/esm/build.js",
         "require": "./build/cjs/build.js"

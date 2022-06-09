@@ -30,4 +30,20 @@ export default class Project extends EventEmitter {
         this.#package = pkg;
         fs.writeFileSync(path.join(dirName, "../../../packages/", this.#name, "package.json"), JSON.stringify(this.#package, null, 4) + "\n");
     }
+
+    get path() {
+        return path.join(dirName, "../../../packages/", this.#name);
+    }
+
+    get elixorRoot() {
+        return path.join(dirName, "../../../");
+    }
+
+    get tsconfig() {
+        return JSON.parse(fs.readFileSync(path.join(this.path, "tsconfig.json"), "utf8"));
+    }
+
+    get tsconfigPath() {
+        return path.join(this.path, "tsconfig.json");
+    }
 }

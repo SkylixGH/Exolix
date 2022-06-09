@@ -5,6 +5,7 @@
     "description": "This library is used for precision timing in NodeJS.",
     "homepage": "https://skylix.net/foss/elixor/timers",
     "main": "./build/cjs/build.js",
+    "types": "./build/types/Main.d.ts",
     "exports": {
         "import": "./build/esm/build.js",
         "require": "./build/cjs/build.js"

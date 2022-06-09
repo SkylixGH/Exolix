@@ -23,6 +23,7 @@ export default function sync() {
             description: opkg.description,
             homepage: opkg.homepage,
             main: "./build/cjs/build.js",
+            types: "./build/types/Main.d.ts",
             exports: {
                 import: "./build/esm/build.js",
                 require: "./build/cjs/build.js"

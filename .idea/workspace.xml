@@ -4,11 +4,20 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added Elixor Scratches">
-      <change afterPath="$PROJECT_DIR$/packages/lexer/src/Token.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added support for source maps">
+      <change afterPath="$PROJECT_DIR$/packages/client/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/desktop/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/lexer/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/mobile/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/pluginHost/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/runtime/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/server/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/terminal/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/threads/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/timers/tsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xb/src/Watch.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xb/src/lib/GenerateDeclarations.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/desktop/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/desktop/package.json" afterDir="false" />
@@ -21,10 +30,11 @@
       <change beforePath="$PROJECT_DIR$/packages/terminal/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/terminal/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/threads/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/packages/timers/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/timers/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Compiler.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compiler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/Build.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/Build.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Compile.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Project.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xb/src/lib/Sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xs/lead.js" beforeDir="false" afterPath="$PROJECT_DIR$/xs/lead.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/xs/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,9 +47,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="JavaScript File" />
         <option value="package.json" />
         <option value="TypeScript File" />
+        <option value="JavaScript File" />
       </list>
     </option>
   </component>
@@ -82,9 +92,10 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "javascript.nodejs.core.library.configured.version": "18.3.0",
     "javascript.nodejs.core.library.typings.version": "17.0.41",
-    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor34/resources",
+    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor34/packages/timers",
     "nodejs_interpreter_path": "/home/XFaon/Downloads/node-v18.3.0-linux-x64/node-v18.3.0-linux-x64/bin/node",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
@@ -94,8 +105,11 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/resources" />
-      <recent name="$PROJECT_DIR$/packages/lexer" />
+      <recent name="$PROJECT_DIR$/packages/timers" />
+      <recent name="$PROJECT_DIR$/packages/threads" />
+      <recent name="$PROJECT_DIR$/packages/terminal" />
+      <recent name="$PROJECT_DIR$/packages/server" />
+      <recent name="$PROJECT_DIR$/packages/runtime" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/xb/src/lib" />
@@ -143,7 +157,7 @@
       <workItem from="1654780896497" duration="57000" />
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
-      <workItem from="1654781604828" duration="7746000" />
+      <workItem from="1654781604828" duration="14681000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -180,11 +194,31 @@
       <option name="project" value="LOCAL" />
       <updated>1654787120407</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="feat: Added support for source maps">
+      <created>1654791544765</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1654791544765</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/packages/client/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/mobile/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/server/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/timers/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/desktop/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/runtime/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/threads/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/terminal/src/Main.d.ts" />
+        <option value="$PROJECT_DIR$/packages/pluginHost/src/Main.d.ts" />
+      </list>
+    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -204,7 +238,8 @@
     <MESSAGE value="fix: Readme.md file name" />
     <MESSAGE value="feat: Updated LOGO spacing" />
     <MESSAGE value="feat: Added Elixor Scratches" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added Elixor Scratches" />
+    <MESSAGE value="feat: Added support for source maps" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added support for source maps" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
