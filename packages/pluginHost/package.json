@@ -1,18 +1,21 @@
 {
     "name": "@skylixgh/elixor-pluginHost",
+    "type": "module",
     "version": "1.0.0-alpha",
     "description": "This library is used for writing plugin engines.",
     "homepage": "https://skylix.net/foss/elixor/pluginHost",
-    "main": "./build/cjs/Build.js",
+    "main": "./build/cjs/build.js",
     "exports": {
-        "import": "./build/esm/Build.js",
-        "require": "./build/cjs/Build.js"
+        "import": "./build/esm/build.js",
+        "require": "./build/cjs/build.js"
     },
     "author": {
         "name": "Skylix",
         "email": "support@skylix.net",
         "url": "https://skylix.net/foss"
     },
-    "dependencies": {},
+    "dependencies": {
+        "source-map-support": "^0.5.21"
+    },
     "devDependencies": {}
 }

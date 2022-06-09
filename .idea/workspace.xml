@@ -4,12 +4,27 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Updated LOGO spacing">
-      <change afterPath="$PROJECT_DIR$/xs/lead.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xs/package.json" afterDir="false" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added Elixor Scratches">
+      <change afterPath="$PROJECT_DIR$/packages/lexer/src/Token.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/desktop/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/desktop/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/src/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/Main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/mobile/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/pluginHost/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/pluginHost/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/runtime/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/runtime/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/terminal/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/terminal/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/threads/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/timers/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/timers/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Compiler.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compiler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xb/src/lib/Sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/lead.js" beforeDir="false" afterPath="$PROJECT_DIR$/xs/lead.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/xs/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,9 +37,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
         <option value="package.json" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -33,7 +48,6 @@
   </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/.gitignore" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/package-lock.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/packages/client/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/packages/client/src/Main.ts" root0="FORCE_HIGHLIGHTING" />
@@ -62,6 +76,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "WebServerToolWindowFactoryState": "false",
@@ -74,7 +89,7 @@
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/home/XFaon/Downloads/CLion-2022.1.2/clion-2022.1.2/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external"
+    "ts.external.directory.path": "/home/XFaon/CLionProjects/Elixor34/node_modules/typescript/lib"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -128,7 +143,7 @@
       <workItem from="1654780896497" duration="57000" />
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
-      <workItem from="1654781604828" duration="5116000" />
+      <workItem from="1654781604828" duration="7746000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -158,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654785996412</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="feat: Added Elixor Scratches">
+      <created>1654787120407</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1654787120407</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,11 +198,13 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="feat: Added build sync to help keep consistency" />
     <MESSAGE value="feat: Implemented README" />
     <MESSAGE value="fix: Readme.md file name" />
     <MESSAGE value="feat: Updated LOGO spacing" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Updated LOGO spacing" />
+    <MESSAGE value="feat: Added Elixor Scratches" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added Elixor Scratches" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

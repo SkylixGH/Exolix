@@ -1,5 +1,6 @@
 {
     "name": "xs",
+    "type": "module",
     "dependencies": {
         "client": "file:../packages/client",
         "desktop": "file:../packages/desktop",

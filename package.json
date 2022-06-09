@@ -9,5 +9,8 @@
   ],
   "scripts": {
     "build": "node xb/src/Build.js"
+  },
+  "devDependencies": {
+    "typescript": "^4.7.3"
   }
 }

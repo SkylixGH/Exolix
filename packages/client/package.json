@@ -1,18 +1,21 @@
 {
     "name": "@skylixgh/elixor-client",
+    "type": "module",
     "version": "1.0.0-alpha",
     "description": "This library connects to Elixor based API servers! It's also compatible with generic WebSocket or TCP based servers with a custom interaction interface.",
     "homepage": "https://skylix.net/foss/elixor/client",
-    "main": "./build/cjs/Build.js",
+    "main": "./build/cjs/build.js",
     "exports": {
-        "import": "./build/esm/Build.js",
-        "require": "./build/cjs/Build.js"
+        "import": "./build/esm/build.js",
+        "require": "./build/cjs/build.js"
     },
     "author": {
         "name": "Skylix",
         "email": "support@skylix.net",
         "url": "https://skylix.net/foss"
     },
-    "dependencies": {},
+    "dependencies": {
+        "source-map-support": "^0.5.21"
+    },
     "devDependencies": {}
 }

@@ -18,13 +18,14 @@ export default function sync() {
 
         const packageData = {
             name: opkg.name,
+            type: "module",
             version: opkg.version,
             description: opkg.description,
             homepage: opkg.homepage,
-            main: "./build/cjs/Build.js",
+            main: "./build/cjs/build.js",
             exports: {
-                import: "./build/esm/Build.js",
-                require: "./build/cjs/Build.js"
+                import: "./build/esm/build.js",
+                require: "./build/cjs/build.js"
             },
             author: {
                 name: opkg.author.name,
@@ -33,6 +34,7 @@ export default function sync() {
             },
             dependencies: {
                 ...opkg.dependencies,
+                "source-map-support": "^0.5.21",
             },
             devDependencies: {
                 ...opkg.devDependencies,
@@ -50,6 +52,7 @@ export default function sync() {
 
     const scratchJSON = {
         "name": "xs",
+        "type": "module",
         "dependencies": elixorDependencies,
     };
 

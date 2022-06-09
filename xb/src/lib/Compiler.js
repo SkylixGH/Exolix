@@ -20,18 +20,23 @@ export default class Compiler {
             entryPoints: [ path.join(dirName, "../../../packages/", this.#project.name, "src/Main.ts")],
             bundle: true,
             external: Object.keys(this.#project.pkg.dependencies ?? {}),
+            sourcemap: "inline",
         };
 
         this.#esm = await esbuild.build({
             ...def,
             outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/esm/build.js"),
             format: "esm",
+            banner: { js: "/* eslint-disable */\n" +
+                "import 'source-map-support/register.js';\n" },
         });
 
         this.#cjs = await esbuild.build({
             ...def,
             outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/cjs/build.js"),
             format: "cjs",
+            banner: { js: "/* eslint-disable */\n" +
+                "require('source-map-support/register');\n" },
         });
     }
 }
