@@ -4,37 +4,11 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added support for source maps">
-      <change afterPath="$PROJECT_DIR$/packages/client/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/desktop/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/lexer/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/mobile/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/pluginHost/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/runtime/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/server/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/terminal/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/threads/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/timers/tsconfig.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/Watch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/lib/GenerateDeclarations.js" afterDir="false" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added support for compiling TypeScript declaration files">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/desktop/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/desktop/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/lexer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/lexer/src/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/Main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/mobile/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/pluginHost/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/pluginHost/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/runtime/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/runtime/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/terminal/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/terminal/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/threads/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/timers/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/timers/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/Build.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/Build.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/threads/src/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/src/Main.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xb/src/lib/Compile.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compile.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/xb/src/lib/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Project.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +131,7 @@
       <workItem from="1654780896497" duration="57000" />
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
-      <workItem from="1654781604828" duration="14681000" />
+      <workItem from="1654781604828" duration="15238000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -201,7 +175,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654791544765</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="feat: Added support for compiling TypeScript declaration files">
+      <created>1654806801566</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1654806801566</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,7 +220,8 @@
     <MESSAGE value="feat: Updated LOGO spacing" />
     <MESSAGE value="feat: Added Elixor Scratches" />
     <MESSAGE value="feat: Added support for source maps" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added support for source maps" />
+    <MESSAGE value="feat: Added support for compiling TypeScript declaration files" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added support for compiling TypeScript declaration files" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

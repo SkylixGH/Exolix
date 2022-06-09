@@ -2,6 +2,7 @@ import fs from "fs";
 import { EventEmitter } from "events";
 import path from "path";
 import { fileURLToPath } from "url";
+import chokidar from "chokidar";
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -16,6 +17,15 @@ export default class Project extends EventEmitter {
         this.#name = name;
 
         this.#package = JSON.parse(fs.readFileSync(path.join(dirName, "../../../packages/", name, "package.json"), "utf8"));
+    }
+
+    autoEmitChanges() {
+        chokidar.watch(this.path, {
+            ignored: ["node_modules", "**/*.d.ts", "build"],
+            ignoreInitial: true
+        }).on("all", (event, path) => {
+            this.emit("change", event, path);
+        });
     }
 
     get name() {

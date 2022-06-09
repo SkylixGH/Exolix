@@ -16,5 +16,13 @@ export default function compile(watch) {
 
         clr.run().then();
         generateDeclarations(p, watch);
+
+        if (watch)
+            p.autoEmitChanges();
+
+        p.on("change", (event, path) => {
+            clr.run().then();
+            console.log("Changed:", event, path);
+        });
     });
 }
