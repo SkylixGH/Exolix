@@ -5,18 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/client/src/Main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/desktop/src/Main.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/Watch.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/lib/Compiler.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xb/src/lib/Project.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Elixor.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/lexer/package.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/lexer/src/Main.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xb/src/Build.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/Watch.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compile.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Project.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,11 +36,26 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/.gitignore" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/package-lock.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/client/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/client/src/Main.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/runtime/package.json" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/packages/runtime/src/Main.ts" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/xb/src/lib/Compile.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/xb/src/lib/Compiler.js" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/xb/src/lib/Project.js" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MacroExpansionManager">
     <option name="directoryName" value="yqz9kwli" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectId" id="2AHKSLevjlNgpbmqQn2KgpWYg1Z" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -54,20 +67,40 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "RunOnceActivity.cidr.known.project.marker": "true",
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "javascript.nodejs.core.library.configured.version": "18.3.0",
     "javascript.nodejs.core.library.typings.version": "17.0.41",
-    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor3/packages/desktop",
+    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor34/packages/lexer",
     "nodejs_interpreter_path": "/home/XFaon/Downloads/node-v18.3.0-linux-x64/node-v18.3.0-linux-x64/bin/node",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "settings.nodejs",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "ts.external.directory.path": "/home/XFaon/Downloads/CLion-2022.1.2/clion-2022.1.2/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/lexer" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/xb/src/lib" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.build">
+    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="run" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -76,6 +109,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.build" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -90,6 +128,11 @@
       <workItem from="1654708338409" duration="4553000" />
       <workItem from="1654723189465" duration="71000" />
       <workItem from="1654723276686" duration="2265000" />
+      <workItem from="1654751214587" duration="439000" />
+      <workItem from="1654780896497" duration="57000" />
+      <workItem from="1654780967439" duration="344000" />
+      <workItem from="1654781312979" duration="277000" />
+      <workItem from="1654781604828" duration="3120000" />
     </task>
     <servers />
   </component>

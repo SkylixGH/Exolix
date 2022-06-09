@@ -5,5 +5,8 @@
   "workspaces": [
     "packages/*/",
     "xb/"
-  ]
+  ],
+  "scripts": {
+    "build": "node xb/src/Build.js"
+  }
 }

@@ -1,13 +1,18 @@
 {
-  "name": "@skylixgh/elixor-threads",
-  "version": "1.0.0-alpha",
-  "description": "This library is used for multithreading in NodeJS.",
-  "homepage": "https://skylix.net/foss/elixor/threads",
-  "author": {
-    "name": "Skylix",
-    "email": "support@skylix.net",
-    "url": "https://skylix.net/foss"
-  },
-  "dependencies": {
-  }
+    "name": "@skylixgh/elixor-threads",
+    "version": "1.0.0-alpha",
+    "description": "This library is used for multithreading in NodeJS.",
+    "homepage": "https://skylix.net/foss/elixor/threads",
+    "main": "./build/cjs/Build.js",
+    "exports": {
+        "import": "./build/esm/Build.js",
+        "require": "./build/cjs/Build.js"
+    },
+    "author": {
+        "name": "Skylix",
+        "email": "support@skylix.net",
+        "url": "https://skylix.net/foss"
+    },
+    "dependencies": {},
+    "devDependencies": {}
 }

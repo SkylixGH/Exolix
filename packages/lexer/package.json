@@ -1,8 +1,8 @@
 {
-    "name": "@skylixgh/elixor-pluginHost",
+    "name": "@skylixgh/elixor-lexer",
     "version": "1.0.0-alpha",
-    "description": "This library is used for writing plugin engines.",
-    "homepage": "https://skylix.net/foss/elixor/pluginHost",
+    "description": "This library is used for advanced and speedy lexical analysis.",
+    "homepage": "https://skylix.net/foss/elixor/lexer",
     "main": "./build/cjs/Build.js",
     "exports": {
         "import": "./build/esm/Build.js",

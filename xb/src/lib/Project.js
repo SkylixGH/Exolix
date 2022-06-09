@@ -25,4 +25,9 @@ export default class Project extends EventEmitter {
     get pkg() {
         return this.#package;
     }
+
+    set pkg(pkg) {
+        this.#package = pkg;
+        fs.writeFileSync(path.join(dirName, "../../../packages/", this.#name, "package.json"), JSON.stringify(this.#package, null, 4) + "\n");
+    }
 }
