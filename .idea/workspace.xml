@@ -4,28 +4,12 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added support for watch compiling">
-      <change afterPath="$PROJECT_DIR$/packages/lexer/src/lexer/Lexer.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/packages/lexer/src/token/TokenStructure.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xs/build/Scratch.cjs" afterDir="false" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="fix: Ignoring build files for scratches directory">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/desktop/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/desktop/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/lexer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/lexer/src/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/Main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/lexer/src/Token.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/token/Token.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/mobile/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/pluginHost/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/pluginHost/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/runtime/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/runtime/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/server/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/terminal/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/terminal/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/threads/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/timers/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/timers/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Compiler.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compiler.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xs/lead.js" beforeDir="false" afterPath="$PROJECT_DIR$/xs/Scratch.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/xs/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/src/lexer/Lexer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/lexer/Lexer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/src/token/TokenStructure.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/token/TokenStructure.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/Scratch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/xs/Scratch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/build/Scratch.mjs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -165,7 +149,7 @@
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
       <workItem from="1654781604828" duration="24363000" />
-      <workItem from="1654885741724" duration="3420000" />
+      <workItem from="1654885741724" duration="7698000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -223,24 +207,25 @@
       <option name="project" value="LOCAL" />
       <updated>1654807236400</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="feat: Added NPMIGNORE generation">
+      <created>1654896309984</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1654896309984</updated>
+    </task>
+    <task id="LOCAL-00010" summary="fix: Ignoring build files for scratches directory">
+      <created>1654896575891</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1654896575891</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-    <option name="exactExcludedFiles">
-      <list>
-        <option value="$PROJECT_DIR$/packages/client/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/mobile/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/server/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/timers/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/desktop/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/runtime/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/threads/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/terminal/src/Main.d.ts" />
-        <option value="$PROJECT_DIR$/packages/pluginHost/src/Main.d.ts" />
-      </list>
-    </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -263,7 +248,9 @@
     <MESSAGE value="feat: Added support for source maps" />
     <MESSAGE value="feat: Added support for compiling TypeScript declaration files" />
     <MESSAGE value="feat: Added support for watch compiling" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added support for watch compiling" />
+    <MESSAGE value="feat: Added NPMIGNORE generation" />
+    <MESSAGE value="fix: Ignoring build files for scratches directory" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix: Ignoring build files for scratches directory" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

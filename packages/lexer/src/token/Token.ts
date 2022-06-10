@@ -38,4 +38,9 @@ export default interface Token<Structure extends TokenStructure> {
      * The ending index of the token.
      */
     end: number;
+
+    /**
+     * The value match of the token.
+     */
+    value: string;
 }
