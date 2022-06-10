@@ -12,5 +12,11 @@
         "terminal": "file:../packages/terminal",
         "threads": "file:../packages/threads",
         "timers": "file:../packages/timers"
+    },
+    "devDependencies": {
+        "esbuild": "^0.14.43"
+    },
+    "scripts": {
+        "test": "esbuild Scratch.ts --outfile=build/Scratch.cjs && node build/Scratch.cjs"
     }
 }

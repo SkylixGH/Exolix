@@ -4,11 +4,28 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added support for compiling TypeScript declaration files">
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added support for watch compiling">
+      <change afterPath="$PROJECT_DIR$/packages/lexer/src/lexer/Lexer.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/packages/lexer/src/token/TokenStructure.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xs/build/Scratch.cjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/packages/threads/src/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/src/Main.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Compile.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/xb/src/lib/Project.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Project.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/client/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/client/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/desktop/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/desktop/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/src/Main.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/Main.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/src/Token.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/token/Token.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/mobile/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/mobile/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/pluginHost/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/pluginHost/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/runtime/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/runtime/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/server/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/server/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/terminal/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/terminal/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/threads/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/threads/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/timers/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/packages/timers/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Compiler.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Compiler.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xb/src/lib/Sync.js" beforeDir="false" afterPath="$PROJECT_DIR$/xb/src/lib/Sync.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/lead.js" beforeDir="false" afterPath="$PROJECT_DIR$/xs/Scratch.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/xs/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,8 +39,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="package.json" />
-        <option value="TypeScript File" />
         <option value="JavaScript File" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
@@ -58,25 +75,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "codeWithMe.voiceChat.enabledByDefault": "false",
-    "javascript.nodejs.core.library.configured.version": "18.3.0",
-    "javascript.nodejs.core.library.typings.version": "17.0.41",
-    "last_opened_file_path": "/home/XFaon/CLionProjects/Elixor34/packages/timers",
-    "nodejs_interpreter_path": "/home/XFaon/Downloads/node-v18.3.0-linux-x64/node-v18.3.0-linux-x64/bin/node",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.pluginManager",
-    "ts.external.directory.path": "/home/XFaon/CLionProjects/Elixor34/node_modules/typescript/lib"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;javascript.nodejs.core.library.configured.version&quot;: &quot;18.3.0&quot;,
+    &quot;javascript.nodejs.core.library.typings.version&quot;: &quot;17.0.41&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/XFaon/CLionProjects/Elixor34/packages/timers&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;/home/XFaon/Downloads/node-v18.3.0-linux-x64/node-v18.3.0-linux-x64/bin/node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/XFaon/CLionProjects/Elixor34/node_modules/typescript/lib&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/packages/timers" />
@@ -86,10 +103,21 @@
       <recent name="$PROJECT_DIR$/packages/runtime" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/packages/lexer/src/token" />
       <recent name="$PROJECT_DIR$/xb/src/lib" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build">
+  <component name="RunManager" selected="npm.Watch Compile">
+    <configuration name="Watch Compile" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build:watch" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -108,6 +136,11 @@
       <envs />
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="npm.run" />
+      <item itemvalue="npm.Watch Compile" />
+      <item itemvalue="npm.build" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="npm.build" />
@@ -131,7 +164,8 @@
       <workItem from="1654780896497" duration="57000" />
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
-      <workItem from="1654781604828" duration="15238000" />
+      <workItem from="1654781604828" duration="24363000" />
+      <workItem from="1654885741724" duration="3420000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -182,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654806801566</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: Added support for watch compiling">
+      <created>1654807236400</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1654807236400</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -221,7 +262,8 @@
     <MESSAGE value="feat: Added Elixor Scratches" />
     <MESSAGE value="feat: Added support for source maps" />
     <MESSAGE value="feat: Added support for compiling TypeScript declaration files" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Added support for compiling TypeScript declaration files" />
+    <MESSAGE value="feat: Added support for watch compiling" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added support for watch compiling" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

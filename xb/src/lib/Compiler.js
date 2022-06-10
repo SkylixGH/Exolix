@@ -33,7 +33,7 @@ export default class Compiler {
 
         this.#cjs = await esbuild.build({
             ...def,
-            outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/cjs/build.js"),
+            outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/cjs/build.cjs"),
             format: "cjs",
             banner: { js: "/* eslint-disable */\n" +
                 "require('source-map-support/register');\n" },

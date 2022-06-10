@@ -4,11 +4,11 @@
     "version": "1.0.0-alpha",
     "description": "This library is used for interacting with the command line.",
     "homepage": "https://skylix.net/foss/elixor/terminal",
-    "main": "./build/cjs/build.js",
+    "main": "./build/cjs/build.cjs",
     "types": "./build/types/Main.d.ts",
     "exports": {
         "import": "./build/esm/build.js",
-        "require": "./build/cjs/build.js"
+        "require": "./build/cjs/build.cjs"
     },
     "author": {
         "name": "Skylix",
@@ -16,7 +16,8 @@
         "url": "https://skylix.net/foss"
     },
     "dependencies": {
-        "source-map-support": "^0.5.21"
+        "source-map-support": "^0.5.21",
+        "@types/node": "^17.0.40"
     },
     "devDependencies": {}
 }

@@ -16,17 +16,25 @@ export default function sync() {
 
         elixorDependencies[project] = "file:../packages/" + project;
 
+        const npmIgnore = "node_modules/" +
+            "\nsrc/\n";
+
+        fs.writeFileSync(
+            path.join(data.path, ".npmignore"),
+            npmIgnore
+        );
+
         const packageData = {
             name: opkg.name,
             type: "module",
             version: opkg.version,
             description: opkg.description,
             homepage: opkg.homepage,
-            main: "./build/cjs/build.js",
+            main: "./build/cjs/build.cjs",
             types: "./build/types/Main.d.ts",
             exports: {
                 import: "./build/esm/build.js",
-                require: "./build/cjs/build.js"
+                require: "./build/cjs/build.cjs"
             },
             author: {
                 name: opkg.author.name,
@@ -36,6 +44,7 @@ export default function sync() {
             dependencies: {
                 ...opkg.dependencies,
                 "source-map-support": "^0.5.21",
+                "@types/node": "^17.0.40",
             },
             devDependencies: {
                 ...opkg.devDependencies,
@@ -55,6 +64,12 @@ export default function sync() {
         "name": "xs",
         "type": "module",
         "dependencies": elixorDependencies,
+        "devDependencies": {
+            "esbuild": "^0.14.43"
+        },
+        "scripts": {
+            "test": "esbuild Scratch.ts --outfile=build/Scratch.cjs && node build/Scratch.cjs",
+        }
     };
 
     fs.writeFileSync(path.join(dirName, "../../../xs/package.json"), JSON.stringify(scratchJSON, null, 4) + "\n");
