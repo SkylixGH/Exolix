@@ -15,14 +15,15 @@ const tokenTree: TokenTypes = {
     text: /^[^"^()]+/,
 }
 
-const processor = new Lexer<TokenTypes>(tokenTree, `print("Hello World")`);
+const processor = new Lexer<TokenTypes>(tokenTree, `print("Hello World")`.repeat(2) + "()".repeat(10));
 
 const tokens = processor.tokens;
 const input = processor.input;
 
 let index = 0;
+let lastIndex = 0;
 const max = tokens.length - 1;
-const delay = 1000;
+const delay = 800;
 
 const go = () => {
     // This will render the initial input, but it will invert the actual match text
@@ -45,13 +46,29 @@ const go = () => {
     console.clear();
     console.log(`${beforeValue}${current}${afterValue}`);
 
+    const maxLen = tokens[tokens.length - 1].end;
+    const progress = `[${index}/${max}] ${(index / max) * 100}%`;
+
+    const differenceProgress = `Diff [${(((index / max) * 100) - ((lastIndex / max) * 100)).toFixed(2)}%]`;
+
+    console.log(progress);
+    console.log(differenceProgress);
+
+    const totalProcessedCharLength = beforeValue.length + tokens[index].value.length;
+
+    console.log(`Exact Percent: ${(totalProcessedCharLength / maxLen) * 100}%`)
+
+    lastIndex = index;
     index++;
 
     if (index > max) {
         return;
     }
 
-    setTimeout(go, delay);
+    if (delay == 0)
+        go();
+    else
+        setTimeout(go, delay);
 }
 
 go();
