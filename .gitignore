@@ -4,3 +4,6 @@
 #      ------              NodeJS Files            ------      #
 node_modules/
 packages/*/build/
+
+#      ------              Elixor Files            ------      #
+xs/build/
