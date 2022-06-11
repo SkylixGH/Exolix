@@ -18,6 +18,11 @@ export default class Lexer<Structure extends TokenStructure> {
     #tokens: Token<Structure>[] = [];
 
     /**
+     * The new line character.
+     */
+    #newLine = "\n";
+
+    /**
      * The token tree.
      */
     readonly tree: Structure;
@@ -31,6 +36,16 @@ export default class Lexer<Structure extends TokenStructure> {
     public constructor(tree: Structure, input: string | Buffer) {
         this.input = input.toString();
         this.tree = tree;
+
+        let badItem = false;
+
+        Object.keys(tree).forEach(key => {
+            badItem = badItem || !tree[key].source.startsWith("^");
+        });
+
+        if (badItem) {
+            // TODO: Add a warning
+        }
 
         this.#compileTokens();
     }
@@ -48,6 +63,13 @@ export default class Lexer<Structure extends TokenStructure> {
         let indexPrev = 0;
         let linePrev = 0;
         let columnPrev = 0;
+
+        const treeContainsNewLines = Object.values(this.tree).some(regexp => regexp.source.includes(this.#newLine));
+        // Warn the user that this is unsafe
+        if (treeContainsNewLines) {
+            // TODO: Add a warning
+            console.error("The lexer tree should contain new lines, this is unsafe and will cause issues.");
+        }
 
         const perform = (input: string) => {
             operations++;
@@ -71,10 +93,10 @@ export default class Lexer<Structure extends TokenStructure> {
                     matchRegExpItem = key;
                     value = match[0];
 
-                    lineStat += passOverInput.split("\n").length - 1;
-                    columnStat = passOverInput.length - passOverInput.split("\n").pop()!.length;
+                    columnStat = passOverInput.length - passOverInput.split(this.#newLine).pop()!.length;
+                    lineStat += passOverInput.split(this.#newLine).length - 1;
 
-                    if (match[0].includes("\n")) {
+                    if (match[0].includes(this.#newLine)) {
                         lineStat++;
                         columnStat = 0;
                     }

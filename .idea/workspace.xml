@@ -4,7 +4,11 @@
     <configurations />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Lexer analyzer logic" />
+    <list default="true" id="afd5085c-ae4c-4014-b777-f90215593580" name="Changes" comment="feat: Added lexer visualizers">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/packages/lexer/src/lexer/Lexer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/packages/lexer/src/lexer/Lexer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/xs/Scratch.ts" beforeDir="false" afterPath="$PROJECT_DIR$/xs/Scratch.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -143,7 +147,7 @@
       <workItem from="1654780967439" duration="344000" />
       <workItem from="1654781312979" duration="277000" />
       <workItem from="1654781604828" duration="24363000" />
-      <workItem from="1654885741724" duration="8019000" />
+      <workItem from="1654885741724" duration="12203000" />
     </task>
     <task id="LOCAL-00001" summary="feat: Added build sync to help keep consistency">
       <created>1654785254586</created>
@@ -222,7 +226,14 @@
       <option name="project" value="LOCAL" />
       <updated>1654900594047</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="feat: Added lexer visualizers">
+      <created>1654901816392</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1654901816392</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,7 +263,8 @@
     <MESSAGE value="feat: Added NPMIGNORE generation" />
     <MESSAGE value="fix: Ignoring build files for scratches directory" />
     <MESSAGE value="feat: Lexer analyzer logic" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Lexer analyzer logic" />
+    <MESSAGE value="feat: Added lexer visualizers" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Added lexer visualizers" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
