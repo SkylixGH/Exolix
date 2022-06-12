@@ -63,7 +63,7 @@ export default class Lexer<Structure extends Object> {
         let linePrev = 0;
         let columnPrev = 0;
 
-        const treeContainsNewLines = Object.values(this.tree).some(regexp => regexp.source.includes(this.#newLine));
+        const treeContainsNewLines = Object.values(this.tree).some(regexp => regexp.source.includes(this.newLine));
         // Warn the user that this is unsafe
         if (treeContainsNewLines) {
             // TODO: Add a warning
@@ -94,7 +94,7 @@ export default class Lexer<Structure extends Object> {
 
                     columnStat += match[0].length;
 
-                    if (match[0].includes(this.#newLine)) {
+                    if (match[0].includes(this.newLine)) {
                         lineStat++;
                         columnStat = 0;
                     }
