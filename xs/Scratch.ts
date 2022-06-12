@@ -1,7 +1,16 @@
 import { Lexer, TokenUtil } from "@skylixgh/elixor-lexer";
 
+function se(msg: string, codep: string, e: string, codea: string) {
+    console.error("Syntax Error : Unexpected Token : " + msg + "\n");
+    console.log(codep + e + codea);
+    console.log(" ".repeat(codep.length) + "^".repeat(e.length));
+
+    process.exit(1);
+}
+
 interface Tokens {
     newLine: RegExp;
+    comment: RegExp;
     if: RegExp;
     true: RegExp;
     false: RegExp;
@@ -27,6 +36,7 @@ class LanguageCompiler {
     public constructor(source: string) {
         const tokens: Tokens = {
             newLine: /^\n/,
+            comment: /^\^-\^/,
             if: /^if\b/,
             true: /^true\b/,
             false: /^false\b/,
@@ -51,19 +61,40 @@ class LanguageCompiler {
 
         tokens.forEach((token, index) => {
             if (token.type === "if") {
-                const condition = util.findUntil({
+                const hlp = util.findUntil({
                     indexStart: token.start
                 }, (t) => {
-                    console.log(t, token);
+                    return t.type === "lParen"
+                })!;
+
+                if (!hlp) {
+                    se("Error missing LParen", "if (", "???", ") {");
+                }
+
+                const hcond = util.findUntil({
+                    indexStart: hlp.end
+                }, (t) => {
                     return t.type === "true" || t.type === "false";
+                })!;
+
+                if (!hcond) {
+                    se("Error missing condition", "if (", "???", ") {");
+                }
+
+                const hlp2 = util.findUntil({
+                    indexStart: hcond.end
+                }, (t) => {
+                    return t.type === "rParen";
                 });
 
-                console.log(condition)
+                if (!hlp2) {
+                    se("Error missing RParen", "if (", "???", ") {");
+                }
 
                 ast.push({
                     nodes: [
                         {
-                            type: condition?.value === "true" ? "true" : "false",
+                            type: hcond?.value === "true" ? "true" : "false",
                             nodes: []
                         }
                     ],
@@ -72,11 +103,11 @@ class LanguageCompiler {
             }
         });
 
-        console.log(ast, ast[0].nodes);
+        console.log(ast[0]);
     }
 }
 
 const clr = new LanguageCompiler(`print("Hello World");
-if (true) {
+if                                                      (                    false) {
     print("Hello World True");
 }`);

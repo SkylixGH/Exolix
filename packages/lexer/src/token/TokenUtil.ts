@@ -39,7 +39,6 @@ export default class TokenUtil<TokenTypes extends Object> {
             result = this.tokens.find(token => {
                 return token.start === anyLocation.indexStart;
             });
-
         } else if (typeof anyLocation.lineStart !== "undefined" && typeof anyLocation.columnStart !== "undefined") {
             result = this.tokens.find(token => {
                 return token.lineStart === anyLocation.lineStart && token.columnStart === anyLocation.columnStart;
