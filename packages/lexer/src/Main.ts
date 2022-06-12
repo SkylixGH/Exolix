@@ -1,5 +1,7 @@
 import Lexer from "./lexer/Lexer";
 import Token from "./token/Token";
-import TokenStructure from "./token/TokenStructure";
+import TokenLocation from "./token/TokenLocation";  
+import TokenUtil from "./token/TokenUtil";  
 
-export { TokenStructure, Token, Lexer };
+export { Token, TokenLocation, TokenUtil };
+export { Lexer };

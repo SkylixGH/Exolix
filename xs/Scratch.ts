@@ -1,6 +1,6 @@
-import { Lexer, TokenStructure } from "@skylixgh/elixor-lexer";
+import { Lexer } from "@skylixgh/elixor-lexer";
 
-interface Tokens extends TokenStructure {
+interface Tokens {
     newLine: RegExp;
     if: RegExp;
     true: RegExp;

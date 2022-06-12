@@ -1,12 +1,11 @@
 import { Buffer } from "node:buffer";
 import Token from "../token/Token";
-import TokenStructure from "../token/TokenStructure";
 
 /**
  * A lexer is a programmatic tool which analyzes a string, once finished, it can
  * manipulate the tokens, return them, and more.
  */
-export default class Lexer<Structure extends TokenStructure> {
+export default class Lexer<Structure extends Object> {
     /**
      * The input data of the lexer.
      */
@@ -20,7 +19,7 @@ export default class Lexer<Structure extends TokenStructure> {
     /**
      * The new line character.
      */
-    #newLine = "\n";
+    readonly newLine = "\n";
 
     /**
      * The token tree.
@@ -40,7 +39,7 @@ export default class Lexer<Structure extends TokenStructure> {
         let badItem = false;
 
         Object.keys(tree).forEach(key => {
-            badItem = badItem || !tree[key].source.startsWith("^");
+            badItem = badItem || !(tree as any)[key].source.startsWith("^");
         });
 
         if (badItem) {
@@ -85,12 +84,12 @@ export default class Lexer<Structure extends TokenStructure> {
             Object.keys(this.tree).forEach((key, index) => {
                 if (matchRegExpItem) return;
 
-                const regexp = new RegExp(this.tree[key]);
+                const regexp = new RegExp((this.tree as any)[key]);
                 const match = regexp.exec(input);
 
                 if (match) {
                     passOverInput = input.slice(match[0].length);
-                    matchRegExpItem = key;
+                    matchRegExpItem = key as any;
                     value = match[0];
 
                     columnStat += match[0].length;

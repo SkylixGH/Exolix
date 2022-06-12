@@ -1,9 +1,7 @@
 /**
  * A token is a specific pinpoint relative to the input string.
  */
-import TokenStructure from "./TokenStructure";
-
-export default interface Token<Structure extends TokenStructure> {
+export default interface Token<Structure extends Object> {
     /**
      * The starting line of the token.
      */
