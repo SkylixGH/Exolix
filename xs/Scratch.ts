@@ -1,4 +1,5 @@
 import { Lexer, TokenUtil } from "@skylixgh/elixor-lexer";
+import { Thread } from "@skylixgh/elixor-threads";
 
 function se(msg: string, codep: string, e: string, codea: string) {
     console.error("Syntax Error : Unexpected Token : " + msg + "\n");
@@ -104,6 +105,15 @@ class LanguageCompiler {
         console.log(ast[0]);
     }
 }
+
+const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
+new Thread(async () => {
+    while (true) {
+        await wait(1000);
+        console.log("Hello");
+    }
+}).run();
 
 const clr = new LanguageCompiler(`print("Hello World");
 if                                        

@@ -1,1 +1,3 @@
-console.log("Hi")
+import Thread from "./thread/Thread";
+
+export { Thread };
