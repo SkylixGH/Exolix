@@ -23,20 +23,28 @@ export default class Compiler {
             sourcemap: "inline",
         };
 
-        this.#esm = await esbuild.build({
-            ...def,
-            outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/esm/build.js"),
-            format: "esm",
-            banner: { js: "/* eslint-disable */\n" +
-                "import 'source-map-support/register.js';\n" },
-        });
+        try {
+            this.#esm = await esbuild.build({
+                ...def,
+                outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/esm/build.js"),
+                format: "esm",
+                banner: { js: "/* eslint-disable */\n" +
+                    "import 'source-map-support/register.js';\n" },
+            });
+        } catch {
 
-        this.#cjs = await esbuild.build({
-            ...def,
-            outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/cjs/build.cjs"),
-            format: "cjs",
-            banner: { js: "/* eslint-disable */\n" +
-                "require('source-map-support/register');\n" },
-        });
+        }
+
+        try {
+            this.#cjs = await esbuild.build({
+                ...def,
+                outfile: path.join(dirName, "../../../packages/", this.#project.name, "build/cjs/build.cjs"),
+                format: "cjs",
+                banner: { js: "/* eslint-disable */\n" +
+                    "require('source-map-support/register');\n" },
+            });
+        } catch {
+
+        }
     }
 }

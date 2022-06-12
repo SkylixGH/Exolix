@@ -1,4 +1,4 @@
-import { Lexer } from "@skylixgh/elixor-lexer";
+import { Lexer, TokenUtil } from "@skylixgh/elixor-lexer";
 
 interface Tokens {
     newLine: RegExp;
@@ -34,7 +34,7 @@ class LanguageCompiler {
             rParen: /^\)/,
             lBrace: /^\{/,
             rBrace: /^\}/,
-            space: /^\s+/,
+            space: /^\s/,
             quote: /^"/,
             semiColon: /^;/,
             text: /^[^\(\)\n]+/,
@@ -46,19 +46,33 @@ class LanguageCompiler {
 
     #parse() {
         const tokens = this.lexer.tokens;
+        const util = new TokenUtil<Tokens>(this.lexer);
         const ast: Node[] = [];
 
         tokens.forEach((token, index) => {
             if (token.type === "if") {
-                ast.push({
-                    type: "if",
-                    value: tokens[index + 3].value,
-                    nodes: []
+                const condition = util.findUntil({
+                    indexStart: token.start
+                }, (t) => {
+                    console.log(t, token);
+                    return t.type === "true" || t.type === "false";
                 });
+
+                console.log(condition)
+
+                ast.push({
+                    nodes: [
+                        {
+                            type: condition?.value === "true" ? "true" : "false",
+                            nodes: []
+                        }
+                    ],
+                    type: "if",
+                })
             }
         });
 
-        console.log(ast);
+        console.log(ast, ast[0].nodes);
     }
 }
 
