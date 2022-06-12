@@ -32,7 +32,29 @@ export default class TokenUtil<TokenTypes extends Object> {
      * @returns The token result, otherwise undefined.
      */
     public getToken(location: TokenLocation): Token<TokenTypes> | undefined {
-        return this.tokens[location.indexStart];
+        const anyLocation = location as any;
+        let result: Token<TokenTypes> | undefined;
+
+        if (typeof anyLocation.indexStart !== "undefined") {
+            result = this.tokens.find(token => {
+                return token.start === anyLocation.indexStart;
+            });
+
+        } else if (typeof anyLocation.lineStart !== "undefined" && typeof anyLocation.columnStart !== "undefined") {
+            result = this.tokens.find(token => {
+                return token.lineStart === anyLocation.lineStart && token.columnStart === anyLocation.columnStart;
+            });
+        } else if (typeof anyLocation.lineEnd !== "undefined" && typeof anyLocation.columnEnd !== "undefined") {
+            result = this.tokens.find(token => {
+                return token.lineEnd === anyLocation.lineEnd && token.columnEnd === anyLocation.columnEnd;
+            });
+        } else if (typeof anyLocation.end !== "undefined") {
+            result = this.tokens.find(token => {
+                return token.end === anyLocation.end;
+            });
+        }
+
+        return result;
     }
 
     /**
@@ -42,9 +64,12 @@ export default class TokenUtil<TokenTypes extends Object> {
      * @param condition The condition executor, once met true, that token will be returned.
      */
     public findUntil(start: TokenLocation, condition: (token: Token<TokenTypes>) => boolean): Token<TokenTypes> | undefined {
-        let index = start.indexStart;
-        let line = start.lineStart;
-        let column = start.columnStart;
+        const startToken = this.getToken(start)!;
+
+        if (startToken === undefined)
+            return undefined;
+
+        let index = startToken.index;
 
         while (index < this.tokens.length) {
             const token = this.tokens[index];
@@ -54,13 +79,7 @@ export default class TokenUtil<TokenTypes extends Object> {
             }
 
             index++;
-            column++;
-
-            if (token.value === this.lexer.newLine) {
-                line++;
-                column = 0;
-            }
-
+            
             if (index === this.tokens.length) {
                 return undefined;
             }

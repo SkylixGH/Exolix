@@ -117,6 +117,7 @@ export default class Lexer<Structure extends Object> {
                 end: indexStat,
                 start: indexPrev,
                 value,
+                index: this.#tokens.length,
             };
 
             this.#tokens.push(token);

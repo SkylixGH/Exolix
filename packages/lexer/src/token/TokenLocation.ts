@@ -39,5 +39,5 @@ interface TokenByPositionEnd {
 /**
  * An interface that identifies the location of a token.
  */
-type TokenLocation = TokenByIndexStart & TokenByIndexEnd & TokenByPositionStart & TokenByPositionEnd;
+type TokenLocation = TokenByIndexStart | TokenByIndexEnd | TokenByPositionStart | TokenByPositionEnd;
 export default TokenLocation;

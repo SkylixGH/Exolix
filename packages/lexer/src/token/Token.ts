@@ -28,17 +28,22 @@ export default interface Token<Structure extends Object> {
     type: keyof Structure;
 
     /**
-     * The starting index of the token.
+     * The starting char index of the token.
      */
     start: number;
 
     /**
-     * The ending index of the token.
+     * The ending char index of the token.
      */
     end: number;
 
     /**
      * The value match of the token.
      */
-    value: string;
+    value: string; 
+
+    /**
+     * The token's actual index from the token array.
+     */
+    index: number;
 }
