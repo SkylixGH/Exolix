@@ -35,9 +35,9 @@ export default class TokenUtil<TokenTypes extends Object> {
         const anyLocation = location as any;
         let result: Token<TokenTypes> | undefined;
 
-        if (typeof anyLocation.indexStart !== "undefined") {
+        if (typeof anyLocation.indexCharStart !== "undefined") {
             result = this.tokens.find(token => {
-                return token.start === anyLocation.indexStart;
+                return token.start === anyLocation.indexCharStart;
             });
         } else if (typeof anyLocation.lineStart !== "undefined" && typeof anyLocation.columnStart !== "undefined") {
             result = this.tokens.find(token => {
@@ -47,9 +47,9 @@ export default class TokenUtil<TokenTypes extends Object> {
             result = this.tokens.find(token => {
                 return token.lineEnd === anyLocation.lineEnd && token.columnEnd === anyLocation.columnEnd;
             });
-        } else if (typeof anyLocation.end !== "undefined") {
+        } else if (typeof anyLocation.indexCharEnd !== "undefined") {
             result = this.tokens.find(token => {
-                return token.end === anyLocation.end;
+                return token.end === anyLocation.indexCharEnd;
             });
         }
 

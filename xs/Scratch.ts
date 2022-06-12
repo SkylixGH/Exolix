@@ -62,7 +62,7 @@ class LanguageCompiler {
         tokens.forEach((token, index) => {
             if (token.type === "if") {
                 const hlp = util.getAfter({
-                    indexStart: token.start,
+                    indexCharStart: token.start,
                 }, "lParen")!;
 
                 if (!hlp) {
@@ -70,7 +70,7 @@ class LanguageCompiler {
                 }
 
                 const hcond = util.findUntil({
-                    indexStart: hlp.end
+                    indexCharStart: hlp.end
                 }, (t) => {
                     return t.type === "true" || t.type === "false";
                 })!;
@@ -80,7 +80,7 @@ class LanguageCompiler {
                 }
 
                 const hlp2 = util.findUntil({
-                    indexStart: hcond.end
+                    indexCharStart: hcond.end
                 }, (t) => {
                     return t.type === "rParen";
                 });

@@ -1,15 +1,15 @@
-interface TokenByIndexStart {
+interface TokenByCharIndexStart {
     /**
-     * The starting index of the token.
+     * The starting char index of the token.
      */
-    indexStart: number;
+    indexCharStart: number;
 }
 
-interface TokenByIndexEnd {
+interface TokenByCharIndexEnd {
     /**
-     * The ending index of the token.
+     * The ending char index of the token.
      */
-    indexEnd: number;
+    indexCharEnd: number;
 }
 
 interface TokenByPositionStart {
@@ -39,5 +39,5 @@ interface TokenByPositionEnd {
 /**
  * An interface that identifies the location of a token.
  */
-type TokenLocation = TokenByIndexStart | TokenByIndexEnd | TokenByPositionStart | TokenByPositionEnd;
+type TokenLocation = TokenByCharIndexStart | TokenByCharIndexEnd | TokenByPositionStart | TokenByPositionEnd;
 export default TokenLocation;
