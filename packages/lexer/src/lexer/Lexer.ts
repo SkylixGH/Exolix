@@ -93,8 +93,8 @@ export default class Lexer<Structure extends TokenStructure> {
                     matchRegExpItem = key;
                     value = match[0];
 
-                    columnStat = passOverInput.length - passOverInput.split(this.#newLine).pop()!.length;
-                    lineStat += passOverInput.split(this.#newLine).length - 1;
+                    columnStat += match[0].length;
+                    console.log(match[0].length);
 
                     if (match[0].includes(this.#newLine)) {
                         lineStat++;
@@ -106,6 +106,7 @@ export default class Lexer<Structure extends TokenStructure> {
             });
 
             if (typeof matchRegExpItem === "undefined") {
+                console.error("Help!!");
                 return; // TODO: throw error
             }
 

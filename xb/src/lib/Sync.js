@@ -68,7 +68,7 @@ export default function sync() {
             "esbuild": "^0.14.43"
         },
         "scripts": {
-            "test": "esbuild Scratch.ts --outfile=build/Scratch.cjs && node build/Scratch.cjs",
+            "test": "esbuild Scratch.ts --outfile=build/Scratch.mjs && node build/Scratch.mjs",
         }
     };
 
