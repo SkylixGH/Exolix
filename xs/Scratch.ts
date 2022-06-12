@@ -61,11 +61,9 @@ class LanguageCompiler {
 
         tokens.forEach((token, index) => {
             if (token.type === "if") {
-                const hlp = util.findUntil({
-                    indexStart: token.start
-                }, (t) => {
-                    return t.type === "lParen"
-                })!;
+                const hlp = util.getAfter({
+                    indexStart: token.start,
+                }, "lParen")!;
 
                 if (!hlp) {
                     se("Error missing LParen", "if (", "???", ") {");
@@ -108,6 +106,7 @@ class LanguageCompiler {
 }
 
 const clr = new LanguageCompiler(`print("Hello World");
-if                                                      (                    false) {
+if                                        
+              (                    false) {
     print("Hello World True");
 }`);

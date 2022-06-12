@@ -84,4 +84,36 @@ export default class TokenUtil<TokenTypes extends Object> {
             }
         }
     }
+
+    /**
+     * Get a token that is somewhere after a specific starting location.
+     * 
+     * @param start The starting token location.
+     * @param type The token type to check.
+     * @return The matched token, otherwise undefined.
+     */
+    public getAfter(start: TokenLocation, type: keyof TokenTypes): Token<TokenTypes> | undefined {
+        const startToken = this.getToken(start)!;
+
+        if (startToken === undefined)
+            return undefined;
+
+        let index = startToken.index + 1;
+
+        while (index < this.tokens.length) {
+            const token = this.tokens[index];
+
+            if (token.type === type) {
+                return token;
+            }
+
+            index++;
+            
+            if (index === this.tokens.length) {
+                return undefined;
+            }
+        }
+
+        return undefined;
+    }
 }
