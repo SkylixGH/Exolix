@@ -94,7 +94,6 @@ export default class Lexer<Structure extends TokenStructure> {
                     value = match[0];
 
                     columnStat += match[0].length;
-                    console.log(match[0].length);
 
                     if (match[0].includes(this.#newLine)) {
                         lineStat++;
