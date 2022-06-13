@@ -116,4 +116,40 @@ export default class TokenUtil<TokenTypes extends Object> {
 
         return undefined;
     }
+
+    /**
+     * Get all of the tokens starting from one point, all the way until a condition is met.
+     * 
+     * @param start The starting token location.
+     * @param condition The condition executor, once met true, that token will be returned.
+     * @return An array of all of the captured tokens.
+     */
+    public getAllUntil(start: TokenLocation, condition: (token: Token<TokenTypes>) => boolean): Token<TokenTypes>[] {
+        const startToken = this.getToken(start)!;
+
+        if (startToken === undefined)
+            return [];
+
+        let index = startToken.index;
+
+        const tokens: Token<TokenTypes>[] = [];
+
+        while (index < this.tokens.length) {
+            const token = this.tokens[index];
+
+            if (condition(token)) {
+                return tokens;
+            }
+
+            tokens.push(token);
+
+            index++;
+
+            if (index === this.tokens.length) {
+                return tokens;
+            }
+        }
+
+        return tokens;
+    }
 }

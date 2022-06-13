@@ -42,6 +42,8 @@ class MD {
                 }
             } else {
                 if (contextOf === "header:an") {
+                    
+                    
                     ast.push(mesh);
                     contextOf = null;
                 }
@@ -54,4 +56,7 @@ class MD {
 
 const p = new MD(`# Hello World
 ## Hello Worldd
-######Invalid`);
+######Invalid
+\`\`\typescript
+eyy hi
+\`\`\``);
