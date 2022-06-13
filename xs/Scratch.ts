@@ -1,122 +1,57 @@
-import { Lexer, TokenUtil } from "@skylixgh/elixor-lexer";
-import { Thread } from "@skylixgh/elixor-threads";
+// Simple markdown parser
 
-function se(msg: string, codep: string, e: string, codea: string) {
-    console.error("Syntax Error : Unexpected Token : " + msg + "\n");
-    console.log(codep + e + codea);
-    console.log(" ".repeat(codep.length) + "^".repeat(e.length));
-
-    process.exit(1);
-}
+import { Lexer } from "@skylixgh/elixor-lexer";
 
 interface Tokens {
     newLine: RegExp;
     comment: RegExp;
-    if: RegExp;
-    true: RegExp;
-    false: RegExp;
-    lParen: RegExp;
-    rParen: RegExp;
-    lBrace: RegExp;
-    rBrace: RegExp;
-    text: RegExp;
+    header: RegExp;
+    codeFence: RegExp;
     space: RegExp;
-    quote: RegExp;
-    semiColon: RegExp;
+    text: RegExp;
 }
 
-interface Node {
-    nodes: Node[];
-    type: keyof Tokens;
-    value?: string;
+const tree: Tokens = {
+    newLine: /^\n/,
+    comment: /^\/\//,
+    header: /^#{1,6}\s+/,
+    codeFence: /^```/,
+    space: /^\s+/,
+    text: /^[^\n]+/
 }
 
-class LanguageCompiler {
-    readonly lexer: Lexer<Tokens>;
+class MD {
+    constructor(data: string) {
+        const lexer = new Lexer<Tokens>(tree, data);
+        const tokens = lexer.tokens;
 
-    public constructor(source: string) {
-        const tokens: Tokens = {
-            newLine: /^\n/,
-            comment: /^\^-\^/,
-            if: /^if\b/,
-            true: /^true\b/,
-            false: /^false\b/,
-            lParen: /^\(/,
-            rParen: /^\)/,
-            lBrace: /^\{/,
-            rBrace: /^\}/,
-            space: /^\s/,
-            quote: /^"/,
-            semiColon: /^;/,
-            text: /^[^\(\)\n]+/,
-        };
+        const ast = [] as any[];
 
-        this.lexer = new Lexer(tokens, source);
-        this.#parse();
-    }
-
-    #parse() {
-        const tokens = this.lexer.tokens;
-        const util = new TokenUtil<Tokens>(this.lexer);
-        const ast: Node[] = [];
+        let contextOf = null as null | string;
+        let mesh: any;
 
         tokens.forEach((token, index) => {
-            if (token.type === "if") {
-                const hlp = util.getAfter({
-                    indexCharStart: token.start,
-                }, "lParen")!;
+            if (contextOf === null) {
+                if (token.type === "header") {
+                    mesh = {
+                        type: "header",
+                        level: token.value.length - 1,
+                    };
 
-                if (!hlp) {
-                    se("Error missing LParen", "if (", "???", ") {");
+                    contextOf = "header:an";
                 }
-
-                const hcond = util.findUntil({
-                    indexCharStart: hlp.end
-                }, (t) => {
-                    return t.type === "true" || t.type === "false";
-                })!;
-
-                if (!hcond) {
-                    se("Error missing condition", "if (", "???", ") {");
+            } else {
+                if (contextOf === "header:an") {
+                    ast.push(mesh);
+                    contextOf = null;
                 }
-
-                const hlp2 = util.findUntil({
-                    indexCharStart: hcond.end
-                }, (t) => {
-                    return t.type === "rParen";
-                });
-
-                if (!hlp2) {
-                    se("Error missing RParen", "if (", "???", ") {");
-                }
-
-                ast.push({
-                    nodes: [
-                        {
-                            type: hcond?.value === "true" ? "true" : "false",
-                            nodes: []
-                        }
-                    ],
-                    type: "if",
-                })
             }
         });
 
-        console.log(ast[0]);
+        console.log(ast);
     }
-}
+} 
 
-const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-new Thread(async () => {
-    while (true) {
-        await wait(1000);
-        console.log("Hello");
-    }
-}).run();
-
-const clr = new LanguageCompiler(`print("Hello World");
-if                                        
-              (                    false) {
-    print("Hello World True");
-}`);
+const p = new MD(`# Hello World
+## Hello Worldd
+######Invalid`);
