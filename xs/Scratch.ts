@@ -1,6 +1,6 @@
 // Simple markdown parser
 
-import { Lexer } from "@skylixgh/elixor-lexer";
+import { Lexer, TokenUtil } from "@skylixgh/elixor-lexer";
 
 interface Tokens {
     newLine: RegExp;
@@ -24,6 +24,7 @@ class MD {
     constructor(data: string) {
         const lexer = new Lexer<Tokens>(tree, data);
         const tokens = lexer.tokens;
+        const util = new TokenUtil(lexer);
 
         const ast = [] as any[];
 
@@ -42,7 +43,12 @@ class MD {
                 }
             } else {
                 if (contextOf === "header:an") {
-                    
+                    // find everything from here to the end of the line
+                    const values = util.getAllUntil({
+                        indexCharStart: token.start,
+                    }, (tk) => tk.type === "newLine");
+
+                    mesh.values = values;
                     
                     ast.push(mesh);
                     contextOf = null;
@@ -50,13 +56,15 @@ class MD {
             }
         });
 
-        console.log(ast);
+        console.log(ast[0], ast[1]);
     }
 } 
 
-const p = new MD(`# Hello World
-## Hello Worldd
-######Invalid
-\`\`\typescript
-eyy hi
-\`\`\``);
+// const p = new MD(`# Hello World
+// ## Hello Worldd praty kewl
+// ######Invalid
+// \`\`\typescript
+// eyy hi
+// \`\`\``);
+
+

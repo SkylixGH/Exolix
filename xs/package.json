@@ -3,6 +3,7 @@
     "type": "module",
     "dependencies": {
         "client": "file:../packages/client",
+        "color": "file:../packages/color",
         "desktop": "file:../packages/desktop",
         "lexer": "file:../packages/lexer",
         "mobile": "file:../packages/mobile",
