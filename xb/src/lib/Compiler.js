@@ -21,6 +21,7 @@ export default class Compiler {
             bundle: true,
             external: Object.keys(this.#project.pkg.dependencies ?? {}),
             sourcemap: "inline",
+            platform: "node",
         };
 
         try {
