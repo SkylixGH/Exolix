@@ -159,4 +159,21 @@ export default class Color {
     public get alpha(): PixelBrightness {
         return this.rgba.alpha;
     }
+
+    /**
+     * Find the closest color to this from a list of colors.
+     * 
+     * @param list The list of colors.
+     * @return The closest color.
+     */
+    public findClosest(list: Color[]): Color | undefined {
+        if (list.length === 0)
+            return undefined;
+
+        let closest: Color | undefined;
+
+        
+
+        return closest;
+    }
 }

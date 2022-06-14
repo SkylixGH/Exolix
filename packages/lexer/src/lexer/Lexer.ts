@@ -22,6 +22,11 @@ export default class Lexer<Structure extends Object> {
     readonly newLine = "\n";
 
     /**
+     * If the tokenization was ever started.
+     */
+    #everStarted = false;
+
+    /**
      * The token tree.
      */
     readonly tree: Structure;
@@ -45,14 +50,18 @@ export default class Lexer<Structure extends Object> {
         if (badItem) {
             // TODO: Add a warning
         }
-
-        this.#compileTokens();
     }
 
     /**
      * Run through with the lexer and generate a token list.
      */
-    #compileTokens() {
+    async tokenize() {
+        if (this.#everStarted) return;
+
+        this.#everStarted = true;
+        const massiveInput = this.input.length > 10000;
+
+        const pause = () => new Promise(resolve => setTimeout(resolve));
         let operations = 0;
 
         let indexStat = 0;
@@ -70,7 +79,7 @@ export default class Lexer<Structure extends Object> {
             console.error("The lexer tree should contain new lines, this is unsafe and will cause issues.");
         }
 
-        const perform = (input: string) => {
+        const perform = async (input: string) => {
             operations++;
 
             let matchRegExpItem: keyof Structure | undefined;
@@ -123,11 +132,19 @@ export default class Lexer<Structure extends Object> {
             this.#tokens.push(token);
 
             if (passOverInput.length !== input.length) {
-                perform(passOverInput);
+                const currentLength = passOverInput.length;
+                const originalLength = this.input.length;
+
+                console.log(`${currentLength}/${originalLength}`);
+
+                // if (massiveInput)
+                //     await pause();
+
+                await perform(passOverInput);
             }
         }
 
-        perform(this.input);
+        await perform(this.input);
     }
 
     /**
