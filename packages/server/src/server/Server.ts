@@ -75,12 +75,11 @@ export default class Server {
             httpSettings.cert = this.#ssl.cert;
         }
 
-        this.#server?.close();
+        const REX: any = {};
+        const OPIX: any = {};
 
-        if (this.#ssl !== false)
-            this.#server = https.createServer(httpSettings, this.#requestCallback);
-        else
-            this.#server = http.createServer(httpSettings, this.#requestCallback);
+        this.#server?.close();
+        this.#server = (this.#ssl !== false ? https : http).createServer(httpSettings, this.#requestCallback);
     }
 
     /**
