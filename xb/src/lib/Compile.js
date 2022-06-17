@@ -10,15 +10,17 @@ const dirName = path.dirname(fileName);
 const projects = fs.readdirSync(path.join(dirName, "../../../packages/"));
 
 export default function compile(watch) {
-    projects.forEach(project => {
+    projects.forEach(async (project) => {
         const p = new Project(project);
         const clr = new Compiler(p);
 
-        clr.run().then();
+        await clr.run();
         generateDeclarations(p, watch);
 
         if (watch)
             p.autoEmitChanges();
+        else
+            process.exit(0);
 
         p.on("change", (event, path) => {
             clr.run().then();
