@@ -1,6 +1,10 @@
-import { Emitter } from "@skylixgh/elixor-events";
+import { Emitter, EventMap } from "@skylixgh/elixor-events";
 
-const e = new Emitter();
+interface E extends EventMap {
+    hi: () => void;
+}
+
+const e = new Emitter<E>();
 const x = e.on("hi", () => {
     console.log("Compositon working");
 });
