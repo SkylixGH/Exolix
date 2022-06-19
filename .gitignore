@@ -7,3 +7,7 @@ packages/*/build/
 
 #      ------              Elixor Files            ------      #
 xs/build/
+
+#      ------         Non Skylix IDE Files         ------      #
+.idea/
+.vscode/
