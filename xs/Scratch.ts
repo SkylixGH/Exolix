@@ -1,57 +1,16 @@
-// Simple markdown parser
+import { Emitter, EventMap } from "@skylixgh/elixor-events";
 
-import { Lexer } from "@skylixgh/elixor-lexer";
-
-interface Tokens {
-    newLine: RegExp;
-    comment: RegExp;
-    header: RegExp;
-    codeFence: RegExp;
-    space: RegExp;
-    text: RegExp;
+interface E extends EventMap {
+    hi: () => void;
 }
 
-const tree: Tokens = {
-    newLine: /^\n/,
-    comment: /^\/\//,
-    header: /^#{1,6}\s+/,
-    codeFence: /^```/,
-    space: /^\s+/,
-    text: /^[^\n]+/
-}
+const e = new Emitter<E>();
+const x = e.on("hi", () => {
+    console.log("Compositon working");
+});
 
-class MD {
-    constructor(data: string) {
-        const lexer = new Lexer<Tokens>(tree, data);
-        const tokens = lexer.tokens;
+e.emit("hi");
+console.log(x);
 
-        const ast = [] as any[];
-
-        let contextOf = null as null | string;
-        let mesh: any;
-
-        tokens.forEach((token, index) => {
-            if (contextOf === null) {
-                if (token.type === "header") {
-                    mesh = {
-                        type: "header",
-                        level: token.value.length - 1,
-                    };
-
-                    contextOf = "header:an";
-                }
-            } else {
-                if (contextOf === "header:an") {
-                    ast.push(mesh);
-                    contextOf = null;
-                }
-            }
-        });
-
-        console.log(ast);
-    }
-} 
-
-const p = new MD(`# Hello World
-## Hello Worldd
-######Invalid`);
+e.off(x);
+e.emit("hi");

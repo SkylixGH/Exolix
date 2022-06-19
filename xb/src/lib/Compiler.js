@@ -21,6 +21,7 @@ export default class Compiler {
             bundle: true,
             external: Object.keys(this.#project.pkg.dependencies ?? {}),
             sourcemap: "inline",
+            platform: "node",
         };
 
         try {
@@ -31,8 +32,8 @@ export default class Compiler {
                 banner: { js: "/* eslint-disable */\n" +
                     "import 'source-map-support/register.js';\n" },
             });
-        } catch {
-
+        } catch (e) {
+            console.log(e);
         }
 
         try {
@@ -43,8 +44,8 @@ export default class Compiler {
                 banner: { js: "/* eslint-disable */\n" +
                     "require('source-map-support/register');\n" },
             });
-        } catch {
-
+        } catch (e) {
+            console.log(e);
         }
     }
 }

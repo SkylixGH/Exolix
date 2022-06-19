@@ -3,7 +3,9 @@
     "type": "module",
     "dependencies": {
         "client": "file:../packages/client",
+        "color": "file:../packages/color",
         "desktop": "file:../packages/desktop",
+        "events": "file:../packages/events",
         "lexer": "file:../packages/lexer",
         "mobile": "file:../packages/mobile",
         "pluginHost": "file:../packages/pluginHost",

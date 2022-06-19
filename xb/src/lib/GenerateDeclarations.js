@@ -14,5 +14,10 @@ export default function generateDeclarations(project, watch) {
     spawn(path.join(project.elixorRoot, "./node_modules/typescript/bin/tsc"), flags, {
         stdio: "inherit",
         cwd: path.join(project.elixorRoot)
+    }).on("error", () => {
+        spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "tsc", ...flags ], {
+            stdio: "inherit",
+            cwd: path.join(project.elixorRoot)
+        });
     });
 }
