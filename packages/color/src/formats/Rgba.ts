@@ -1,3 +1,4 @@
+import rgbHex from "rgb-hex";
 import PixelBrightness from "../color/PixelBrightness";
 import Rgb from "./Rgb";
 
@@ -27,6 +28,6 @@ export default class Rgba extends Rgb {
      * Get the RGBA color in a hexadecimal string format.
      */
     public get hex(): string {
-        return this.red.toString(16) + this.green.toString(16) + this.blue.toString(16) + this.alpha.toString(16);
+        return rgbHex(this.red, this.green, this.blue, this.alpha);
     }
 }

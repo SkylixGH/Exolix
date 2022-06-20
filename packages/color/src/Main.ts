@@ -1,3 +1,4 @@
+import Color from "./color/Color";
 import PixelBrightness from "./color/PixelBrightness";
 import Rgb from "./formats/Rgb";
 import Rgba from "./formats/Rgba";

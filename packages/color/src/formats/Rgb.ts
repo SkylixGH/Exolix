@@ -1,4 +1,5 @@
 import PixelBrightness from "../color/PixelBrightness";
+import rgbHex from "rgb-hex";
 
 /**
  * A class used for representing colors in the RGB color space format.
@@ -36,6 +37,6 @@ export default class Rgb {
      * Get the RGB color in a hexadecimal string format.
      */
     public get hex(): string {
-        return this.red.toString(16) + this.green.toString(16) + this.blue.toString(16);
+        return rgbHex(this.red, this.green, this.blue);
     }
 }

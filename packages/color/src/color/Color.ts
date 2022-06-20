@@ -1,6 +1,7 @@
 import Rgb from "../formats/Rgb";
 import Rgba from "../formats/Rgba";
 import PixelBrightness from "./PixelBrightness";
+import nearestColor from "nearest-color";
 
 /**
  * A class used to represent a color.
@@ -170,10 +171,27 @@ export default class Color {
         if (list.length === 0)
             return undefined;
 
-        let closest: Color | undefined;
+        const nns = nearestColor.from(Object.assign(list.map(c => "#" + c.hex)));
+        const result = nns(this.hex);
 
-        
+        if (result === undefined)
+            return undefined;
 
-        return closest;
+        const match = list.find(c => ("#" + c.hex) === result);
+
+        if (match === undefined)
+            return undefined;
+
+        return match;
+    }
+
+    /**
+     * The color as a hex string.
+     */
+    public get hex(): string {
+        if (this.alpha === 255)
+            return this.rgb.hex;
+
+        return this.rgba.hex;
     }
 }
