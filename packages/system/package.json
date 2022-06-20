@@ -1,11 +1,12 @@
 {
-    "name": "@skylixgh/elixor-color",
+    "name": "@skylixgh/elixor-system",
     "type": "module",
     "version": "1.0.0-alpha",
-    "description": "This library is used for dealing with colors of all types in NodeJS.",
-    "homepage": "https://skylix.net/foss/elixor/color",
+    "description": "This library is for working with system information.",
+    "homepage": "https://skylix.net/foss/elixor/system",
     "main": "./build/cjs/build.cjs",
     "types": "./build/types/Main.d.ts",
+    "cxx": true,
     "exports": {
         "import": "./build/esm/build.js",
         "require": "./build/cjs/build.cjs"
@@ -17,9 +18,8 @@
     },
     "dependencies": {
         "@types/node": "^17.0.40",
-        "nearest-color": "^0.4.4",
-        "rgb-hex": "^4.0.0",
-        "source-map-support": "^0.5.21"
+        "source-map-support": "^0.5.21",
+        "nan": "2.16.0"
     },
     "devDependencies": {}
 }

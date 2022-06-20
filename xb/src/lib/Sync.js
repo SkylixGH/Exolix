@@ -32,6 +32,7 @@ export default function sync() {
             homepage: opkg.homepage,
             main: "./build/cjs/build.cjs",
             types: "./build/types/Main.d.ts",
+            cxx: opkg.cxx,
             exports: {
                 import: "./build/esm/build.js",
                 require: "./build/cjs/build.cjs"
@@ -45,6 +46,7 @@ export default function sync() {
                 ...opkg.dependencies,
                 "source-map-support": "^0.5.21",
                 "@types/node": "^17.0.40",
+                ...(opkg.cxx ? { "nan": "2.16.0" } : {}),
             },
             devDependencies: {
                 ...opkg.devDependencies,
