@@ -21,7 +21,10 @@ export default class Project extends EventEmitter {
 
     autoEmitChanges() {
         chokidar.watch(this.path, {
-            ignored: ["node_modules", "**/*.d.ts", "build"],
+            ignored: [
+                path.join(this.path, "node_modules"),
+                path.join(this.path, "build"),
+            ],
             ignoreInitial: true
         }).on("all", (event, path) => {
             this.emit("change", event, path);

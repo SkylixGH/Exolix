@@ -19,7 +19,8 @@
     "dependencies": {
         "@types/node": "^17.0.40",
         "source-map-support": "^0.5.21",
-        "nan": "2.16.0"
+        "nan": "^2.16.0",
+        "cmake-js": "^6.3.2"
     },
     "devDependencies": {}
 }

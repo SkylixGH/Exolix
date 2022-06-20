@@ -5,12 +5,12 @@ export default function compileCxx(project, init) {
     if (!project.pkg.cxx) return;
 
     if (init) {
-        const proc = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "compile" ], {
+        const proc = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "cmake-js", "compile" ], {
             cwd: path.join(project.path, "native"),
             stdio: "inherit"
         });
     } else {
-        const proc = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "rebuild" ], {
+        const proc = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "cmake-js", "rebuild" ], {
             cwd: path.join(project.path, "native"),
             stdio: "inherit"
         });

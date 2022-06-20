@@ -26,7 +26,10 @@ export default function compile(watch) {
 
         p.on("change", (event, path) => {
             clr.run().then();
-            compileCxx(p, false);
+
+            if (path.endsWith(".cxx") || path.endsWith(".hxx"))
+                compileCxx(p, true);
+                
             console.log("Changed:", event, path);
         });
     });

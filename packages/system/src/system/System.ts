@@ -5,7 +5,7 @@ export default class System {
     /**
      * If the process is running with elevated privileges.
      */
-    public get isElevated() {
+    public static get isElevated() {
         const os = this.osType;
 
         if (os === "Unix")
@@ -20,7 +20,7 @@ export default class System {
     /**
      * The operating system type.
      */
-    public get osType() {
+    public static get osType() {
         let type: "Unix" | "Windows" | "Other" = "Other";
 
         if (process.platform === "win32") {
