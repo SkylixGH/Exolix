@@ -1,5 +1,6 @@
 // hello.cc
 #include <node.h>
+#include <iostream>
 
 namespace demo {
 
@@ -14,6 +15,8 @@ void Method(const FunctionCallbackInfo<Value>& args) {
   Isolate* isolate = args.GetIsolate();
   args.GetReturnValue().Set(String::NewFromUtf8(
       isolate, "world").ToLocalChecked());
+
+    std::cout << "Works" << std::endl;
 }
 
 void Initialize(Local<Object> exports) {

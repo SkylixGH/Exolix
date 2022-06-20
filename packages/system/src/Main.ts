@@ -2,8 +2,8 @@ import System from "./system/System";
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
-const module = require("../Release/native.node");
+const modulee = require("../Release/native.node");
 
-console.log(module);
+modulee.hello();
 
 export { System };
