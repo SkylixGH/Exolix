@@ -1,7 +1,7 @@
 <div align="center">
     <br />
     <br />
-    <img src="resources/ElixorLogo.svg" width="150" height="150" />
+    <img src="resources/ElixorBanner.svg" />
     <br />
     <br />
     <br />
