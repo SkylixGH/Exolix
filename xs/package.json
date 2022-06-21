@@ -13,7 +13,6 @@
         "server": "file:../packages/server",
         "system": "file:../packages/system",
         "terminal": "file:../packages/terminal",
-        "threads": "file:../packages/threads",
         "timers": "file:../packages/timers"
     },
     "devDependencies": {

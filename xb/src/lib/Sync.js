@@ -47,7 +47,7 @@ export default function sync() {
                 "source-map-support": "^0.5.21",
                 "@types/node": "^17.0.40",
                 ...(opkg.cxx ? { 
-                    "nan": "^2.16.0",
+                    "node-addon-api": "^5.0.0",
                     "cmake-js": "^6.3.2" 
                 } : {}),
             },

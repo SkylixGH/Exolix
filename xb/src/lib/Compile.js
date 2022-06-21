@@ -16,8 +16,8 @@ export default function compile(watch) {
         const clr = new Compiler(p);
 
         await clr.run();
-        compileCxx(p, true);
-        generateDeclarations(p, watch);
+        await compileCxx(p, true);
+        await generateDeclarations(p, watch);
 
         if (watch)
             p.autoEmitChanges();

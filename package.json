@@ -10,8 +10,7 @@
   "scripts": {
     "build:now": "node xb/src/Build.js",
     "build:watch": "node xb/src/Watch.js",
-    "build:setup": "node xb/src/sys/Boot.js",
-    "postinstall": "npm run build:setup"
+    "build:setup": "node xb/src/sys/Boot.js"
   },
   "devDependencies": {
     "typescript": "^4.7.3"

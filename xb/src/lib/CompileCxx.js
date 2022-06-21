@@ -4,22 +4,30 @@ import path from "path";
 let procCurr;
 
 export default function compileCxx(project, init) {
-    if (!project.pkg.cxx) return;
+    return new Promise((resolve, reject) => {
+        if (!project.pkg.cxx) return;
 
-    if (procCurr) {
-        procCurr.kill();
-        procCurr = null;
-    }
+        if (procCurr) {
+            procCurr.kill();
+            procCurr = null;
+        }
 
-    if (init) {
-        procCurr = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "cmake-js", "compile" ], {
-            cwd: path.join(project.path, "native"),
-            stdio: "inherit"
-        });
-    } else {
-        procCurr = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), [ "cmake-js", "rebuild" ], {
-            cwd: path.join(project.path, "native"),
-            stdio: "inherit"
-        });
-    }
+        if (init) {
+            procCurr = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), ["cmake-js", "compile"], {
+                cwd: path.join(project.path, "native"),
+                stdio: "inherit"
+            }).on("exit", (code) => {
+                if (code == 0) resolve();
+                reject(code);
+            });
+        } else {
+            procCurr = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), ["cmake-js", "rebuild"], {
+                cwd: path.join(project.path, "native"),
+                stdio: "inherit"
+            }).on("exit", (code) => {
+                if (code == 0) resolve();
+                reject(code);
+            });
+        }
+    });
 }
