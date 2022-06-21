@@ -7,6 +7,7 @@ packages/*/build/
 
 #      ------              Elixor Files            ------      #
 xs/build/
+packages/*/cmake-build-debug/
 
 #      ------         Non Skylix IDE Files         ------      #
 .idea/
