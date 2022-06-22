@@ -1,7 +1,7 @@
 import { createRequire } from "module";
 
 const require = createRequire(import.meta.url);
-const native = require("../Release/NativeSystem.node");
+const native = require("../bin/build.node");
 
 /**
  * A class for accessing system utils.
@@ -44,9 +44,5 @@ export default class System {
      */
     public static get logicProcessors() {
         return native.getProcessorThreads() as number;
-    }
-
-    public static get native() {
-        return native;
     }
 }

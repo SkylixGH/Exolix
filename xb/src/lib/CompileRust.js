@@ -1,11 +1,10 @@
 import { spawn } from "child_process";
-import path from "path";
 
 let procCurr;
 
-export default function compileCxx(project, init) {
+export default function compileRust(project, init) {
     return new Promise((resolve, reject) => {
-        if (!project.pkg.cxx) return;
+        if (!project.pkg.rust) return;
 
         if (procCurr) {
             procCurr.kill();
@@ -13,16 +12,16 @@ export default function compileCxx(project, init) {
         }
 
         if (init) {
-            procCurr = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), ["cmake-js", "compile"], {
-                cwd: path.join(project.path, "native"),
+            procCurr = spawn("npm" + (process.platform === "win32" ? ".cmd" : ""), ["run", "build:rust"], {
+                cwd: project.path,
                 stdio: "inherit"
             }).on("exit", (code) => {
                 if (code == 0) resolve();
                 reject(code);
             });
         } else {
-            procCurr = spawn("npx" + (process.platform === "win32" ? ".cmd" : ""), ["cmake-js", "rebuild"], {
-                cwd: path.join(project.path, "native"),
+            procCurr = spawn("npm" + (process.platform === "win32" ? ".cmd" : ""), ["run", "build:rust"], {
+                cwd: project.path,
                 stdio: "inherit"
             }).on("exit", (code) => {
                 if (code == 0) resolve();

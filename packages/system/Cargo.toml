@@ -1,0 +1,16 @@
+[package]
+name = "elixor-system"
+version = "0.0.0"
+edition = "2018"
+exclude = ["native.node"]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+num_cpus = "1"
+
+[dependencies.neon]
+version = "0.9"
+default-features = false
+features = ["napi-6"]

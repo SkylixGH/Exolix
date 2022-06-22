@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import generateDeclarations from "./GenerateDeclarations.js";
-import compileCxx from "./CompileCxx.js";
+import compileRust from "./CompileRust.js";
 
 const fileName = fileURLToPath(import.meta.url);
 const dirName = path.dirname(fileName);
@@ -16,7 +16,7 @@ export default function compile(watch) {
         const clr = new Compiler(p);
 
         await clr.run();
-        await compileCxx(p, true);
+        await compileRust(p, true);
         await generateDeclarations(p, watch);
 
         if (watch)
@@ -28,7 +28,7 @@ export default function compile(watch) {
             clr.run().then();
 
             if (path.endsWith(".cxx") || path.endsWith(".hxx"))
-                compileCxx(p, true);
+                compileRust(p, true);
                 
             console.log("Changed:", event, path);
         });

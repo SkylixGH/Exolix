@@ -32,7 +32,7 @@ export default function sync() {
             homepage: opkg.homepage,
             main: "./build/cjs/build.cjs",
             types: "./build/types/Main.d.ts",
-            cxx: opkg.cxx,
+            rust: opkg.rust,
             exports: {
                 import: "./build/esm/build.js",
                 require: "./build/cjs/build.cjs"
@@ -46,14 +46,21 @@ export default function sync() {
                 ...opkg.dependencies,
                 "source-map-support": "^0.5.21",
                 "@types/node": "^17.0.40",
-                ...(opkg.cxx ? { 
-                    "node-addon-api": "^5.0.0",
-                    "cmake-js": "^6.3.2" 
+                ...(opkg.rust ? {
+                    "cargo-cp-artifact": "^0.1.6"
                 } : {}),
             },
             devDependencies: {
                 ...opkg.devDependencies,
             },
+        }
+
+        const scripts = {
+            ...(packageData.rust ? { "build:rust": "cargo-cp-artifact -nc build/bin/build.node -- cargo build --message-format=json-render-diagnostics" } : {}),
+        };
+
+        if (Object.keys(scripts).length > 0) {
+            packageData.scripts = scripts;
         }
 
         Object.keys(opkg).forEach(key => {
