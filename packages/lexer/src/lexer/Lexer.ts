@@ -48,8 +48,7 @@ export default class Lexer<Structure extends Object> {
         });
 
         if (badItem) {
-            // TODO: Add a warning
-            
+
         }
     }
 

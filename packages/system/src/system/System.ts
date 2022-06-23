@@ -43,6 +43,10 @@ export default class System {
      * The number of logic processors on the system.
      */
     public static get logicProcessors() {
-        return native.getProcessorThreads() as number;
+        return native.getThreadCount() as number;
+    }
+
+    public static glw() {
+        native.createGLW();
     }
 }

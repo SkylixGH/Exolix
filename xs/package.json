@@ -6,6 +6,7 @@
         "color": "file:../packages/color",
         "desktop": "file:../packages/desktop",
         "events": "file:../packages/events",
+        "internal": "file:../packages/internal",
         "lexer": "file:../packages/lexer",
         "mobile": "file:../packages/mobile",
         "pluginHost": "file:../packages/pluginHost",
