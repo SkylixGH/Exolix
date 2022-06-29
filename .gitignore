@@ -1,13 +1,9 @@
 #      ------      Skylix Git Ignore Template      ------      #
 # This GitIgnore template is under the MIT license and can be used freely.
 
-#      ------              NodeJS Files            ------      #
-node_modules/
-packages/*/build/
-
 #      ------              Elixor Files            ------      #
-xs/build/
-packages/*/target/
+target/
+scratches/target/
 
 #      ------         Non Skylix IDE Files         ------      #
 .idea/
