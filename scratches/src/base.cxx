@@ -1,10 +1,9 @@
-#include <elixor.hxx>
-#include <iostream>
+#include <elixor/server/Server.hxx>
 
 using namespace Elixor;
 
 int main() {
-    std::cout << "Testing elixor..." << std::endl;
-    test();
+
+
     return 0;
 }
