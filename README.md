@@ -16,4 +16,4 @@
 |--------------|-----------------------------------------------------------------|
 | `/packages/` | The main class of the framework.                                |
 | `/xb/`       | The base level compiler tools for Elixor to run.                |
- | `/xs`        | The project scratch files for testing functions in development. |
+| `/xs`        | The project scratch files for testing functions in development. |
