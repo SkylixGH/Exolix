@@ -1,9 +1,0 @@
-[submodule "deps/machinezone/IXWebSocket"]
-	path = deps/machinezone/IXWebSocket
-	url = https://github.com/machinezone/IXWebSocket
-[submodule "deps/zaphoyd/websocketpp"]
-	path = deps/zaphoyd/websocketpp
-	url = https://github.com/zaphoyd/websocketpp
-[submodule "deps/Qihoo360/evpp"]
-	path = deps/Qihoo360/evpp
-	url = https://github.com/Qihoo360/evpp
