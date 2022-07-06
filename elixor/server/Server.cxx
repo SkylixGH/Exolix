@@ -3,18 +3,44 @@
 
 using namespace std;
 
-Elixor::Server::Server::Server() {
-    std::cout << "Server::Server()" << std::endl;
-}
+namespace Elixor::Server {
+    Server::Server(int port) {
+        this->port = port;
+        this->host = "127.0.0.1";
 
-Elixor::Server::Server::~Server() {
-    std::cout << "Server::~Server()" << std::endl;
-}
+#ifdef __linux__
+        linuxServer = TCPLinuxServer(port);
+#endif
+    }
 
-void Elixor::Server::Server::Start() {
-    std::cout << "Server::Start()" << std::endl;
-}
+    Server::~Server() {
+#ifdef __linux__
+        linuxServer.Stop();
+#endif
+    }
 
-void Elixor::Server::Server::Stop() {
-    std::cout << "Server::Stop()" << std::endl;
+    void Server::Start() {
+#ifdef __linux__
+        linuxServer.Start();
+#endif
+    }
+
+    void Server::Stop() {
+#ifdef __linux__
+        linuxServer.Stop();
+#endif
+    }
+
+    pair<string, int> Server::GetAddress() {
+        return make_pair(host, port);
+    }
+
+    void Server::SetAddress(string host, int port) {
+        this->host = host;
+        this->port = port;
+
+#ifdef __linux__
+        linuxServer.SetAddress(host, port);
+#endif
+    }
 }
