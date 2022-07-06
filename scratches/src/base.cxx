@@ -1,9 +1,9 @@
 #include <elixor/server/Server.hxx>
 
-using namespace Elixor;
+using namespace Elixor::Server;
 
 int main() {
+    Server server;
 
-
-    return 0;
+    server.Start();
 }
