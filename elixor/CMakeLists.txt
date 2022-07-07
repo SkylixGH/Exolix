@@ -1,8 +1,11 @@
 file(
         GLOB Elixor_SRC_FILES
         src/**/*.cxx
+        src/**/*.hxx
+        src/**/**/*.cxx
+        src/**/**/*.hxx
         src/*.cxx
-        include/elixor.hxx
+        src/*.hxx
 )
 
 add_library(Elixor STATIC ${Elixor_SRC_FILES})
