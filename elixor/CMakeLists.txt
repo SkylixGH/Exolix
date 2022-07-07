@@ -1,16 +1,9 @@
-project(elixor)
-
 file(
-        GLOB SRC_FILES
-        **/*.cxx
-        **/*.hxx
-        */**/*.cxx
-        */**/*.hxx
+        GLOB Elixor_SRC_FILES
+        src/**/*.cxx
+        src/*.cxx
+        include/elixor.hxx
 )
 
-add_library(elixor ${SRC_FILES})
-
-target_include_directories(
-    elixor
-    PUBLIC ${CMAKE_SOURCE_DIR}
-)
+add_library(Elixor STATIC ${Elixor_SRC_FILES})
+target_include_directories(Elixor PUBLIC include)
