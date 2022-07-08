@@ -1,4 +1,5 @@
 #include <elixor.hxx>
+#include <iostream>
 
 #ifdef __linux__
     #include <stdio.h>
