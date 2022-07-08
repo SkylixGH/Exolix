@@ -1,23 +1,21 @@
 #include <elixor.hxx>
 
 #ifdef __linux__
-    #include <stdio.h>
-    #include <sys/types.h>
     #include <sys/socket.h>
     #include <netinet/in.h>
     #include <strings.h>
     #include <unistd.h>
+    #include <stdio.h>
 #endif
 
 using namespace std;
 using namespace Elixor::Internal;
 
 namespace Elixor::Server::Linux {
-    LinuxSocket::LinuxSocket() {
+    LinuxSocket::LinuxSocket(const string host, const int port) {
         #ifdef __linux__
             const int socketFD = socket(AF_INET, SOCK_STREAM, 0);
             int newSocketFD;
-            int port = 8080;
             int clientLength;
 
             struct sockaddr_in serverAddress;

@@ -13,7 +13,7 @@ using namespace Elixor::Internal;
 namespace Elixor::Server::Win32 {
     Win32Socket::Win32Socket() {
         #ifdef _WIN32
-            // Implement server from video here
+            // Implement server
         #endif
     }
 }

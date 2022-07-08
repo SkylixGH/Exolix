@@ -1,8 +1,17 @@
 #pragma once
 
+#include <iostream>
+
+using namespace std;
+
 namespace Elixor::Server::Linux {
     class LinuxSocket {
+    private:
     public:
-        LinuxSocket();
+        LinuxSocket(const string host, const int port);
+        ~LinuxSocket();
+
+        void OnConnect();
+        void OnMessage();
     };
 }

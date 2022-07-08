@@ -15,9 +15,5 @@ namespace Elixor::Server::MacOS {
         #ifdef TARGET_OS_MAC
             cout << "Your on macOS";
         #endif
-
-        #ifndef TARGET_OS_MAC
-            cout << "Not on mac";
-        #endif
     }
 }
