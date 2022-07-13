@@ -6,6 +6,7 @@
   "dependencies": {
   },
   "scripts": {
-    "format": "node clang/format.js"
+    "format": "node clang/format.js",
+    "scratch": "node cmake/run.js"
   }
 }

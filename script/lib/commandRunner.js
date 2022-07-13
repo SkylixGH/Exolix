@@ -14,9 +14,10 @@ const runningProcesses = [];
  * @param location The location CWD relative to the source root.
  * @param command The command to run.
  * @param name The command process name, this isn't the executable, just an identifier for when logging.
+ * @param onDone Callback when the command is done.
  * @return The process ID.
  */
-export function commandRunner(location, command, name) {
+export function commandRunner(location, command, name, onDone = () => {}) {
     console.log(`[ Info ] Executing '${command}' for ${name}`);
     console.log(`[ Info ] CWD: ${path.join(projectRoot, location)}`);
 
@@ -36,8 +37,19 @@ export function commandRunner(location, command, name) {
         });
     });
 
+    processSpawn.on("close", code => {
+        console.log(`[ ${name} ] Exit code: ${code}`);
+        onDone?.(code);
+    });
+
     runningProcesses.push(processSpawn.pid);
     return processSpawn.pid;
+}
+
+export async function commandRunnerAsync(location, command, name) {
+    return new Promise((resolve, reject) => {
+        commandRunner(location, command, name, resolve);
+    });
 }
 
 /**

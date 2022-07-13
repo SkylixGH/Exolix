@@ -7,4 +7,4 @@ using namespace Elixor::Server::Win32;
 using namespace Elixor::Internal;
 using namespace std;
 
-int main() { LinuxSocket socket("localhost", 8080); }
+int main() { new LinuxSocket("localhost", 8080); }
