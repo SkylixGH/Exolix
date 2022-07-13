@@ -10,10 +10,14 @@
 using namespace std;
 using namespace Elixor::Internal;
 
-namespace Elixor::Server::Win32 {
+namespace Elixor {
+namespace Server {
+namespace Win32 {
 Win32Socket::Win32Socket() {
 #ifdef _WIN32
   // Implement server
 #endif
 }
-} // namespace Elixor::Server::Win32
+} // namespace Win32
+} // namespace Server
+} // namespace Elixor
