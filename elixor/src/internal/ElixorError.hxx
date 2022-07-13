@@ -5,14 +5,14 @@
 using namespace std;
 
 namespace Elixor::Internal {
-    class ElixorError : public exception {
-    private:
-        string code;
-        string message;
+class ElixorError : public exception {
+private:
+  string code;
+  string message;
 
-    public:
-        ElixorError(const string code, const string message);
-        string what();
-        string getReason();
-    };
-}
+public:
+  ElixorError(const string code, const string message);
+  string what();
+  string getReason();
+};
+} // namespace Elixor::Internal

@@ -5,13 +5,13 @@
 using namespace std;
 
 namespace Elixor::Server::Linux {
-    class LinuxSocket {
-    private:
-    public:
-        LinuxSocket(const string host, const int port);
-        ~LinuxSocket();
+class LinuxSocket {
+private:
+public:
+  LinuxSocket(const string host, const int port);
+  ~LinuxSocket();
 
-        void OnConnect();
-        void OnMessage();
-    };
-}
+  void OnConnect();
+  void OnMessage();
+};
+} // namespace Elixor::Server::Linux

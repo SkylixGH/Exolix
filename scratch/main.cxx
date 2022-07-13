@@ -7,8 +7,4 @@ using namespace Elixor::Server::Win32;
 using namespace Elixor::Internal;
 using namespace std;
 
-int main() {
-    LinuxSocket socket;
-    MacOSSocket mac;
-    Win32Socket win32;
-}
+int main() { LinuxSocket socket("localhost", 8080); }

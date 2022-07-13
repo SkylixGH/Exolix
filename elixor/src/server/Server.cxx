@@ -2,7 +2,5 @@
 #include <iostream>
 
 namespace Elixor::Server {
-    Server::Server() {
-        std::cout << "Hi Lol";
-    }
-}
+Server::Server() { std::cout << "Hi Lol"; }
+} // namespace Elixor::Server

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="VcsDirectoryMappings">
+    <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/Qihoo360/evpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/Qihoo360/evpp/3rdparty/concurrentqueue" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/machinezone/IXWebSocket" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/deps/zaphoyd/websocketpp" vcs="Git" />
+  </component>
+</project>

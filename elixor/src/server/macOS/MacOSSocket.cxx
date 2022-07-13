@@ -2,18 +2,18 @@
 #include <iostream>
 
 #ifdef __APPLE__
-    #include "TargetConditionals.h"
+#include "TargetConditionals.h"
 
-    #ifdef TARGET_OS_MAC
-    #endif
+#ifdef TARGET_OS_MAC
+#endif
 #endif
 
 using namespace std;
 
 namespace Elixor::Server::MacOS {
-    MacOSSocket::MacOSSocket() {
-        #ifdef TARGET_OS_MAC
-            cout << "Your on macOS";
-        #endif
-    }
+MacOSSocket::MacOSSocket() {
+#ifdef TARGET_OS_MAC
+  cout << "Your on macOS";
+#endif
 }
+} // namespace Elixor::Server::MacOS
