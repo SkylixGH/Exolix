@@ -3,9 +3,7 @@
 namespace Elixor {
     namespace Server {
         namespace WebSocket {
-            WebSocketBackend::WebSocketBackend() {
-
-            }
-        }
-    }
-}
+            WebSocketBackend::WebSocketBackend() {}
+        } // namespace WebSocket
+    }     // namespace Server
+} // namespace Elixor

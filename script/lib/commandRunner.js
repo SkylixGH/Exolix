@@ -1,5 +1,6 @@
-import { exec } from 'child_process';
+import {exec} from "child_process";
 import * as path from "path";
+
 import {projectRoot} from "./meta.js";
 
 /**
@@ -13,7 +14,8 @@ const runningProcesses = [];
  *
  * @param location The location CWD relative to the source root.
  * @param command The command to run.
- * @param name The command process name, this isn't the executable, just an identifier for when logging.
+ * @param name The command process name, this isn't the executable, just an
+ *     identifier for when logging.
  * @param onDone Callback when the command is done.
  * @return The process ID.
  */
@@ -21,10 +23,9 @@ export function commandRunner(location, command, name, onDone = () => {}) {
     console.log(`[ Info ] Executing '${command}' for ${name}`);
     console.log(`[ Info ] CWD: ${path.join(projectRoot, location)}`);
 
-    const processSpawn = exec(command ?? "echo err", {
-        cwd: path.join(projectRoot, location),
-        shell: true
-    });
+    const processSpawn =
+        exec(command ?? "echo err",
+             {cwd : path.join(projectRoot, location), shell : true});
 
     function processData(data) {
         if (data.endsWith("\n")) {
@@ -35,15 +36,13 @@ export function commandRunner(location, command, name, onDone = () => {}) {
     }
 
     processSpawn.stdout.on("data", data => {
-        processData(data).forEach(line => {
-            console.log(`[ ${name} ] OUT: ${line}`);
-        });
+        processData(data).forEach(
+            line => { console.log(`[ ${name} ] OUT: ${line}`); });
     });
 
     processSpawn.stderr.on("data", data => {
-        processData(data).forEach(line => {
-            console.error(`[ ${name} ] ERR: ${line}`);
-        });
+        processData(data).forEach(
+            line => { console.error(`[ ${name} ] ERR: ${line}`); });
     });
 
     processSpawn.on("close", code => {
@@ -56,9 +55,9 @@ export function commandRunner(location, command, name, onDone = () => {}) {
 }
 
 export async function commandRunnerAsync(location, command, name) {
-    return new Promise((resolve, reject) => {
-        commandRunner(location, command, name, resolve);
-    });
+    return new Promise(
+        (resolve,
+         reject) => { commandRunner(location, command, name, resolve); });
 }
 
 /**

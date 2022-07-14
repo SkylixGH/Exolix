@@ -1,12 +1,11 @@
 {
-  "name": "script",
-  "type": "module",
-  "private": true,
-  "version": "1.0.0",
-  "dependencies": {
-  },
-  "scripts": {
-    "format": "node clang/format.js",
-    "scratch": "node cmake/run.js"
-  }
+    "name": "script",
+    "type": "module",
+    "private": true,
+    "version": "1.0.0",
+    "dependencies": {},
+    "scripts": {
+        "format": "node clang/format.js",
+        "scratch": "node cmake/run.js"
+    }
 }

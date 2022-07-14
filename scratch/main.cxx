@@ -4,6 +4,4 @@
 using namespace Elixor::Internal;
 using namespace std;
 
-int main() {
-
-}
+int main() {}

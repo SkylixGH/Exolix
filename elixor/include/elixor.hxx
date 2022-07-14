@@ -1,6 +1,7 @@
 #pragma once
 
-// Includes placed here will be PUBLICLY avaliable, do not add internal headers here!!!
+// Includes placed here will be PUBLICLY available, do not add internal headers
+// here!!!
 
-#include <../src/internal/ElixorError.hxx>
 #include "../src/server/Server.hxx"
+#include <../src/internal/ElixorError.hxx>

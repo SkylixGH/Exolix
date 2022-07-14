@@ -3,17 +3,17 @@
 #include <ixwebsocket/IXWebSocketServer.h>
 
 namespace Elixor {
-namespace Server {
-namespace WebSocket {
-    class WebSocketBackend {
-    private:
-        bool hasInitiallyStarted = false;
-        ix::WebSocketServer server;
+    namespace Server {
+        namespace WebSocket {
+            class WebSocketBackend {
+            private:
+                bool hasInitiallyStarted = false;
+                ix::WebSocketServer server;
 
-    public:
-        WebSocketBackend();
-        ~WebSocketBackend();
-    };
-}
-}
-}
+            public:
+                WebSocketBackend();
+                ~WebSocketBackend();
+            };
+        } // namespace WebSocket
+    }     // namespace Server
+} // namespace Elixor
