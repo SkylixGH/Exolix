@@ -1,8 +1,8 @@
 #pragma once
 
-namespace Elixor::Server {
+namespace Elixor { namespace Server {
 class Server {
 public:
   Server();
 };
-} // namespace Elixor::Server
+} } // namespace Elixor::Server

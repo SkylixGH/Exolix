@@ -22,17 +22,26 @@ export function commandRunner(location, command, name, onDone = () => {}) {
     console.log(`[ Info ] CWD: ${path.join(projectRoot, location)}`);
 
     const processSpawn = exec(command ?? "echo err", {
-        cwd: path.join(projectRoot, location)
+        cwd: path.join(projectRoot, location),
+        shell: true
     });
 
+    function processData(data) {
+        if (data.endsWith("\n")) {
+            return data.slice(0, -2).split("\n");
+        }
+
+        return data.split("\n");
+    }
+
     processSpawn.stdout.on("data", data => {
-        data.split("\n").forEach(line => {
+        processData(data).forEach(line => {
             console.log(`[ ${name} ] OUT: ${line}`);
         });
     });
 
     processSpawn.stderr.on("data", data => {
-        data.split("\n").forEach(line => {
+        processData(data).forEach(line => {
             console.error(`[ ${name} ] ERR: ${line}`);
         });
     });

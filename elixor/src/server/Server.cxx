@@ -1,6 +1,6 @@
-#include <elixor.hxx>
+#include "Server.hxx"
 #include <iostream>
 
-namespace Elixor::Server {
+namespace Elixor { namespace Server {
 Server::Server() { std::cout << "Hi Lol"; }
-} // namespace Elixor::Server
+} } // namespace Elixor::Server

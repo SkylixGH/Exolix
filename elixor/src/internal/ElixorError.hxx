@@ -4,7 +4,7 @@
 
 using namespace std;
 
-namespace Elixor::Internal {
+namespace Elixor { namespace Internal {
 class ElixorError : public exception {
 private:
   string code;
@@ -15,4 +15,4 @@ public:
   string what();
   string getReason();
 };
-} // namespace Elixor::Internal
+} } // namespace Elixor::Internal

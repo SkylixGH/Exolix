@@ -1,0 +1,6 @@
+[submodule "external/machinezone/elixor"]
+	path = external/machinezone/elixor
+	url = https://github.com/skylixgh/elixor
+[submodule "cmake/cpm-cmake/CPM.cmake"]
+	path = cmake/cpm-cmake/CPM.cmake
+	url = https://github.com/cpm-cmake/CPM.cmake

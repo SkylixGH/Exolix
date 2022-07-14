@@ -1,9 +1,9 @@
-#include <elixor.hxx>
+#include "ElixorError.hxx"
 #include <iostream>
 
 using namespace std;
 
-namespace Elixor::Internal {
+namespace Elixor { namespace Internal {
 ElixorError::ElixorError(const string code, const string message) {
   this->code = code;
   this->message = message;
@@ -12,4 +12,4 @@ ElixorError::ElixorError(const string code, const string message) {
 string ElixorError::what() { return code + " -> " + message; }
 
 string ElixorError::getReason() { return code; }
-} // namespace Elixor::Internal
+} } // namespace Elixor::Internal
