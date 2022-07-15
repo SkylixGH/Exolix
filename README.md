@@ -15,12 +15,15 @@
 Installing Elixor into a CMake project is signifigantly easier as compared to other libraries! Simply add the following CMake code.
 ```cmake
 add_subdirectory(
-        # PATH TO ELIXOR DIRECTORY
+    # PATH TO ELIXOR DIRECTORY
 )
-
+target_link_libraries(
+    Elixor
+    PRIVATE # PATH TO ELIXOR DIRECTORY
+)
 target_include_directories(
-        # TARGET NAME
-        # PATH TO ELIXOR DIRECTORY
+    Elixor
+    PRIVATE # PATH TO ELIXOR DIRECTORY
 )
 ```
 
