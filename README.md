@@ -7,7 +7,7 @@
     <br /> 
     <div>
         <p>Elixor | A framework for creating applications of all types!</p>
-        <a href="https://discord.gg/b9vcR6evgG">Discord</a> - <a href="https://skylix.net/docs/elixor">Documentation</a>
+        <a href="https://discord.gg/b9vcR6evgG">Discord</a> - <a href="https://skylix.net/docs/elixor">Documentation</a> - <a href="https://skylix.net/projects/elixor">Elixor Homepage</a>
     </div>
 </div>
 
