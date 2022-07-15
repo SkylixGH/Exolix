@@ -18,9 +18,14 @@ add_subdirectory(
         # PATH TO ELIXOR DIRECTORY
 )
 
+target_link_libraries(
+    Elixor
+    PRIVATE # PATH TO ELIXOR DIRECTORY
+)
+
 target_include_directories(
-        # TARGET NAME
-        # PATH TO ELIXOR DIRECTORY
+    Elixor
+    PRIVATE # PATH TO ELIXOR DIRECTORY
 )
 ```
 
