@@ -19,5 +19,5 @@ CPMAddPackage(
         VERSION 11.4.3
 )
 
-target_link_libraries(Elixor PUBLIC ixwebsocket)
-target_include_directories(Elixor PUBLIC include)
+target_link_libraries(Elixor PRIVATE ixwebsocket)
+target_include_directories(Elixor PRIVATE ${ixwebsocket_SOURCE_DIR})

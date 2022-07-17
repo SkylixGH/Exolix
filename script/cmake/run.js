@@ -6,7 +6,7 @@ import {compile} from "../lib/compile.js";
 import {projectRoot} from "../lib/meta.js";
 
 async function runScratchProject(id) {
-    const file = (id == 0 ? "main" : `Scratch${id}`) +
+    const file = (id === 0 ? "main" : `Scratch${id}`) +
                  (process.platform === "win32" ? ".exe" : "");
     const subDirectory =
         process.platform === "win32"
@@ -19,6 +19,7 @@ async function runScratchProject(id) {
     const buildPath = path.join(projectRoot, "build", subDirectory, file);
     spawn(buildPath, [], {
         stdio : "inherit",
+        cwd: path.join(projectRoot, "scratch", id === 0 ? "" : `Scratch${id}`)
     });
 }
 

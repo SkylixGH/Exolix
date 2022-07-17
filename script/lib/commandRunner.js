@@ -29,7 +29,7 @@ export function commandRunner(location, command, name, onDone = () => {}) {
 
     function processData(data) {
         if (data.endsWith("\n")) {
-            return data.slice(0, -2).split("\n");
+            return data.slice(0, -1).split("\n");
         }
 
         return data.split("\n");

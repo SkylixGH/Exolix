@@ -11,9 +11,15 @@ namespace Elixor {
                 ix::WebSocketServer server;
 
             public:
+                /**
+                 * Create a new API gateway server.
+                 *
+                 * @param port The server port to listen on.
+                 * @param host The host that the server will open on.
+                 */
                 WebSocketBackend();
                 ~WebSocketBackend();
             };
         } // namespace WebSocket
-    }     // namespace Server
+    } // namespace Server
 } // namespace Elixor
