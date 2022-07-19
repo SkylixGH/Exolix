@@ -4,6 +4,10 @@ file(
         src/**/*.hxx
         src/**/**/*.cxx
         src/**/**/*.hxx
+        src/**/**/**/*.cxx
+        src/**/**/**/*.hxx
+        src/**/**/**/**/*.cxx
+        src/**/**/**/**/*.hxx
         src/*.cxx
         src/*.hxx
 )

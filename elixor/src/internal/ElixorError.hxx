@@ -2,19 +2,17 @@
 
 #include <iostream>
 
-using namespace std;
-
 namespace Elixor {
     namespace Internal {
-        class ElixorError : public exception {
+        class ElixorError : public std::exception {
         private:
-            string code;
-            string message;
+            std::string code;
+            std::string message;
 
         public:
-            ElixorError(const string code, const string message);
-            string what();
-            string getReason();
+            ElixorError(const std::string code, const std::string message);
+            std::string what();
+            std::string getReason();
         };
     } // namespace Internal
 } // namespace Elixor

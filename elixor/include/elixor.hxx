@@ -3,5 +3,8 @@
 // Includes placed here will be PUBLICLY available, do not add internal headers
 // here!!!
 
-#include "../src/server/Server.hxx"
-#include <../src/internal/ElixorError.hxx>
+// server
+#include "../src/server/websocket/WebSocketBackend.hxx"
+
+// internal
+#include "../src/internal/ElixorError.hxx"
