@@ -6,5 +6,8 @@
 // server
 #include "../src/server/websocket/WebSocketBackend.hxx"
 
+// system
+#include "../src/system/process/ThisProcess.hxx"
+
 // internal
 #include "../src/internal/ElixorError.hxx"
