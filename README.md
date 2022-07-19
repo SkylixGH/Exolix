@@ -54,3 +54,5 @@ New scratches can be added by running `npm run scratch:add` which will create a 
 ```
 npm run scratch -- --id 1 # This will run scratch project number 1, setting this to 0 will run main.cxx in the root scratch project
 ```
+## OS NOTICE
+The Elixor team is currrently working on supporting Linux, Android, Windows, IOS, And and Mac.
