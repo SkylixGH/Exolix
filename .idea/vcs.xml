@@ -7,5 +7,6 @@
     <mapping directory="$PROJECT_DIR$/deps/Qihoo360/evpp/3rdparty/concurrentqueue" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/deps/machinezone/IXWebSocket" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/deps/zaphoyd/websocketpp" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/elixor/externals/machinezone/IXWebSocket" vcs="Git" />
   </component>
 </project>

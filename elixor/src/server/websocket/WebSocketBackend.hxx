@@ -8,10 +8,13 @@ namespace Elixor {
         namespace WebSocket {
             class WebSocketBackend {
             private:
+                /**
+                 * The actual websocket server.
+                 */
                 ix::WebSocketServer server = NULL;
-                int port = NULL;
                 std::string host;
-                const bool sudoRights = geteuid() == 0;
+                bool online = false;
+                int port = NULL;
 
             public:
                 /**
@@ -20,7 +23,7 @@ namespace Elixor {
                  * @param port The server port to listen on.
                  * @param host The host that the server will open on.
                  */
-                WebSocketBackend();
+                WebSocketBackend(const int port = NULL, const std::string host = "localhost");
                 ~WebSocketBackend();
 
                 /**
@@ -32,6 +35,12 @@ namespace Elixor {
                  * Stop the WebSocket API server.
                  */
                 void stop();
+
+            private:
+                /**
+                 * Throw an error if the server is running.
+                 */
+                 void errorIfRunning();
             };
         } // namespace WebSocket
     } // namespace Server
