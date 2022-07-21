@@ -1,4 +1,10 @@
 #include "WebSocketBackend.hxx"
+#include "../../internal/ElixorError.hxx"
+#include "./errors/ServerErrors.hxx"
+#include <iostream>
+
+using Elixor::Internal::ElixorError;
+using Elixor::Server::WebSockets::Errors::ServerErrors;
 
 namespace Elixor {
     namespace Server {
@@ -11,11 +17,22 @@ namespace Elixor {
 
             WebSocketServer::~WebSocketServer() { this->stop(); }
 
-            void WebSocketServer::start() {}
+            void WebSocketServer::start() {
+                this->online = true;
+                this->errorIfRunning();
+            }
 
             void WebSocketServer::stop() {}
 
-            void WebSocketServer::errorIfRunning() {}
+            void WebSocketServer::errorIfRunning() {
+                if (!this->online)
+                    return;
+                throw ElixorError(
+                    Errors::BINDING_RESOURCE_CHANGED_WHILE_ONLINE,
+                    "Could not apply the new server settings, the server is "
+                    "already online, please stop it before changing settings "
+                    "relating to the server binding stages");
+            }
 
             void WebSocketServer::validateSettings() {}
         } // namespace WebSockets

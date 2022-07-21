@@ -11,6 +11,8 @@ namespace Elixor {
 
         public:
             ElixorError(const std::string code, const std::string message);
+            ElixorError(const int code, const std::string message);
+
             std::string what();
             std::string getReason();
         };
