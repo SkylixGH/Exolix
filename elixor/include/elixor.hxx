@@ -1,12 +1,12 @@
 #pragma once
 
-// Includes placed here will be PUBLICLY available, do not add internal headers
-// here!!!
+// server::websockets
+#include "../src/server/websockets/WebSocketBackend.hxx"
 
-// server
-#include "../src/server/websocket/WebSocketBackend.hxx"
+// server::websockets::errors
+#include "../src/server/websockets/errors/ServerErrors.hxx"
 
-// system
+// system::process
 #include "../src/system/process/ThisProcess.hxx"
 
 // internal
