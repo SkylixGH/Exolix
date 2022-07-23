@@ -1,0 +1,3 @@
+[submodule "elixor/external/machinezone/IXWebSocket"]
+	path = elixor/external/machinezone/IXWebSocket
+	url = https://github.com/machinezone/IXWebSocket
