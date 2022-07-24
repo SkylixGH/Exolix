@@ -12,7 +12,7 @@ const ext = [ "*.cxx", "*.hxx", "*.h", "*.c", "*.js", "*.json" ]
     }
 
 const ignoredFromRoot = [
-    "build", ".git", "resources", "script/node_modules", "cmake",
+    "build", ".git", "resource", "script/node_modules", "cmake",
     ".clang-format"
 ];
 

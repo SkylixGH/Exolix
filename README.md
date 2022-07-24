@@ -1,7 +1,7 @@
 <div align="center">
     <br />
     <br />
-    <img src="resources/ElixorBanner.svg" />
+    <img src="resource/ElixorBanner.svg" />
     <br />
     <br />
     <br /> 
