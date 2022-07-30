@@ -12,8 +12,7 @@ const ext = [ "*.cxx", "*.hxx", "*.h", "*.c", "*.js", "*.json" ]
     }
 
 const ignoredFromRoot = [
-    "build", ".git", "resource", "script/node_modules", "cmake",
-    ".clang-format"
+    "build", ".git", "resource", "script/node_modules", "cmake", ".clang-format"
 ];
 
 function recursiveFormat(loc) {

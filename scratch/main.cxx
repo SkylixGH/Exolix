@@ -1,17 +1,25 @@
 #include <elixor.hxx>
+#include <thread>
+#include <chrono>
 
 using namespace Elixor::System::Process;
 using namespace Elixor::Server::WebSockets;
 using namespace std;
 
 int main() {
-    bool iuac = ThisProcess::isElevated();
     WebSocketServer * wsServer = new WebSocketServer(8080);
 
-    cout << (iuac ? "The process is elevated" : "The process is NOT elevated")
-         << "\n";
+    thread timer([&wsServer] () {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        wsServer->stop();
+    });
 
     wsServer->start();
+    wsServer->block();
 
+    cout << "This is after start";
+
+    timer.join();
     return 0;
 }
