@@ -3,6 +3,7 @@
 #include "./errors/ServerErrors.hxx"
 #include <iostream>
 
+using namespace std;
 using Elixor::Internal::ElixorError;
 using Elixor::Server::WebSockets::Errors::ServerErrors;
 
@@ -10,7 +11,7 @@ namespace Elixor {
     namespace Server {
         namespace WebSockets {
             WebSocketServer::WebSocketServer(const int port,
-                                             const std::string host) {
+                                             const string host) {
                 this->port = port;
                 this->host = host;
             }
@@ -27,6 +28,17 @@ namespace Elixor {
 
                 this->thread = new std::thread([this]() {
                     this->server = new ix::WebSocketServer(this->port, this->host);
+
+                    this->server->setOnClientMessageCallback([this](shared_ptr<ix::ConnectionState> state, ix::WebSocket & socket, const ix::WebSocketMessagePtr & message) {
+                        switch (message->type) {
+                        case ix::WebSocketMessageType::Open:
+                            cout << "New con" << endl;
+                            break;
+
+                        case ix::WebSocketMessageType::Close:
+                            break;
+                        }
+                    });
 
                     this->server->listen();
                     this->server->disablePerMessageDeflate();
