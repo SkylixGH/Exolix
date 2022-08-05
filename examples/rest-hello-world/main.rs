@@ -1,10 +1,8 @@
-use elixor::sockets::{SocketProtocol, SocketServer};
+use elixor::sockets::{SocketProtocol, SocketServerBuilder};
 
 fn main() {
-    let mut server = SocketServer::new("localhost", 8080);
-    
-    server.bind();
-    if let Err(error) = server.bind() {
-        println!("Failed {}", error.reason);
-    }
+	let mut server = SocketServerBuilder::new("localhost", 8080).protocol(SocketProtocol::Tcp).build();
+	if let Err(error) = server.bind() {
+		println!("Failed: {:?}", error);
+	}
 }

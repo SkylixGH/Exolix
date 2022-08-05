@@ -5,3 +5,4 @@ edition = "2021"
 examples = "examples"
 
 [dependencies]
+thiserror = "1.0"
