@@ -4,7 +4,7 @@ use crate::core::ElixorError;
 
 /// The types of protocols the SocketServer can run on.
 pub enum SocketProtocol {
-    /// The SocketServer will run on a TCP protocol.
+    /// The SocketServer& will run on a TCP protocol.
     Tcp,
     /// The SocketServer will run on a UDP protocol.
     Udp
@@ -85,10 +85,10 @@ impl SocketServer {
     /// This binds the server to the host name and port.
     pub fn bind(&mut self) -> Result<(), ElixorError<SocketErrors>> {
         if self.working {
-            Err(ElixorError {
-                key: SocketErrors::BindJobCalledWhileBusy,
-                reason: format!("The server is currently busy because it is {}", if self.working && self.online { "stopping" } else { "starting" })
-            })
+            return Err(ElixorError::new(
+                SocketErrors::BindJobCalledWhileBusy,
+                &format!("The server is currently busy because it is {}", if self.working && self.online { "stopping" } else { "starting" }) 
+            ));
         }
 
         Ok(())
