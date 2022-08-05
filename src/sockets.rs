@@ -13,7 +13,10 @@ pub enum SocketProtocol {
 /// All possible server error codes.
 pub enum SocketErrors {
     /// The server was called to bind again while already busy with bindings or unbinding.
-    BindJobCalledWhileBusy
+    BindJobCalledWhileBusy,
+
+    /// The server was called to bind while already bound and online.
+    AreadyOnline
 }
 
 /// A bidirectional socket server.
@@ -39,8 +42,8 @@ impl SocketServer {
     /// 
     /// * host_name - The host name for the server to bind to.
     /// * port - The port for the server to bind to.
-    pub fn new(host_name: &str, port: u16) -> Self {
-        Self { host_name: String::from(host_name), port, protocol: SocketProtocol::Tcp, online: false, working: false }
+    pub fn new(host_name: String, port: u16) -> Self {
+        Self { host_name, port, protocol: SocketProtocol::Tcp, online: false, working: false }
     }
 
     /// Set the hosting protocol for the server.
@@ -55,10 +58,10 @@ impl SocketServer {
     /// Set the server host name.
     /// 
     /// * host_name - The host name to bind to.
-    pub fn set_host(&mut self, host_name: &str) {
+    pub fn set_host(&mut self, host_name: String) {
         self.crash();
 
-        self.host_name = String::from(host_name);
+        self.host_name = host_name;
     }
 
     /// Set the server port.
@@ -87,9 +90,15 @@ impl SocketServer {
         if self.working {
             return Err(ElixorError::new(
                 SocketErrors::BindJobCalledWhileBusy,
-                &format!("The server is currently busy because it is {}", if self.working && self.online { "stopping" } else { "starting" }) 
+                format!("The server is currently busy because it is {}", if self.working && self.online { "stopping" } else { "starting" }) 
             ));
         }
+
+        if self.online {
+
+        }
+
+        self.online = true;
 
         Ok(())
     }

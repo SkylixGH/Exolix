@@ -12,7 +12,7 @@ impl <ErrorKeys>ElixorError<ErrorKeys> {
     /// 
     /// * key - The error key.
     /// * reason - The descriptive reason for the error.
-    pub fn new(key: ErrorKeys, reason: &str) -> Self {
-        Self { key, reason: String::from(reason) }
+    pub fn new(key: ErrorKeys, reason: String) -> Self {
+        Self { key, reason }
     }
 }
