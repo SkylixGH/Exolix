@@ -1,8 +1,0 @@
-[package]
-name = "elixor"
-version = "0.1.0"
-edition = "2021"
-examples = "examples"
-
-[dependencies]
-thiserror = "1.0"
