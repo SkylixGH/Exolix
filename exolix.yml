@@ -1,0 +1,7 @@
+name: Exolix
+owner: Skylix
+main: src/main.xl
+version: unstable
+
+dependencies:
+    Skylix-LLVM: v14.0.6
