@@ -1,5 +1,0 @@
-import Skylix::Exolix::Stdio::{println};
-
-fn main() {
-    println("Hello, world!");
-}
