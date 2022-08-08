@@ -53,7 +53,7 @@ void config(const string &str) {
 }
 
 void ok(const string &str) {
-    if (isVerbose()) print("\x1b[32m" "[ OK ] " "\x1b[0m", str);
+    if (isVerbose()) print("\x1b[32m" "[ OK ]" "\x1b[0m", str);
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -81,11 +81,11 @@ int main(const int argc, const char* const argv[]) {
     }
 
     Compiler compiler(argv[1]);
-
     compiler.validate();
+
+    debug("Input entry file size is " + std::to_string(compiler.getInputSize()) + " bytes");
     ok("Found source file at " + string(argv[1]));
 
     compiler.compile();
-
     return 0;
 }

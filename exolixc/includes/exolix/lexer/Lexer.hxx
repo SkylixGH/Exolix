@@ -2,7 +2,9 @@
 
 #include <vector>
 #include <string>
-#include "LexerToken.hxx"
+#include <tuple>
+#include "Token.hxx"
+#include "TokenMeta.hxx"
 
 namespace skylix::exolix::lexer {
     class Lexer {
@@ -10,6 +12,6 @@ namespace skylix::exolix::lexer {
         Lexer();
         ~Lexer();
 
-        std::vector<LexerToken> process(const std::string * input);
+        std::vector<std::tuple<Token, TokenMeta>> lex(const std::string * input);
     };
 }
