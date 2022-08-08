@@ -1,20 +1,13 @@
-; Copied directly from the documentation
-; Declare the string constant as a global constant.
-@.str = private unnamed_addr constant [13 x i8] c"hello world\0A\00"
+@variable = global i32 16
 
-; External declaration of the puts function
-declare i32 @puts(i8* nocapture) nounwind
-
-; Definition of main function
-define i32 @main() { ; i32()*
-    ; Convert [13 x i8]* to i8  *...
-    %cast210 = getelementptr [13 x i8],[13 x i8]* @.str, i64 0, i64 0
-
-    ; Call puts function to write out the string to stdout.
-    call i32 @puts(i8* %cast210)
-    ret i32 0
+define i32 @main() {
+    %1 = load i32, i32* @variable  ; load the global variable
+    %2 = mul i32 %1, 2
+    store i32 %2, i32* @variable   ; store instruction to write to global variable
+    ret i32 %2
 }
 
-; Named metadata
-!0 = !{i32 42, null, !"string"}
-!foo = !{!0}
+define i32 @print(i32 %x) {
+    %1 = call i32 (i32*, ...)* @printf(i8* getelementptr inbounds ([7 x i32], [7 x i32]* @.str, i32 0, i32 0), i32 %x)
+    ret i32 %1
+}

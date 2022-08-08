@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace Skylix::Exolix::Lexer {
+namespace skylix::exolix::lexer {
     struct LexerToken {
         int lineStart;
         int lineEnd;

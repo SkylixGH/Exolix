@@ -1,9 +1,11 @@
 #include <string>
 #include <iostream>
+#include <exolix/Compiler.hxx>
 
 using std::string;
 using std::getenv;
 using std::cout;
+using skylix::exolix::Compiler;
 
 short int debugOn = 0;
 short int verboseOn = 0;
@@ -25,29 +27,33 @@ bool isVerbose() {
 }
 
 void print(const string &tag, const string &str) {
-    cout << "[ " << tag << " ] " << str << "\n";
+    cout << tag << " " << str << "\n";
 }
 
 void info(const string &str) {
-    print("Info", str);
+    print("[ Info ]", str);
 }
 
 void error(const string &str) {
-    print("Error", str);
+    print("\x1b[31m" "[ Error ] " "\x1b[0m", str);
 }
 
 void verbose(const string &str) {
     if (isVerbose()) {
-        print("Verbose", str);
+        print("[ Verbose ]", str);
     }
 }
 
 void debug(const string &str) {
-    if (isDebug()) print("Debug", str);
+    if (isDebug()) print("[ Debug ]", str);
 }
 
 void config(const string &str) {
-    print("Config", str);
+    print("[ Config ]", str);
+}
+
+void ok(const string &str) {
+    if (isVerbose()) print("\x1b[32m" "[ OK ] " "\x1b[0m", str);
 }
 
 int main(const int argc, const char* const argv[]) {
@@ -68,6 +74,18 @@ int main(const int argc, const char* const argv[]) {
 
         cout << "\n   ---   ---   [    EXOLIX DEBUG    ]   ---   ---   \n\n";
     }
+
+    if (argv[1] == NULL) {
+        error("No entry file was provided");
+        return 1;
+    }
+
+    Compiler compiler(argv[1]);
+
+    compiler.validate();
+    ok("Found source file at " + string(argv[1]));
+
+    compiler.compile();
 
     return 0;
 }

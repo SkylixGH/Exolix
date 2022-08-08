@@ -4,12 +4,12 @@
 #include <string>
 #include "LexerToken.hxx"
 
-namespace Skylix::Exolix::Lexer {
+namespace skylix::exolix::lexer {
     class Lexer {
     public:
         Lexer();
         ~Lexer();
 
-        std::vector<LexerToken> process(const std::string &input);
+        std::vector<LexerToken> process(const std::string * input);
     };
 }
