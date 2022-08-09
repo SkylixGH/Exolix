@@ -1,3 +1,7 @@
 export default {
-    net: null
+    net: null,
+    os: null,
+    path: null,
+    fs: null,
+    child_process: null,
 }
