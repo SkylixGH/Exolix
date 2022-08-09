@@ -2,6 +2,7 @@
     <br />
     <img alt="Logo" width="200" src="res/Logo.svg" />
     <br />
+    <br />
     <p>A powerful cross-platform framework for reaching every corner of programming!</p>
 </div>
 
