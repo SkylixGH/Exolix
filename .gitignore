@@ -1,1 +1,10 @@
+# ---   Compiled Build Files   --- #
 build/
+cmake-build-debug/
+cmake-build-release/
+
+# ---   Non Skylix IDE Files   --- #
+.idea
+.vscode
+.atom
+.vs
