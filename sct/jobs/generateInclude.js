@@ -4,7 +4,7 @@ import { fileURLToPath } from "url";
 
 const dirName = path.dirname(fileURLToPath(import.meta.url));
 const includeDirPathFull = path.join(dirName, "../../inc");
-const pathToIncludeFile = path.join(includeDirPathFull, "exolix.hh");
+const pathToIncludeFile = path.join(includeDirPathFull, "exolix.h");
 const allFilePathsRelative = [];
 
 let includesFile = "#pragma once\n\n";

@@ -9,7 +9,7 @@ execute_process(
 
 include_directories(inc)
 
-file(GLOB_RECURSE SOURCE_FILES src/*.cc inc/*.hh sky/*.cc)
+file(GLOB_RECURSE SOURCE_FILES src/*.cc inc/*.hh sky/*.cc inc/*.h)
 add_library(Exolix SHARED ${SOURCE_FILES})
 
 add_subdirectory(exa)
