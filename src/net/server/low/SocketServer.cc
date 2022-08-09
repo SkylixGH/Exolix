@@ -3,7 +3,6 @@
 #include <thread>
 #ifdef __linux__
 #include <netinet/in.h>
-#include <stdexcept> // TEM
 #include <sys/socket.h>
 #include <unistd.h>
 #include <skylix.h>
