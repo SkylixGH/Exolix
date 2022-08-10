@@ -4,10 +4,9 @@
 #include <thread>
 
 using exolix::net::server::low::SocketServer;
-using exolix::net::server::low::Type;
 
 int main() {
-    SocketServer server(Type::TCP, 65535, 8);
+    SocketServer server(65535, 8);
 
     server.setOnAccept([&server] (int socket) {
         std::cout << "Accepted socket: " << socket << std::endl << " Count: " << server.count() << std::endl;

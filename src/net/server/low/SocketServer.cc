@@ -13,9 +13,8 @@
 using skylix::Error;
 
 namespace exolix::net::server::low {
-    SocketServer::SocketServer(Type type, uint16_t port, uint16_t backlog) {
+    SocketServer::SocketServer(uint16_t port, uint16_t backlog) {
         this->port = port;
-        this->type = type;
         this->backlog = backlog;
     }
 
@@ -40,7 +39,7 @@ namespace exolix::net::server::low {
         int addressLength = sizeof(address);
         int opt = 1;
 
-        this->serverHandle = socket(AF_INET, this->type == Type::TCP ? SOCK_STREAM : SOCK_DGRAM, 0);
+        this->serverHandle = socket(AF_INET, SOCK_STREAM, 0);
         if (this->serverHandle == 0) {
             throw Error(BindErrors::COULD_NOT_CREATE_SOCKET, "Failed to create the socket");
         }
