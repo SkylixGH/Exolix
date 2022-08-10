@@ -27,5 +27,7 @@ namespace exolix::net::server::low {
 
         void bind();
         void unbind();
+
+        unsigned long count();
     };
 }

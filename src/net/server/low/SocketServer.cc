@@ -62,30 +62,35 @@ namespace exolix::net::server::low {
             throw Error(BindErrors::COULD_NOT_LISTEN_SOCKET, "Failed to listen on the socket");
         }
 
-        while (online) {
-            int newSocket = accept(this->serverHandle, (struct sockaddr*) &address, (socklen_t*) &addressLength);
+        std::thread([this, &address, &addressLength] () {
+            while (online) {
+                int newSocket = accept(this->serverHandle, (struct sockaddr *) &address, (socklen_t *) &addressLength);
 
-            std::thread([this, newSocket] {
-                if (this->onAccept)
-                    this->onAccept(newSocket);
+                std::thread([this, newSocket] {
+                    sockets.push_back(newSocket);
 
-                bool socketOpen = true;
-                while (socketOpen) {
-                    char buffer[1024] = { 0 };
-                    int valread = read(newSocket, buffer, 1024);
+                    if (this->onAccept)
+                        this->onAccept(newSocket);
 
-                    if (valread == 0) {
-                        socketOpen = false;
+                    bool socketOpen = true;
+                    while (socketOpen) {
+                        char buffer[1024] = {0};
+                        long readRes = read(newSocket, buffer, 1024);
 
-                        if (this->onClose)
-                            this->onClose(newSocket);
-                    } else {
-                        if (this->onMessage)
-                            this->onMessage(newSocket, std::string(buffer));
+                        if (readRes == 0) {
+                            socketOpen = false;
+                            sockets.erase(std::find(sockets.begin(), sockets.end(), newSocket));
+
+                            if (this->onClose)
+                                this->onClose(newSocket);
+                        } else {
+                            if (this->onMessage)
+                                this->onMessage(newSocket, std::string(buffer));
+                        }
                     }
-                }
-            }).detach();
-        }
+                }).detach();
+            }
+        }).join();
 #endif
     }
 
@@ -108,5 +113,9 @@ namespace exolix::net::server::low {
         sockets.clear();
         shutdown(this->serverHandle, SD_BOTH);
 #endif
+    }
+
+    unsigned long SocketServer::count() {
+        return sockets.size();
     }
 }

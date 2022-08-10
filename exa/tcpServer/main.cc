@@ -9,22 +9,16 @@ using exolix::net::server::low::Type;
 int main() {
     SocketServer server(Type::TCP, "0.0.0.0", 65535, 8);
 
-    server.setOnAccept([] (int socket) {
-        std::cout << "Accepted socket: " << socket << std::endl;
+    server.setOnAccept([&server] (int socket) {
+        std::cout << "Accepted socket: " << socket << std::endl << " Count: " << server.count() << std::endl;
     });
 
-    server.setOnMessage([](int socket, std::string message) {
-        std::cout << "Message from socket: " << socket << ": " << message;
+    server.setOnMessage([&server](int socket, const std::string& message) {
+        std::cout << "Message from socket: " << socket << ": " << message << " Count: " << server.count() << std::endl;
     });
 
-    server.setOnClose([](int socket) {
-        std::cout << "Closed socket: " << socket << ": " << std::endl;
-    });
-
-    std::thread t([&server] () {
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-        std::cout << "Closing server" << std::endl;
-        server.unbind();
+    server.setOnClose([&server](int socket) {
+        std::cout << "Closed socket: " << socket << ": " << " Count: " << server.count() << std::endl;
     });
 
     try {
@@ -33,6 +27,5 @@ int main() {
         e.render();
     }
 
-    t.join();
     return 0;
 }
