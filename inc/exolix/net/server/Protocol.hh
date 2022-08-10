@@ -1,7 +1,8 @@
 #pragma once
 
 namespace exolix::net::server {
-    class Server {
-
+    enum class Protocol {
+        TCP,
+        WS
     };
 }
