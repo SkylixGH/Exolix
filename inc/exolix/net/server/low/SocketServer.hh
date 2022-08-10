@@ -7,7 +7,6 @@
 namespace exolix::net::server::low {
     class SocketServer {
     private:
-        std::string host;
         uint16_t port;
         uint16_t backlog;
         Type type;
@@ -19,7 +18,7 @@ namespace exolix::net::server::low {
         int serverHandle {};
 
     public:
-        SocketServer(Type type, std::string host, uint16_t port, uint16_t backlog);
+        SocketServer(Type type, uint16_t port, uint16_t backlog);
 
         void setOnAccept(std::function<void(int)> onAccept);
         void setOnMessage(std::function<void(int, std::string)> onMessage);

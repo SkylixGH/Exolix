@@ -13,8 +13,7 @@
 using skylix::Error;
 
 namespace exolix::net::server::low {
-    SocketServer::SocketServer(Type type, std::string host, uint16_t port, uint16_t backlog) {
-        this->host = std::move(host);
+    SocketServer::SocketServer(Type type, uint16_t port, uint16_t backlog) {
         this->port = port;
         this->type = type;
         this->backlog = backlog;
