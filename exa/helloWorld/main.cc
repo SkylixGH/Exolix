@@ -1,4 +1,4 @@
-// GatewayServer side C/C++ program to demonstrate Socket
+// LiveServer side C/C++ program to demonstrate Socket
 // programming
 #include <netinet/in.h>
 #include <stdio.h>

@@ -1,18 +1,18 @@
 #include <exolix.h>
 
 namespace exolix::net::server {
-    GatewayServer::GatewayServer(Protocol protocol, uint16_t port, uint16_t backlog) {
+    LiveServer::LiveServer(Protocol protocol, uint16_t port, uint16_t backlog) {
 
     }
 
-    GatewayServer::~GatewayServer() {
+    LiveServer::~LiveServer() {
         kill();
 
         delete thread;
         delete server;
     }
 
-    void GatewayServer::live() {
+    void LiveServer::live() {
         if (online) return;
         online = true;
 
@@ -21,11 +21,11 @@ namespace exolix::net::server {
         });
     }
 
-    void GatewayServer::block() {
+    void LiveServer::block() {
         if (thread != nullptr && thread->joinable()) thread->join();
     }
 
-    void GatewayServer::kill() {
+    void LiveServer::kill() {
         if (!online) return;
         online = false;
 
