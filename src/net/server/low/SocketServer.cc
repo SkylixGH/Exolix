@@ -6,6 +6,8 @@
 #include <sys/socket.h>
 #include <unistd.h>
 #include <skylix.h>
+#elif _WIN32
+#include <winsock2.h>
 #endif
 
 using skylix::Error;
@@ -84,6 +86,27 @@ namespace exolix::net::server::low {
                 }
             }).detach();
         }
+#endif
+    }
+
+    void SocketServer::unbind() {
+        if (!online) return;
+        online = false;
+
+#ifdef __linux__
+        for (int socket : sockets) {
+            close(socket);
+        }
+
+        sockets.clear();
+        shutdown(this->serverHandle, SHUT_RDWR);
+#elif _WIN32
+        for (int socket : sockets) {
+            closesocket(socket);
+        }
+
+        sockets.clear();
+        shutdown(this->serverHandle, SD_BOTH);
 #endif
     }
 }

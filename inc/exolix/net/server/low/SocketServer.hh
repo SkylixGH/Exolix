@@ -26,5 +26,6 @@ namespace exolix::net::server::low {
         void setOnClose(std::function<void(int)> onClose);
 
         void bind();
+        void unbind();
     };
 }
