@@ -37,7 +37,7 @@ namespace exolix::net::server::low {
         online = true;
 
 #ifdef __linux__
-        struct sockaddr_in address;
+        struct sockaddr_in address {};
         int addressLength = sizeof(address);
         int opt = 1;
 
