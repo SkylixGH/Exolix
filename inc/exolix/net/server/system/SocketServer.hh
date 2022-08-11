@@ -3,7 +3,7 @@
 #include <string>
 #include <functional>
 
-namespace exolix::net::server::low {
+namespace exolix::net::server::system {
     class SocketServer {
     private:
         uint16_t port;
@@ -18,9 +18,9 @@ namespace exolix::net::server::low {
     public:
         SocketServer(uint16_t port, uint16_t backlog);
 
-        void setOnAccept(std::function<void(int)> onAccept);
-        void setOnMessage(std::function<void(int, std::string)> onMessage);
-        void setOnClose(std::function<void(int)> onClose);
+        void setOnAccept(std::function<void(int)> onAcceptFn);
+        void setOnMessage(std::function<void(int, std::string)> onMessageFn);
+        void setOnClose(std::function<void(int)> onCloseFn);
 
         void bind();
         void unbind();

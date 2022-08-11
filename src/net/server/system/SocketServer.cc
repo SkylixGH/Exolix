@@ -12,7 +12,7 @@
 
 using skylix::Error;
 
-namespace exolix::net::server::low {
+namespace exolix::net::server::system {
     SocketServer::SocketServer(uint16_t port, uint16_t backlog) {
         this->port = port;
         this->backlog = backlog;

@@ -2,7 +2,7 @@
 
 #include <string>
 
-namespace exolix::net::server::low {
+namespace exolix::net::server::system {
     class BindErrors {
     public:
         static std::string COULD_NOT_CREATE_SOCKET;

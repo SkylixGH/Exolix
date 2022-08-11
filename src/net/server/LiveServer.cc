@@ -12,7 +12,7 @@ namespace exolix::net::server {
         delete server;
     }
 
-    void LiveServer::live() {
+    void LiveServer::spawn() {
         if (online) return;
         online = true;
 
@@ -27,8 +27,9 @@ namespace exolix::net::server {
 
     void LiveServer::kill() {
         if (!online) return;
-        online = false;
 
+        online = false;
         thread = nullptr;
+        server = nullptr;
     }
 }
