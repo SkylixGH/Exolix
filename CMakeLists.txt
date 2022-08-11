@@ -7,3 +7,4 @@ include_directories(include)
 file(GLOB_RECURSE SOURCE_FILES src/*.cc src/*.h)
 
 add_library(exolix STATIC ${SOURCE_FILES})
+add_subdirectory(example)
