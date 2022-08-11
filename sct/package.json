@@ -1,6 +1,0 @@
-{
-  "type": "module",
-  "scripts": {
-    "generate:include": "node ./jobs/generateInclude.js"
-  }
-}

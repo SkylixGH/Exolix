@@ -1,15 +1,9 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.2)
 project(Exolix)
 
-# Generate the final includes file.
-execute_process(
-        COMMAND npm run generate:include
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/sct
-)
+set(CMAKE_CXX_STANDARD 23)
 
-include_directories(inc)
+include_directories(include)
+file(GLOB_RECURSE SOURCE_FILES src/*.cc src/*.h)
 
-file(GLOB_RECURSE SOURCE_FILES src/*.cc inc/*.hh sky/*.cc inc/*.h)
-add_library(Exolix SHARED ${SOURCE_FILES})
-
-add_subdirectory(exa)
+add_library(exolix STATIC ${SOURCE_FILES})
