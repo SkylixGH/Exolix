@@ -1,5 +1,19 @@
 #include "sockets.h"
 
-namespace exolix::net {
+#include <utility>
 
+namespace exolix::net {
+    SocketServer::SocketServer(const uint16_t inPort): port(inPort) {}
+
+    SocketServer::~SocketServer() {
+        unbind();
+    }
+
+    void SocketServer::bind() {
+
+    }
+
+    void SocketServer::unbind() {
+
+    }
 }

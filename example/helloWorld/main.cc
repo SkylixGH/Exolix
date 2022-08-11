@@ -1,8 +1,14 @@
 #include <exolix/net.h>
+#include <exolix/err.h>
 
-using namespace exolix::net;
+using namespace exolix::err;
+
+void x() {
+    throw Error(1, "This ain't no UwU");
+}
 
 int main() {
-    SocketServer server;
+    x();
+
     return 0;
 }
