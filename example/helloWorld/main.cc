@@ -7,7 +7,9 @@ int main() {
     SocketServer server(8080);
 
     std::thread t([&] () {
-        server.bind();
+        try { server.bind(); } catch (SocketError &e) {
+            e.render();
+        }
     });
 
     t.join();

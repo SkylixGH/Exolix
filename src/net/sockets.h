@@ -16,7 +16,10 @@ namespace exolix::net {
          SERVER_ALREADY_ENABLING,
          SERVER_ALREADY_OFFLINE,
          SERVER_ALREADY_DISABLING,
-         SERVER_OPEN_PERMISSION_DENIED,
+         SERVER_FAILED_CREATE_SOCKET,
+         SERVER_FAILED_SOCKET_OPTIONS,
+         SERVER_FAILED_SOCKET_BIND,
+         SERVER_FAILED_SOCKET_LISTEN,
          CLIENT_INVALID_HOST
      };
 
@@ -42,6 +45,11 @@ namespace exolix::net {
         util::JobState state = util::JobState::OFF;
         uint16_t port;
         const std::vector<Socket *> sockets {};
+        int sysServerID {};
+        int backlog = 128;
+        int maxConnections = 512;
+
+        std::string getLastSocketErrorMessage();
 
     public:
         explicit SocketServer(uint16_t inPort);
