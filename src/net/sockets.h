@@ -2,46 +2,35 @@
 
 #include <vector>
 #include "util/states.h"
+#include <exolix/err.h>
 #include <cstdint>
 #include <string>
 
 namespace exolix::net {
+    /**
+     * An enumerated list containing all error
+     * codes for the Exolix networking socket system.
+     */
+     enum class SocketErrors {
+         SERVER_ALREADY_ONLINE,
+         SERVER_ALREADY_ENABLING,
+         SERVER_ALREADY_OFFLINE,
+         SERVER_ALREADY_DISABLING,
+         SERVER_OPEN_PERMISSION_DENIED,
+         CLIENT_INVALID_HOST
+     };
+
+    /**
+     * An error system for the Exolix networking library.
+     */
+    typedef err::Error<SocketErrors> SocketError;
+
     /**
      * A socket instance from the SocketServer which
      * lets you interact with the client connection.
      */
     class Socket {
 
-    };
-
-    /**
-     * Settings for the SocketServer.
-     */
-    struct SocketServerSettings {
-        /**
-         * The server's listening port.
-         */
-        uint16_t port = 0;
-
-        /**
-         * The maximum number of pending connections.
-         */
-        int backlog = 128;
-
-        /**
-         * The maximum number of open connections allowed.
-         */
-        int maxOpen = 500;
-
-        /**
-         * SSL certificate key.
-         */
-        std::string sslKey;
-
-        /**
-         * SSL certificate.
-         */
-        std::string sslCert;
     };
 
     /**
@@ -55,7 +44,7 @@ namespace exolix::net {
         const std::vector<Socket *> sockets {};
 
     public:
-        SocketServer(const uint16_t inPort);
+        explicit SocketServer(uint16_t inPort);
         ~SocketServer();
 
         /**
