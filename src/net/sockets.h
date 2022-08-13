@@ -5,6 +5,8 @@
 #include <exolix/err.h>
 #include <cstdint>
 #include <string>
+#include <thread>
+#include <functional>
 
 namespace exolix::net {
     /**
@@ -36,11 +38,24 @@ namespace exolix::net {
      */
     class Socket {
     private:
-        const int socketHandle;
+        bool live = true;
+        std::thread listener;
+
+        std::function<void (const std::string)> onMessage {};
 
     public:
+        const int socketHandle;
+
         explicit Socket(int osSocketID);
-        void close() const;
+        ~Socket();
+
+        void close();
+        void block();
+
+        void setOnMessage(std::function <void (std::string)> onMessageFn);
+
+        bool isLive() const;
+        int getId();
     };
 
     /**
@@ -51,10 +66,11 @@ namespace exolix::net {
     private:
         util::JobState state = util::JobState::OFF;
         uint16_t port;
-        const std::vector<Socket *> sockets {};
+        std::vector<Socket *> sockets {};
         int sysServerID {};
         int backlog = 128;
         int maxConnections = 512;
+        std::function<void(Socket *)> onSocketOpen {};
 
         static std::string getLastSocketErrorMessage();
 
@@ -71,6 +87,12 @@ namespace exolix::net {
          * Unbind the socket server.
          */
         void unbind();
+
+        /**
+         * Set the socket connection listener.
+         * @param onSocketOpenFn The listener function.
+         */
+        void setOnSocketOpen(std::function<void(Socket *)> onSocketOpenFn);
     };
 
     /**

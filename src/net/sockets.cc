@@ -1,6 +1,8 @@
 #include "sockets.h"
 #include <utility>
 #include <cstring>
+#include <thread>
+#include <iostream>
 
 #ifdef __linux__
 
@@ -20,11 +22,44 @@
 
 namespace exolix::net {
     Socket::Socket(int osSocketID): socketHandle(osSocketID) {
+        listener = std::thread([this] () {
+            char buffer[1024] = { 0 };
 
+            while (live) {
+                const int closeCode = 0;
+                const int fd = socketHandle;
+                long readResult = read(fd, buffer, sizeof(buffer));
+
+                if (readResult == closeCode) {
+                    break;
+                } else {
+                    if (onMessage)
+                        onMessage(std::string(buffer));
+                }
+            }
+        });
     }
 
-    void Socket::close() const {
+    Socket::~Socket() {
+        close();
+    }
+
+    void Socket::block() {
+        if (listener.joinable())
+            listener.join();
+    }
+
+    void Socket::setOnMessage(std::function<void(std::string)> onMessageFn) {
+        onMessage = std::move(onMessageFn);
+    }
+
+    void Socket::close() {
+        live = false;
         ::close(socketHandle);
+    }
+
+    bool Socket::isLive() const {
+        return live;
     }
 
     SocketServer::SocketServer(uint16_t inPort) : port(inPort) {}
@@ -126,7 +161,15 @@ namespace exolix::net {
 
         state = util::JobState::READY;
         while (state == util::JobState::READY) {
-            const int clientSocket = accept(sysServerID, (struct sockaddr *) &address, (socklen_t *) &addressLength);
+            const int clientSocketHandle = accept(sysServerID, (struct sockaddr *) &address, (socklen_t *) &addressLength);
+
+            if (clientSocketHandle >= 0) {
+                auto clientSocket = Socket(clientSocketHandle);
+                sockets.push_back(&clientSocket);
+
+                if (onSocketOpen)
+                    onSocketOpen(&clientSocket);
+            }
         }
 #endif
     }
@@ -156,5 +199,9 @@ namespace exolix::net {
         for (auto &socket : sockets) {
             socket->close();
         }
+    }
+
+    void SocketServer::setOnSocketOpen(std::function<void(Socket *)> onSocketOpenFn) {
+        onSocketOpen = std::move(onSocketOpenFn);
     }
 }
