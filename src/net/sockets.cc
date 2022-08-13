@@ -58,6 +58,11 @@ namespace exolix::net {
         ::close(socketHandle);
     }
 
+    void Socket::send(const std::string& message) const {
+        if (!live) return;
+        write(socketHandle, message.c_str(), message.length());
+    }
+
     bool Socket::isLive() const {
         return live;
     }
@@ -109,9 +114,9 @@ namespace exolix::net {
         const int addressLength = sizeof(address);
         const int option = 1;
 
-        sysServerID = socket(AF_INET, SOCK_STREAM, 0);
+        sysServerId = socket(AF_INET, SOCK_STREAM, 0);
 
-        if (sysServerID < 0) {
+        if (sysServerId < 0) {
             state = util::JobState::OFF;
 
             throw SocketError(
@@ -122,7 +127,7 @@ namespace exolix::net {
             );
         }
 
-        if (setsockopt(sysServerID, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &option, sizeof(option))) {
+        if (setsockopt(sysServerId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &option, sizeof(option))) {
             state = util::JobState::OFF;
 
             throw SocketError(
@@ -137,7 +142,7 @@ namespace exolix::net {
         address.sin_addr.s_addr = INADDR_ANY;
         address.sin_port = htons(port);
 
-        if (::bind(sysServerID, (struct sockaddr *) &address, addressLength) < 0) {
+        if (::bind(sysServerId, (struct sockaddr *) &address, addressLength) < 0) {
             state = util::JobState::OFF;
 
             throw SocketError(
@@ -148,7 +153,7 @@ namespace exolix::net {
             );
         }
 
-        if (listen(sysServerID, backlog) < 0) {
+        if (listen(sysServerId, backlog) < 0) {
             state = util::JobState::OFF;
 
             throw SocketError(
@@ -161,7 +166,7 @@ namespace exolix::net {
 
         state = util::JobState::READY;
         while (state == util::JobState::READY) {
-            const int clientSocketHandle = accept(sysServerID, (struct sockaddr *) &address, (socklen_t *) &addressLength);
+            const int clientSocketHandle = accept(sysServerId, (struct sockaddr *) &address, (socklen_t *) &addressLength);
 
             if (clientSocketHandle >= 0) {
                 auto clientSocket = Socket(clientSocketHandle);
@@ -194,7 +199,7 @@ namespace exolix::net {
         }
 
         state = util::JobState::DISABLING;
-        sysServerID = 0;
+        sysServerId = 0;
 
         for (auto &socket : sockets) {
             socket->close();

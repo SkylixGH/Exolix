@@ -50,6 +50,7 @@ namespace exolix::net {
         ~Socket();
 
         void close();
+        void send(const std::string& message) const;
         void block();
 
         void setOnMessage(std::function <void (std::string)> onMessageFn);
@@ -66,7 +67,7 @@ namespace exolix::net {
         util::JobState state = util::JobState::OFF;
         uint16_t port;
         std::vector<Socket *> sockets {};
-        int sysServerID {};
+        int sysServerId {};
         int backlog = 128;
         int maxConnections = 512;
         std::function<void(Socket *)> onSocketOpen {};

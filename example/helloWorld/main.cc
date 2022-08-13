@@ -12,6 +12,7 @@ int main() {
 
         socket->setOnMessage([&socket] (const std::string& msg) {
             std::cout << "MSG by: " << socket->socketHandle << " -> " << msg << std::endl;
+            socket->send("Hey, what's up!");
         });
 
         socket->block();
