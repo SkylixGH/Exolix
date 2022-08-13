@@ -16,10 +16,12 @@ namespace exolix::net {
          SERVER_ALREADY_ENABLING,
          SERVER_ALREADY_OFFLINE,
          SERVER_ALREADY_DISABLING,
+         SERVER_BUSY_ENABLING,
          SERVER_FAILED_CREATE_SOCKET,
          SERVER_FAILED_SOCKET_OPTIONS,
          SERVER_FAILED_SOCKET_BIND,
          SERVER_FAILED_SOCKET_LISTEN,
+         SERVER_PORT_CANNOT_CHANGE_WHILE_ONLINE,
          CLIENT_INVALID_HOST
      };
 
@@ -33,7 +35,12 @@ namespace exolix::net {
      * lets you interact with the client connection.
      */
     class Socket {
+    private:
+        const int socketHandle;
 
+    public:
+        explicit Socket(int osSocketID);
+        void close() const;
     };
 
     /**
@@ -49,7 +56,7 @@ namespace exolix::net {
         int backlog = 128;
         int maxConnections = 512;
 
-        std::string getLastSocketErrorMessage();
+        static std::string getLastSocketErrorMessage();
 
     public:
         explicit SocketServer(uint16_t inPort);

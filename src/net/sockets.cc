@@ -1,19 +1,32 @@
 #include "sockets.h"
 #include <utility>
-#include <string.h>
+#include <cstring>
 
 #ifdef __linux__
 
 #include <netinet/in.h>
 #include <cerrno>
+#include <unistd.h>
 
 #elif _WIN32
 
 #include <winsock2.h>
 
+#elif __APPLE__
+
+#include <cerrno>
+
 #endif
 
 namespace exolix::net {
+    Socket::Socket(int osSocketID): socketHandle(osSocketID) {
+
+    }
+
+    void Socket::close() const {
+        ::close(socketHandle);
+    }
+
     SocketServer::SocketServer(uint16_t inPort) : port(inPort) {}
 
     SocketServer::~SocketServer() {
@@ -33,6 +46,8 @@ namespace exolix::net {
         char *nl = strrchr(message, '\n');
         if (nl) *nl = 0;
         return message;
+#elif __APPLE__
+        return strerror(errno);
 #endif
     }
 
@@ -111,12 +126,35 @@ namespace exolix::net {
 
         state = util::JobState::READY;
         while (state == util::JobState::READY) {
-
+            const int clientSocket = accept(sysServerID, (struct sockaddr *) &address, (socklen_t *) &addressLength);
         }
 #endif
     }
 
     void SocketServer::unbind() {
+        if (state == util::JobState::ENABLING) {
+            throw SocketError(
+                    SocketErrors::SERVER_BUSY_ENABLING,
+                    "Cannot unbind the socket server while it's enabling"
+            );
+        } else if (state == util::JobState::OFF) {
+            throw SocketError(
+                SocketErrors::SERVER_ALREADY_OFFLINE,
+                "Cannot unbind the socket server because its already offline"
+            );
+        } else if (state == util::JobState::DISABLING) {
+            throw SocketError(
+                    SocketErrors::SERVER_ALREADY_DISABLING,
+                    "Cannot try to unbind the socket server again because "
+                    "it is already unbinding"
+            );
+        }
 
+        state = util::JobState::DISABLING;
+        sysServerID = 0;
+
+        for (auto &socket : sockets) {
+            socket->close();
+        }
     }
 }
