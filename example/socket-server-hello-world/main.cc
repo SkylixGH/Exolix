@@ -13,9 +13,9 @@ int main() {
          Socket socket(id);
          log("New connection: " + std::to_string(socket.socketHandle));
 
-         socket.setOnMessage([&socket] (const std::string& message) {
-             log("New message [" + std::to_string(socket.socketHandle) + "]: " + message);
-                socket.send("You sent: " + message);
+         socket.setOnMessage([&socket] (SocketMessage message) {
+             log("New message [" + std::to_string(socket.socketHandle) + "]: " + message.toString());
+                socket.send("You sent: " + message.toString());
          });
 
          socket.block();

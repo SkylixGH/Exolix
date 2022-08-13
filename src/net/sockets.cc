@@ -21,6 +21,14 @@
 #endif
 
 namespace exolix::net {
+    SocketMessage::SocketMessage(char *dataIn): raw(dataIn) {
+        size = strlen(dataIn);
+    }
+
+    std::string SocketMessage::toString() const {
+        return std::string { raw, size };
+    }
+
     Socket::Socket(int osSocketID): socketHandle(osSocketID) {
         listener = std::thread([this] () {
             char buffer[1024] = { 0 };
@@ -34,7 +42,7 @@ namespace exolix::net {
                     break;
                 } else {
                     if (onMessage)
-                        std::thread([&] () { onMessage(std::string(buffer)); }).join();
+                        std::thread([&] () { onMessage(SocketMessage(buffer)); }).join();
                 }
             }
         });
@@ -53,7 +61,7 @@ namespace exolix::net {
             listener.join();
     }
 
-    void Socket::setOnMessage(std::function<void(std::string)> onMessageFn) {
+    void Socket::setOnMessage(std::function<void(SocketMessage)> onMessageFn) {
         onMessage = std::move(onMessageFn);
     }
 

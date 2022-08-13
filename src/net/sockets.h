@@ -27,6 +27,15 @@ namespace exolix::net {
          CLIENT_INVALID_HOST
      };
 
+     class SocketMessage {
+     public:
+         explicit SocketMessage(char *data);
+
+         char *raw;
+         size_t size;
+         [[nodiscard]] std::string toString() const;
+     };
+
     /**
      * An error system for the Exolix networking library.
      */
@@ -41,7 +50,7 @@ namespace exolix::net {
         bool live = true;
         std::thread listener;
 
-        std::function<void (const std::string)> onMessage {};
+        std::function<void (SocketMessage)> onMessage {};
 
     public:
         const int socketHandle;
@@ -54,7 +63,7 @@ namespace exolix::net {
         void send(const char* message) const;
         void block();
 
-        void setOnMessage(std::function <void (std::string)> onMessageFn);
+        void setOnMessage(std::function <void (SocketMessage)> onMessageFn);
 
         [[nodiscard]] bool isLive() const;
     };
