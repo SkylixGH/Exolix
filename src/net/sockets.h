@@ -55,7 +55,7 @@ namespace exolix::net {
 
         void setOnMessage(std::function <void (std::string)> onMessageFn);
 
-        bool isLive() const;
+        [[nodiscard]] bool isLive() const;
     };
 
     /**
