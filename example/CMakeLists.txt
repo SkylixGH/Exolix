@@ -11,3 +11,4 @@ function(add_example EXAMPLE_NAME)
 endfunction()
 
 add_example(helloWorld)
+add_example(socket-server-hello-world)

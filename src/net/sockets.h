@@ -66,11 +66,11 @@ namespace exolix::net {
     private:
         util::JobState state = util::JobState::OFF;
         uint16_t port;
-        std::vector<Socket *> sockets {};
         int sysServerId {};
         int backlog = 128;
         int maxConnections = 512;
-        std::function<void(Socket *)> onSocketOpen {};
+        std::function<void(int)> onSocketOpen {};
+        std::thread *serverThread = nullptr;
 
         static std::string getLastSocketErrorMessage();
 
@@ -83,6 +83,8 @@ namespace exolix::net {
          */
         void bind();
 
+        void block();
+
         /**
          * Unbind the socket server.
          */
@@ -92,7 +94,7 @@ namespace exolix::net {
          * Set the socket connection listener.
          * @param onSocketOpenFn The listener function.
          */
-        void setOnSocketOpen(std::function<void(Socket *)> onSocketOpenFn);
+        void setOnSocketOpen(std::function<void(int)> onSocketOpenFn);
     };
 
     /**

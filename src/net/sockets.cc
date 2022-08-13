@@ -2,7 +2,7 @@
 #include <utility>
 #include <cstring>
 #include <thread>
-#include <iostream>
+#include <future>
 
 #ifdef __linux__
 
@@ -34,13 +34,17 @@ namespace exolix::net {
                     break;
                 } else {
                     if (onMessage)
-                        onMessage(std::string(buffer));
+                        std::thread([&] () { onMessage(std::string(buffer)); }).join();
                 }
             }
         });
     }
 
     Socket::~Socket() {
+        if (listener.joinable())
+            listener.detach();
+
+        live = false;
         close();
     }
 
@@ -70,7 +74,10 @@ namespace exolix::net {
     SocketServer::SocketServer(uint16_t inPort) : port(inPort) {}
 
     SocketServer::~SocketServer() {
-        unbind();
+        if (state == util::JobState::READY)
+            unbind();
+
+        delete serverThread;
     }
 
     std::string SocketServer::getLastSocketErrorMessage() {
@@ -165,17 +172,18 @@ namespace exolix::net {
         }
 
         state = util::JobState::READY;
-        while (state == util::JobState::READY) {
-            const int clientSocketHandle = accept(sysServerId, (struct sockaddr *) &address, (socklen_t *) &addressLength);
 
-            if (clientSocketHandle >= 0) {
-                auto clientSocket = Socket(clientSocketHandle);
-                sockets.push_back(&clientSocket);
+        serverThread = new std::thread([this, &addressLength, &address] () {
+            while (state == util::JobState::READY) {
+                const int clientSocketHandle = accept(sysServerId, (struct sockaddr *) &address,
+                                                      (socklen_t *) &addressLength);
 
-                if (onSocketOpen)
-                    onSocketOpen(&clientSocket);
+                if (clientSocketHandle >= 0) {
+                    if (onSocketOpen)
+                        std::thread([&]() { onSocketOpen(clientSocketHandle); }).detach();
+                }
             }
-        }
+        });
 #endif
     }
 
@@ -201,12 +209,20 @@ namespace exolix::net {
         state = util::JobState::DISABLING;
         sysServerId = 0;
 
-        for (auto &socket : sockets) {
-            socket->close();
+        if (serverThread) {
+            serverThread->join();
+            serverThread = nullptr;
+
+            delete serverThread;
         }
     }
 
-    void SocketServer::setOnSocketOpen(std::function<void(Socket *)> onSocketOpenFn) {
+    void SocketServer::setOnSocketOpen(std::function<void(int)> onSocketOpenFn) {
         onSocketOpen = std::move(onSocketOpenFn);
+    }
+
+    void SocketServer::block() {
+        if (serverThread && serverThread->joinable())
+            serverThread->join();
     }
 }
