@@ -67,6 +67,11 @@ namespace exolix::net {
         write(socketHandle, message.c_str(), message.length());
     }
 
+    void Socket::send(const char* message) const {
+        if (!live) return;
+        write(socketHandle, message, strlen(message));
+    }
+
     bool Socket::isLive() const {
         return live;
     }

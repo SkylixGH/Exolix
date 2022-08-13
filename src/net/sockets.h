@@ -51,6 +51,7 @@ namespace exolix::net {
 
         void close();
         void send(const std::string& message) const;
+        void send(const char* message) const;
         void block();
 
         void setOnMessage(std::function <void (std::string)> onMessageFn);
