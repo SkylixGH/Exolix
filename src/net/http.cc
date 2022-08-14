@@ -1,10 +1,11 @@
 #include <sstream>
 #include "http.h"
 #include <exolix/str.h>
+#include <utility>
 #include <vector>
 #include <string>
+#include <thread>
 
-#include <iostream>
 using namespace std;
 
 namespace exolix::net {
@@ -15,7 +16,7 @@ namespace exolix::net {
 
         bool initial = true;
 
-        for (auto& header : headers) {
+        for (auto &header: headers) {
             if (initial) {
                 initialLine = header;
                 initial = false;
@@ -67,7 +68,7 @@ namespace exolix::net {
             headersUnordered[key] = value;
         } else {
             headersKeys.push_back(key);
-            headersUnordered.insert({ key, value });
+            headersUnordered.insert({key, value});
         }
     }
 
@@ -115,25 +116,32 @@ namespace exolix::net {
 
     std::string HttpHeaders::getVersionString() {
         switch (httpVersion) {
-            case HttpVersion::HTTP_1_0: return "HTTP/1.0";
-            case HttpVersion::HTTP_1_1: return "HTTP/1.1";
+            case HttpVersion::HTTP_1_0:
+                return "HTTP/1.0";
+            case HttpVersion::HTTP_1_1:
+                return "HTTP/1.1";
         }
     }
 
     std::string HttpHeaders::getMethodString() {
         switch (method) {
-            case HttpMethod::POST: return "POST";
-            case HttpMethod::GET: return "GET";
-            case HttpMethod::PUT: return "PUT";
-            case HttpMethod::DELETE: return "DELETE";
-            case HttpMethod::NONE: return "";
+            case HttpMethod::POST:
+                return "POST";
+            case HttpMethod::GET:
+                return "GET";
+            case HttpMethod::PUT:
+                return "PUT";
+            case HttpMethod::DELETE:
+                return "DELETE";
+            case HttpMethod::NONE:
+                return "";
         }
     }
 
     std::string HttpHeaders::toString() {
         std::string result = getInitialLine() + "\r\n";
 
-        for (auto &header : headersKeys) {
+        for (auto &header: headersKeys) {
             auto pair = headersUnordered.find(header);
             result += header + ": " + pair->second + "\r\n";
         }
@@ -144,40 +152,17 @@ namespace exolix::net {
     HttpServer::HttpServer(int port) {
         server = new SocketServer(port);
 
-        server->setOnSocketOpen([] (int id) {
+        server->setOnSocketOpen([this](int id) {
             Socket socket(id);
 
-            socket.setOnMessage([&socket] (SocketMessage *message) {
-                HttpHeaders inputRequestHeaders(message->toString());
+            socket.setOnMessage([this](SocketMessage message) {
+                HttpHeaders request(message.toString());
                 HttpHeaders responseHeaders;
 
-                responseHeaders.set("Host", "localhost:8080");
-                responseHeaders.set("Cache-Control", "no-cache");
-                responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
-
-                responseHeaders.setPath("");
-                responseHeaders.setMethod(HttpMethod::NONE);
-                responseHeaders.setVersion(inputRequestHeaders.getVersion());
-
-//                socket.send(
-//                        "HTTP/1.1 200 OK\r\n"
-//                        "Host: localhost:8080\r\n"
-//                        "Content-Type: text/html; charset=UTF-8\r\n"
-//                        "Cache-Control: no-cache\r\n"
-//                        "\r\n"
-//                        "<html><body>Hello World!</body></html>"
-//                );
-
-                socket.send(
-                        responseHeaders.toString() +
-                        "\r\n"
-                        "<html><body><pre>" + inputRequestHeaders.toString() + "</pre></body></html>"
-                );
-
-                std::string url = inputRequestHeaders.get("url");
-                cout << "URL: " << inputRequestHeaders.getPath() << " method " << inputRequestHeaders.getMethodString() << " version " << inputRequestHeaders.getVersionString() << endl;
-
-                socket.close();
+                if (onRequest)
+                    std::thread([this, request, responseHeaders]() mutable {
+                        onRequest(&request, &responseHeaders);
+                    }).detach();
             });
 
             socket.block();
@@ -194,5 +179,9 @@ namespace exolix::net {
 
     void HttpServer::block() {
         server->block();
+    }
+
+    void HttpServer::setOnRequest(std::function<void(HttpHeaders *, HttpHeaders *)> onRequestFn) {
+        this->onRequest = std::move(onRequestFn);
     }
 }

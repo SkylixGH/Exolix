@@ -26,6 +26,10 @@ void log(const std::string& message) {
 int main() {
     HttpServer server(8080);
 
+    server.setOnRequest([&] (HttpHeaders *request, HttpHeaders *response) {
+        std::cout << "Request at " << request->getPath() << std::endl;
+    });
+
     server.bind();
     server.block();
 
