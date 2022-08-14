@@ -13,16 +13,29 @@ namespace exolix::net {
     HttpHeaders::HttpHeaders(const std::string &headersStrings) {
         std::vector<std::string> headers = exolix::str::StringModify::split(headersStrings, "\r\n");
 
-        for (auto& header : headers) {
-            std::vector<std::string> keyPair = exolix::str::StringModify::split(header, ": ");
+        bool initial = true;
 
-            if (keyPair.size() == 2)
-                set(keyPair[0], keyPair[1]);
+        for (auto& header : headers) {
+            if (initial) {
+                writeInitialLine(header);
+                initial = false;
+            }
+
+            std::vector<std::string> keyPair = exolix::str::StringModify::split(header, ": ");
+            if (keyPair.size() == 2) set(keyPair[0], keyPair[1]);
         }
+    }
+
+    void HttpHeaders::writeInitialLine(const std::string &line) {
+        httpInitialLine = line;
     }
 
     std::string HttpHeaders::get(const std::string &key) {
         return headersUnordered[key];
+    }
+
+    std::string HttpHeaders::getInitialLine() {
+        return httpInitialLine;
     }
 
     void HttpHeaders::set(const std::string &key, const std::string &value) {
@@ -42,7 +55,7 @@ namespace exolix::net {
     }
 
     std::string HttpHeaders::toString() {
-        std::string result;
+        std::string result = httpInitialLine + "\r\n";
 
         for (auto &header : headersKeys) {
             auto pair = headersUnordered.find(header);
@@ -62,10 +75,9 @@ namespace exolix::net {
                 HttpHeaders inputRequestHeaders(message->toString());
                 HttpHeaders responseHeaders;
 
-                responseHeaders.set("HTTP/1.1", "200 OK");
                 responseHeaders.set("Host", "localhost:8080");
-                responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
                 responseHeaders.set("Cache-Control", "no-cache");
+                responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
 
 //                socket.send(
 //                        "HTTP/1.1 200 OK\r\n"
@@ -79,8 +91,11 @@ namespace exolix::net {
                 socket.send(
                         responseHeaders.toString() +
                         "\r\n"
-                        "<html><body>Hello World!</body></html>"
+                        "<html><body><pre>" + inputRequestHeaders.toString() + "</pre></body></html>"
                 );
+
+                std::string url = inputRequestHeaders.get("url");
+                cout << "URL: " << inputRequestHeaders.getInitialLine() << endl;
 
                 socket.close();
             });

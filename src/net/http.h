@@ -10,6 +10,7 @@ namespace exolix::net {
     private:
         std::vector<std::string> headersKeys {};
         std::map<std::string, std::string> headersUnordered {};
+        std::string httpInitialLine = "HTTP/1.1 200 OK";
 
     public:
         HttpHeaders();
@@ -17,9 +18,11 @@ namespace exolix::net {
 
         void set(const std::string& key, const std::string& value);
         void remove(const std::string& key);
+        void writeInitialLine(const std::string &line);
 
         std::string get(const std::string& key);
         std::string toString();
+        std::string getInitialLine();
     };
 
     class HttpResponse {
