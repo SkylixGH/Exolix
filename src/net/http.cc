@@ -4,6 +4,9 @@
 #include <vector>
 #include <string>
 
+#include <iostream>
+using namespace std;
+
 namespace exolix::net {
     HttpHeaders::HttpHeaders() = default;
 
@@ -38,6 +41,24 @@ namespace exolix::net {
 
     HttpServer::HttpServer(int port) {
         server = new SocketServer(port);
+
+        server->setOnSocketOpen([this] (int id) {
+            Socket socket(id);
+
+            socket.setOnMessage([this, &socket] (SocketMessage *message) {
+                socket.send(
+                        "HTTP/1.1 200 OK\r\n"
+                        "Content-Type: text/html; charset=UTF-8\r\n"
+                        "Cache-Control: no-cache\r\n"
+                        "\r\n"
+                        "<html><body>Hello World!</body></html>"
+                );
+
+                socket.close();
+            });
+
+            socket.block();
+        });
     }
 
     HttpServer::~HttpServer() {

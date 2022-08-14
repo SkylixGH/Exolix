@@ -42,17 +42,18 @@ namespace exolix::net {
                     break;
                 } else {
                     if (onMessage)
-                        std::thread([&] () { onMessage(SocketMessage(buffer)); }).join();
+                        std::thread([&] () { onMessage(new SocketMessage(buffer)); }).join();
                 }
             }
         });
     }
 
     Socket::~Socket() {
-        if (listener.joinable())
-            listener.detach();
-
         live = false;
+
+        if (listener.joinable())
+            listener.join();
+
         close();
     }
 
@@ -61,7 +62,7 @@ namespace exolix::net {
             listener.join();
     }
 
-    void Socket::setOnMessage(std::function<void(SocketMessage)> onMessageFn) {
+    void Socket::setOnMessage(std::function<void(SocketMessage *)> onMessageFn) {
         onMessage = std::move(onMessageFn);
     }
 

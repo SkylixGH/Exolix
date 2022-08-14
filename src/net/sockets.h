@@ -50,7 +50,7 @@ namespace exolix::net {
         bool live = true;
         std::thread listener;
 
-        std::function<void (SocketMessage)> onMessage {};
+        std::function<void (SocketMessage *)> onMessage {};
 
     public:
         const int socketHandle;
@@ -63,7 +63,7 @@ namespace exolix::net {
         void send(const char* message) const;
         void block();
 
-        void setOnMessage(std::function <void (SocketMessage)> onMessageFn);
+        void setOnMessage(std::function <void (SocketMessage *)> onMessageFn);
 
         [[nodiscard]] bool isLive() const;
     };
