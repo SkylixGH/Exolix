@@ -102,7 +102,13 @@ namespace exolix::net {
 
     void HttpHeaders::applyInitialLine() {
         std::stringstream ss;
-        ss << getMethodString() << " " << path << " " << getVersionString();
+
+        const std::string methodString = getMethodString();
+        const std::string versionString = getVersionString();
+
+        if (!path.empty() && !methodString.empty())
+            ss << methodString << " " << path << " " << versionString;
+        else ss << versionString;
 
         initialLine = ss.str();
     }
@@ -120,6 +126,7 @@ namespace exolix::net {
             case HttpMethod::GET: return "GET";
             case HttpMethod::PUT: return "PUT";
             case HttpMethod::DELETE: return "DELETE";
+            case HttpMethod::NONE: return "";
         }
     }
 
@@ -148,8 +155,8 @@ namespace exolix::net {
                 responseHeaders.set("Cache-Control", "no-cache");
                 responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
 
-                responseHeaders.setPath(inputRequestHeaders.getPath());
-                responseHeaders.setMethod(inputRequestHeaders.getMethod());
+                responseHeaders.setPath("");
+                responseHeaders.setMethod(HttpMethod::NONE);
                 responseHeaders.setVersion(inputRequestHeaders.getVersion());
 
 //                socket.send(
