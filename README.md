@@ -4,6 +4,8 @@
     <img src="readme/Logo.svg" width="200" alt="Logo" /> 
     <br />
     <br />
+    <br />
+    <br />
     <p>High performance cross-platform framework for many languages!</p>
 </div>
 
