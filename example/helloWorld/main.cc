@@ -14,6 +14,7 @@
 
 #include <exolix/net.h>
 #include <exolix/str.h>
+#include <iostream>
 
 using namespace exolix::net;
 using namespace exolix::str;

@@ -14,26 +14,39 @@ namespace exolix::net {
         std::vector<std::string> headers = exolix::str::StringModify::split(headersStrings, "\r\n");
 
         for (auto& header : headers) {
-            std::vector<std::string> headerParts = exolix::str::StringModify::split(header, ": ");
-            if (headerParts.size() == 2) {
-                this->headers[headerParts[0]] = headerParts[1];
-            }
+            std::vector<std::string> keyPair = exolix::str::StringModify::split(header, ": ");
+
+            if (keyPair.size() == 2)
+                set(keyPair[0], keyPair[1]);
         }
     }
 
     std::string HttpHeaders::get(const std::string &key) {
-        return headers[key];
+        return headersUnordered[key];
     }
 
     void HttpHeaders::set(const std::string &key, const std::string &value) {
-        headers[key] = value;
+        if (key.empty()) return;
+
+        if (headersUnordered.find(key) != headersUnordered.end()) {
+            headersUnordered[key] = value;
+        } else {
+            headersKeys.push_back(key);
+            headersUnordered.insert({ key, value });
+        }
+    }
+
+    void HttpHeaders::remove(const std::string &key) {
+        headersUnordered.erase(key);
+        headersKeys.erase(std::find(headersKeys.begin(), headersKeys.end(), key));
     }
 
     std::string HttpHeaders::toString() {
         std::string result;
 
-        for (auto& header : headers) {
-            result += header.first + ": " + header.second + "\r\n";
+        for (auto &header : headersKeys) {
+            auto pair = headersUnordered.find(header);
+            result += header + ": " + pair->second + "\r\n";
         }
 
         return result;
@@ -46,10 +59,25 @@ namespace exolix::net {
             Socket socket(id);
 
             socket.setOnMessage([this, &socket] (SocketMessage *message) {
+                HttpHeaders inputRequestHeaders(message->toString());
+                HttpHeaders responseHeaders;
+
+                responseHeaders.set("HTTP/1.1", "200 OK");
+                responseHeaders.set("Host", "localhost:8080");
+                responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
+                responseHeaders.set("Cache-Control", "no-cache");
+
+//                socket.send(
+//                        "HTTP/1.1 200 OK\r\n"
+//                        "Host: localhost:8080\r\n"
+//                        "Content-Type: text/html; charset=UTF-8\r\n"
+//                        "Cache-Control: no-cache\r\n"
+//                        "\r\n"
+//                        "<html><body>Hello World!</body></html>"
+//                );
+
                 socket.send(
-                        "HTTP/1.1 200 OK\r\n"
-                        "Content-Type: text/html; charset=UTF-8\r\n"
-                        "Cache-Control: no-cache\r\n"
+                        responseHeaders.toString() +
                         "\r\n"
                         "<html><body>Hello World!</body></html>"
                 );
