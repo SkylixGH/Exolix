@@ -211,6 +211,58 @@ namespace exolix::net {
         std::string getInitialLine();
     };
 
+    enum class HttpRedirectStatusCodes {
+        /**
+         * This status code means the request has more than one possible
+         * response, the user-agent has the ability to select a preferred
+         * there is no generic way to choose one of the multiple available.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/300
+         */
+        MULTIPLE_CHOICES = 300,
+
+        /**
+         * This status code is used when the requested page has moved to a new location.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/301
+         */
+        MOVED_PERMANENTLY = 301,
+
+        /**
+         * This status code is used when the requested page has moved temporarily to a new location.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/302
+         */
+        FOUND = 302,
+
+        /**
+         * This status code is used when the requested page has moved temporarily to a new location.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/303
+         */
+        SEE_OTHER = 303,
+
+        /**
+         * This status code is used when the requested page has not been modified since last requested.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304
+         */
+        NOT_MODIFIED = 304,
+
+        /**
+         * This status code is used when the requested page has moved temporarily to a new location.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/305
+         */
+        USE_PROXY = 305,
+
+        /**
+         * This status code is used when the requested page has moved temporarily to a new location.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/307
+         */
+        TEMPORARY_REDIRECT = 307,
+
+        /**
+         * This status code is used when the requested page has moved permanently to a new location.
+         * @see https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/308
+         */
+        PERMANENT_REDIRECT = 308
+    };
+
     /**
      * An HTTP response object which goes out steam to the
      * request client that can render items to the renderer
@@ -218,13 +270,32 @@ namespace exolix::net {
      */
     class HttpResponse {
     private:
+        /**
+         * the HTTP response output headers, body and more.
+         */
         HttpHeaders *headers;
 
     public:
+        /**
+         * Create a new HTTP response object.
+         * @param headers The request header storage object to utilize.
+         */
         HttpResponse(HttpHeaders *headers);
         ~HttpResponse();
 
+        /**
+         * Get the HTTP request header storage item.
+         * @return The HTTP request header storage item.
+         */
         HttpHeaders *getHeaders();
+
+        /**
+         * Adjust the headers, so that when the request is sent to the client,
+         * the client will decide to redirect its location.
+         * @param location The location to redirect to.
+         * @param statusCode The status code to use when redirecting.
+         */
+        void redirect(std::string location, HttpRedirectStatusCodes statusCode = HttpRedirectStatusCodes::FOUND);
     };
 
     /**
@@ -233,16 +304,39 @@ namespace exolix::net {
      */
     class HttpServer {
     private:
+        /**
+         * The socket host for the HTTP server service.
+         */
         SocketServer *server;
+
+        /**
+         * The callback listener for listening to when an HTTP request
+         * was created.
+         */
         std::function<void(HttpHeaders *, HttpHeaders *)> onRequest;
 
     public:
+        /**
+         * Create a new HTTP server object.
+         * @param port The port to listen on.
+         */
         explicit HttpServer(int port = 80);
         ~HttpServer();
 
+        /**
+         * Bind the HTTP server to the address.
+         */
         void bind();
+
+        /**
+         * Join the thread until the server is offline.
+         */
         void block();
 
+        /**
+         * Set the callback listener for when an HTTP request was created.
+         * @param onRequestFn
+         */
         void setOnRequest(std::function<void(HttpHeaders *, HttpHeaders *)> onRequestFn);
     };
 }
