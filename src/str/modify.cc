@@ -1,6 +1,14 @@
 #include "modify.h"
+#include <algorithm>
 
 namespace exolix::str {
+    std::string StringModify::toUpper(const std::string &str) {
+        std::string result = str;
+        std::transform(result.begin(), result.end(), result.begin(), toupper);
+
+        return result;
+    }
+
     std::vector<std::string> StringModify::split(const std::string &str, const std::string &delim) {
         if (delim.empty()) {
             std::vector<std::string> result;

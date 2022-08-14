@@ -6,11 +6,29 @@
 #include <string>
 
 namespace exolix::net {
+    enum class HttpVersion {
+        HTTP_1_0,
+        HTTP_1_1
+    };
+
+    enum class HttpMethod {
+        POST,
+        GET,
+        PUT,
+        DELETE,
+        NONE
+    };
+
     class HttpHeaders {
     private:
         std::vector<std::string> headersKeys {};
         std::map<std::string, std::string> headersUnordered {};
-        std::string httpInitialLine = "HTTP/1.1 200 OK";
+        std::string path;
+        std::string initialLine;
+        HttpMethod method = HttpMethod::NONE;
+        HttpVersion httpVersion = HttpVersion::HTTP_1_0;
+
+        void applyInitialLine();
 
     public:
         HttpHeaders();
@@ -18,10 +36,22 @@ namespace exolix::net {
 
         void set(const std::string& key, const std::string& value);
         void remove(const std::string& key);
-        void writeInitialLine(const std::string &line);
 
         std::string get(const std::string& key);
         std::string toString();
+
+        std::string getVersionString();
+        std::string getMethodString();
+
+        HttpMethod getMethod();
+        HttpVersion getVersion();
+        std::string getPath();
+
+        void setMethod(HttpMethod inMethod);
+
+        void setVersion(HttpVersion inVersion);
+        void setPath(const std::string& inPath);
+
         std::string getInitialLine();
     };
 
@@ -39,7 +69,7 @@ namespace exolix::net {
 
     class HttpServer {
     private:
-        SocketServer *server = nullptr;
+        SocketServer *server;
 
     public:
         explicit HttpServer(int port = 80);

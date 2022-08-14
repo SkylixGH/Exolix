@@ -17,17 +17,38 @@ namespace exolix::net {
 
         for (auto& header : headers) {
             if (initial) {
-                writeInitialLine(header);
+                initialLine = header;
                 initial = false;
+
+                std::vector<std::string> initialLineParts = exolix::str::StringModify::split(initialLine, " ");
+
+                if (initialLineParts.size() == 3) {
+                    std::string textMethod = str::StringModify::toUpper(initialLineParts[0]);
+
+                    if (textMethod == "POST") method = HttpMethod::POST;
+                    else if (textMethod == "PUT") method = HttpMethod::PUT;
+                    else if (textMethod == "DELETE") method = HttpMethod::DELETE;
+                    else if (textMethod == "GET") method = HttpMethod::GET;
+                    else method = HttpMethod::NONE;
+
+                    setPath(initialLineParts[1]);
+                    std::string textVersion = str::StringModify::toUpper(initialLineParts[2]);
+
+                    if (textVersion == "HTTP/1.0") httpVersion = HttpVersion::HTTP_1_0;
+                    else httpVersion = HttpVersion::HTTP_1_1;
+                } else if (initialLineParts.size() == 1) {
+                    std::string textVersion = str::StringModify::toUpper(initialLineParts[2]);
+
+                    if (textVersion == "HTTP/1.0") httpVersion = HttpVersion::HTTP_1_0;
+                    else httpVersion = HttpVersion::HTTP_1_1;
+                }
             }
 
             std::vector<std::string> keyPair = exolix::str::StringModify::split(header, ": ");
             if (keyPair.size() == 2) set(keyPair[0], keyPair[1]);
         }
-    }
 
-    void HttpHeaders::writeInitialLine(const std::string &line) {
-        httpInitialLine = line;
+        applyInitialLine();
     }
 
     std::string HttpHeaders::get(const std::string &key) {
@@ -35,7 +56,8 @@ namespace exolix::net {
     }
 
     std::string HttpHeaders::getInitialLine() {
-        return httpInitialLine;
+        applyInitialLine();
+        return initialLine;
     }
 
     void HttpHeaders::set(const std::string &key, const std::string &value) {
@@ -54,8 +76,55 @@ namespace exolix::net {
         headersKeys.erase(std::find(headersKeys.begin(), headersKeys.end(), key));
     }
 
+    void HttpHeaders::setMethod(HttpMethod inMethod) {
+        this->method = inMethod;
+    }
+
+    void HttpHeaders::setVersion(exolix::net::HttpVersion inVersion) {
+        this->httpVersion = inVersion;
+    }
+
+    HttpMethod HttpHeaders::getMethod() {
+        return method;
+    }
+
+    std::string HttpHeaders::getPath() {
+        return path;
+    }
+
+    HttpVersion HttpHeaders::getVersion() {
+        return httpVersion;
+    }
+
+    void HttpHeaders::setPath(const std::string &inPath) {
+        this->path = inPath;
+    }
+
+    void HttpHeaders::applyInitialLine() {
+        std::stringstream ss;
+        ss << getMethodString() << " " << path << " " << getVersionString();
+
+        initialLine = ss.str();
+    }
+
+    std::string HttpHeaders::getVersionString() {
+        switch (httpVersion) {
+            case HttpVersion::HTTP_1_0: return "HTTP/1.0";
+            case HttpVersion::HTTP_1_1: return "HTTP/1.1";
+        }
+    }
+
+    std::string HttpHeaders::getMethodString() {
+        switch (method) {
+            case HttpMethod::POST: return "POST";
+            case HttpMethod::GET: return "GET";
+            case HttpMethod::PUT: return "PUT";
+            case HttpMethod::DELETE: return "DELETE";
+        }
+    }
+
     std::string HttpHeaders::toString() {
-        std::string result = httpInitialLine + "\r\n";
+        std::string result = getInitialLine() + "\r\n";
 
         for (auto &header : headersKeys) {
             auto pair = headersUnordered.find(header);
@@ -68,16 +137,20 @@ namespace exolix::net {
     HttpServer::HttpServer(int port) {
         server = new SocketServer(port);
 
-        server->setOnSocketOpen([this] (int id) {
+        server->setOnSocketOpen([] (int id) {
             Socket socket(id);
 
-            socket.setOnMessage([this, &socket] (SocketMessage *message) {
+            socket.setOnMessage([&socket] (SocketMessage *message) {
                 HttpHeaders inputRequestHeaders(message->toString());
                 HttpHeaders responseHeaders;
 
                 responseHeaders.set("Host", "localhost:8080");
                 responseHeaders.set("Cache-Control", "no-cache");
                 responseHeaders.set("Content-Type", "text/html; charset=UTF-8");
+
+                responseHeaders.setPath(inputRequestHeaders.getPath());
+                responseHeaders.setMethod(inputRequestHeaders.getMethod());
+                responseHeaders.setVersion(inputRequestHeaders.getVersion());
 
 //                socket.send(
 //                        "HTTP/1.1 200 OK\r\n"
@@ -95,7 +168,7 @@ namespace exolix::net {
                 );
 
                 std::string url = inputRequestHeaders.get("url");
-                cout << "URL: " << inputRequestHeaders.getInitialLine() << endl;
+                cout << "URL: " << inputRequestHeaders.getPath() << " method " << inputRequestHeaders.getMethodString() << " version " << inputRequestHeaders.getVersionString() << endl;
 
                 socket.close();
             });
