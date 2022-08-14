@@ -14,16 +14,55 @@ namespace exolix::net {
      * codes for the Exolix networking socket system.
      */
      enum class SocketErrors {
+         /**
+          * The server is already online.
+          */
          SERVER_ALREADY_ONLINE,
+
+         /**
+          * The server is already working to bind.
+          */
          SERVER_ALREADY_ENABLING,
+
+         /**
+          * The server is already offline.
+          */
          SERVER_ALREADY_OFFLINE,
+
+         /**
+          * The server is already disabling.
+          */
          SERVER_ALREADY_DISABLING,
-         SERVER_BUSY_ENABLING,
+
+         /**
+          * The server could not create the socket.
+          */
          SERVER_FAILED_CREATE_SOCKET,
+
+         /**
+          * The server could not assign the options.
+          */
          SERVER_FAILED_SOCKET_OPTIONS,
+
+         /**
+          * The server could not bind the server.
+          */
          SERVER_FAILED_SOCKET_BIND,
+
+         /**
+          * The server failed to listen.
+          */
          SERVER_FAILED_SOCKET_LISTEN,
+
+         /**
+          * The server port was being changed while running,
+          * it must be unbound before changing the port.
+          */
          SERVER_PORT_CANNOT_CHANGE_WHILE_ONLINE,
+
+         /**
+          * The server address provided to be connected to is invalid.
+          */
          CLIENT_INVALID_HOST
      };
 
@@ -50,7 +89,7 @@ namespace exolix::net {
         bool live = true;
         std::thread listener;
 
-        std::function<void (SocketMessage)> onMessage {};
+        std::function<void (SocketMessage *)> onMessage {};
 
     public:
         const int socketHandle;
@@ -63,7 +102,7 @@ namespace exolix::net {
         void send(const char* message) const;
         void block();
 
-        void setOnMessage(std::function <void (SocketMessage)> onMessageFn);
+        void setOnMessage(std::function <void (SocketMessage *)> onMessageFn);
 
         [[nodiscard]] bool isLive() const;
     };

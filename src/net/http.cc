@@ -155,8 +155,8 @@ namespace exolix::net {
         server->setOnSocketOpen([this](int id) {
             Socket socket(id);
 
-            socket.setOnMessage([this](SocketMessage message) {
-                HttpHeaders request(message.toString());
+            socket.setOnMessage([this](SocketMessage *message) {
+                HttpHeaders request(message->toString());
                 HttpHeaders responseHeaders;
 
                 if (onRequest)

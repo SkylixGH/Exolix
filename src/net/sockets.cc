@@ -42,7 +42,7 @@ namespace exolix::net {
                     break;
                 } else {
                     if (onMessage)
-                        std::thread([&] () { onMessage(SocketMessage(buffer)); }).join();
+                        std::thread([&] () { onMessage(new SocketMessage(buffer)); }).join();
                 }
             }
         });
@@ -62,7 +62,7 @@ namespace exolix::net {
             listener.join();
     }
 
-    void Socket::setOnMessage(std::function<void(SocketMessage)> onMessageFn) {
+    void Socket::setOnMessage(std::function<void(SocketMessage *)> onMessageFn) {
         onMessage = std::move(onMessageFn);
     }
 
@@ -205,7 +205,7 @@ namespace exolix::net {
     void SocketServer::unbind() {
         if (state == util::JobState::ENABLING) {
             throw SocketError(
-                    SocketErrors::SERVER_BUSY_ENABLING,
+                    SocketErrors::SERVER_ALREADY_ENABLING,
                     "Cannot unbind the socket server while it's enabling"
             );
         } else if (state == util::JobState::OFF) {
