@@ -1,243 +1,145 @@
 #include "sockets.h"
-#include <utility>
-#include <cstring>
-#include <thread>
-#include <future>
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__APPLE__)
 
 #include <netinet/in.h>
-#include <cerrno>
-#include <unistd.h>
+#include <arpa/inet.h>
+#include <sys/socket.h>
 
 #elif _WIN32
 
 #include <winsock2.h>
 
-#elif __APPLE__
-
-#include <cerrno>
-
 #endif
 
 namespace exolix::net {
-    SocketMessage::SocketMessage(char *dataIn): raw(dataIn) {
-        size = strlen(dataIn);
-    }
-
+    // SocketMessage
     std::string SocketMessage::toString() const {
-        return std::string { raw, size };
+        int index;
+        std::string string;
+
+        for (index = 0; index < size; index++) {
+            string += data[index];
+        }
+
+        return string;
     }
 
-    Socket::Socket(int osSocketID): socketHandle(osSocketID) {
-        listener = std::thread([this] () {
-            char buffer[1024] = { 0 };
-
-            while (live) {
-                const int closeCode = 0;
-                const int fd = socketHandle;
-                long readResult = read(fd, buffer, sizeof(buffer));
-
-                if (readResult == closeCode) {
-                    break;
-                } else {
-                    if (onMessage)
-                        std::thread([&] () { onMessage(new SocketMessage(buffer)); }).join();
-                }
-            }
-        });
-    }
-
-    Socket::~Socket() {
-        live = false;
-
-        if (listener.joinable())
-            listener.join();
-
-        close();
+    // Socket
+    Socket::Socket(int osHandle) : socketHandle(osHandle) {
     }
 
     void Socket::block() {
-        if (listener.joinable())
-            listener.join();
-    }
-
-    void Socket::setOnMessage(std::function<void(SocketMessage *)> onMessageFn) {
-        onMessage = std::move(onMessageFn);
+        if (thread.joinable()) thread.join();
     }
 
     void Socket::close() {
-        live = false;
-        ::close(socketHandle);
+        running = false;
     }
 
-    void Socket::send(const std::string& message) const {
-        if (!live) return;
-        write(socketHandle, message.c_str(), message.length());
+    void Socket::send(const std::string &message) {
+
     }
 
-    void Socket::send(const char* message) const {
-        if (!live) return;
-        write(socketHandle, message, strlen(message));
+    void Socket::send(const exolix::net::SocketMessage &message) {
+
     }
 
-    bool Socket::isLive() const {
-        return live;
+    // SocketServer
+    SocketServer::SocketServer(const exolix::net::SocketServerOptions &options):
+        options(options) {
     }
-
-    SocketServer::SocketServer(uint16_t inPort):
-        port(inPort), state(util::JobState::OFF) {}
 
     SocketServer::~SocketServer() {
-        if (state == util::JobState::READY)
-            unbind();
+        shutdown();
+        block();
 
-        delete serverThread;
+        delete thread;
     }
 
-    std::string SocketServer::getLastSocketErrorMessage() {
-#ifdef __linux__
-        return strerror(errno);
-#elif _WIN32
-        static char message[256] = {0};
+    void SocketServer::listen(uint16_t listeningPort, const std::string &listeningHost) {
+        if (hasStartedBefore)
+            throw SocketError(SocketErrors::ServerPreviouslyStartedBefore, "Cannot start the server again because it was started before.");
 
-        FormatMessage(
-            FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
-            0, WSAGetLastError(), 0, message, 256, 0);
+        hasStartedBefore = true;
 
-        char *nl = strrchr(message, '\n');
-        if (nl) *nl = 0;
-        return message;
-#elif __APPLE__
-        return strerror(errno);
-#endif
-    }
+        this->port = listeningPort;
+        this->host = listeningHost;
 
-    void SocketServer::bind() {
-        if (state == util::JobState::READY)
-            throw SocketError(
-                    SocketErrors::SERVER_ALREADY_ONLINE,
-                    "The socket server is already bound to the address, "
-                    "please unbind it to re-bind it to the address"
-            );
-        else if (state == util::JobState::ENABLING)
-            throw SocketError(
-                    SocketErrors::SERVER_ALREADY_ENABLING,
-                    "The socket server is already trying to bind "
-                    "to the address, you cannot rebind it unless its "
-                    "offline first"
-            );
+        struct sockaddr_in serverAddress {};
 
-        state = util::JobState::ENABLING;
-
-#ifdef __linux__
-        struct sockaddr_in address{};
-
-        const int addressLength = sizeof(address);
+#if defined(__linux__) || defined(__APPLE__)
+        const int addressLength = sizeof(serverAddress);
         const int option = 1;
 
-        sysServerId = socket(AF_INET, SOCK_STREAM, 0);
+        if ((osSocketHandle = socket(AF_INET, SOCK_STREAM, 0)) < 0)
+            throw SocketError(SocketErrors::ServerCannotCreateSocket, "The OS could not create the socket.");
 
-        if (sysServerId < 0) {
-            state = util::JobState::OFF;
+        if (setsockopt(osSocketHandle, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &option, sizeof(option)))
+            throw SocketError(SocketErrors::ServerCannotSetSocketOptions, "The OS could not set the socket options.");
 
-            throw SocketError(
-                    SocketErrors::SERVER_FAILED_CREATE_SOCKET,
-                    "The operating system could not create the socket "
-                    "because of the following error received by the OS, "
-                    "'" + getLastSocketErrorMessage() + "'"
-            );
-        }
+        serverAddress.sin_family = AF_INET;
+        serverAddress.sin_port = htons(port);
 
-        if (setsockopt(sysServerId, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &option, sizeof(option))) {
-            state = util::JobState::OFF;
+        if (inet_pton(AF_INET, host.c_str(), &serverAddress.sin_addr) <= 0)
+            throw SocketError(SocketErrors::ServerInvalidHost, "The host is invalid.");
 
-            throw SocketError(
-                    SocketErrors::SERVER_FAILED_SOCKET_OPTIONS,
-                    "The operating system could not set the socket options "
-                    "because of the following error received by the OS, "
-                    "'" + getLastSocketErrorMessage() + "'"
-            );
-        }
+        if (bind(osSocketHandle, (struct sockaddr *) &serverAddress, addressLength) < 0)
+            throw SocketError(SocketErrors::ServerCannotBind, "The OS could not bind the socket.");
 
-        address.sin_family = AF_INET;
-        address.sin_addr.s_addr = INADDR_ANY;
-        address.sin_port = htons(port);
+        if (::listen(osSocketHandle, options.backlog) < 0)
+            throw SocketError(SocketErrors::ServerCannotListen, "The OS could not listen on the socket.");
 
-        if (::bind(sysServerId, (struct sockaddr *) &address, addressLength) < 0) {
-            state = util::JobState::OFF;
+        isListening = true;
+        thread = new std::thread([this, &serverAddress, &addressLength] () {
+            while (isListening) {
+                int clientSocketHandle;
 
-            throw SocketError(
-                    SocketErrors::SERVER_FAILED_SOCKET_BIND,
-                    "The operating system could not bind the socket "
-                    "because of the following error received by the OS, "
-                    "'" + getLastSocketErrorMessage() + "'"
-            );
-        }
+                if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &serverAddress, (socklen_t *) &addressLength)) >= 0) {
+                    Socket socket(clientSocketHandle);
+                    sockets.insert({ clientSocketHandle, socket });
 
-        if (listen(sysServerId, backlog) < 0) {
-            state = util::JobState::OFF;
-
-            throw SocketError(
-                    SocketErrors::SERVER_FAILED_SOCKET_LISTEN,
-                    "The operating system could not listen on the socket "
-                    "because of the following error received by the OS, "
-                    "'" + getLastSocketErrorMessage() + "'"
-            );
-        }
-
-        state = util::JobState::READY;
-
-        serverThread = new std::thread([this, &addressLength, &address] () {
-            while (state == util::JobState::READY) {
-                const int clientSocketHandle = accept(sysServerId, (struct sockaddr *) &address,
-                                                      (socklen_t *) &addressLength);
-
-                if (clientSocketHandle >= 0) {
-                    if (onSocketOpen)
-                        std::thread([&]() { onSocketOpen(clientSocketHandle); }).detach();
+                    std::thread([this, &socket] () {
+                        onSocketOpen(socket);
+                    }).detach();
+                } else {
+                    std::cout << "Error: " << errno << std::endl;
                 }
             }
         });
+#elif _WIN32
+
 #endif
     }
 
-    void SocketServer::unbind() {
-        if (state == util::JobState::ENABLING) {
-            throw SocketError(
-                    SocketErrors::SERVER_ALREADY_ENABLING,
-                    "Cannot unbind the socket server while it's enabling"
-            );
-        } else if (state == util::JobState::OFF) {
-            throw SocketError(
-                SocketErrors::SERVER_ALREADY_OFFLINE,
-                "Cannot unbind the socket server because its already offline"
-            );
-        } else if (state == util::JobState::DISABLING) {
-            throw SocketError(
-                    SocketErrors::SERVER_ALREADY_DISABLING,
-                    "Cannot try to unbind the socket server again because "
-                    "it is already unbinding"
-            );
+    void SocketServer::shutdown() {
+        if (hasShutdownBefore)
+            throw SocketError(SocketErrors::ServerPreviouslyStartedBefore, "Cannot shutdown the server again because it was shutdown before.");
+
+        if (!isListening)
+            throw SocketError(SocketErrors::ServerIsNotOnlineYet, "The server is not online yet.");
+
+        isListening = false;
+        hasShutdownBefore = true;
+
+        for (auto &socket : sockets) {
+            socket.second.close();
         }
 
-        state = util::JobState::DISABLING;
-        sysServerId = 0;
+        sockets.clear();
 
-        if (serverThread) {
-            serverThread->join();
-            serverThread = nullptr;
+#if defined(__linux__) || defined(__APPLE__)
+        close(osSocketHandle);
+#elif _WIN32
 
-            delete serverThread;
-        }
-    }
-
-    void SocketServer::setOnSocketOpen(std::function<void(int)> onSocketOpenFn) {
-        onSocketOpen = std::move(onSocketOpenFn);
+#endif
     }
 
     void SocketServer::block() {
-        if (serverThread && serverThread->joinable())
-            serverThread->join();
+        if (thread != nullptr && thread->joinable()) thread->join();
+    }
+
+    void SocketServer::setOnSocketOpenListener(const std::function<void(Socket &)> &listener) {
+        onSocketOpen = listener;
     }
 }
