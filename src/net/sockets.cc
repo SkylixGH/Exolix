@@ -1,4 +1,5 @@
 #include "sockets.h"
+#include <sstream>
 
 #if defined(__linux__) || defined(__APPLE__)
 
@@ -15,26 +16,54 @@
 namespace exolix::net {
     // SocketMessage
     std::string SocketMessage::toString() const {
-        int index;
-        std::string string;
+        std::stringstream ss;
 
-        for (index = 0; index < size; index++) {
-            string += data[index];
+        for (auto i : data) {
+            ss << i;
         }
 
-        return string;
+        return ss.str();
     }
 
     // Socket
     Socket::Socket(int osHandle) : socketHandle(osHandle) {
+        thread = new std::thread([this] () {
+            while (running) {
+                char buffer[1024];
+                long bytesRead = read(socketHandle, buffer, sizeof(buffer));
+
+                if (bytesRead < 0) {
+                    // TODO: Handle error
+                }
+
+                if (bytesRead == 0) {
+                    close();
+                    break;
+                }
+
+                SocketMessage message {
+                    buffer
+                };
+
+                onMessage(message);
+            }
+        });
+    }
+
+    Socket::~Socket() {
+        close();
+        block();
+
+        delete thread;
     }
 
     void Socket::block() {
-        if (thread.joinable()) thread.join();
+        if (thread->joinable()) thread->join();
     }
 
     void Socket::close() {
         running = false;
+        ::close(socketHandle);
     }
 
     void Socket::send(const std::string &message) {
@@ -43,6 +72,10 @@ namespace exolix::net {
 
     void Socket::send(const exolix::net::SocketMessage &message) {
 
+    }
+
+    void Socket::setOnMessageListener(const std::function<void(SocketMessage &)> &listener) {
+        this->onMessage = listener;
     }
 
     // SocketServer
@@ -87,19 +120,21 @@ namespace exolix::net {
         if (bind(osSocketHandle, (struct sockaddr *) &serverAddress, addressLength) < 0)
             throw SocketError(SocketErrors::ServerCannotBind, "The OS could not bind the socket.");
 
-        if (::listen(osSocketHandle, options.backlog) < 0)
+        if (::listen(osSocketHandle, (int) options.backlog) < 0)
             throw SocketError(SocketErrors::ServerCannotListen, "The OS could not listen on the socket.");
 
         isListening = true;
-        thread = new std::thread([this, &serverAddress, &addressLength] () {
+        thread = new std::thread([this] () {
             while (isListening) {
                 int clientSocketHandle;
+                struct sockaddr_in clientAddress {};
+                const int clientAddressLength = sizeof(clientAddress);
 
-                if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &serverAddress, (socklen_t *) &addressLength)) >= 0) {
-                    Socket socket(clientSocketHandle);
-                    sockets.insert({ clientSocketHandle, socket });
+                if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &clientAddress, (socklen_t *) &clientAddressLength)) >= 0) {
+                    std::thread([this, &clientSocketHandle] () {
+                        Socket socket(clientSocketHandle);
+                        sockets.insert({ clientSocketHandle, socket });
 
-                    std::thread([this, &socket] () {
                         onSocketOpen(socket);
                     }).detach();
                 } else {

@@ -20,30 +20,34 @@ namespace exolix::net {
     typedef err::Error<SocketErrors> SocketError;
 
     struct SocketMessage {
-        char *data;
-        int size;
+        char *data[1024];
 
         [[nodiscard]] std::string toString() const;
     };
 
     struct SocketServerOptions {
-        int backlog = 128;
+        unsigned int backlog = 128;
     };
 
     class Socket {
     private:
         int socketHandle;
         bool running = true;
-        std::thread thread;
+        std::thread *thread;
+
+        std::function<void(SocketMessage &)> onMessage = [] (SocketMessage &message) {};
 
     public:
         explicit Socket(int osHandle);
+        ~Socket();
 
         void block();
         void close();
 
         void send(const std::string &message);
         void send(const SocketMessage &message);
+
+        void setOnMessageListener(const std::function<void(SocketMessage &)> &listener);
     };
 
     class SocketServer {

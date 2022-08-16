@@ -9,12 +9,15 @@ int main() {
 
     server.setOnSocketOpenListener([] (Socket &socket) {
         cout << "New connection: \n";
-//        socket.setOnMessageListener([&socket] (SocketMessage &message) {
-//            socket.send("You sent: " + message.toString());
-//            socket.close();
-//        });
+        socket.setOnMessageListener([&socket] (SocketMessage &message) {
+            cout << "Message: " << message.toString() << "\n";
+
+            socket.send("You sent: ");
+            socket.close();
+        });
 
         socket.block();
+        cout << "Connection closed: \n";
     });
 
     server.listen(3000);
