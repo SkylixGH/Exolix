@@ -35,7 +35,7 @@ namespace exolix::net {
                 long bytesRead = recv(socketHandle, buffer, sizeof(buffer), 0);
 #endif
 
-                if (bytesRead < 0) {
+                if (bytesRead == 0) {
                     close();
                     break;
                 }
