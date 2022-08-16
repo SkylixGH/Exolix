@@ -75,7 +75,7 @@ namespace exolix::net {
 #if defined(__linux__) || defined(__APPLE__)
         write(socketHandle, message.data, message.size);
 #elif _WIN32
-        send(socketHandle, message.data, message.size, 0);
+        ::send(socketHandle, message.data, message.size, 0);
 #endif
     }
 

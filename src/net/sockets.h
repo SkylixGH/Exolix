@@ -21,7 +21,7 @@ namespace exolix::net {
 
     struct SocketMessage {
         char *data;
-        unsigned long size;
+        size_t size;
 
         [[nodiscard]] std::string toString() const;
     };
