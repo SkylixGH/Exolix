@@ -9,8 +9,8 @@
 
 #elif _WIN32
 
-#include <windows.h>
 #include <winsock2.h>
+#include <windows.h>
 #include <ws2tcpip.h>
 
 #endif
@@ -166,9 +166,9 @@ namespace exolix::net {
     struct addrinfo *result = NULL;
     struct addrinfo hints;
 
-    iResult = WSAStartup(CMAKEWORD(2, 2), &wsaData);
+    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)
-        throw SocketError(SocketErrors::ServerCannotStartWSA, "The WSA could not be started.");
+        throw SocketError(SocketErrors::ServerCannotStartWsa, "The WSA could not be started.");
 
     ZeroMemory(&hints, sizeof(hints));
 
@@ -199,7 +199,7 @@ namespace exolix::net {
     }
 
     freeaddrinfo(result);
-    iResult = listen(listenSocket, SOMAXCONN);
+    iResult = ::listen(listenSocket, SOMAXCONN);
 
     if (iResult == SOCKET_ERROR) {
         closesocket(listenSocket);
