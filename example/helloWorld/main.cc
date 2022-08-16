@@ -18,7 +18,12 @@ int main() {
         cout << "Connection closed: \n";
     });
 
-    server.listen(3000);
+    try {
+        server.listen(3000);
+    } catch (SocketError &e) {
+        e.render();
+    }
+
     server.block();
 
     return 0;

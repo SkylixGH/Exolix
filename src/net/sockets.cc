@@ -96,7 +96,7 @@ namespace exolix::net {
     }
 
     SocketServer::~SocketServer() {
-        shutdown();
+        isListening = false;
         block();
 
         delete thread;
