@@ -12,8 +12,12 @@ int main() {
         socket.setOnMessageListener([&socket] (SocketMessage &message) {
             cout << "Message: " << message.toString() << "\n";
 
-            socket.send("You sent: ");
-            socket.close();
+            char chars[] = {static_cast<char>(0xFF)};
+
+            socket.send(SocketMessage {
+                    chars,
+                    1
+            });
         });
 
         socket.block();

@@ -17,11 +17,7 @@ namespace exolix::net {
     // SocketMessage
     std::string SocketMessage::toString() const {
         std::stringstream ss;
-
-        for (auto i : data) {
-            ss << i;
-        }
-
+        ss << data;
         return ss.str();
     }
 
@@ -42,7 +38,8 @@ namespace exolix::net {
                 }
 
                 SocketMessage message {
-                    buffer
+                    buffer,
+                    sizeof(buffer)
                 };
 
                 onMessage(message);
@@ -66,12 +63,16 @@ namespace exolix::net {
         ::close(socketHandle);
     }
 
-    void Socket::send(const std::string &message) {
-
+    void Socket::send(const exolix::net::SocketMessage &message) const {
+        if (!running) return;
+        write(socketHandle, message.data, message.size);
     }
 
-    void Socket::send(const exolix::net::SocketMessage &message) {
-
+    void Socket::send(const std::string &message) const {
+        send(SocketMessage {
+                const_cast<char *>(message.c_str()),
+                message.size()
+        });
     }
 
     void Socket::setOnMessageListener(const std::function<void(SocketMessage &)> &listener) {

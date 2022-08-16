@@ -20,7 +20,8 @@ namespace exolix::net {
     typedef err::Error<SocketErrors> SocketError;
 
     struct SocketMessage {
-        char *data[1024];
+        char *data;
+        unsigned long size;
 
         [[nodiscard]] std::string toString() const;
     };
@@ -44,8 +45,8 @@ namespace exolix::net {
         void block();
         void close();
 
-        void send(const std::string &message);
-        void send(const SocketMessage &message);
+        void send(const SocketMessage &message) const;
+        void send(const std::string &message) const;
 
         void setOnMessageListener(const std::function<void(SocketMessage &)> &listener);
     };
