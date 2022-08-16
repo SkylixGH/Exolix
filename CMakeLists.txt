@@ -7,4 +7,9 @@ include_directories(include)
 file(GLOB_RECURSE SOURCE_FILES src/*.cc src/*.h)
 
 add_library(exolix STATIC ${SOURCE_FILES})
+
+if (WIN32)
+    target_link_libraries(exolix PUBLIC ws2_32)
+endif()
+
 add_subdirectory(example)
