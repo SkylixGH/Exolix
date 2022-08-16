@@ -9,7 +9,9 @@
 
 #elif _WIN32
 
+#include <windows.h>
 #include <winsock2.h>
+#include <ws2tcpip.h>
 
 #endif
 
@@ -111,9 +113,9 @@ namespace exolix::net {
         this->port = listeningPort;
         this->host = listeningHost;
 
+#if defined(__linux__) || defined(__APPLE__)
         struct sockaddr_in serverAddress {};
 
-#if defined(__linux__) || defined(__APPLE__)
         const int addressLength = sizeof(serverAddress);
         const int option = 1;
 
@@ -155,7 +157,64 @@ namespace exolix::net {
             }
         });
 #elif _WIN32
+    WSADATA wsaData;
+    int iResult;
 
+    SOCKET listenSocket = INVALID_SOCKET;
+    SOCKET clientSocket = INVALID_SOCKET;
+
+    struct addrinfo *result = NULL;
+    struct addrinfo hints;
+
+    iResult = WSAStartup(CMAKEWORD(2, 2), &wsaData);
+    if (iResult != 0)
+        throw SocketError(SocketErrors::ServerCannotStartWSA, "The WSA could not be started.");
+
+    ZeroMemory(&hints, sizeof(hints));
+
+    hints.ai_family = AF_INET;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    hints.ai_flags = AI_PASSIVE;
+
+    iResult = getaddrinfo(NULL, std::to_string(port).c_str(), &hints, &result);
+    if (iResult != 0)
+        throw SocketError(SocketErrors::ServerInvalidHost, "The host could not be resolved.");
+
+    listenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
+    if (listenSocket == INVALID_SOCKET) {
+        freeaddrinfo(result);
+        WSACleanup();
+
+        throw SocketError(SocketErrors::ServerCannotCreateSocket, "The socket could not be created for windows reason: " + std::to_string(WSAGetLastError()) + ".");
+    }
+
+    iResult = bind(listenSocket, result->ai_addr, (int) result->ai_addrlen);
+    if (iResult == SOCKET_ERROR) {
+        freeaddrinfo(result);
+        closesocket(listenSocket);
+        WSACleanup();
+
+        throw SocketError(SocketErrors::ServerCannotBind, "The socket could not be bound for windows reason: " + std::to_string(WSAGetLastError()) + ".");
+    }
+
+    freeaddrinfo(result);
+    iResult = listen(listenSocket, SOMAXCONN);
+
+    if (iResult == SOCKET_ERROR) {
+        closesocket(listenSocket);
+        WSACleanup();
+
+        throw SocketError(SocketErrors::ServerCannotListen, "The socket could not be listened for windows reason: " + std::to_string(WSAGetLastError()) + ".");
+    }
+
+    isListening = true;
+
+    thread = new std::thread([this] () {
+        while (isListening) {
+
+        }
+    });
 #endif
     }
 
@@ -178,7 +237,6 @@ namespace exolix::net {
 #if defined(__linux__) || defined(__APPLE__)
         close(osSocketHandle);
 #elif _WIN32
-
 #endif
     }
 

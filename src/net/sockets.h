@@ -15,6 +15,7 @@ namespace exolix::net {
         ServerCannotBind,
         ServerCannotSetSocketOptions,
         ServerInvalidHost,
+        ServerCannotStartWsa
     };
 
     typedef err::Error<SocketErrors> SocketError;
