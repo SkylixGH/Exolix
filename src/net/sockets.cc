@@ -26,13 +26,14 @@ namespace exolix::net {
         thread = new std::thread([this] () {
             while (running) {
                 char buffer[1024];
+
+#if defined(__linux__) || defined(__APPLE__)
                 long bytesRead = read(socketHandle, buffer, sizeof(buffer));
+#elif _WIN32
+                long bytesRead = recv(socketHandle, buffer, sizeof(buffer), 0);
+#endif
 
                 if (bytesRead < 0) {
-                    // TODO: Handle error
-                }
-
-                if (bytesRead == 0) {
                     close();
                     break;
                 }
@@ -60,12 +61,22 @@ namespace exolix::net {
 
     void Socket::close() {
         running = false;
+
+#if defined(__linux__) || defined(__APPLE__)
         ::close(socketHandle);
+#elif _WIN32
+        closesocket(socketHandle);
+#endif
     }
 
     void Socket::send(const exolix::net::SocketMessage &message) const {
         if (!running) return;
+
+#if defined(__linux__) || defined(__APPLE__)
         write(socketHandle, message.data, message.size);
+#elif _WIN32
+        send(socketHandle, message.data, message.size, 0);
+#endif
     }
 
     void Socket::send(const std::string &message) const {

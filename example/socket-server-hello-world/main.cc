@@ -1,29 +1,6 @@
-#include <exolix/net.h>
-
-using namespace exolix::net;
-
-void log(const std::string& message) {
-    std::cout << message << std::endl;
-}
+#include <iostream>
 
 int main() {
-    SocketServer server(5030);
-
-    server.setOnSocketOpen([&server] (int id) {
-         Socket socket(id);
-         log("New connection: " + std::to_string(socket.socketHandle));
-
-         socket.setOnMessage([&socket] (SocketMessage *message) {
-             log("New message [" + std::to_string(socket.socketHandle) + "]: " + message->toString() + " Len: " + std::to_string(message->size));
-                socket.send("You sent: " + message->toString());
-         });
-
-         socket.block();
-         log("Connection closed: " + std::to_string(socket.socketHandle));
-    });
-
-    server.bind();
-    server.block();
-
+    std::cout << "Hello World \n";
     return 0;
 }

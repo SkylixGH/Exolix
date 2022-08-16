@@ -11,13 +11,7 @@ int main() {
         cout << "New connection: \n";
         socket.setOnMessageListener([&socket] (SocketMessage &message) {
             cout << "Message: " << message.toString() << "\n";
-
-            char chars[] = {static_cast<char>(0xFF)};
-
-            socket.send(SocketMessage {
-                    chars,
-                    1
-            });
+            socket.send("Hello World!");
         });
 
         socket.block();
