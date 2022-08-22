@@ -68,23 +68,38 @@ namespace exolix::net {
             while (running) {
                 char buffer[1024];
 
+                if (clientTls != nullptr) {
+                    int bytesRead = SSL_read(clientTls, (char *) buffer, sizeof(buffer));
+
+                    if (bytesRead) {
+
+                    }
+
+                    SocketMessage message{
+                            buffer,
+                            sizeof(buffer)
+                    };
+
+                    onMessage(message);
+                } else {
 #if defined(__linux__) || defined(__APPLE__)
-                long bytesRead = read(socketHandle, buffer, sizeof(buffer));
+                    size_t bytesRead = read(socketHandle, buffer, sizeof(buffer));
 #elif _WIN32
-                long bytesRead = recv(socketHandle, buffer, sizeof(buffer), 0);
+                    long bytesRead = recv(socketHandle, buffer, sizeof(buffer), 0);
 #endif
 
-                if (bytesRead == 0) {
-                    close();
-                    break;
+                    if (bytesRead == 0) {
+                        close();
+                        break;
+                    }
+
+                    SocketMessage message{
+                            buffer,
+                            sizeof(buffer)
+                    };
+
+                    onMessage(message);
                 }
-
-                SocketMessage message {
-                        buffer,
-                        sizeof(buffer)
-                };
-
-                onMessage(message);
             }
         });
     }
