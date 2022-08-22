@@ -1,5 +1,8 @@
 #include "sockets.h"
 #include <sstream>
+#include <utility>
+#include <openssl/bio.h>
+#include <openssl/err.h>
 
 #if defined(__linux__) || defined(__APPLE__)
 
@@ -23,8 +26,44 @@ namespace exolix::net {
         return ss.str();
     }
 
+    // SocketInternalManager
+    void SocketInternalManager::initOssl() {
+//        if (osslDoneBefore) return;
+//        osslDoneBefore = true;
+
+        SSL_load_error_strings();
+        SSL_library_init();
+        OpenSSL_add_all_algorithms();
+    }
+
+    void SocketInternalManager::cleanupOssl() {
+//        if (!osslDoneBefore) return;
+//        osslDoneBefore = false;
+
+        ERR_free_strings();
+        EVP_cleanup();
+    }
+
     // Socket
-    Socket::Socket(int osHandle) : socketHandle(osHandle) {
+    Socket::Socket(int osHandle, SocketServer &server):
+        socketHandle(osHandle), serverRef(server) {
+        ld();
+    }
+
+    Socket::Socket(int osHandle, SocketServer &server, SSL *ssl):
+        socketHandle(osHandle), serverRef(server), clientTls(ssl) {
+        ld();
+    }
+
+    Socket::~Socket() {
+        close();
+        block();
+
+        delete thread;
+        delete clientTls;
+    }
+
+    void Socket::ld() {
         thread = new std::thread([this] () {
             while (running) {
                 char buffer[1024];
@@ -41,20 +80,13 @@ namespace exolix::net {
                 }
 
                 SocketMessage message {
-                    buffer,
-                    sizeof(buffer)
+                        buffer,
+                        sizeof(buffer)
                 };
 
                 onMessage(message);
             }
         });
-    }
-
-    Socket::~Socket() {
-        close();
-        block();
-
-        delete thread;
     }
 
     void Socket::block() {
@@ -74,10 +106,13 @@ namespace exolix::net {
     void Socket::send(const exolix::net::SocketMessage &message) const {
         if (!running) return;
 
+        if (clientTls != nullptr) {
+            SSL_write(clientTls, message.data, message.size);
+        } else
 #if defined(__linux__) || defined(__APPLE__)
-        write(socketHandle, message.data, message.size);
+            write(socketHandle, message.data, message.size);
 #elif _WIN32
-        ::send(socketHandle, message.data, message.size, 0);
+            ::send(socketHandle, message.data, message.size, 0);
 #endif
     }
 
@@ -93,8 +128,10 @@ namespace exolix::net {
     }
 
     // SocketServer
-    SocketServer::SocketServer(const exolix::net::SocketServerOptions &options):
-        options(options) {
+    SocketServer::SocketServer(exolix::net::SocketServerOptions options):
+        options(std::move(options)) {
+        if (this->options.certificateAt.length() > 0 || this->options.keyAt.length() > 0)
+            isTls = true;
     }
 
     SocketServer::~SocketServer() {
@@ -112,6 +149,26 @@ namespace exolix::net {
 
         this->port = listeningPort;
         this->host = listeningHost;
+
+        if (isTls) {
+            tlsContext = SSL_CTX_new(SSLv23_server_method());
+            SSL_CTX_set_options(tlsContext, SSL_OP_SINGLE_DH_USE);
+
+            int certRet = SSL_CTX_use_certificate_file(tlsContext, options.certificateAt.c_str(), SSL_FILETYPE_PEM);
+            int keyRet = SSL_CTX_use_PrivateKey_file(tlsContext, options.keyAt.c_str(), SSL_FILETYPE_PEM);
+
+            if (certRet <= 0) {
+                ERR_print_errors_fp(stderr);
+                exit(EXIT_FAILURE);
+            }
+
+            if (keyRet <= 0) {
+                ERR_print_errors_fp(stderr);
+                exit(EXIT_FAILURE);
+            }
+
+            // TODO: Handle errors
+        }
 
 #if defined(__linux__) || defined(__APPLE__)
         struct sockaddr_in serverAddress {};
@@ -146,10 +203,29 @@ namespace exolix::net {
 
                 if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &clientAddress, (socklen_t *) &clientAddressLength)) >= 0) {
                     std::thread([this, &clientSocketHandle] () {
-                        Socket socket(clientSocketHandle);
-                        sockets.insert({ clientSocketHandle, socket });
+                        std::cout << "TLS: " << isTls << "\n";
+                        if (isTls) {
+                            std::cout << "HM\n";
 
-                        onSocketOpen(socket);
+                            SSL *clientTls = SSL_new(tlsContext);
+                            SSL_set_fd(clientTls, clientSocketHandle);
+
+                            int acceptError = SSL_accept(clientTls);
+                            if(acceptError <= 0) {
+                                // TODO: Handle errors
+                            }
+
+                            Socket socket(clientSocketHandle, *this, clientTls);
+
+                            sockets.insert({ clientSocketHandle, socket });
+                            onSocketOpen(socket);
+                        } else {
+                            std::cout << "HM NO\n";
+                            Socket socket(clientSocketHandle, *this);
+
+                            sockets.insert({ clientSocketHandle, socket });
+                            onSocketOpen(socket);
+                        }
                     }).detach();
                 } else {
                     std::cout << "Error: " << errno << std::endl;
@@ -220,7 +296,8 @@ namespace exolix::net {
 
     void SocketServer::shutdown() {
         if (hasShutdownBefore)
-            throw SocketError(SocketErrors::ServerPreviouslyStartedBefore, "Cannot shutdown the server again because it was shutdown before.");
+            throw SocketError(SocketErrors::ServerPreviouslyStartedBefore,
+                              "Cannot shutdown the server again because it was shutdown before.");
 
         if (!isListening)
             throw SocketError(SocketErrors::ServerIsNotOnlineYet, "The server is not online yet.");
@@ -228,7 +305,7 @@ namespace exolix::net {
         isListening = false;
         hasShutdownBefore = true;
 
-        for (auto &socket : sockets) {
+        for (auto &socket: sockets) {
             socket.second.close();
         }
 

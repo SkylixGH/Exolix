@@ -1,11 +1,16 @@
 #include <exolix/net.h>
+#include <exolix/http.h>
 #include <iostream>
 
 using namespace exolix::net;
 using namespace std;
 
 int main() {
-    SocketServer server;
+    SocketServer server({
+        backlog: 10,
+        certificateAt: "/home/xfaon/CLionProjects/Exolix22/example/helloWorld/cert/cert.pem",
+        keyAt: "/home/xfaon/CLionProjects/Exolix22/example/helloWorld/cert/key.pem"
+    });
 
     server.setOnSocketOpenListener([] (Socket &socket) {
         cout << "New connection: \n";
@@ -24,6 +29,7 @@ int main() {
         e.render();
     }
 
+    cout << "Online \n";
     server.block();
 
     return 0;

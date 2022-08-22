@@ -5,8 +5,11 @@
 #include <map>
 #include <functional>
 #include <exolix/err.h>
+#include <openssl/ssl.h>
 
 namespace exolix::net {
+    class SocketServer;
+
     enum class SocketErrors {
         ServerPreviouslyStartedBefore,
         ServerCannotCreateSocket,
@@ -29,18 +32,36 @@ namespace exolix::net {
 
     struct SocketServerOptions {
         unsigned int backlog = 128;
+        std::string certificateAt;
+        std::string keyAt;
+    };
+
+    class SocketInternalManager {
+    private:
+        static bool osslDoneBefore;
+
+    public:
+        static void initOssl();
+        static void cleanupOssl();
     };
 
     class Socket {
     private:
         int socketHandle;
         bool running = true;
-        std::thread *thread;
+        SSL *clientTls = nullptr;
+
+        std::thread *thread = nullptr;
+        SocketServer &serverRef;
 
         std::function<void(SocketMessage &)> onMessage = [] (SocketMessage &message) {};
 
+        void ld();
+
     public:
-        explicit Socket(int osHandle);
+        explicit Socket(int osHandle, SocketServer &server);
+        Socket(int osHandle, SocketServer &server, SSL *ssl);
+
         ~Socket();
 
         void block();
@@ -57,7 +78,10 @@ namespace exolix::net {
         bool hasStartedBefore = false;
         bool hasShutdownBefore = false;
         bool isListening = false;
+        bool isTls = false;
         int osSocketHandle {};
+
+        SSL_CTX *tlsContext = nullptr;
 
         uint16_t port {};
         std::string host;
@@ -69,7 +93,7 @@ namespace exolix::net {
         std::function<void(Socket &)> onSocketOpen = [] (Socket &socket) {};
 
     public:
-        explicit SocketServer(const SocketServerOptions &options = {});
+        explicit SocketServer(SocketServerOptions options = {});
         ~SocketServer();
 
         void listen(uint16_t listeningPort, const std::string &listeningHost = "0.0.0.0");
