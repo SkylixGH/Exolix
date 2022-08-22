@@ -1,5 +1,6 @@
 #include "modify.h"
 #include <algorithm>
+#include <regex>
 
 namespace exolix::str {
     std::string StringModify::toUpper(const std::string &str) {

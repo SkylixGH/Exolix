@@ -1,5 +1,6 @@
 #include <exolix/net.h>
 #include <exolix/http.h>
+#include <exolix/str.h>
 #include <iostream>
 
 using namespace exolix::net;
@@ -15,7 +16,7 @@ int main() {
     server.setOnSocketOpenListener([] (Socket &socket) {
         cout << "New connection: \n";
         socket.setOnMessageListener([&socket] (SocketMessage &message) {
-            cout << "Message: " << message.toString() << "\n";
+            std::cout << message.toString();
             socket.send("Hello World!");
         });
 

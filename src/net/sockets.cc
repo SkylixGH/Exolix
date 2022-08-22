@@ -71,8 +71,9 @@ namespace exolix::net {
                 if (clientTls != nullptr) {
                     int bytesRead = SSL_read(clientTls, (char *) buffer, sizeof(buffer));
 
-                    if (bytesRead) {
-
+                    if (bytesRead <= 0) {
+                        close();
+                        break;
                     }
 
                     SocketMessage message{
@@ -110,6 +111,7 @@ namespace exolix::net {
 
     void Socket::close() {
         running = false;
+        // TODO: Fix support for OpenSSL close operating to free SSL
 
 #if defined(__linux__) || defined(__APPLE__)
         ::close(socketHandle);
@@ -218,10 +220,7 @@ namespace exolix::net {
 
                 if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &clientAddress, (socklen_t *) &clientAddressLength)) >= 0) {
                     std::thread([this, &clientSocketHandle] () {
-                        std::cout << "TLS: " << isTls << "\n";
                         if (isTls) {
-                            std::cout << "HM\n";
-
                             SSL *clientTls = SSL_new(tlsContext);
                             SSL_set_fd(clientTls, clientSocketHandle);
 
@@ -235,7 +234,6 @@ namespace exolix::net {
                             sockets.insert({ clientSocketHandle, socket });
                             onSocketOpen(socket);
                         } else {
-                            std::cout << "HM NO\n";
                             Socket socket(clientSocketHandle, *this);
 
                             sockets.insert({ clientSocketHandle, socket });
