@@ -1,6 +1,7 @@
 #include <exolix/net.h>
 #include <exolix/http.h>
 #include <exolix/str.h>
+#include <exolix/gate.h>
 #include <iostream>
 
 using namespace exolix::net;
@@ -29,6 +30,9 @@ int main() {
     } catch (SocketError &e) {
         e.render();
     }
+
+    exolix::gate::TestThing<int> tt;
+    auto u = tt.geti();
 
     cout << "Online \n";
     server.block();
