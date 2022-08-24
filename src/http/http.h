@@ -1,5 +1,12 @@
 #pragma once
 
-namespace exolix::http {
+#include <exolix/net.h>
+#include <exolix/err.h>
 
+namespace exolix::http {
+    class HttpServer : public net::SocketServer {
+    private:
+
+    public:
+    };
 }
