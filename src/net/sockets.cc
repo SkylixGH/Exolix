@@ -45,12 +45,12 @@ namespace exolix::net {
     }
 
     // Socket
-    Socket::Socket(int osHandle, SocketServer &server):
+    Socket::Socket(unsigned long long osHandle, SocketServer &server):
         socketHandle(osHandle), serverRef(server) {
         ld();
     }
 
-    Socket::Socket(int osHandle, SocketServer &server, SSL *ssl):
+    Socket::Socket(unsigned long long osHandle, SocketServer &server, SSL *ssl):
         socketHandle(osHandle), serverRef(server), clientTls(ssl) {
         ld();
     }
@@ -253,7 +253,7 @@ namespace exolix::net {
     SOCKET clientSocket = INVALID_SOCKET;
 
     struct addrinfo *result = NULL;
-    struct addrinfo hints;
+    struct addrinfo hints {};
 
     iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)
@@ -299,9 +299,71 @@ namespace exolix::net {
 
     isListening = true;
 
-    thread = new std::thread([this] () {
-        while (isListening) {
+    // A useful reference
+    // // Accept a client socket
+        //    ClientSocket = accept(ListenSocket, NULL, NULL);
+        //    if (ClientSocket == INVALID_SOCKET) {
+        //        printf("accept failed with error: %d\n", WSAGetLastError());
+        //        closesocket(ListenSocket);
+        //        WSACleanup();
+        //        return 1;
+        //    }
+        //
+        //    // No longer need server socket
+        //    closesocket(ListenSocket);
+        //
+        //    // Receive until the peer shuts down the connection
+        //    do {
+        //
+        //        iResult = recv(ClientSocket, recvbuf, recvbuflen, 0);
+        //        if (iResult > 0) {
+        //            printf("Bytes received: %d\n", iResult);
+        //
+        //        // Echo the buffer back to the sender
+        //            iSendResult = send( ClientSocket, recvbuf, iResult, 0 );
+        //            if (iSendResult == SOCKET_ERROR) {
+        //                printf("send failed with error: %d\n", WSAGetLastError());
+        //                closesocket(ClientSocket);
+        //                WSACleanup();
+        //                return 1;
+        //            }
+        //            printf("Bytes sent: %d\n", iSendResult);
+        //        }
+        //        else if (iResult == 0)
+        //            printf("Connection closing...\n");
+        //        else  {
+        //            printf("recv failed with error: %d\n", WSAGetLastError());
+        //            closesocket(ClientSocket);
+        //            WSACleanup();
+        //            return 1;
+        //        }
+        //
+        //    } while (iResult > 0);
+        //
+        //    // shutdown the connection since we're done
+        //    iResult = shutdown(ClientSocket, SD_SEND);
+        //    if (iResult == SOCKET_ERROR) {
+        //        printf("shutdown failed with error: %d\n", WSAGetLastError());
+        //        closesocket(ClientSocket);
+        //        WSACleanup();
+        //        return 1;
+        //    }
+        //
+        //    // cleanup
+        //    closesocket(ClientSocket);
+        //    WSACleanup();
 
+    thread = new std::thread([this, &clientSocket, &listenSocket] () {
+        while (isListening) {
+            clientSocket = accept(listenSocket, nullptr, NULL);
+
+            if (clientSocket != INVALID_SOCKET) {
+                std::cout << "DBGD OPENSCK\n";
+
+                Socket socket(clientSocket, *this);
+            } else {
+                std::cout << "EACCEPTSCK\n";
+            }
         }
     });
 #endif

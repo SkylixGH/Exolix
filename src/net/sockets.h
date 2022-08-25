@@ -47,7 +47,7 @@ namespace exolix::net {
 
     class Socket {
     private:
-        int socketHandle;
+        unsigned long long socketHandle;
         bool running = true;
         SSL *clientTls = nullptr;
 
@@ -59,8 +59,8 @@ namespace exolix::net {
         void ld();
 
     public:
-        explicit Socket(int osHandle, SocketServer &server);
-        Socket(int osHandle, SocketServer &server, SSL *ssl);
+        explicit Socket(unsigned long long osHandle, SocketServer &server);
+        Socket(unsigned long long osHandle, SocketServer &server, SSL *ssl);
 
         ~Socket();
 
