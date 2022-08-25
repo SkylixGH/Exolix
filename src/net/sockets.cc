@@ -59,8 +59,8 @@ namespace exolix::net {
         close();
         block();
 
+        delete clientTls; // TODO: Find out why err warn
         delete thread;
-        delete clientTls;
     }
 
     void Socket::ld() {
@@ -106,7 +106,7 @@ namespace exolix::net {
     }
 
     void Socket::block() {
-        if (thread->joinable()) thread->join();
+        if (thread != nullptr && thread->joinable()) thread->join();
     }
 
     void Socket::close() {
@@ -124,7 +124,7 @@ namespace exolix::net {
         if (!running) return;
 
         if (clientTls != nullptr) {
-            SSL_write(clientTls, message.data, message.size);
+            SSL_write(clientTls, message.data, (int) message.size);
         } else
 #if defined(__linux__) || defined(__APPLE__)
             write(socketHandle, message.data, message.size);
@@ -156,6 +156,7 @@ namespace exolix::net {
         block();
 
         delete thread;
+        delete manager;
     }
 
     void SocketServer::listen(uint16_t listeningPort, const std::string &listeningHost) {
@@ -219,7 +220,15 @@ namespace exolix::net {
                 const int clientAddressLength = sizeof(clientAddress);
 
                 if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &clientAddress, (socklen_t *) &clientAddressLength)) >= 0) {
-                    std::thread([this, &clientSocketHandle] () {
+                    std::function<void(Socket &)> onSocketOpenHandle = [this] (Socket &socket) {
+                        if (manager != nullptr) {
+                            manager->handleConnect(socket);
+                        }
+
+                        onSocketOpen(socket);
+                    };
+
+                    std::thread([this, &clientSocketHandle, &onSocketOpenHandle] () {
                         if (isTls) {
                             SSL *clientTls = SSL_new(tlsContext);
                             SSL_set_fd(clientTls, clientSocketHandle);
@@ -232,12 +241,12 @@ namespace exolix::net {
                             Socket socket(clientSocketHandle, *this, clientTls);
 
                             sockets.insert({ clientSocketHandle, socket });
-                            onSocketOpen(socket);
+                            onSocketOpenHandle(socket);
                         } else {
                             Socket socket(clientSocketHandle, *this);
 
                             sockets.insert({ clientSocketHandle, socket });
-                            onSocketOpen(socket);
+                            onSocketOpenHandle(socket);
                         }
                     }).detach();
                 } else {
@@ -332,6 +341,15 @@ namespace exolix::net {
 
     void SocketServer::block() {
         if (thread != nullptr && thread->joinable()) thread->join();
+    }
+
+    void SocketServer::destroySocketManager() {
+        delete manager;
+        manager = nullptr;
+    }
+
+    void SocketServer::setSocketManager(exolix::net::SocketAbstractManager &managerInput) {
+        this->manager = &managerInput;
     }
 
     void SocketServer::setOnSocketOpenListener(const std::function<void(Socket &)> &listener) {
