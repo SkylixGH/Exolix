@@ -66,6 +66,7 @@ namespace exolix::net {
     void Socket::ld() {
         thread = new std::thread([this] () {
             while (running) {
+                std::cout << "RUNNING \n";
                 char buffer[1024];
 
                 if (clientTls != nullptr) {
@@ -81,7 +82,9 @@ namespace exolix::net {
                             sizeof(buffer)
                     };
 
-                    onMessage(message);
+                    std::thread([this, &message] () {
+                        onMessage(message);
+                    }).detach();
                 } else {
 #if defined(__linux__) || defined(__APPLE__)
                     size_t bytesRead = read(socketHandle, buffer, sizeof(buffer));
@@ -99,7 +102,9 @@ namespace exolix::net {
                             sizeof(buffer)
                     };
 
-                    onMessage(message);
+                    std::thread([this, &message] () {
+                        onMessage(message);
+                    }).detach();
                 }
             }
         });
@@ -142,6 +147,11 @@ namespace exolix::net {
 
     void Socket::setOnMessageListener(const std::function<void(SocketMessage &)> &listener) {
         this->onMessage = listener;
+    }
+
+    // SocketAbstractManager
+    void SocketAbstractManager::handleConnect(exolix::net::Socket &socket) {
+        // Drop { ... } DO NOT CREATE IMPLEMENTATION HERE
     }
 
     // SocketServer
@@ -221,11 +231,15 @@ namespace exolix::net {
 
                 if ((clientSocketHandle = accept(osSocketHandle, (struct sockaddr *) &clientAddress, (socklen_t *) &clientAddressLength)) >= 0) {
                     std::function<void(Socket &)> onSocketOpenHandle = [this] (Socket &socket) {
-                        if (manager != nullptr) {
-                            manager->handleConnect(socket);
-                        }
+                        std::thread([this, &socket] () {
+                            if (manager != nullptr) {
+                                manager->handleConnect(socket);
+                            }
+                        }).detach();
 
-                        onSocketOpen(socket);
+                        std::thread([this, &socket] () {
+                            onSocketOpen(socket);
+                        }).detach();
                     };
 
                     std::thread([this, &clientSocketHandle, &onSocketOpenHandle] () {

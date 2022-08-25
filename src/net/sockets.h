@@ -76,7 +76,7 @@ namespace exolix::net {
 
     class SocketAbstractManager {
     public:
-        virtual void handleConnect(Socket &socket);
+        virtual void handleConnect(Socket &socket) = 0;
     };
 
     class SocketServer {

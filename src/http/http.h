@@ -1,27 +1,20 @@
 #pragma once
 
 #include <exolix/net.h>
-#include <exolix/err.h>
 #include <functional>
 
 namespace exolix::http {
-    class HttpHeaders {
-
+    enum class HttpProtocolVersion {
+        HTTP_1_0,
+        HTTP_1_1
     };
 
-    class HttpRequest {
-
-    };
-
-    class HttpResponse {
-
-    };
-
-    class HttpServer : public net::SocketServer {
+    class HttpSocketManager : public net::SocketAbstractManager {
     private:
-        std::function<void(HttpRequest &, HttpResponse &)> onHttpRequest = [] (HttpRequest &request, HttpResponse &response) {};
+        HttpProtocolVersion version;
 
     public:
-
+        HttpSocketManager(HttpProtocolVersion protocolVersion);
+        void handleConnect(exolix::net::Socket &socket) override;
     };
 }
