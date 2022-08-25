@@ -18,7 +18,8 @@ namespace exolix::net {
         ServerCannotBind,
         ServerCannotSetSocketOptions,
         ServerInvalidHost,
-        ServerCannotStartWsa
+        ServerCannotStartWsa,
+        ServerCannotInteractUnlessManager
     };
 
     typedef err::Error<SocketErrors> SocketError;
@@ -73,6 +74,11 @@ namespace exolix::net {
         void setOnMessageListener(const std::function<void(SocketMessage &)> &listener);
     };
 
+    class SocketAbstractManager {
+    public:
+        virtual void handleConnect(Socket &socket) = 0;
+    };
+
     class SocketServer {
     private:
         bool hasStartedBefore = false;
@@ -90,6 +96,8 @@ namespace exolix::net {
         std::thread *thread = nullptr;
         std::map<int, Socket&> sockets;
 
+        SocketAbstractManager *manager = nullptr;
+
         std::function<void(Socket &)> onSocketOpen = [] (Socket &socket) {};
 
     public:
@@ -100,6 +108,9 @@ namespace exolix::net {
         void shutdown();
 
         void block();
+
+        void destroySocketManager();
+        void setSocketManager(SocketAbstractManager &managerInput);
 
         void setOnSocketOpenListener(const std::function<void(Socket &)> &listener);
     };
