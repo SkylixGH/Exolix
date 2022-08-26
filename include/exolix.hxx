@@ -11,3 +11,4 @@
 #include "../lib/error/result.hxx"
 #include "../lib/net/tcp/sockets.hxx"
 #include "../lib/net/udp/dgram.hxx"
+#include "../lib/process/process.hxx"
