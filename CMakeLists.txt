@@ -1,20 +1,13 @@
-cmake_minimum_required(VERSION 3.2)
-project(Exolix)
-
-set(CMAKE_CXX_STANDARD 23)
+cmake_minimum_required(VERSION 3.20)
+project(Exolix CXX)
 
 include_directories(include)
-file(GLOB_RECURSE SOURCE_FILES src/*.cc src/*.h)
 
-add_library(exolix STATIC ${SOURCE_FILES})
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_C_STANDARD 20)
 
-# Add windows libraries
-if (WIN32)
-    target_link_libraries(exolix PUBLIC ws2_32)
-endif()
+file(GLOB_RECURSE Exolix_SOURCE_FILES lib/*.cxx lib/*.hxx)
+add_library(exolix STATIC ${Exolix_SOURCE_FILES})
 
-# Add OpenSSL
-find_package(OpenSSL REQUIRED)
-target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
-
-add_subdirectory(example)
+install(TARGETS exolix DESTINATION bin)
+install(FILES include/exolix.hxx DESTINATION include)
