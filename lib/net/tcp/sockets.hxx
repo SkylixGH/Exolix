@@ -1,7 +1,5 @@
-#include <iostream>
+#pragma once
 
 namespace exolix {
-    void test() {
-        printf("Hello\n");
-    }
+
 }
