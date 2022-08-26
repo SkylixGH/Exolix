@@ -3,16 +3,17 @@
 #include <optional>
 #include <iostream>
 #include <exception>
+#include <utility>
 
 namespace exolix {
     template <typename Keys>
     class Error {
-    private:
-        Keys reason;
-
     public:
-        explicit Error(Keys keyReason):
-            reason(keyReason) {
+        const Keys reason;
+        const std::string message;
+
+        explicit Error(Keys keyReason = 0, std::string supportingMessage = "Unspecified"):
+            reason(keyReason), message(std::move(supportingMessage)) {
         }
     };
 
@@ -20,17 +21,20 @@ namespace exolix {
     class Result {
     private:
         SafeReturn value {};
-        Error<ErrorKeys> error { 0 };
 
         void renderError() {
-            std::cout << "An error occurred ";
+            std::cout << "An error occurred, please navigate to your debugger!\n";
+            std::cout << "If you are not using a debugger, please use one like GDB, or LLDB.\n";
+
+            std::cout << "\nMessage: '" << error.message << "'\n";
         }
 
     public:
         const bool hasError;
+        const Error<ErrorKeys> error;
 
         explicit Result(SafeReturn returnData):
-            value(returnData), hasError(false) {}
+            value(returnData), hasError(false), error(Error<ErrorKeys>()) {}
 
         explicit Result(Error<ErrorKeys> errorData):
             error(errorData), hasError(true) {}
