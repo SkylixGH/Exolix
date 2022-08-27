@@ -1,4 +1,4 @@
-#include "result.hxx"
+#include "error.hxx"
 
 namespace exolix {
 

@@ -8,17 +8,23 @@
 #endif
 
 namespace exolix {
+    enum class NetAddressErrors {
+        INVALID_HOST
+    };
+
+    typedef Error<NetAddressErrors> NetAddressException;
+
     class NetAddress {
     public:
         const uint16_t port;
         const std::string host;
 
         NetAddress(uint16_t inputPort, std::string inputHost);
-        NetAddress(uint16_t inputPort);
+        explicit NetAddress(uint16_t inputPort);
 
         bool isValidHost();
-        bool isValidPort();
-
         bool hasPortPermission();
+
+        std::string getResolvedIp();
     };
 }
