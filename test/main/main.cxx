@@ -11,7 +11,7 @@ int main() {
     Thread uwu([] () {
         int seconds = 0;
 
-        while (true) {
+        while (1) {
             std::cout << "Seconds: " << seconds << "\n";
 
             Thread::sleep(SleepUnit::SECONDS, 1);
