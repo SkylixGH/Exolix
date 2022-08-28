@@ -14,7 +14,7 @@ int main() {
         while (true) {
             std::cout << "Seconds: " << seconds << "\n";
 
-            Thread::sleep(SleepUnit::NANOSECONDS, 1);
+            Thread::sleep(SleepUnit::SECONDS, 1);
             seconds++;
         }
     });
