@@ -13,3 +13,4 @@
 #include "../lib/net/udp/dgram.hxx"
 #include "../lib/net/address.hxx"
 #include "../lib/process/process.hxx"
+#include "../lib/thread/thread.hxx"

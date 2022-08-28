@@ -21,10 +21,11 @@ namespace exolix {
 
         NetAddress(uint16_t inputPort, std::string inputHost);
         explicit NetAddress(uint16_t inputPort);
+        explicit NetAddress(std::string inputHost);
 
         bool isValidHost();
         bool hasPortPermission();
 
-        std::string getResolvedIp();
+        std::string getProcessed();
     };
 }

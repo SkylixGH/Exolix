@@ -2,14 +2,24 @@
 
 using namespace exolix;
 
-enum Uw : int {
-    UW
-};
-
 int main() {
-    NetAddress ip(8080, "localhost");
+//    SocketServer server(NetAddress(8082));
+//
+//    server.listen();
+//    server.block();
 
-    auto resolved = ip.getResolvedIp();
+    Thread uwu([] () {
+        int seconds = 0;
+
+        while (true) {
+            std::cout << "Seconds: " << seconds << "\n";
+
+            Thread::sleep(SleepUnit::NANOSECONDS, 1);
+            seconds++;
+        }
+    });
+
+    uwu.startAndBlock();
 
     return 0;
 }
