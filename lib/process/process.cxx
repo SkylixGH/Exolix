@@ -38,7 +38,7 @@ namespace exolix {
         return OperatingSystems::LINUX;
 #elif __APPLE__
 
-#include <TargetConditionals.h>
+        #include <TargetConditionals.h>
 #if TARGET_IPHONE_SIMULATOR
         return OperatingSystems::IOS;
 #elif TARGET_OS_MACCATALYST
