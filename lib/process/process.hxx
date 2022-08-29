@@ -1,5 +1,7 @@
 #pragma once
 
+#include <string>
+
 namespace exolix {
     enum class OperatingSystems {
         LINUX,
@@ -14,5 +16,6 @@ namespace exolix {
     public:
         static bool hasRoot();
         static OperatingSystems getOs();
+        static void panic(const std::string &reason);
     };
 }

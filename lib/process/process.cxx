@@ -1,4 +1,6 @@
 #include "process.hxx"
+#include <iostream>
+#include <exception>
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <unistd.h>
@@ -56,5 +58,13 @@ namespace exolix {
 #else
         return OperatingSystems::OTHER;
 #endif
+    }
+
+    void Process::panic(const std::string &reason) {
+        std::cerr << "The program ran into an error that could not be recovered.\n";
+        std::cerr << "The program will soon terminate:\n";
+        std::cerr << "\n    Error: " << reason << "\n\n";
+
+        throw std::runtime_error("Program exiting with reason code: 1");
     }
 }

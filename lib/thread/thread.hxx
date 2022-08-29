@@ -17,8 +17,7 @@ namespace exolix {
     };
 
     enum class ThreadErrors {
-        THREAD_ALREADY_ONLINE,
-        THREAD_ALREADY_DISPOSED
+        THREAD_ALREADY_ONLINE
     };
 
     typedef Error<ThreadErrors> ThreadException;

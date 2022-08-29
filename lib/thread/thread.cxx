@@ -12,11 +12,7 @@ namespace exolix {
             return;
         }
 
-        if (canBlock()) {
-            detach();
-        }
-
-        delete thread;
+        Process::panic("Thread deletion called while thread had an active executor");
     }
 
     void Thread::start() {
