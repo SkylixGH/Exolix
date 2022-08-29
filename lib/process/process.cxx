@@ -26,7 +26,7 @@ namespace exolix {
         }
 
         if (hToken) {
-            CloseHandle(HToken);
+            CloseHandle(hToken);
         }
 
         return funRet;

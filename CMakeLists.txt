@@ -21,6 +21,15 @@ macro(subdirlist result curdir)
     set(${result} ${dirlist})
 endmacro()
 
+# Add windows specific libraries
+if (WIN32)
+    target_link_libraries(exolix PUBLIC ws2_32)
+endif()
+
+# Add OpenSSL libraries
+#find_package(OpenSSL REQUIRED)
+#target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+
 subdirlist(Test_DIRECTORIES ${CMAKE_SOURCE_DIR}/test)
 
 foreach(subdir ${Test_DIRECTORIES})

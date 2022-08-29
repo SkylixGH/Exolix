@@ -26,6 +26,6 @@ namespace exolix {
     }
 
     void SocketServer::setOnAcceptListener(std::function<void(Socket &socket)> listener) {
-
+        onAccept = listener;
     }
 }
