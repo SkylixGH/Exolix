@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <exolix.hxx>
+#include "../error/error.hxx"
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <netinet/in.h>

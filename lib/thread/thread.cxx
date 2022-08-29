@@ -1,4 +1,5 @@
 #include "thread.hxx"
+#include "../process/process.hxx"
 #include <chrono>
 
 namespace exolix {

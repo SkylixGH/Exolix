@@ -2,7 +2,7 @@
 
 #include <thread>
 #include <functional>
-#include <exolix.hxx>
+#include "../error/error.hxx"
 
 namespace exolix {
     enum class SleepUnit {
