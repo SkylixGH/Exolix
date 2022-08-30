@@ -2,6 +2,7 @@
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <arpa/inet.h>
+#include <map>
 #endif
 
 namespace exolix {
@@ -39,20 +40,56 @@ namespace exolix {
         setupAddress(port, address);
         setupBinding();
 
-        ::listen(socketFd, 5);
+        int result = ::listen(socketFd, 5);
+        if (result < 0) {
+            exit(6793);
+        }
 
-        while (true) {
+        connectable = true;
+
+        while (connectable) {
             clientLen = sizeof(clientAddress);
             clientFd = accept(socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLen);
 
             if (!(clientFd < 0)) {
-                connectionHandler(clientFd);
+                std::cout << "Connection from " << inet_ntoa(clientAddress.sin_addr) << ":" << ntohs(clientAddress.sin_port) << std::endl;
+                auto *thread = new Thread([this] () {
+                    connectionHandler(clientFd);
+                });
+
+                thread->startAndDetach();
+                handlerThreads[clientFd] = thread;
             }
         }
     }
 
     void UnixTcpServer::halt() {
+        connectable = false;
 
+        for (auto &thread : handlerThreads) {
+            delete thread.second;
+            handlerThreads.erase(thread.first);
+        }
+
+        close(socketFd);
+    }
+
+    void UnixTcpServer::close(int socketFd) {
+        ::close(socketFd);
+        auto thread = handlerThreads[socketFd];
+
+        delete thread;
+        handlerThreads.erase(socketFd);
+    }
+
+    void UnixTcpServer::send(int socketFd, char buffer[], uint16_t length) {
+        if (handlerThreads.find(socketFd) != handlerThreads.end()) {
+            write(socketFd, buffer, length);
+        }
+    }
+
+    int UnixTcpServer::getActiveSockets() {
+        return handlerThreads.size();
     }
 #endif
 }

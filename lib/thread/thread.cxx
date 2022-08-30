@@ -26,6 +26,8 @@ namespace exolix {
         thread = new std::thread([this] () {
             threadBody();
             running = false;
+
+            onFinish();
         });
     }
 
@@ -88,5 +90,13 @@ namespace exolix {
                 std::this_thread::sleep_for(std::chrono::years(value));
                 break;
         }
+    }
+
+    void Thread::setOnFinishListener(std::function<void()> listener) {
+        onFinish = std::move(listener);
+    }
+
+    bool Thread::isRunning() {
+        return running;
     }
 }

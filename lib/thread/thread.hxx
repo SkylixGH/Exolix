@@ -28,6 +28,8 @@ namespace exolix {
         bool hasStartedBefore = false;
 
         std::thread *thread {};
+
+        std::function<void()> onFinish = [] () {};
         std::function<void()> threadBody;
 
     public:
@@ -39,9 +41,11 @@ namespace exolix {
         void detach();
 
         bool canBlock();
+        bool isRunning();
 
         void startAndBlock();
         void startAndDetach();
+        void setOnFinishListener(std::function<void()> listener);
 
         static void sleep(SleepUnit unit, long long value);
     };
