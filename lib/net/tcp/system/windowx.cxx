@@ -1,11 +1,15 @@
 #include "windows.hxx"
+#ifdef _WIN32
 #include <windows.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
+#endif
+
 
 namespace exolix {
-    WinsockTcpServer::WinsockTcpServer(std::function<void(SOCKET socketFd)> connectionHandlerCallback):
+#ifdef _WIN32
+    WinsockTcpServer::WinsockTcpServer(const std::function<void(SOCKET socketFd)> &connectionHandlerCallback):
         connectionHandler(connectionHandlerCallback) {
     }
 
@@ -88,4 +92,5 @@ namespace exolix {
     void WinsockTcpServer::setKey(std::string key) {
         this->key = key;
     }
+#endif
 }

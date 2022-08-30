@@ -1,12 +1,15 @@
 #pragma once
 
+#ifdef _WIN32
 #include <string>
 #include <functional>
 #include <winsock2.h>
+#endif
 
 namespace exolix {
     class WinsockTcpServer {
     private:
+#ifdef _WIN32
         std::function<void(SOCKET socketFd)> connectionHandler;
         WSADATA wsaData;
 
@@ -27,9 +30,11 @@ namespace exolix {
         void bind();
         void configureAddress();
         void init();
+#endif
 
     public:
-        explicit WinsockTcpServer(std::function<void(SOCKET socketFd)> connectionHandlerCallback);
+#if _WIN32
+        explicit WinsockTcpServer(const std::function<void(SOCKET socketFd)> &connectionHandlerCallback);
         ~WinsockTcpServer();
 
         void listen(const std::string &address, uint16_t port);
@@ -41,5 +46,6 @@ namespace exolix {
 
         static void close();
         static void send(char buffer[65535]);
+#endif
     };
 }

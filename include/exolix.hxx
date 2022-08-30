@@ -63,6 +63,7 @@ namespace exolix {}
 #include "../lib/error/error.hxx"
 #include "../lib/net/tcp/sockets.hxx"
 #include "../lib/net/tcp/system/windows.hxx"
+#include "../lib/net/tcp/system/unix.hxx"
 #include "../lib/net/udp/dgram.hxx"
 #include "../lib/net/address.hxx"
 #include "../lib/process/process.hxx"
