@@ -3,6 +3,7 @@
 #if defined(__linux__) || defined(__APPLE__)
 #include <arpa/inet.h>
 #include <map>
+#include <unistd.h>
 #endif
 
 namespace exolix {
