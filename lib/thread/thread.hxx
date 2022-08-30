@@ -1,3 +1,7 @@
+/*
+ * Defined the sleep units & errors for the multithreading function.
+ */
+
 #pragma once
 
 #include <thread>

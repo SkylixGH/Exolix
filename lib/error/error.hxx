@@ -1,3 +1,7 @@
+/*
+ * Error messages and error codes are defined here.
+ */
+
 #pragma once
 
 #include <optional>

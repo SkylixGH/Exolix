@@ -1,3 +1,7 @@
+/*
+ * This class handles the addresses, basically converting them from string to ipv4.
+ */
+
 #include <utility>
 #include "address.hxx"
 
