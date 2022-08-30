@@ -1,3 +1,8 @@
+/*
+ * Class for handling the Exolix process.
+ * Detects the user system and sets the appropriate paths.
+ */
+
 #include "process.hxx"
 #include <iostream>
 #include <exception>

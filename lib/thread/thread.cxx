@@ -1,3 +1,7 @@
+/*
+ * Class for handling multithreading for the Exolix process.
+ */
+
 #include "thread.hxx"
 #include "../process/process.hxx"
 #include <chrono>

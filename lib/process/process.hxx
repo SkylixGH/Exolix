@@ -1,3 +1,7 @@
+/*
+ * Defined the available operating systems.
+ */
+
 #pragma once
 
 #include <string>
