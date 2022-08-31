@@ -1,7 +1,5 @@
 <div align="center">
     <br />
-    <br />
-    <br />
     <img src="readme/Logo.svg" alt="Exolix Logo" width="200" />
     <br />
 </div>
