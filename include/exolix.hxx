@@ -3,6 +3,8 @@
 // #StartLanguageLimit
 #ifdef __FreeBSD__
 #error "FreeBSD is not a supported platform for Exolix"
+#elif _WIN32
+#define WIN32_LEAN_AND_MEAN
 #endif
 // #EndLanguageLimit
 

@@ -4,17 +4,17 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iostream>
+#include <utility>
 #endif
-
 
 namespace exolix {
 #ifdef _WIN32
-    WinsockTcpServer::WinsockTcpServer(const std::function<void(SOCKET socketFd)> &connectionHandlerCallback):
-        connectionHandler(connectionHandlerCallback) {
+    WinsockTcpServer::WinsockTcpServer(std::function<void(SOCKET socketFd)> connectionHandlerCallback):
+        connectionHandler(std::move(connectionHandlerCallback)) {
     }
 
     WinsockTcpServer::~WinsockTcpServer() {
-
+        // TODO: Clean up
     }
 
     void WinsockTcpServer::bind() {
@@ -24,7 +24,7 @@ namespace exolix {
         }
     }
 
-    void WinsockTcpServer::configureAddress() {
+    void WinsockTcpServer::configureAddress(const std::string &host, uint16_t port) {
         ZeroMemory(&hints, sizeof(hints));
 
         hints.ai_family = AF_INET;
@@ -32,7 +32,7 @@ namespace exolix {
         hints.ai_protocol = IPPROTO_TCP;
         hints.ai_flags = AI_PASSIVE;
 
-        intResult = getaddrinfo("127.0.0.1", "8080", &hints, &result);
+        intResult = getaddrinfo(host.c_str(), std::to_string(port).c_str(), &hints, &result);
         if (intResult != 0) {
             exit(66834);
         }
@@ -59,7 +59,7 @@ namespace exolix {
 
     void WinsockTcpServer::listen(const std::string &address, uint16_t port) {
         init();
-        configureAddress();
+        configureAddress(address, port);
         bind();
 
         freeaddrinfo(result);
@@ -72,7 +72,8 @@ namespace exolix {
         }
 
         do {
-            clientSocket = ::accept(serverSocket, NULL, NULL);
+            clientSocket = ::accept(serverSocket, nullptr, nullptr);
+
             if (clientSocket != INVALID_SOCKET) {
                 connectionHandler(clientSocket);
             } else {
@@ -85,12 +86,20 @@ namespace exolix {
         this->tls = tls;
     }
 
-    void WinsockTcpServer::setCert(std::string cert) {
-        this->cert = cert;
+    void WinsockTcpServer::setCert(std::string certPath) {
+        this->cert = certPath;
     }
 
-    void WinsockTcpServer::setKey(std::string key) {
-        this->key = key;
+    void WinsockTcpServer::setKey(std::string keyPath) {
+        this->key = keyPath;
+    }
+
+    void WinsockTcpServer::close(SOCKET socketFd) {
+        try {
+            closesocket(socketFd);
+        } catch (...) {
+            // ignore
+        }
     }
 #endif
 }

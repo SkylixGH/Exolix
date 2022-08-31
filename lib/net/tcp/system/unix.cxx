@@ -53,34 +53,22 @@ namespace exolix {
             clientFd = accept(socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLen);
 
             if (!(clientFd < 0)) {
-                std::cout << "Connection from " << inet_ntoa(clientAddress.sin_addr) << ":" << ntohs(clientAddress.sin_port) << std::endl;
-                auto *thread = new Thread([this] () {
-                    connectionHandler(clientFd);
-                });
-
-                thread->startAndDetach();
-                handlerThreads[clientFd] = thread;
+                connectionHandler(clientFd);
             }
         }
     }
 
     void UnixTcpServer::halt() {
         connectable = false;
-
-        for (auto &thread : handlerThreads) {
-            delete thread.second;
-            handlerThreads.erase(thread.first);
-        }
-
         close(socketFd);
     }
 
     void UnixTcpServer::close(int socketFd) {
-        ::close(socketFd);
-        auto thread = handlerThreads[socketFd];
-
-        delete thread;
-        handlerThreads.erase(socketFd);
+        try {
+            ::close(socketFd);
+        } catch (...) {
+            // ignore
+        }
     }
 
     void UnixTcpServer::send(int socketFd, char buffer[], uint16_t length) {

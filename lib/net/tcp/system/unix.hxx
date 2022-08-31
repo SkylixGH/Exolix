@@ -6,8 +6,6 @@
 #if defined(__linux__) || defined(__APPLE__)
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <map>
-#include "../../../thread/thread.hxx"
 #endif
 
 namespace exolix {
@@ -19,8 +17,6 @@ namespace exolix {
 
         std::string tlsCert;
         std::string tlsKey;
-
-        std::map<int, Thread *> handlerThreads {};
 
         int socketFd;
         int clientFd;
@@ -50,8 +46,6 @@ namespace exolix {
 
         void close(int socketFd);
         void send(int socketFd, char buffer[], uint16_t length);
-
-        int getActiveSockets();
 #endif
     };
 }

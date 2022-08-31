@@ -3,14 +3,39 @@
 using namespace exolix;
 
 int main() {
-    UnixTcpServer server([&server] (int socketFd) {
+//    UnixTcpServer server([&server] (int socketFd) {
+//        std::cout << "Connection handler called" << socketFd << std::endl;
+//
+//        server.send(socketFd, "Hello world", 11);
+//
+//        std::cout << "Threads: " << server.getActiveSockets() << "\n";
+//    });
+//
+//    server.listen("127.0.0.1", 8080);
+
+    WinsockTcpServer server([&server] (SOCKET socketFd) {
         std::cout << "Connection handler called" << socketFd << std::endl;
 
-        server.send(socketFd, "Hello world", 11);
+        // read multithreaded
+        std::thread readThread([&server, &socketFd] () {
+            char buffer[1024];
+            int bytesRead = 0;
 
-        std::cout << "Threads: " << server.getActiveSockets() << "\n";
+            while ((bytesRead = recv(socketFd, buffer, 1024, 0)) > 0) {
+                // resize buffer to remove useless chars
+                buffer[bytesRead] = '\0';
+
+                std::cout << "Bytes read: " << bytesRead << std::endl;
+                std::cout << "Buffer: " << buffer << std::endl;
+            }
+
+            std::cout << "Closed\n";
+            server.close(socketFd);
+        });
+
+        readThread.join();
     });
 
-    server.listen("127.0.0.1", 8080);
+    server.listen("127.0.0.1", 21);
     return 0;
 }
