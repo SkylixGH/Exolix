@@ -27,10 +27,14 @@ int main() {
 
                 std::cout << "Bytes read: " << bytesRead << std::endl;
                 std::cout << "Buffer: " << buffer << std::endl;
+
+                char data[] = "Hi";
+
+                WinsockTcpServer::send(socketFd, data, 2);
             }
 
             std::cout << "Closed\n";
-            server.close(socketFd);
+            WinsockTcpServer::close(socketFd);
         });
 
         readThread.join();

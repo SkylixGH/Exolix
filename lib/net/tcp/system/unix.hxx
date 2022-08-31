@@ -44,8 +44,8 @@ namespace exolix {
         void listen(const std::string &address, uint16_t port);
         void halt();
 
-        void close(int socketFd);
-        void send(int socketFd, char buffer[], uint16_t length);
+        static void close(int socketFd);
+        static void send(int socketFd, char buffer[], uint16_t length);
 #endif
     };
 }

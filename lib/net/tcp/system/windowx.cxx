@@ -101,5 +101,12 @@ namespace exolix {
             // ignore
         }
     }
+
+    void WinsockTcpServer::send(SOCKET socketFd, char buffer[], uint16_t length) {
+        int bytesSent = ::send(socketFd, buffer, length, 0);
+        if (bytesSent == SOCKET_ERROR) {
+            exit(567878711);
+        }
+    }
 #endif
 }

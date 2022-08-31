@@ -72,13 +72,7 @@ namespace exolix {
     }
 
     void UnixTcpServer::send(int socketFd, char buffer[], uint16_t length) {
-        if (handlerThreads.find(socketFd) != handlerThreads.end()) {
-            write(socketFd, buffer, length);
-        }
-    }
-
-    int UnixTcpServer::getActiveSockets() {
-        return handlerThreads.size();
+        ::send(socketFd, buffer, length, 0);
     }
 #endif
 }
