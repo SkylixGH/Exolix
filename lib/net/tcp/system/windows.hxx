@@ -53,6 +53,7 @@ namespace exolix {
         int getActiveSockets();
 
         void close(SOCKET socketFd);
+        static void send(SOCKET socketFd, char buffer[65535]);
 #endif
     };
 }
