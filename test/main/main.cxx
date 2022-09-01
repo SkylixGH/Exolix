@@ -2,9 +2,8 @@
 
 using namespace exolix;
 
-int randomNumber() {
-    return rand() % 100;
-}
+const char frames[4] = {'|', '/', '-', '\\'};
+int frame = 0;
 
 void moveCliCursorUp(int times) {
     // move cursor up times
@@ -12,8 +11,14 @@ void moveCliCursorUp(int times) {
         printf("\033[1A");
     }
 
-    printf("%s", std::to_string(randomNumber()).c_str());
+    Thread::sleep(SleepUnit::MILLISECONDS, 100);
+    printf("%c", frames[frame]);
     printf("\n");
+
+    frame++;
+    if (frame > 3) {
+        frame = 0;
+    }
 
     fflush(stdout);
 }
@@ -59,6 +64,9 @@ int main() {
 //    server.listen("127.0.0.1", 21);
 
     // VT100 spinner animation!
+    printf("\n");
+    fflush(stdout);
+
     while (true) {
         moveCliCursorUp(1);
     }
