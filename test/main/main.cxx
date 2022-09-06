@@ -1,75 +1,49 @@
 #include <exolix.hxx>
+#include <vector>
 
 using namespace exolix;
 
-const char frames[4] = {'|', '/', '-', '\\'};
-int frame = 0;
-
-void moveCliCursorUp(int times) {
-    // move cursor up times
-    for (int i = 0; i < times; i++) {
-        printf("\033[1A");
-    }
-
-    Thread::sleep(SleepUnit::MILLISECONDS, 100);
-    printf("%c", frames[frame]);
-    printf("\n");
-
-    frame++;
-    if (frame > 3) {
-        frame = 0;
-    }
-
-    fflush(stdout);
-}
-
 int main() {
-//    UnixTcpServer server([&server] (int socketFd) {
-//        std::cout << "Connection handler called" << socketFd << std::endl;
-//
-//        server.send(socketFd, "Hello world", 11);
-//
-//        std::cout << "Threads: " << server.getActiveSockets() << "\n";
-//    });
-//
-//    server.listen("127.0.0.1", 8080);
+    std::vector<SOCKET> fds {};
 
-//    WinsockTcpServer server([&server] (SOCKET socketFd) {
-//        std::cout << "Connection handler called" << socketFd << std::endl;
-//
-//        // read multithreaded
-//        std::thread readThread([&server, &socketFd] () {
-//            char buffer[1024];
-//            int bytesRead = 0;
-//
-//            while ((bytesRead = recv(socketFd, buffer, 1024, 0)) > 0) {
-//                // resize buffer to remove useless chars
-//                buffer[bytesRead] = '\0';
-//
-//                std::cout << "Bytes read: " << bytesRead << std::endl;
-//                std::cout << "Buffer: " << buffer << std::endl;
-//
-//                char data[] = "Hi";
-//
-//                WinsockTcpServer::send(socketFd, data, 2);
-//            }
-//
-//            std::cout << "Closed\n";
-//            WinsockTcpServer::close(socketFd);
-//        });
-//
-//        readThread.join();
-//    });
-//
-//    server.listen("127.0.0.1", 21);
+    WinsockTcpServer server([&] (SOCKET socketFd) {
+        std::thread t([&] () {
+            fds.push_back(socketFd);
 
-    // VT100 spinner animation!
-    printf("\n");
-    fflush(stdout);
+            while (true) {
+                // Use WSARecv
+                LPWSABUF buffer = new WSABUF;
+                buffer->buf = new char[1024];
+                buffer->len = 1024;
 
-    while (true) {
-        moveCliCursorUp(1);
-    }
+                DWORD flags = 0;
+                DWORD bytesReceived = 0;
+
+                WSAOVERLAPPED overlapped;
+                ZeroMemory(&overlapped, sizeof(WSAOVERLAPPED));
+
+                int re = WSARecv(socketFd, buffer, 1, &bytesReceived, &flags, &overlapped, NULL);
+
+                if (re == 0) {
+                    std::cout << "Client disconnected" << std::endl;
+                    fds.erase(std::remove(fds.begin(), fds.end(), socketFd), fds.end());
+                    break;
+                }
+
+                if (re == -1) {
+                    std::cout << "Error while receiving data" << std::endl;
+                    std::cout << "Because: " << WSAGetLastError() << std::endl;
+                    break;
+                }
+
+                std::cout << "Received: " << buffer->buf << std::endl;
+            }
+        });
+
+        t.detach();
+    });
+
+    server.listen("127.0.0.1", 21);
 
     return 0;
 }
