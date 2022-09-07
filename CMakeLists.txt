@@ -34,8 +34,8 @@ if (WIN32)
 endif()
 
 # Add OpenSSL libraries
-# find_package(OpenSSL REQUIRED)
-# target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
+find_package(OpenSSL REQUIRED)
+target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 subdirlist(Test_DIRECTORIES ${CMAKE_SOURCE_DIR}/test)
 

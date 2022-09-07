@@ -22,7 +22,7 @@ namespace exolix {
 #endif
 
         std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
-        std::function<void(int socketFd)> onPending = [] (int socketFd) {};
+        std::function<void(uint64_t socketFd)> onPending = [] (uint64_t socketFd) {};
 
         std::map<std::thread, std::tuple<bool, uint64_t>> threads {};
 
@@ -39,6 +39,6 @@ namespace exolix {
         void block();
 
         void setOnAcceptListener(std::function<void(Socket &socket)> listener);
-        void setOnPendingListener(std::function<void(int socketFd)> listener);
+        void setOnPendingListener(std::function<void(uint64_t socketFd)> listener);
     };
 }

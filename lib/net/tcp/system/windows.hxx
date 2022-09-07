@@ -1,12 +1,27 @@
 #pragma once
 
+#include "../../../error/error.hxx"
+
 #ifdef _WIN32
 #include <string>
 #include <functional>
 #include <winsock2.h>
+#include <process.h>
 #endif
 
 namespace exolix {
+    enum class WinsockTcpServerErrors {
+        FAILED_TO_LISTEN,
+        STARTUP_FAIL,
+        ADDRESS_INFO_ERROR,
+        SOCKET_CREATE_FAIL,
+        ADDRESS_IN_USE,
+        PERMISSION_ERROR,
+        BINDING_FAILER
+    };
+
+    typedef Error<WinsockTcpServerErrors> WinsockTcpServerException;
+
     class WinsockTcpServer {
     private:
 #ifdef _WIN32
@@ -31,6 +46,8 @@ namespace exolix {
         void bind();
         void configureAddress(const std::string &host, uint16_t port);
         void init();
+
+        std::string getLastError();
 #endif
 
     public:

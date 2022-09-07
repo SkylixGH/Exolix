@@ -23,17 +23,24 @@ namespace exolix {
     }
 
     void SocketServer::onSocketInternal(uint64_t socketFd) {
-
+        Socket socket;
+        onAccept(socket);
     }
 
     void SocketServer::listen() {
         if (!address.isValidHost()) {} // TODO: Handle error
 #if defined(__linux__) || defined(__APPLE__)
-        // TODO: Add try catch around this
-        unixCoreServer->listen(address.host, address.port);
+        try {
+            unixCoreServer->listen(address.host, address.port);
+        } catch (UnixTcpServerException &e) {
+            
+        }
 #elif defined(_WIN32)
-        // TODO: Add try catch around this
-        winsockCoreServer->listen(address.host, address.port);
+        try {
+            winsockCoreServer->listen(address.host, address.port);
+        } catch (WinsockTcpServerException &e) {
+            
+        }
 #endif
     }
 
@@ -49,7 +56,7 @@ namespace exolix {
         onAccept = listener;
     }
 
-    void SocketServer::setOnPendingListener(std::function<void(int socketFd)> listener) {
+    void SocketServer::setOnPendingListener(std::function<void(uint64_t socketFd)> listener) {
         onPending = listener;
     }
 }
