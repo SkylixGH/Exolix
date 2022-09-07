@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../address.hxx"
+#include "../../error/error.hxx"
 #include <functional>
 #include "system/unix.hxx"
 #include "system/windows.hxx"
@@ -9,6 +10,13 @@
 #include <thread>
 
 namespace exolix {
+    enum class SocketServerErrors {
+        LISTEN_FAILED,
+        INVALID_ADDRESS_HOST
+    };
+
+    typedef Error<SocketServerErrors> SocketServerException;
+
     class Socket {
 
     };
@@ -22,13 +30,13 @@ namespace exolix {
 #endif
 
         std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
-        std::function<void(uint64_t socketFd)> onPending = [] (uint64_t socketFd) {};
+        std::function<void(u64 socketFd)> onPending = [] (u64 socketFd) {};
 
-        std::map<std::thread, std::tuple<bool, uint64_t>> threads {};
+        std::map<std::thread, std::tuple<bool, u64>> threads {};
 
         NetAddress &address;
 
-        void onSocketInternal(uint64_t socketFd);
+        void onSocketInternal(u64 socketFd);
 
     public:
         explicit SocketServer(NetAddress &address);
@@ -39,6 +47,6 @@ namespace exolix {
         void block();
 
         void setOnAcceptListener(std::function<void(Socket &socket)> listener);
-        void setOnPendingListener(std::function<void(uint64_t socketFd)> listener);
+        void setOnPendingListener(std::function<void(u64 socketFd)> listener);
     };
 }

@@ -36,7 +36,7 @@ namespace exolix {
             }
     }
 
-    void UnixTcpServer::setupAddress(uint16_t port, const std::string &host) {
+    void UnixTcpServer::setupAddress(u16 port, const std::string &host) {
         serverAddress.sin_family = AF_INET;
         serverAddress.sin_addr.s_addr = inet_addr(host.c_str());
         serverAddress.sin_port = htons(port);
@@ -73,7 +73,7 @@ namespace exolix {
         // TODO: Work
     }
 
-    void UnixTcpServer::listen(const std::string &address, uint16_t port) {
+    void UnixTcpServer::listen(const std::string &address, u16 port) {
         setupSocket();
         setupAddress(port, address);
         setupBinding();
@@ -108,7 +108,7 @@ namespace exolix {
         }
     }
 
-    void UnixTcpServer::send(int socketFd, char buffer[], uint16_t length) {
+    void UnixTcpServer::send(int socketFd, char buffer[], u16 length) {
         ::send(socketFd, buffer, length, 0);
     }
 

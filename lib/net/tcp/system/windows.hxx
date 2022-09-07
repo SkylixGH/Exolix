@@ -44,7 +44,7 @@ namespace exolix {
         SOCKET clientSocket = INVALID_SOCKET;
 
         void bind();
-        void configureAddress(const std::string &host, uint16_t port);
+        void configureAddress(const std::string &host, u16 port);
         void init();
 
         std::string getLastError();
@@ -55,7 +55,7 @@ namespace exolix {
         explicit WinsockTcpServer(std::function<void(SOCKET socketFd)> connectionHandlerCallback);
         ~WinsockTcpServer();
 
-        void listen(const std::string &address, uint16_t port);
+        void listen(const std::string &address, u16 port);
         void halt();
 
         void setTls(bool tls);
@@ -68,7 +68,7 @@ namespace exolix {
         int getActiveSockets();
 
         static void close(SOCKET socketFd);
-        static void send(SOCKET socketFd, char buffer[], uint16_t length);
+        static void send(SOCKET socketFd, char buffer[], u16 length);
 #endif
     };
 }

@@ -71,6 +71,7 @@ namespace exolix {}
 #include "../lib/process/process.hxx"
 #include "../lib/string/condition.hxx"
 #include "../lib/string/token.hxx"
+#include "../lib/types.hxx"
 // #EndInclude
 
 // End of computer assisted include file.

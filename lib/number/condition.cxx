@@ -1,16 +1,16 @@
 #include "condition.hxx"
-#include <exolix.hxx>
+#include "../string/condition.hxx"
 
 namespace exolix {
-    bool NumberCondition::isEven(uint64_t number) {
+    bool NumberCondition::isEven(u64 number) {
         return number % 2 == 0;
     }
 
-    bool NumberCondition::isOdd(uint64_t number) {
+    bool NumberCondition::isOdd(u64 number) {
         return number % 2 != 0;
     }
 
-    bool NumberCondition::isNumber(uint64_t number) {
+    bool NumberCondition::isNumber(u64 number) {
         return true;
     }
 

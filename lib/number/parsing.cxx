@@ -1,13 +1,14 @@
 #include "parsing.hxx"
-
-#include <iostream> // TODO: Temp
+#include "../string/condition.hxx"
+#include "condition.hxx"
+#include <string>
 
 namespace exolix {
-    int64_t NumberParsing::parse(const std::string &string) {
+    i64 NumberParsing::parse(const std::string &string) {
         const int max64bitNumberLength = 19;
-        const uint64_t max64bitNumber = 9223372036854775807;
+        const u64 max64bitNumber = 9223372036854775807;
 
-        int64_t number = 0;
+        i64 number = 0;
         bool negative = false;
         
         if (!NumberCondition::isNumber(string))

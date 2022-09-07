@@ -3,37 +3,31 @@
  */
 
 #include <utility>
+#include <vector>
 #include "address.hxx"
-#include <exolix.hxx>
-
-//temp
-#include <iostream>
+#include "../process/process.hxx"
+#include "../number/condition.hxx"
+#include "../number/parsing.hxx"
+#include "../string/token.hxx"
 
 namespace exolix {
-    NetAddress::NetAddress(uint16_t inputPort, std::string inputHost):
+    NetAddress::NetAddress(u16 inputPort, std::string inputHost):
         port(inputPort), host(std::move(inputHost)) {
     }
 
-    NetAddress::NetAddress(uint16_t inputPort):
+    NetAddress::NetAddress(u16 inputPort):
         port(inputPort), host("localhost") {
     }
 
     NetAddress::NetAddress(std::string inputHost):
-        port(0), host(inputHost) {
+        port(0), host(std::move(inputHost)) {
     }
 
     bool NetAddress::isValidHost() {
-        if (host.length() == 0)
-            return false;
-
-        // TODO: Add more validation layers
-        return true;
+        return NetAddress::isValidIpv4Address(getProcessed());
     }
 
     std::string NetAddress::getProcessed() {
-        if (!isValidHost())
-            throw NetAddressException(NetAddressErrors::INVALID_HOST, "The hostname is invalid");
-
         std::string result;
 
         if (host == "localhost")
@@ -41,23 +35,23 @@ namespace exolix {
         else
             result += host;
 
-        if (port > 0)
-            result += ":" + std::to_string(port);
-
         return result;
     }
 
     bool NetAddress::isValidIpv4Address(const std::string &inputIpv4) {
+        if (inputIpv4.length() == 0)
+            return false;
+
         std::vector<std::string> parts = StringTokenizer::split(inputIpv4, ".");
 
         if (parts.size() != 4)
             return false;
 
-        for (std::string part : parts) {
+        for (const std::string& part : parts) {
             if (!NumberCondition::isNumber(part))
                 return false;
 
-            uint64_t number = 0;
+            int64_t number;
 
             try {
                 number = NumberParsing::parse(part);
@@ -68,6 +62,15 @@ namespace exolix {
             if (number > 255 || number < 0)
                 return false;
         }
+
+        return true;
+    }
+
+    bool NetAddress::hasPortPermission() const {
+        if (port < 1024)
+            return Process::hasRoot();
+        else if (port > 65535)
+            return false;
 
         return true;
     }

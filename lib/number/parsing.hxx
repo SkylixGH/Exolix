@@ -1,7 +1,8 @@
 #pragma once
 
 #include <string>
-#include <exolix.hxx>
+#include "../error/error.hxx"
+#include "../types.hxx"
 
 namespace exolix {
     enum class NumberParsingErrors {
@@ -18,6 +19,6 @@ namespace exolix {
          * @param string The input number in the form of a string.
          * @return The parsed number from the string.
          */
-        static int64_t parse(const std::string &string);
+        static i64 parse(const std::string &string);
     };
 }

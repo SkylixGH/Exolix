@@ -3,6 +3,7 @@
 #include <string>
 #include <functional>
 #include "../../../error/error.hxx"
+#include "../../../types.hxx"
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <sys/socket.h>
@@ -38,7 +39,7 @@ namespace exolix {
         std::function<void(int &socketFd)> connectionHandler;
 
         void setupSocket();
-        void setupAddress(uint16_t port, const std::string &host);
+        void setupAddress(u16 port, const std::string &host);
         void setupBinding();
 #endif
 
@@ -51,11 +52,11 @@ namespace exolix {
         void setCert(std::string cert);
         void setKey(std::string key);
 
-        void listen(const std::string &address, uint16_t port);
+        void listen(const std::string &address, u16 port);
         void halt();
 
         static void close(int socketFd);
-        static void send(int socketFd, char buffer[], uint16_t length);
+        static void send(int socketFd, char buffer[], u16 length);
 #endif
     };
 }

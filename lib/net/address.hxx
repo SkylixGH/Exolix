@@ -2,6 +2,7 @@
 
 #include <string>
 #include "../error/error.hxx"
+#include "../types.hxx"
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <netinet/in.h>
@@ -16,15 +17,15 @@ namespace exolix {
 
     class NetAddress {
     public:
-        const uint16_t port;
+        const u16 port;
         const std::string host;
 
-        NetAddress(uint16_t inputPort, std::string inputHost);
-        explicit NetAddress(uint16_t inputPort);
+        NetAddress(u16 inputPort, std::string inputHost);
+        explicit NetAddress(u16 inputPort);
         explicit NetAddress(std::string inputHost);
 
         bool isValidHost();
-        bool hasPortPermission();
+        bool hasPortPermission() const;
 
         std::string getProcessed();
 

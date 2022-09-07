@@ -45,7 +45,7 @@ namespace exolix {
         }
     }
 
-    void WinsockTcpServer::configureAddress(const std::string &host, uint16_t port) {
+    void WinsockTcpServer::configureAddress(const std::string &host, u16 port) {
         ZeroMemory(&hints, sizeof(hints));
 
         hints.ai_family = AF_INET;
@@ -110,7 +110,7 @@ namespace exolix {
         WSACleanup();
     }
 
-    void WinsockTcpServer::listen(const std::string &address, uint16_t port) {
+    void WinsockTcpServer::listen(const std::string &address, u16 port) {
         std::thread thread([this, &address, &port] () {
             init();
             configureAddress(address, port);
@@ -189,7 +189,7 @@ namespace exolix {
         closesocket(socketFd);
     }
 
-    void WinsockTcpServer::send(SOCKET socketFd, char buffer[], uint16_t length) {
+    void WinsockTcpServer::send(SOCKET socketFd, char buffer[], u16 length) {
         int bytesSent = ::send(socketFd, buffer, length, 0);
         
         if (bytesSent == SOCKET_ERROR) {

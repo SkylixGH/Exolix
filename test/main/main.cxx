@@ -4,7 +4,7 @@
 using namespace exolix;
 
 int main() {
-    NetAddress address(8080);
+    NetAddress address(-1);
     SocketServer server(address);
     
     server.setOnAcceptListener([] (Socket &socket) {
