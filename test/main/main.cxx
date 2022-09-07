@@ -7,7 +7,7 @@ using namespace exolix;
 int main() {
     std::vector<std::thread *> pool {};
 
-    NetAddress address("0.0.1.255");
+    NetAddress address("127.0.0.1");
 
     bool inum = NetAddress::isValidIpv4Address(address.host);
 

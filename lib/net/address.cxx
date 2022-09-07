@@ -54,7 +54,6 @@ namespace exolix {
             return false;
 
         for (std::string part : parts) {
-            std::cout << "Sector: " << part << std::endl;
             if (!NumberCondition::isNumber(part))
                 return false;
 
