@@ -20,7 +20,7 @@ namespace exolix {
             (string.length() > max64bitNumberLength && !negative ||
             (string.length() > max64bitNumberLength + 1 && negative))
         )
-            throw NumberParsingException(NumberParsingErrors::INPUT_TOO_LARGE, "The input number is too large to be parsed, number must be 64 bits signed or unsigned");
+            throw NumberParsingException(NumberParsingErrors::INPUT_TOO_LARGE, "The input number is too large or small to be parsed, number must be 64 bits signed or unsigned");
 
         std::string processedString = string;
 

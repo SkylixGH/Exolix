@@ -8,7 +8,7 @@ int main() {
     SocketServer server(address);
 
     try {
-        auto x = NumberParsing::parse("-9223372036854775807"); // 7 at end
+        auto x = NumberParsing::parse("9223372036854775807"); // 7 at end
         std::cout << x << std::endl;
     } catch (NumberParsingException &e) {
         e.render();
