@@ -1,11 +1,13 @@
 #!/usr/bin/env node
 
 const { spawn } = require("child_process");
+const path = require("path");
 
-spawn("../node_modules/.bin/ts-node", [
+spawn(path.join(__dirname, "../node_modules/.bin/ts-node"), [
     "--transpile-only",
-    "../src/index.ts"
+    path.join(__dirname, "../src/index.ts"),
+    ...process.argv.slice(2)
 ], {
-    cwd: __dirname,
+    cwd: process.cwd(),
     stdio: "inherit",
 });
