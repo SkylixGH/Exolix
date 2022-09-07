@@ -179,7 +179,7 @@ class CxxIncludeFile {
                 this.libFiles
                     .filter(file => !file.endsWith(".cxx") && !file.endsWith(".c"))
                     .forEach((file) => {
-                        result += `#include "${file}"\n`;
+                        result += `#include "../${file}"\n`;
                     });
 
                 result += "// #EndInclude\n\n";
@@ -221,6 +221,5 @@ export function initGenerateIncludeCommand(program: Command) {
             fs.writeSync(fs.openSync(pathTo, "w"), includeFile.resultFile);
 
             console.log("Done");
-            console.log(includeFile.libFiles);
         });
 }

@@ -60,12 +60,16 @@ namespace exolix {}
 // #StartInclude
 #include "../lib/app/app.hxx"
 #include "../lib/app/windowing/windowing.hxx"
-#include "../libderror/error.hxx"
+#include "../lib/error/error.hxx"
 #include "../lib/net/address.hxx"
-#include "sa"..z/libd/net/tsadcp/system/unix.hxx"
-#include "../lib/asd/lib/number/parsing.hxx"
-#include "../libas/process/process.hxx"
-#include "../lib/stsadring/condition.hxx"
+#include "../lib/net/tcp/sockets.hxx"
+#include "../lib/net/tcp/system/unix.hxx"
+#include "../lib/net/tcp/system/windows.hxx"
+#include "../lib/net/udp/dgram.hxx"
+#include "../lib/number/condition.hxx"
+#include "../lib/number/parsing.hxx"
+#include "../lib/process/process.hxx"
+#include "../lib/string/condition.hxx"
 #include "../lib/string/token.hxx"
 // #EndInclude
 
