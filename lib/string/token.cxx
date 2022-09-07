@@ -1,5 +1,6 @@
 #include "token.hxx"
 #include <algorithm>
+#include <sstream>
 
 namespace exolix {
     std::vector<std::string> StringTokenizer::split(const std::string &string, const std::string &delimiter) {
@@ -25,16 +26,8 @@ namespace exolix {
         return result;
     }
 
-    std::string StringTokenizer::toString(__int128_t number) {
-        std::string result = "";
-
-        while (number > 0) {
-            result += (char) (number % 10 + '0');
-            number /= 10;
-        }
-
-        std::reverse(result.begin(), result.end());
-        return result;
+    std::string StringTokenizer::toString(int64_t number) {
+        return std::to_string(number);
     }
 
     std::string StringTokenizer::toString(const std::string &string) {

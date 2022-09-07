@@ -8,3 +8,7 @@ cmake-build-release/
 *.cert
 
 node_modules/
+
+.cache
+.idea
+.vscode

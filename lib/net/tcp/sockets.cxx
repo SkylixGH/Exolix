@@ -22,6 +22,10 @@ namespace exolix {
 #endif
     }
 
+    void SocketServer::onSocketInternal(uint64_t socketFd) {
+
+    }
+
     void SocketServer::listen() {
         if (!address.isValidHost()) {} // TODO: Handle error
 #if defined(__linux__) || defined(__APPLE__)

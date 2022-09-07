@@ -2,15 +2,15 @@
 #include <exolix.hxx>
 
 namespace exolix {
-    bool NumberCondition::isEven(__int128_t number) {
+    bool NumberCondition::isEven(uint64_t number) {
         return number % 2 == 0;
     }
 
-    bool NumberCondition::isOdd(__int128_t number) {
+    bool NumberCondition::isOdd(uint64_t number) {
         return number % 2 != 0;
     }
 
-    bool NumberCondition::isNumber(__int128_t number) {
+    bool NumberCondition::isNumber(uint64_t number) {
         return true;
     }
 

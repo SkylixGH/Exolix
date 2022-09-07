@@ -57,7 +57,7 @@ namespace exolix {
             if (!NumberCondition::isNumber(part))
                 return false;
 
-            __int128_t number = NumberParsing::parse(part);
+            uint64_t number = NumberParsing::parse(part);
 
             if (number > 255 || number < 0)
                 return false;

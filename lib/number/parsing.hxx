@@ -6,6 +6,7 @@
 namespace exolix {
     enum class NumberParsingErrors {
         INPUT_NOT_A_NUMBER,
+        INPUT_TOO_LARGE
     };
 
     typedef Error<NumberParsingErrors> NumberParsingException;
@@ -17,6 +18,6 @@ namespace exolix {
          * @param string The input number in the form of a string.
          * @return The parsed number from the string.
          */
-        static __int128_t parse(const std::string &string);
+        static int64_t parse(const std::string &string);
     };
 }

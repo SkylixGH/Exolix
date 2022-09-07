@@ -24,11 +24,11 @@ namespace exolix {
         std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
         std::function<void(int socketFd)> onPending = [] (int socketFd) {};
 
-        std::map<std::thread, std::tuple<bool, __int128_t>> threads {};
+        std::map<std::thread, std::tuple<bool, uint64_t>> threads {};
 
         NetAddress &address;
 
-        void onSocketInternal(__int128_t socketFd);
+        void onSocketInternal(uint64_t socketFd);
 
     public:
         explicit SocketServer(NetAddress &address);

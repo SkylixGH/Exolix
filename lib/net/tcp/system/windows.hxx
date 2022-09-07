@@ -4,8 +4,6 @@
 #include <string>
 #include <functional>
 #include <winsock2.h>
-#include <map>
-#include "../../../thread/thread.hxx"
 #endif
 
 namespace exolix {
