@@ -6,3 +6,5 @@ cmake-build-release/
 
 *.pem
 *.cert
+
+node_modules/
