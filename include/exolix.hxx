@@ -1,14 +1,12 @@
-#pragma once
-
-// #StartCompileHeader
+// #Start CompileHeader
 #ifdef __FreeBSD__
 #error "FreeBSD is not a supported platform for Exolix"
 #elif _WIN32
 #define WIN32_LEAN_AND_MEAN
 #endif
-// #EndCompileHeader
+// #End CompileHeader
 
-// #StartNamespaceDoc
+// #Start NamespaceDoc
 /**
  *    ---   ---   ---   Exolix   ---   ---   ---   <br />
  *    Exolix - The framework by Skylix. Exolix is a
@@ -52,7 +50,7 @@
  *    (This is the end of the MIT licence)
  */
 namespace exolix {}
-// #EndNamespaceDoc
+// #End NamespaceDoc
 
 // ---                                                        --- //
 // The following guards for the includes must not be removed. --- //
@@ -63,14 +61,16 @@ namespace exolix {}
 #include "../lib/app/app.hxx"
 #include "../lib/app/windowing/windowing.hxx"
 #include "../lib/error/error.hxx"
-#include "../lib/net/tcp/sockets.hxx"
-#include "../lib/net/tcp/system/windows.hxx"
-#include "../lib/net/tcp/system/unix.hxx"
-#include "../lib/net/udp/dgram.hxx"
 #include "../lib/net/address.hxx"
-#include "../lib/process/process.hxx"
-#include "../lib/string/token.hxx"
-#include "../lib/string/condition.hxx"
+#include "../lib/net/tcp/sockets.hxx"
+#include "../lib/net/tcp/system/unix.hxx"
+#include "../lib/net/tcp/system/windows.hxx"
+#include "../lib/net/udp/dgram.hxx"
 #include "../lib/number/condition.hxx"
 #include "../lib/number/parsing.hxx"
+#include "../lib/process/process.hxx"
+#include "../lib/string/condition.hxx"
+#include "../lib/string/token.hxx"
 // #EndInclude
+
+// End of computer assisted include file.
