@@ -156,20 +156,8 @@ namespace exolix {
                         [](void *arg) -> unsigned {
                             SOCKET socket = (SOCKET) arg;
 
-                            while (true) {
-                                char buffer[1024];
-                                int bytesReceived = recv(socket, buffer, 1024, 0);
-
-                                if (bytesReceived > 0) {
-                                    std::cout << "Received: " << buffer << std::endl;
-                                } else if (bytesReceived == 0) {
-                                    std::cout << "Client disconnected" << std::endl;
-                                    break;
-                                } else {
-                                    std::cout << "recv failed with error: " << WSAGetLastError() << std::endl;
-                                    break;
-                                }
-                            }
+                            
+                            
                             return 0;
                         },
                         (void*) clientSocket, 
