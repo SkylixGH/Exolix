@@ -2,6 +2,11 @@
 
 #include "../address.hxx"
 #include <functional>
+#include "system/unix.hxx"
+#include "system/windows.hxx"
+#include <map>
+#include <tuple>
+#include <thread>
 
 namespace exolix {
     class Socket {
@@ -10,9 +15,20 @@ namespace exolix {
 
     class SocketServer {
     private:
-        std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
+#if defined(__linux__) || defined(__APPLE__)
+        UnixTcpServer *unixCoreServer = nullptr;
+#elif defined(_WIN32)
+        WinsockTcpServer *winsockCoreServer = nullptr;
+#endif
 
-        void accept();
+        std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
+        std::function<void(int socketFd)> onPending = [] (int socketFd) {};
+
+        std::map<std::thread, std::tuple<bool, __int128_t>> threads {};
+
+        NetAddress &address;
+
+        void onSocketInternal(__int128_t socketFd);
 
     public:
         explicit SocketServer(NetAddress &address);
@@ -23,5 +39,6 @@ namespace exolix {
         void block();
 
         void setOnAcceptListener(std::function<void(Socket &socket)> listener);
+        void setOnPendingListener(std::function<void(int socketFd)> listener);
     };
 }
