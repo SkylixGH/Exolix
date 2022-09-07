@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../address.hxx"
-#include "../../thread/thread.hxx"
 #include <functional>
 
 namespace exolix {
@@ -12,7 +11,6 @@ namespace exolix {
     class SocketServer {
     private:
         std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
-        Thread *thread {};
 
         void accept();
 

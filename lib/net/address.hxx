@@ -27,5 +27,7 @@ namespace exolix {
         bool hasPortPermission();
 
         std::string getProcessed();
+
+        static bool isValidIpv4Address(const std::string &inputIpv4);
     };
 }

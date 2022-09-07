@@ -20,7 +20,7 @@ namespace exolix {
     void WinsockTcpServer::bind() {
         intResult = ::bind(serverSocket, result->ai_addr, (int) result->ai_addrlen);
         if (intResult == SOCKET_ERROR) {
-            exit(567878711);
+            exit(567878711); // TODO: Remove exits
         }
     }
 

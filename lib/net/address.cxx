@@ -4,6 +4,10 @@
 
 #include <utility>
 #include "address.hxx"
+#include <exolix.hxx>
+
+//temp
+#include <iostream>
 
 namespace exolix {
     NetAddress::NetAddress(uint16_t inputPort, std::string inputHost):
@@ -33,7 +37,7 @@ namespace exolix {
         std::string result;
 
         if (host == "localhost")
-            result += "0.0.0.0";
+            result += "127.0.0.1";
         else
             result += host;
 
@@ -41,5 +45,25 @@ namespace exolix {
             result += ":" + std::to_string(port);
 
         return result;
+    }
+
+    bool NetAddress::isValidIpv4Address(const std::string &inputIpv4) {
+        std::vector<std::string> parts = StringTokenizer::split(inputIpv4, ".");
+
+        if (parts.size() != 4)
+            return false;
+
+        for (std::string part : parts) {
+            std::cout << "Sector: " << part << std::endl;
+            if (!NumberCondition::isNumber(part))
+                return false;
+
+            __int128_t number = NumberParsing::parse(part);
+
+            if (number > 255 || number < 0)
+                return false;
+        }
+
+        return true;
     }
 }

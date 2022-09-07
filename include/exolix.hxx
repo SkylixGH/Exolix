@@ -69,5 +69,8 @@ namespace exolix {}
 #include "../lib/net/udp/dgram.hxx"
 #include "../lib/net/address.hxx"
 #include "../lib/process/process.hxx"
-#include "../lib/thread/thread.hxx"
+#include "../lib/string/token.hxx"
+#include "../lib/string/condition.hxx"
+#include "../lib/number/condition.hxx"
+#include "../lib/number/parsing.hxx"
 // #EndInclude

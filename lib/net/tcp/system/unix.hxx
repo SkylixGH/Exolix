@@ -2,6 +2,7 @@
 
 #include <string>
 #include <functional>
+#include <exolix.hxx>
 
 #if defined(__linux__) || defined(__APPLE__)
 #include <sys/socket.h>
@@ -9,6 +10,15 @@
 #endif
 
 namespace exolix {
+    enum class UnixTcpServerErrors {
+        ADDRESS_PROTECTED_PERM_DENIED,
+        ADDRESS_IN_USE,
+        ADDRESS_INVALID,
+        OTHER_SYS_ERROR
+    };
+
+    typedef Error<UnixTcpServerErrors> UnixTcpServerException;
+
     class UnixTcpServer {
     private:
 #if defined(__linux__) || defined(__APPLE__)

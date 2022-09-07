@@ -1,49 +1,41 @@
 #include <exolix.hxx>
 #include <vector>
+#include <thread>
 
 using namespace exolix;
 
 int main() {
-    std::vector<SOCKET> fds {};
+    std::vector<std::thread *> pool {};
 
-    WinsockTcpServer server([&] (SOCKET socketFd) {
-        std::thread t([&] () {
-            fds.push_back(socketFd);
+    NetAddress address("0.0.1.255");
 
-            while (true) {
-                // Use WSARecv
-                LPWSABUF buffer = new WSABUF;
-                buffer->buf = new char[1024];
-                buffer->len = 1024;
+    bool inum = NetAddress::isValidIpv4Address(address.host);
 
-                DWORD flags = 0;
-                DWORD bytesReceived = 0;
+    std::cout << inum << std::endl;
 
-                WSAOVERLAPPED overlapped;
-                ZeroMemory(&overlapped, sizeof(WSAOVERLAPPED));
+    UnixTcpServer server([&] (int fd) {
+        std::cout << "Open: " << fd << std::endl;
 
-                int re = WSARecv(socketFd, buffer, 1, &bytesReceived, &flags, &overlapped, NULL);
+        auto *thread = new std::thread([&] () {
+            char buffer[65535];
+            int resData;
 
-                if (re == 0) {
-                    std::cout << "Client disconnected" << std::endl;
-                    fds.erase(std::remove(fds.begin(), fds.end(), socketFd), fds.end());
-                    break;
-                }
-
-                if (re == -1) {
-                    std::cout << "Error while receiving data" << std::endl;
-                    std::cout << "Because: " << WSAGetLastError() << std::endl;
-                    break;
-                }
-
-                std::cout << "Received: " << buffer->buf << std::endl;
+            while ((resData = read(fd, buffer, 65535)) > 0) {
+                std::cout << "Data: " << buffer << std::endl;
             }
+
+            std::cout << "Done\n";
         });
 
-        t.detach();
+        thread->detach();
+        pool.push_back(thread);
     });
 
-    server.listen("127.0.0.1", 21);
+    try {
+        server.listen("0.0.0.0asd", 8080);
+    } catch (UnixTcpServerException &error) {
+        error.render();
+    }
 
     return 0;
 }
