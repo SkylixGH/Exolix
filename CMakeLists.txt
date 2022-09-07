@@ -1,6 +1,13 @@
 cmake_minimum_required(VERSION 3.16)
 project(Exolix CXX)
 
+# Run include file generator and automatic
+# file include assistance with guards.
+execute_process (
+    COMMAND node ${CMAKE_SOURCE_DIR}/gen/bin/cmake-assist-generator.js generate-include include/exolix.hxx ../lib
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+)
+
 include_directories(include)
 
 set(CMAKE_CXX_STANDARD 20)

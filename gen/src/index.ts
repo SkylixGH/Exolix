@@ -1,5 +1,5 @@
 import { Command } from "commander";
-import {initGenerateIncludeCommand} from "./commands/generateIncludeFIle";
+import {initGenerateIncludeCommand} from "./commands/generateIncludeFile";
 
 const program = new Command();
 
