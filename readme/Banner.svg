@@ -1,6 +1,6 @@
 <svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
     <g clip-path="url(#clip0_716_4)">
-        <rect width="1920" height="1080" fill="#202020"/>
+        <rect width="1920" height="1080" rx="30" fill="#202020"/>
         <path d="M703.261 -140V90.1739C703.261 90.7262 703.708 91.1739 704.261 91.1739H969C969.552 91.1739 970 91.6216 970 92.1739V322.348" stroke="#181818" stroke-width="8"/>
         <path d="M632.13 -68.8696V161.304C632.13 161.857 632.578 162.304 633.13 162.304H897.87C898.422 162.304 898.87 162.752 898.87 163.304V393.478" stroke="#181818" stroke-width="8"/>
         <path d="M561 2.26074V232.435C561 232.987 561.448 233.435 562 233.435H826.739C827.291 233.435 827.739 233.882 827.739 234.435V464.609" stroke="#181818" stroke-width="8"/>
@@ -41,7 +41,7 @@
             <feGaussianBlur stdDeviation="85.5" result="effect1_foregroundBlur_716_4"/>
         </filter>
         <clipPath id="clip0_716_4">
-            <rect width="1920" height="1080" fill="white"/>
+            <rect width="1920" height="1080" rx="30" fill="white"/>
         </clipPath>
     </defs>
 </svg>

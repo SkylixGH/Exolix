@@ -13,6 +13,7 @@ more!
 , [Go](https://go.dev/) and **MORE**!
 
 <img src="readme/Banner.svg" alt="Exolix Banner" width="100%" />
+<img src="readme/Flow.svg" alt="Exolix Banner" width="100%" />
 
 ## Links
 
