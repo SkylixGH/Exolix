@@ -192,9 +192,9 @@ namespace exolix {
                             server->connectionHandler(server->clientSocket);
 
                             delete server;
-//                            delete clientSsl;
+                            delete clientSsl;
 
-//                            server->sslSockets.erase(server->clientSocket);
+                            server->sslSockets.erase(server->clientSocket);
                             return 0;
                         },
                         this,
