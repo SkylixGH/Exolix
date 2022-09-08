@@ -191,9 +191,7 @@ namespace exolix {
                             server->pendingSocket = false;
                             server->connectionHandler(server->clientSocket);
 
-                            delete server;
-                            delete clientSsl;
-
+                            SSL_free(clientSsl);
                             server->sslSockets.erase(server->clientSocket);
                             return 0;
                         },

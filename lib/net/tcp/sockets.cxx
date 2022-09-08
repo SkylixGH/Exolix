@@ -111,7 +111,8 @@ namespace exolix {
         if (!open) return;
 
         if (tls) {
-
+            SSL_write(sslClient.value(), messageRaw.getData(), messageRaw.size);
+            return;
         }
 
 #if defined(__linux__) || defined(__APPLE__)

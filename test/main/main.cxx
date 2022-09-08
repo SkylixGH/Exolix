@@ -15,11 +15,11 @@ int main() {
     server.setOnAcceptListener([](Socket &socket) {
         std::cout << "Accepted connection" << std::endl;
 
-//        socket.send("Dispatch testing");
+        socket.send("Dispatch testing");
 
         socket.setOnReceiveListener([&socket] (SocketMessage &msg) {
             std::cout << "Received message: " << msg.toString() << std::endl;
-//            socket.send("Hi");
+            socket.send("Hi");
         });
 
         socket.block();
