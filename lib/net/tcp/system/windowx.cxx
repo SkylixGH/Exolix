@@ -29,7 +29,7 @@ namespace exolix {
                 case WSANOTINITIALISED:
                 case WSAENETDOWN:
                     throw WinsockTcpServerException(
-                        WinsockTcpServerErrors::BINDING_FAILER,
+                        WinsockTcpServerErrors::BINDING_ERROR,
                         "Winsock failed to bind the server due to an unexpected error, winsock returned error code: " + std::to_string(WSAGetLastError())
                     );
 

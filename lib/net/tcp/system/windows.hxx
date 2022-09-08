@@ -17,7 +17,7 @@ namespace exolix {
         SOCKET_CREATE_FAIL,
         ADDRESS_IN_USE,
         PERMISSION_ERROR,
-        BINDING_FAILER
+        BINDING_ERROR
     };
 
     typedef Error<WinsockTcpServerErrors> WinsockTcpServerException;

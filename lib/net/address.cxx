@@ -16,7 +16,7 @@ namespace exolix {
     }
 
     NetAddress::NetAddress(u16 inputPort):
-        port(inputPort), host("localhost") {
+        port(inputPort), host("127.0.0.1") {
     }
 
     NetAddress::NetAddress(std::string inputHost):

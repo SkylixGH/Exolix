@@ -33,7 +33,7 @@ namespace exolix {
 
 #if defined(__linux__) || defined(__APPLE__)
         try {
-            unixCoreServer->listen(address.host, address.port);
+            unixCoreServer->listen(address.getProcessed(), address.port);
         } catch (UnixTcpServerException &e) {
             throw SocketServerException (
                 SocketServerErrors::LISTEN_FAILED,
@@ -42,7 +42,7 @@ namespace exolix {
         }
 #elif defined(_WIN32)
         try {
-            winsockCoreServer->listen(address.host, address.port);
+            winsockCoreServer->listen(address.getProcessed(), address.port);
         } catch (WinsockTcpServerException &e) {
             throw SocketServerException (
                 SocketServerErrors::LISTEN_FAILED,
