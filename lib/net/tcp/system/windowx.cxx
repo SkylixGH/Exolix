@@ -8,9 +8,10 @@
 #include <iostream>
 #include <utility>
 #include <thread>
+#include <tuple>
 #endif
 
-// TODO: Remove 
+// temp
 #include <iostream>
 
 namespace exolix {
@@ -151,20 +152,25 @@ namespace exolix {
 
                 if (clientSocket != INVALID_SOCKET) {
                     unsigned threadId;
+                    pendingSocket = true;
+
                     HANDLE clientThreadProcess = (HANDLE) _beginthreadex(
                         NULL, 
                         0, 
-                        [](void *arg) -> unsigned {
-                            SOCKET socket = (SOCKET) arg;
+                        [] (void *arg) -> unsigned {
+                            WinsockTcpServer *server = (WinsockTcpServer *) arg;
 
-                            
-                            
+                            server->pendingSocket = false;
+                            server->connectionHandler(server->clientSocket);
+
                             return 0;
                         },
-                        (void*) clientSocket, 
+                        this,
                         0, 
                         &threadId
                     );
+
+                    while (pendingSocket) {}
                 } else {
                     std::cerr << "Failed\n";
                 }
@@ -194,8 +200,16 @@ namespace exolix {
         int bytesSent = ::send(socketFd, buffer, length, 0);
         
         if (bytesSent == SOCKET_ERROR) {
-            
+            // TODO: Safe
         }
+    }
+
+    SOCKET WinsockTcpServer::getRecentSocket() {
+        return clientSocket;
+    }
+
+    bool WinsockTcpServer::isSocketCurrentlyPending() {
+        return pendingSocket;
     }
 #endif
 }

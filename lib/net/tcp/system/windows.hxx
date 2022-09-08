@@ -7,6 +7,7 @@
 #include <functional>
 #include <winsock2.h>
 #include <process.h>
+#include "../../../types.hxx"
 #endif
 
 namespace exolix {
@@ -48,6 +49,8 @@ namespace exolix {
         void init();
 
         std::string getLastError();
+
+        bool pendingSocket = false;
 #endif
 
     public:
@@ -62,10 +65,11 @@ namespace exolix {
         void setCert(std::string certPath);
         void setKey(std::string keyPath);
 
+        SOCKET getRecentSocket();
+        bool isSocketCurrentlyPending();
+
         static void close();
         static void send(char buffer[65535]);
-
-        int getActiveSockets();
 
         static void close(SOCKET socketFd);
         static void send(SOCKET socketFd, char buffer[], u16 length);
