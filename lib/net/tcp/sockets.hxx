@@ -8,6 +8,8 @@
 #include <map>
 #include <tuple>
 #include <thread>
+#include <optional>
+#include <string>
 
 namespace exolix {
     enum class SocketServerErrors {
@@ -16,6 +18,11 @@ namespace exolix {
     };
 
     typedef Error<SocketServerErrors> SocketServerException;
+
+    struct SocketTlsConfiguration {
+        std::string cert = "";
+        std::string key = "";
+    };
 
     class SocketMessage {
     private:
@@ -37,13 +44,16 @@ namespace exolix {
         std::function<void(SocketMessage &)> onReceive = [] (SocketMessage &message) {};
 
         bool open = true;
+        bool tls;
+
+        std::optional<SSL *> sslClient;
 
         std::thread *thread;
 
     public:
         const std::string clientIp;
 
-        Socket(u64 fd);
+        Socket(u64 fd, std::optional<SSL *> ssl);
         ~Socket();
 
         void send(SocketMessage messageRaw);
@@ -56,7 +66,7 @@ namespace exolix {
 
         void block();
 
-         u64 getSocketFd();
+        u64 getSocketFd();
     };
 
     class SocketServer {
@@ -69,11 +79,15 @@ namespace exolix {
 
         std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
 
-        std::map<std::thread, std::tuple<bool, u64>> threads{};
+        std::thread *thread = nullptr;
 
         NetAddress &address;
 
         void onSocketInternal(u64 socketFd);
+
+        bool tls = false;
+
+        SocketTlsConfiguration tlsConfiguration {};
 
     public:
         explicit SocketServer(NetAddress &address);
@@ -85,6 +99,10 @@ namespace exolix {
         void stop();
 
         void block();
+
+        void setTls(std::false_type tls);
+
+        void setTls(SocketTlsConfiguration configuration);
 
         void setOnAcceptListener(std::function<void(Socket &socket)> listener);
     };

@@ -8,11 +8,7 @@
 #include <iostream>
 #include <utility>
 #include <thread>
-#include <tuple>
 #endif
-
-// temp
-#include <iostream>
 
 namespace exolix {
 #ifdef _WIN32
@@ -113,6 +109,13 @@ namespace exolix {
     }
 
     void WinsockTcpServer::listen(const std::string &address, u16 port) {
+        if (tls) {
+            // TODO: Make this system global and use signal();
+            SSL_load_error_strings();
+            SSL_library_init();
+            OpenSSL_add_all_algorithms();
+        }
+
         std::thread thread([this, &address, &port] () {
             init();
             configureAddress(address, port);
@@ -147,6 +150,24 @@ namespace exolix {
                 online = true;
             }
 
+            sslCtx = SSL_CTX_new(SSLv23_server_method());
+            SSL_CTX_set_options(sslCtx, SSL_OP_SINGLE_DH_USE);
+
+            int cert = SSL_CTX_use_certificate_file(sslCtx, certSsl.c_str(), SSL_FILETYPE_PEM);
+            int key = SSL_CTX_use_PrivateKey_file(sslCtx, keySsl.c_str(), SSL_FILETYPE_PEM);
+
+            if (cert != 1)
+                throw WinsockTcpServerException(
+                    WinsockTcpServerErrors::SSL_CERTIFICATE_LD_ERROR,
+                    "Failed to load SSL certificate, with the following error code: " + std::to_string(cert)
+                );
+
+            if (key != 1)
+                throw WinsockTcpServerException(
+                    WinsockTcpServerErrors::SSL_KEY_LD_ERROR,
+                    "Failed to load the SSL key, with the following erorr code: " + std::to_string(key)
+                );
+
             do {
                 clientSocket = ::accept(serverSocket, nullptr, nullptr);
 
@@ -154,19 +175,30 @@ namespace exolix {
                     unsigned threadId;
                     pendingSocket = true;
 
-                    HANDLE clientThreadProcess = (HANDLE) _beginthreadex(
-                        NULL, 
-                        0, 
+                    _beginthreadex(
+                        NULL,
+                        0,
                         [] (void *arg) -> unsigned {
-                            WinsockTcpServer *server = (WinsockTcpServer *) arg;
+                            auto *server = (WinsockTcpServer *) arg;
+
+                            SSL *clientSsl = SSL_new(server->sslCtx);
+                            SSL_set_fd(clientSsl, server->clientSocket);
+
+                            SSL_accept(clientSsl);
+
+                            server->sslSockets.insert(std::pair<SOCKET, SSL *>(server->clientSocket, clientSsl));
 
                             server->pendingSocket = false;
                             server->connectionHandler(server->clientSocket);
 
+                            delete server;
+//                            delete clientSsl;
+
+//                            server->sslSockets.erase(server->clientSocket);
                             return 0;
                         },
                         this,
-                        0, 
+                        0,
                         &threadId
                     );
 
@@ -185,31 +217,15 @@ namespace exolix {
     }
 
     void WinsockTcpServer::setCert(std::string certPath) {
-        this->cert = certPath;
+        this->certSsl = certPath;
     }
 
     void WinsockTcpServer::setKey(std::string keyPath) {
-        this->key = keyPath;
+        this->keySsl = keyPath;
     }
 
-    void WinsockTcpServer::close(SOCKET socketFd) {
-        closesocket(socketFd);
-    }
-
-    void WinsockTcpServer::send(SOCKET socketFd, char buffer[], u16 length) {
-        int bytesSent = ::send(socketFd, buffer, length, 0);
-        
-        if (bytesSent == SOCKET_ERROR) {
-            // TODO: Safe
-        }
-    }
-
-    SOCKET WinsockTcpServer::getRecentSocket() {
-        return clientSocket;
-    }
-
-    bool WinsockTcpServer::isSocketCurrentlyPending() {
-        return pendingSocket;
+    std::map<SOCKET, SSL *> WinsockTcpServer::getTlsClients() {
+        return sslSockets;
     }
 #endif
 }

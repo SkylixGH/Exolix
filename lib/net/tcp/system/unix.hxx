@@ -57,9 +57,9 @@ namespace exolix {
 
         void setTls(bool tls);
 
-        void setCert(std::string cert);
+        void setCert(std::string certSsl);
 
-        void setKey(std::string key);
+        void setKey(std::string keySsl);
 
         void listen(const std::string &address, u16 port);
 
