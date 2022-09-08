@@ -6,16 +6,16 @@ using namespace exolix;
 int main() {
     NetAddress address(8080);
     SocketServer server(address);
-    
-    server.setOnAcceptListener([] (Socket &socket) {
+
+    server.setOnAcceptListener([](Socket &socket) {
         std::cout << "Accepted connection" << std::endl;
     });
 
-    server.setOnPendingListener([] (int socketFd) {
+    server.setOnPendingListener([](int socketFd) {
         std::cout << "Pending connection" << std::endl;
     });
 
-    server.listen(); 
+    server.listen();
 
     return 0;
 }

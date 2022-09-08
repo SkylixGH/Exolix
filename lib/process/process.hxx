@@ -19,7 +19,9 @@ namespace exolix {
     class Process {
     public:
         static bool hasRoot();
+
         static OperatingSystems getOs();
+
         static void panic(const std::string &reason);
     };
 }

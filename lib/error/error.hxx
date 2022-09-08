@@ -10,13 +10,13 @@
 #include <utility>
 
 namespace exolix {
-    template <typename CodeType>
+    template<typename CodeType>
     class Error : public std::exception {
     public:
         const CodeType code;
         const std::string message;
 
-        Error(CodeType inCode, std::string inMessage):
+        Error(CodeType inCode, std::string inMessage) :
                 message(std::move(inMessage)), code(std::move(inCode)) {}
 
         std::string what() {

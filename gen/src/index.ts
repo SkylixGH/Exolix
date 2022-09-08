@@ -1,4 +1,4 @@
-import { Command } from "commander";
+import {Command} from "commander";
 import {initGenerateIncludeCommand} from "./commands/generateIncludeFile";
 
 const program = new Command();

@@ -1,10 +1,10 @@
 #include "sockets.hxx"
 
 namespace exolix {
-    SocketServer::SocketServer(exolix::NetAddress &address):
-        address(address) {
+    SocketServer::SocketServer(exolix::NetAddress &address) :
+            address(address) {
 #if defined(__linux__) || defined(__APPLE__)
-        unixCoreServer = new UnixTcpServer([this] (int socketFd) {
+        unixCoreServer = new UnixTcpServer([this](int socketFd) {
             onSocketInternal(socketFd);
         });
 #elif defined(_WIN32)
@@ -29,15 +29,16 @@ namespace exolix {
 
     void SocketServer::listen() {
         if (!address.isValidHost())
-            throw SocketServerException(SocketServerErrors::INVALID_ADDRESS_HOST, "The host in the server address is invalid");
+            throw SocketServerException(SocketServerErrors::INVALID_ADDRESS_HOST,
+                                        "The host in the server address is invalid");
 
 #if defined(__linux__) || defined(__APPLE__)
         try {
             unixCoreServer->listen(address.getProcessed(), address.port);
         } catch (UnixTcpServerException &e) {
-            throw SocketServerException (
-                SocketServerErrors::LISTEN_FAILED,
-                "The Unix TCP server failed to listen due to the following error: " + e.message
+            throw SocketServerException(
+                    SocketServerErrors::LISTEN_FAILED,
+                    "The Unix TCP server failed to listen due to the following error: " + e.message
             );
         }
 #elif defined(_WIN32)

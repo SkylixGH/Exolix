@@ -29,10 +29,10 @@ namespace exolix {
         WinsockTcpServer *winsockCoreServer = nullptr;
 #endif
 
-        std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
-        std::function<void(u64 socketFd)> onPending = [] (u64 socketFd) {};
+        std::function<void(Socket &socket)> onAccept = [](Socket &socket) {};
+        std::function<void(u64 socketFd)> onPending = [](u64 socketFd) {};
 
-        std::map<std::thread, std::tuple<bool, u64>> threads {};
+        std::map<std::thread, std::tuple<bool, u64>> threads{};
 
         NetAddress &address;
 
@@ -40,13 +40,17 @@ namespace exolix {
 
     public:
         explicit SocketServer(NetAddress &address);
+
         ~SocketServer();
 
         void listen();
+
         void stop();
+
         void block();
 
         void setOnAcceptListener(std::function<void(Socket &socket)> listener);
+
         void setOnPendingListener(std::function<void(u64 socketFd)> listener);
     };
 }

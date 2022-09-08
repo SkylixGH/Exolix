@@ -5,7 +5,9 @@
 #include "../types.hxx"
 
 #if defined(__linux__) || defined(__APPLE__)
+
 #include <netinet/in.h>
+
 #endif
 
 namespace exolix {
@@ -21,10 +23,13 @@ namespace exolix {
         const std::string host;
 
         NetAddress(u16 inputPort, std::string inputHost);
+
         explicit NetAddress(u16 inputPort);
+
         explicit NetAddress(std::string inputHost);
 
         bool isValidHost();
+
         bool hasPortPermission() const;
 
         std::string getProcessed();

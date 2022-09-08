@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { spawn } = require("child_process");
+const {spawn} = require("child_process");
 const path = require("path");
 
 spawn(path.join(__dirname, "../node_modules/.bin/ts-node"), [

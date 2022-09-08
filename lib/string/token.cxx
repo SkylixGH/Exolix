@@ -7,12 +7,12 @@ namespace exolix {
         std::vector<std::string> result;
 
         if (delimiter == "")
-            for (char c : string)
+            for (char c: string)
                 result.push_back(std::string(1, c));
         else {
             std::string current = "";
 
-            for (char c : string) {
+            for (char c: string) {
                 if (c == delimiter[0]) {
                     result.push_back(current);
                     current = "";

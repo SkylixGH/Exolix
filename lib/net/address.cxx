@@ -11,16 +11,16 @@
 #include "../string/token.hxx"
 
 namespace exolix {
-    NetAddress::NetAddress(u16 inputPort, std::string inputHost):
-        port(inputPort), host(std::move(inputHost)) {
+    NetAddress::NetAddress(u16 inputPort, std::string inputHost) :
+            port(inputPort), host(std::move(inputHost)) {
     }
 
-    NetAddress::NetAddress(u16 inputPort):
-        port(inputPort), host("127.0.0.1") {
+    NetAddress::NetAddress(u16 inputPort) :
+            port(inputPort), host("127.0.0.1") {
     }
 
-    NetAddress::NetAddress(std::string inputHost):
-        port(0), host(std::move(inputHost)) {
+    NetAddress::NetAddress(std::string inputHost) :
+            port(0), host(std::move(inputHost)) {
     }
 
     bool NetAddress::isValidHost() {
@@ -47,7 +47,7 @@ namespace exolix {
         if (parts.size() != 4)
             return false;
 
-        for (const std::string& part : parts) {
+        for (const std::string &part: parts) {
             if (!NumberCondition::isNumber(part))
                 return false;
 

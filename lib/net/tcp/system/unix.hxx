@@ -6,8 +6,10 @@
 #include "../../../types.hxx"
 
 #if defined(__linux__) || defined(__APPLE__)
+
 #include <sys/socket.h>
 #include <netinet/in.h>
+
 #endif
 
 namespace exolix {
@@ -39,24 +41,34 @@ namespace exolix {
         std::function<void(int &socketFd)> connectionHandler;
 
         void setupSocket();
+
         void setupAddress(u16 port, const std::string &host);
+
         void setupBinding();
+
 #endif
 
     public:
 #if defined(__linux__) || defined(__APPLE__)
+
         explicit UnixTcpServer(const std::function<void(int socketFd)> &connectionHandlerCallback);
+
         ~UnixTcpServer();
 
         void setTls(bool tls);
+
         void setCert(std::string cert);
+
         void setKey(std::string key);
 
         void listen(const std::string &address, u16 port);
+
         void halt();
 
         static void close(int socketFd);
+
         static void send(int socketFd, char buffer[], u16 length);
+
 #endif
     };
 }

@@ -25,7 +25,7 @@ namespace exolix {
             return false;
         }
 
-        for (char c : toParse)
+        for (char c: toParse)
             if (!isdigit(c))
                 return false;
 

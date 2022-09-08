@@ -3,9 +3,9 @@ project(Exolix CXX)
 
 # Run include file generator and automatic
 # file include assistance with guards.
-execute_process (
-    COMMAND node ${CMAKE_SOURCE_DIR}/gen/bin/cmake-assist-generator.js generate-include include/exolix.hxx lib
-    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+execute_process(
+        COMMAND node ${CMAKE_SOURCE_DIR}/gen/bin/cmake-assist-generator.js generate-include include/exolix.hxx lib
+        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
 )
 
 include_directories(include)
@@ -19,11 +19,11 @@ macro(subdirlist result curdir)
     file(GLOB children RELATIVE ${curdir} ${curdir}/*)
     set(dirlist "")
 
-    foreach(child ${children})
-        if(IS_DIRECTORY ${curdir}/${child})
+    foreach (child ${children})
+        if (IS_DIRECTORY ${curdir}/${child})
             LIST(APPEND dirlist ${child})
-        endif()
-    endforeach()
+        endif ()
+    endforeach ()
 
     set(${result} ${dirlist})
 endmacro()
@@ -31,7 +31,7 @@ endmacro()
 # Add windows specific libraries
 if (WIN32)
     target_link_libraries(exolix PUBLIC ws2_32)
-endif()
+endif ()
 
 # Add OpenSSL libraries
 find_package(OpenSSL REQUIRED)
@@ -39,6 +39,6 @@ target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
 
 subdirlist(Test_DIRECTORIES ${CMAKE_SOURCE_DIR}/test)
 
-foreach(subdir ${Test_DIRECTORIES})
+foreach (subdir ${Test_DIRECTORIES})
     add_subdirectory(test/${subdir})
-endforeach()
+endforeach ()
