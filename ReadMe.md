@@ -13,7 +13,52 @@ more!
 , [Go](https://go.dev/) and **MORE**!
 
 <img src="readme/Banner.svg" alt="Exolix Banner" width="100%" />
-<img src="readme/Flow.svg" alt="Exolix Banner" width="100%" />
+
+## Examples
+
+###### TCP Socket Server
+
+```cpp
+#include <exolix.hxx>
+
+using namespace exolix;
+
+int main() {
+    NetAddress address(8080); // Server will listen on port 8080 and host 127.0.0.1
+    SocketServer server(address);
+    
+    server.onAccept([] (Socket &socket) {
+        Logger::ok("Client connected! { IP = " + socket.getClientIp() + "; OSID = " + socket.getOsId() + " }");
+        
+        socket.onReceive([&socket] (SocketMessage &msg) {
+            Logger::info("Received message from client! { IP = " + socket.getClientIp() + "; OSID = " + socket.getOsId() + "; Message = " + msg.getMessage() + " }");
+            
+            SocketMessage returnMsg("Hello from server! Your message was: " + msg.getMessage());
+            socket.send(returnMsg);
+        });
+        
+        socket.block();
+        
+        Logger::ok("Client successfully closed and cleaned up the connection! { IP = " + socket.getClientIp() + "; OSID = " + socket.getOsId() + " }");
+    });
+    
+    Logger::info("Starting server on address: " + address.formatted);
+    
+    try {
+        server.listen();
+    } catch (SocketServerException &error) {
+        Logger::error("Server failed to listen due to following error:");
+        error.render();
+        
+        return 1;
+    }
+    
+    Logger::ok("Server successfully listening on address: " + address.formatted);
+    server.block();
+    
+    return 0;
+}
+```
 
 ## Links
 
