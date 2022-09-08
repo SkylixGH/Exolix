@@ -17,8 +17,46 @@ namespace exolix {
 
     typedef Error<SocketServerErrors> SocketServerException;
 
-    class Socket {
+    class SocketMessage {
+    private:
+        char *data;
 
+    public:
+        const u16 size;
+
+        SocketMessage(std::string messageString);
+        SocketMessage(char buffer[], u16 length);
+
+        std::string toString();
+        char *getData();
+    };
+
+    class Socket {
+    private:
+        u64 socketFd;
+        std::function<void(SocketMessage &)> onReceive = [] (SocketMessage &message) {};
+
+        bool open = true;
+
+        std::thread *thread;
+
+    public:
+        const std::string clientIp;
+
+        Socket(u64 fd);
+        ~Socket();
+
+        void send(SocketMessage messageRaw);
+        void send(std::string messageString);
+
+        void close();
+        bool isOpen();
+
+        void setOnReceiveListener(std::function<void(SocketMessage &)> listener);
+
+        void block();
+
+         u64 getSocketFd();
     };
 
     class SocketServer {
@@ -29,8 +67,7 @@ namespace exolix {
         WinsockTcpServer *winsockCoreServer = nullptr;
 #endif
 
-        std::function<void(Socket &socket)> onAccept = [](Socket &socket) {};
-        std::function<void(u64 socketFd)> onPending = [](u64 socketFd) {};
+        std::function<void(Socket &socket)> onAccept = [] (Socket &socket) {};
 
         std::map<std::thread, std::tuple<bool, u64>> threads{};
 
@@ -50,7 +87,5 @@ namespace exolix {
         void block();
 
         void setOnAcceptListener(std::function<void(Socket &socket)> listener);
-
-        void setOnPendingListener(std::function<void(u64 socketFd)> listener);
     };
 }
