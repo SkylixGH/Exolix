@@ -1,3 +1,13 @@
+# Thread: `class`
+A class used for making execution of code asynchronous. It can be used to speed up
+computation of a certain operation or split up heavy workloads and more!
+
+## Example
+In this example, we have two counters that count up to 5.
+When running this code, you will notice that both counters are counting
+at the exact same time synchronously.
+
+```cpp
 #include <exolix>
 #include <iostream>
 
@@ -46,3 +56,4 @@ int main() {
 
     return 0;
 }
+```
