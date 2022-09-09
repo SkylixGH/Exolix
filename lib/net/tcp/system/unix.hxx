@@ -11,6 +11,7 @@
 #include <netinet/in.h>
 #include <thread>
 #include <map>
+#include <openssl/ssl.h>
 
 #endif
 
@@ -19,7 +20,9 @@ namespace exolix {
         ADDRESS_PROTECTED_PERM_DENIED,
         ADDRESS_IN_USE,
         ADDRESS_INVALID,
-        OTHER_SYS_ERROR
+        OTHER_SYS_ERROR,
+        SSL_CERTIFICATE_LD_ERROR,
+        SSL_KEY_LD_ERROR
     };
 
     typedef Error<UnixTcpServerErrors> UnixTcpServerException;
@@ -43,6 +46,9 @@ namespace exolix {
         std::function<void(int &socketFd)> connectionHandler;
 
         std::map<int, std::thread *> clientThreads;
+        std::map<int, SSL *> clientSslGroup;
+
+        SSL_CTX *sslCtx;
 
         void setupSocket();
 
@@ -77,6 +83,8 @@ namespace exolix {
         std::optional<std::thread *> getThread(int socketFdNotThis);
 
         size_t countThreads();
+
+        std::map<int, SSL *> getSslGroup();
 #endif
     };
 }

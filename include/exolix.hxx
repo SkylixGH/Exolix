@@ -67,6 +67,7 @@ namespace exolix {}
 #include "../lib/net/tcp/sockets.hxx"
 #include "../lib/net/tcp/system/unix.hxx"
 #include "../lib/net/tcp/system/windows.hxx"
+#include "../lib/net/tcp/tlsManager.hxx"
 #include "../lib/net/udp/dgram.hxx"
 #include "../lib/number/condition.hxx"
 #include "../lib/number/parsing.hxx"

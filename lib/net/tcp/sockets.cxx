@@ -165,7 +165,7 @@ namespace exolix {
     SocketServer::SocketServer(exolix::NetAddress &address) :
             address(address) {
 #if defined(__linux__) || defined(__APPLE__)
-        unixCoreServer = new UnixTcpServer([this](int socketFd) {
+        unixCoreServer = new UnixTcpServer([this] (int socketFd) {
             onSocketInternal(socketFd);
         });
 #elif defined(_WIN32)
@@ -189,7 +189,7 @@ namespace exolix {
         std::optional<SSL *> ssl = std::nullopt;
 
 #if defined(__linux__) || defined(__APPLE__)
-        // TODO: Impl
+        ssl = unixCoreServer->getSslGroup()[socketFd];
 #elif defined(_WIN32)
         ssl = winsockCoreServer->getTlsClients()[socketFd];
 #endif
@@ -205,7 +205,10 @@ namespace exolix {
 
         if (tls) {
 #if defined(__linux__) || defined(__APPLE__)
-            // TODO: Unix
+            unixCoreServer->setTls(tls);
+
+            unixCoreServer->setCert(tlsConfiguration.cert);
+            unixCoreServer->setKey(tlsConfiguration.key);
 #elif defined(_WIN32)
             winsockCoreServer->setTls(tls);
 

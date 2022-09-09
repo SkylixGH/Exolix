@@ -7,10 +7,10 @@ int main() {
     NetAddress address(NetAddress::getAvailablePort(), "localhost");
     SocketServer server(address);
 
-//    server.setTls({
-//        cert: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\c.pem",
-//        key: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\k.pem"
-//    });
+    server.setTls({
+        cert: "/home/xfaon/CLionProjects/Exolix22/test/main/c.pem",
+        key: "/home/xfaon/CLionProjects/Exolix22/test/main/k.pem"
+    });
 
     server.setOnAcceptListener([&server] (Socket &socket) {
         std::cout << "Accepted connection" << std::endl;

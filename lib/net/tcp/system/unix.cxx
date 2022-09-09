@@ -6,6 +6,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <cstring>
+#include "../tlsManager.hxx"
 
 #endif
 
@@ -74,6 +75,9 @@ namespace exolix {
     }
 
     void UnixTcpServer::listen(const std::string &address, u16 port) {
+        if (tlsOn)
+            TlsManager::safeInitialize();
+
         setupSocket();
         setupAddress(port, address);
         setupBinding();
@@ -83,17 +87,59 @@ namespace exolix {
             exit(6793);
         }
 
+        if (tlsOn) {
+            sslCtx = SSL_CTX_new(SSLv23_server_method());
+            SSL_CTX_set_options(sslCtx, SSL_OP_SINGLE_DH_USE);
+
+            int cert = SSL_CTX_use_certificate_file(sslCtx, tlsCert.c_str(), SSL_FILETYPE_PEM);
+            int key = SSL_CTX_use_PrivateKey_file(sslCtx, tlsKey.c_str(), SSL_FILETYPE_PEM);
+
+            if (cert != 1)
+                throw UnixTcpServerException(
+                        UnixTcpServerErrors::SSL_CERTIFICATE_LD_ERROR,
+                        "Failed to load the SSL certificate due to the following error code: " + std::to_string(cert)
+                );
+
+            if (key != 1)
+                throw UnixTcpServerException(
+                        UnixTcpServerErrors::SSL_KEY_LD_ERROR,
+                        "Failed to load the SSL key due to the following error code: " + std::to_string(key)
+                );
+        }
+
         connectable = true;
+        bool pending = false;
 
         while (connectable) {
             clientLen = sizeof(clientAddress);
             clientFd = accept(socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLen);
 
             if (!(clientFd < 0)) {
-                auto *thread = new std::thread([this] () {
+                pending = true;
+
+                auto *thread = new std::thread([this, &pending] () {
+                    SSL *ssl = nullptr;
+
+                    if (tlsOn) {
+                        ssl = SSL_new(sslCtx);
+                        SSL_set_fd(ssl, clientFd);
+
+                        int acceptResult = SSL_accept(ssl); // TODO: Handle
+                        clientSslGroup[clientFd] = ssl;
+                    }
+
+                    pending = false;
                     connectionHandler(clientFd);
+
+                    if (tlsOn) {
+                        SSL_shutdown(ssl);
+                        SSL_free(ssl);
+
+                        clientSslGroup.erase(clientFd);
+                    }
                 });
 
+                while (pending) {}
                 clientThreads.insert(std::pair<int, std::thread *>(clientFd, thread));
             }
         }
@@ -148,6 +194,22 @@ namespace exolix {
 
     size_t UnixTcpServer::countThreads() {
         return clientThreads.size();
+    }
+
+    void UnixTcpServer::setCert(std::string certSsl) {
+        tlsCert = certSsl;
+    }
+
+    void UnixTcpServer::setKey(std::string keySsl) {
+        tlsKey = keySsl;
+    }
+
+    void UnixTcpServer::setTls(bool tls) {
+        tlsOn = tls;
+    }
+
+    std::map<int, SSL *> UnixTcpServer::getSslGroup() {
+        return clientSslGroup;
     }
 #endif
 }

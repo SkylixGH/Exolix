@@ -65,7 +65,6 @@ namespace exolix {
 
     public:
 #if _WIN32
-
         explicit WinsockTcpServer(std::function< void(SOCKET socketFd)
 
         > connectionHandlerCallback);

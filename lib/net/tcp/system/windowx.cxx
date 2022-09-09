@@ -8,6 +8,7 @@
 #include <iostream>
 #include <utility>
 #include <thread>
+#include "../tlsManager.hxx"
 #endif
 
 namespace exolix {
@@ -110,13 +111,9 @@ namespace exolix {
 
     void WinsockTcpServer::listen(const std::string &address, u16 port) {
         if (tls) {
-            // TODO: Make this system global and use signal();
-            SSL_load_error_strings();
-            SSL_library_init();
-            OpenSSL_add_all_algorithms();
+            TlsManager::safeInitialize();
         }
 
-        std::thread thread([this, &address, &port] () {
             init();
             configureAddress(address, port);
             bind();
@@ -184,14 +181,16 @@ namespace exolix {
                             SSL *clientSsl = SSL_new(server->sslCtx);
                             SSL_set_fd(clientSsl, server->clientSocket);
 
-                            SSL_accept(clientSsl);
+                            SSL_accept(clientSsl); // TODO: Handle accept errorad
 
                             server->sslSockets.insert(std::pair<SOCKET, SSL *>(server->clientSocket, clientSsl));
 
                             server->pendingSocket = false;
                             server->connectionHandler(server->clientSocket);
 
+                            SSL_shutdown(clientSsl);
                             SSL_free(clientSsl);
+
                             server->sslSockets.erase(server->clientSocket);
                             return 0;
                         },
@@ -206,9 +205,6 @@ namespace exolix {
                     std::cerr << "Failed\n";
                 }
             } while (online);
-        });
-
-        thread.join();
     }
 
     void WinsockTcpServer::setTls(bool tls) {
