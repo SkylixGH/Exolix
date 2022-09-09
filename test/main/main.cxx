@@ -22,7 +22,7 @@ int main() {
             socket.send("Hi");
         });
 
-//        socket.block();
+        socket.block();
         std::cout << "Connection closed.." << std::endl;
     });
 
