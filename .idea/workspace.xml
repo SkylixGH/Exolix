@@ -21,13 +21,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Legal(*): Changed license">
-      <change afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Idea(*): Updated file">
+      <change afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/string/deconstruction.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/string/deconstruction.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wiki/reference/string/StringDeconstruction.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/include/exolix" beforeDir="false" afterPath="$PROJECT_DIR$/include/exolix" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/exolix.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/exolix.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/thread/thread.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/thread/thread.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +102,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
-      <workItem from="1662761011207" duration="4648000" />
+      <workItem from="1662761011207" duration="5772000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -116,7 +118,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662762226153</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Idea(*): Updated file">
+      <created>1662766680746</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1662766680746</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,7 +145,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Legal(*): Added license" />
     <MESSAGE value="Legal(*): Changed license" />
-    <option name="LAST_COMMIT_MESSAGE" value="Legal(*): Changed license" />
+    <MESSAGE value="Idea(*): Updated file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Idea(*): Updated file" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
