@@ -4,7 +4,7 @@
 using namespace exolix;
 
 int main() {
-    NetAddress address(8080);
+    NetAddress address(NetAddress::getAvailablePort(), "localhost");
     SocketServer server(address);
 
 //    server.setTls({
@@ -28,6 +28,8 @@ int main() {
 
     try {
         server.listen();
+
+        std::cout << "Online at 127.0.0.1:" << address.port << std::endl;
         server.block();
     } catch (SocketServerException &e) {
         e.render();

@@ -9,6 +9,7 @@
 #include "../number/condition.hxx"
 #include "../number/parsing.hxx"
 #include "../string/token.hxx"
+#include <unistd.h>
 
 namespace exolix {
     NetAddress::NetAddress(u16 inputPort, std::string inputHost) :
@@ -73,5 +74,53 @@ namespace exolix {
             return false;
 
         return true;
+    }
+
+    u16 NetAddress::getAvailablePort() {
+#if defined(__linux__) || defined(__APPLE__)
+        int socketFd = socket(AF_INET, SOCK_STREAM, 0);
+
+        if (socketFd < 0)
+            return 0;
+
+        sockaddr_in address{};
+        address.sin_family = AF_INET;
+        address.sin_addr.s_addr = INADDR_ANY;
+        address.sin_port = 0;
+
+        if (bind(socketFd, (sockaddr *) &address, sizeof(address)) < 0)
+            return 0;
+
+        socklen_t addressLength = sizeof(address);
+
+        if (getsockname(socketFd, (sockaddr *) &address, &addressLength) < 0)
+            return 0;
+
+        close(socketFd);
+
+        return ntohs(address.sin_port);
+#elif defined(_WIN32)
+        SOCKET socketFd = socket(AF_INET, SOCK_STREAM, 0);
+
+        if (socketFd == INVALID_SOCKET)
+            return 0;
+
+        sockaddr_in address{};
+        address.sin_family = AF_INET;
+        address.sin_addr.s_addr = INADDR_ANY;
+        address.sin_port = 0;
+
+        if (bind(socketFd, (sockaddr *) &address, sizeof(address)) == SOCKET_ERROR)
+            return 0;
+
+        socklen_t addressLength = sizeof(address);
+
+        if (getsockname(socketFd, (sockaddr *) &address, &addressLength) == SOCKET_ERROR)
+            return 0;
+
+        closesocket(socketFd);
+
+        return ntohs(address.sin_port);
+#endif
     }
 }

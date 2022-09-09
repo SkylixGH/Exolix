@@ -61,6 +61,8 @@ namespace exolix {}
 #include "../lib/app/app.hxx"
 #include "../lib/app/windowing/windowing.hxx"
 #include "../lib/error/error.hxx"
+#include "../lib/logging/color256.hxx"
+#include "../lib/logging/logger.hxx"
 #include "../lib/net/address.hxx"
 #include "../lib/net/tcp/sockets.hxx"
 #include "../lib/net/tcp/system/unix.hxx"

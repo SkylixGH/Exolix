@@ -35,5 +35,7 @@ namespace exolix {
         std::string getProcessed();
 
         static bool isValidIpv4Address(const std::string &inputIpv4);
+
+        static u16 getAvailablePort();
     };
 }
