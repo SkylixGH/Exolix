@@ -82,3 +82,9 @@ When blocking, the block will stay active for as long as the thread is running.
 # Static Method: `wait`
 This method is used for time delays in threads. You can use this to block
 the parent thread of where this method was called for a certain period of time.
+
+**Arguments**
+ - `value` The value of the time delay.
+   - [`u64`](../number/u64.md) from `<exolix>`
+ - `type` The unit of time to pair with the value, for example, value could be 1 and type seconds.
+   - [`TimeUnit`](./TimeUnit.md) from `<exolix>`

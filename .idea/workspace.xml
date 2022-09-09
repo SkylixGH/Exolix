@@ -21,8 +21,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="fix: Cleanup unix">
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="ReadMe(*): Added file">
+      <change afterPath="$PROJECT_DIR$/wiki/reference/number/u64.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wiki/reference/thread/ThreadErrors.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wiki/reference/thread/TimeUnit.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" afterDir="false" />
     </list>
@@ -152,7 +154,21 @@
       <option name="project" value="LOCAL" />
       <updated>1662742102572</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Wiki(thread): Updated thread methods in docs">
+      <created>1662754735506</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1662754735506</updated>
+    </task>
+    <task id="LOCAL-00005" summary="ReadMe(*): Added file">
+      <created>1662754782594</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1662754782594</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -173,6 +189,8 @@
     <MESSAGE value="feat: Clean" />
     <MESSAGE value="Feat(thread): Added multithreading class wrapper&#10;This thread addition helps with multithreading safely." />
     <MESSAGE value="Wiki(thread): Added thread wiki" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wiki(thread): Added thread wiki" />
+    <MESSAGE value="Wiki(thread): Updated thread methods in docs" />
+    <MESSAGE value="ReadMe(*): Added file" />
+    <option name="LAST_COMMIT_MESSAGE" value="ReadMe(*): Added file" />
   </component>
 </project>
