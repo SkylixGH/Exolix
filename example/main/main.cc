@@ -41,8 +41,5 @@ int main() {
         }
     });
 
-    t1.block();
-    t2.block();
-
     return 0;
 }

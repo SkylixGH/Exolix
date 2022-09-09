@@ -1,4 +1,7 @@
-# Thread: `class`
+# Class: `Thread`
+ - **Include**: `<exolix>` 
+ - **Location**: `lib/thread/thread.h`
+
 A class used for making execution of code asynchronous. It can be used to speed up
 computation of a certain operation or split up heavy workloads and more!
 
@@ -51,9 +54,20 @@ int main() {
         }
     });
 
-    t1.block();
-    t2.block();
-
     return 0;
 }
 ```
+
+# Constructor: `Thread`
+Create a new thread for running code asynchronously.
+Threads can be used for running multiple operations at the same time.
+
+**Arguments**
+ - `threadMain` The thread's main source of execution, this is where the code will be executed.
+   - `std::function<void()>` from `<functional>`
+
+# Method: `isActive`
+This method will let you check if the current thread is active and running code.
+
+**Return**
+ - bool

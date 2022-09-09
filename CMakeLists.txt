@@ -12,6 +12,12 @@ target_include_directories(Exolix PUBLIC include)
 
 # Set compile options
 set(CMAKE_CXX_STANDARD 20)
+set(Exolix_VERSION_MAJOR 1)
+set(Exolix_VERSION_MINOR 0)
+set(Exolix_VERSION_PATCH 0)
+set(Exolix_VERSION ${Exolix_VERSION_MAJOR}.${Exolix_VERSION_MINOR}.${Exolix_VERSION_PATCH})
+
+message("Exolix Version Detected: ${Exolix_VERSION}")
 
 # Add examples
 add_subdirectory(example/main)
