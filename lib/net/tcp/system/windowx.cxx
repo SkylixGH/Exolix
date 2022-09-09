@@ -175,7 +175,7 @@ namespace exolix {
                     unsigned threadId;
                     pendingSocket = true;
 
-                    _beginthreadex(
+                    HANDLE threadEx = _beginthreadex(
                         NULL,
                         0,
                         [] (void *arg) -> unsigned {
@@ -200,6 +200,7 @@ namespace exolix {
                         &threadId
                     );
 
+                    CloseHandle(threadEx);
                     while (pendingSocket) {}
                 } else {
                     std::cerr << "Failed\n";

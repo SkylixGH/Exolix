@@ -10,6 +10,7 @@
 #include <thread>
 #include <optional>
 #include <string>
+#include <openssl/ssl.h>
 
 namespace exolix {
     enum class SocketServerErrors {
@@ -31,7 +32,7 @@ namespace exolix {
     public:
         const u16 size;
 
-        SocketMessage(std::string messageString);
+        SocketMessage(const std::string& messageString);
         SocketMessage(char buffer[], u16 length);
 
         std::string toString();
@@ -49,24 +50,24 @@ namespace exolix {
         std::optional<SSL *> sslClient;
 
         std::thread *thread;
+        std::string clientIp;
 
     public:
-        const std::string clientIp;
-
         Socket(u64 fd, std::optional<SSL *> ssl);
         ~Socket();
 
         void send(SocketMessage messageRaw);
-        void send(std::string messageString);
+        void send(const std::string& messageString);
 
         void close();
-        bool isOpen();
+        bool isOpen() const;
 
         void setOnReceiveListener(std::function<void(SocketMessage &)> listener);
 
         void block();
 
-        u64 getSocketFd();
+        u64 getSocketFd() const;
+        std::string getClientIp();
     };
 
     class SocketServer {
@@ -100,7 +101,7 @@ namespace exolix {
 
         void block();
 
-        void setTls(std::false_type tls);
+        void setTls(std::false_type tlsInput);
 
         void setTls(SocketTlsConfiguration configuration);
 

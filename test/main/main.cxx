@@ -7,10 +7,10 @@ int main() {
     NetAddress address(8080);
     SocketServer server(address);
 
-    server.setTls({
-        cert: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\c.pem",
-        key: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\k.pem"
-    });
+//    server.setTls({
+//        cert: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\c.pem",
+//        key: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\k.pem"
+//    });
 
     server.setOnAcceptListener([](Socket &socket) {
         std::cout << "Accepted connection" << std::endl;
@@ -22,12 +22,16 @@ int main() {
             socket.send("Hi");
         });
 
-        socket.block();
+//        socket.block();
         std::cout << "Connection closed.." << std::endl;
     });
 
-    server.listen();
-    server.block();
+    try {
+        server.listen();
+        server.block();
+    } catch (SocketServerException &e) {
+        e.render();
+    }
 
     return 0;
 }

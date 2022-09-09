@@ -90,7 +90,11 @@ namespace exolix {
             clientFd = accept(socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLen);
 
             if (!(clientFd < 0)) {
-                connectionHandler(clientFd);
+                auto *thread = new std::thread([this] () {
+                    connectionHandler(clientFd);
+                });
+
+                clientThreads.insert(std::pair<int, std::thread *>(clientFd, thread));
             }
         }
     }
@@ -112,5 +116,31 @@ namespace exolix {
         ::send(socketFd, buffer, length, 0);
     }
 
+    void UnixTcpServer::cleanThread(int socketFdNotThis) {
+        try {
+            std::thread *thread = clientThreads.at(socketFdNotThis);
+
+            if (thread != nullptr) {
+                if (thread->joinable()) {
+                    thread->join();
+                }
+
+                delete thread;
+            }
+        } catch (...) {
+            // ignore
+        }
+    }
+
+    std::optional<std::thread *> UnixTcpServer::getThread(int socketFdNotThis) {
+        if (clientThreads.find(socketFdNotThis) != clientThreads.end())
+            return clientThreads.at(socketFdNotThis);
+
+        return std::nullopt;
+    }
+
+    size_t UnixTcpServer::countThreads() {
+        return clientThreads.size();
+    }
 #endif
 }

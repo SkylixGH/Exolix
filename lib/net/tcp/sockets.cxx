@@ -1,11 +1,18 @@
 #include "sockets.hxx"
+#include <cstring>
+#include <utility>
+#include <arpa/inet.h>
 
 namespace exolix {
-    SocketMessage::SocketMessage(std::string messageString) :
+    SocketMessage::SocketMessage(const std::string& messageString) :
             size(messageString.length()) {
         data = new char[messageString.length() + 1];
 
+#if defined(_WIN32)
         strcpy_s(data, messageString.length() + 1, messageString.c_str());
+#elif defined(__linux__) || defined(__APPLE__)
+        strcpy(data, messageString.c_str());
+#endif
     }
 
     SocketMessage::SocketMessage(char buffer[], u16 length) :
@@ -18,7 +25,7 @@ namespace exolix {
     }
 
     std::string SocketMessage::toString() {
-        return std::string(data, size);
+        return std::string { data, size };
     }
 
     Socket::Socket(u64 fd, std::optional<SSL *> ssl) :
@@ -32,22 +39,42 @@ namespace exolix {
         thread = new std::thread([this]() {
             const int bufferSize = 65535;
             char buffer[bufferSize];
-            int bytesReceived = 0;
+            int bytesReceived;
 
 #if defined(__linux__) || defined(__APPLE__)
-            clientIp = getIp(socketFd);
+            struct sockaddr_in addr {};
+            socklen_t addr_size = sizeof(struct sockaddr_in);
+            getpeername((int) socketFd, (struct sockaddr *) &addr, &addr_size);
+
+            clientIp = std::string(inet_ntoa(addr.sin_addr));
 #elif defined(_WIN32)
-//          clientIp = getIp(socketFd, bufferSize, buffer);
+            struct sockaddr_in addr;
+            int addr_size = sizeof(struct sockaddr_in);
+            getpeername(socketFd, (struct sockaddr *) &addr, &addr_size);
+
+            clientIp = std::string(inet_ntoa(addr.sin_addr));
 #endif
 
             if (!tls) {
                 while (open) {
 #if defined(__linux__) || defined(__APPLE__)
-                    // TODO: Implement
+                    bytesReceived = (int) recv((int) socketFd, buffer, bufferSize, 0);
+
+                    if (bytesReceived == 0) {
+                        open = false;
+                        break;
+                    }
+
+                    SocketMessage message(buffer, bytesReceived);
+                    onReceive(message);
 #elif defined(_WIN32)
                     bytesReceived = recv(socketFd, buffer, bufferSize, 0);
 
                     if (bytesReceived > 0) {
+                        if (!open) {
+                            break;
+                        }
+
                         SocketMessage message(buffer, bytesReceived);
                         onReceive(message);
 
@@ -60,9 +87,6 @@ namespace exolix {
                 }
             } else {
                 while (open) {
-#if defined(__linux__) || defined(__APPLE__)
-                    // TODO: Impl
-#elif defined(_WIN32)
                     bytesReceived = SSL_read(sslClient.value(), buffer, bufferSize);
 
                     if (bytesReceived > 0) {
@@ -75,13 +99,17 @@ namespace exolix {
                         break;
                     }
                 }
-#endif
             }
         });
     }
 
     Socket::~Socket() {
         close();
+
+        if (thread->joinable()) {
+            thread->join();
+        }
+
         delete thread;
     }
 
@@ -89,18 +117,18 @@ namespace exolix {
         open = false;
 
 #if defined(__linux__) || defined(__APPLE__)
-        // TODO: Finish
+        ::close((int) socketFd);
 #elif defined(_WIN32)
         closesocket(socketFd);
 #endif
     }
 
-    bool Socket::isOpen() {
+    bool Socket::isOpen() const {
         return open;
     }
 
     void Socket::setOnReceiveListener(std::function<void(SocketMessage &)> listener) {
-        onReceive = listener;
+        onReceive = std::move(listener);
     }
 
     void Socket::block() {
@@ -116,18 +144,22 @@ namespace exolix {
         }
 
 #if defined(__linux__) || defined(__APPLE__)
-        write(socketFd, messageRaw.data, messageRaw.size);
+        write((int) socketFd, messageRaw.getData(), messageRaw.size);
 #elif defined(_WIN32)
         ::send(socketFd, messageRaw.getData(), messageRaw.size, 0);
 #endif
     }
 
-    void Socket::send(std::string messageString) {
+    void Socket::send(const std::string& messageString) {
         send(SocketMessage(messageString));
     }
 
-    u64 Socket::getSocketFd() {
+    u64 Socket::getSocketFd() const {
         return socketFd;
+    }
+
+    std::string Socket::getClientIp() {
+        return clientIp;
     }
 
     SocketServer::SocketServer(exolix::NetAddress &address) :
@@ -171,10 +203,22 @@ namespace exolix {
             throw SocketServerException(SocketServerErrors::INVALID_ADDRESS_HOST,
                                         "The host in the server address is invalid");
 
+        if (tls) {
+#if defined(__linux__) || defined(__APPLE__)
+            // TODO: Unix
+#elif defined(_WIN32)
+            winsockCoreServer->setTls(tls);
+
+            winsockCoreServer->setCert(tlsConfiguration.cert);
+            winsockCoreServer->setKey(tlsConfiguration.key);
+#endif
+        }
+
         thread = new std::thread([this]() {
 #if defined(__linux__) || defined(__APPLE__)
             try {
-                unixCoreServer->listen(address.getProcessed(), address.port);
+                if (unixCoreServer != nullptr)
+                    unixCoreServer->listen(address.getProcessed(), address.port);
             } catch (UnixTcpServerException &e) {
                 throw SocketServerException(
                         SocketServerErrors::LISTEN_FAILED,
@@ -196,35 +240,27 @@ namespace exolix {
 
     void SocketServer::stop() {
 #if defined(__linux__) || defined(__APPLE__)
-        unixCoreServer->halt();
+        if (unixCoreServer != nullptr)
+            unixCoreServer->halt();
 #elif defined(_WIN32)
         winsockCoreServer->halt();
 #endif
     }
 
     void SocketServer::block() {
-        if (thread->joinable()) thread->join();
+        if (thread != nullptr && thread->joinable()) thread->join();
     }
 
     void SocketServer::setOnAcceptListener(std::function<void(Socket &socket)> listener) {
-        onAccept = listener;
+        onAccept = std::move(listener);
     }
 
-    void SocketServer::setTls(std::false_type tls) {
-        this->tls = tls;
+    void SocketServer::setTls(std::false_type tlsInput) {
+        this->tls = tlsInput;
     }
 
     void SocketServer::setTls(exolix::SocketTlsConfiguration configuration) {
         this->tls = true;
         this->tlsConfiguration = configuration;
-
-#if defined(__linux__) || defined(__APPLE__)
-        // TODO: Unix
-#elif defined(_WIN32)
-        winsockCoreServer->setTls(tls);
-
-        winsockCoreServer->setCert(tlsConfiguration.cert);
-        winsockCoreServer->setKey(tlsConfiguration.key);
-#endif
     }
 }

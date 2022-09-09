@@ -9,6 +9,8 @@
 
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <thread>
+#include <map>
 
 #endif
 
@@ -40,12 +42,13 @@ namespace exolix {
 
         std::function<void(int &socketFd)> connectionHandler;
 
+        std::map<int, std::thread *> clientThreads;
+
         void setupSocket();
 
         void setupAddress(u16 port, const std::string &host);
 
         void setupBinding();
-
 #endif
 
     public:
@@ -69,6 +72,11 @@ namespace exolix {
 
         static void send(int socketFd, char buffer[], u16 length);
 
+        void cleanThread(int socketFdNotThis);
+
+        std::optional<std::thread *> getThread(int socketFdNotThis);
+
+        size_t countThreads();
 #endif
     };
 }
