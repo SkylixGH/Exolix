@@ -8,7 +8,6 @@ cmake-build-debug-system/
 *.key
 
 .cache/
-.idea/
 .vs/
 .vscode/
 .atom/

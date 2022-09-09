@@ -1,5 +1,8 @@
 #pragma once
 
+// Net
+#include "../lib/net/tcpip.h"
+
 // Number
 #include "../lib/number/types.h"
 

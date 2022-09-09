@@ -44,22 +44,6 @@ namespace exolix {
         ThreadNotActive
     };
 
-    class ThreadErrorsStr {
-    public:
-        static std::string toString(ThreadErrors error) {
-            switch (error) {
-                case ThreadErrors::Ok:
-                    return "Ok";
-
-                case ThreadErrors::ThreadAlreadyBlocked:
-                    return "The thread was already being blocked and cannot be blocked again";
-
-                case ThreadErrors::ThreadNotActive:
-                    return "A thread operation was requested but its not active";
-            }
-        }
-    };
-
     /**
      * C++ thread handler class that can instantiate, handle and manage
      * threads.

@@ -21,9 +21,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Legal(*): Added license">
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Legal(*): Changed license">
+      <change afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/License" beforeDir="false" afterPath="$PROJECT_DIR$/License" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/exolix" beforeDir="false" afterPath="$PROJECT_DIR$/include/exolix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/exolix.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/exolix.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/thread/thread.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/thread/thread.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -43,7 +47,9 @@
     <option name="minorVersion" value="2.1" />
   </component>
   <component name="ProjectId" id="2EY89XXScxYfTDViMWh4iri1KnH" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="false" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -60,7 +66,9 @@
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)"
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++"
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
@@ -92,7 +100,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
-      <workItem from="1662761011207" duration="1073000" />
+      <workItem from="1662761011207" duration="4648000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -101,7 +109,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662761715013</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Legal(*): Changed license">
+      <created>1662762226153</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1662762226153</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +135,11 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Legal(*): Added license" />
-    <option name="LAST_COMMIT_MESSAGE" value="Legal(*): Added license" />
+    <MESSAGE value="Legal(*): Changed license" />
+    <option name="LAST_COMMIT_MESSAGE" value="Legal(*): Changed license" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
