@@ -71,7 +71,7 @@ namespace exolix {
     }
 
     UnixTcpServer::~UnixTcpServer() {
-        // TODO: Work
+        halt();
     }
 
     void UnixTcpServer::listen(const std::string &address, u16 port) {
@@ -149,9 +149,19 @@ namespace exolix {
         connectable = false;
         close(socketFd);
 
+        if (sslCtx != nullptr)
+            SSL_CTX_free(sslCtx);
+
         for (auto &clientThread : clientThreads) {
+            close(clientThread.first);
             clientThread.second->join();
+
             delete clientThread.second;
+        }
+
+        for (auto &clientSsl : clientSslGroup) {
+            SSL_shutdown(clientSsl.second);
+            SSL_free(clientSsl.second);
         }
 
         clientThreads.clear();
