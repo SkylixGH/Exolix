@@ -12,12 +12,19 @@ int main() {
 //        key: "C:\\Users\\xfaon\\Desktop\\Exolix-1\\test\\main\\k.pem"
 //    });
 
-    server.setOnAcceptListener([](Socket &socket) {
+    server.setOnAcceptListener([&server] (Socket &socket) {
         std::cout << "Accepted connection" << std::endl;
 
         socket.send("Dispatch testing");
 
-        socket.setOnReceiveListener([&socket] (SocketMessage &msg) {
+        socket.setOnReceiveListener([&socket, &server] (SocketMessage &msg) {
+            if (StringCondition::contains(msg.toString(), "!shutdown")) {
+                socket.send("Closing...");
+                server.stop();
+
+                return;
+            }
+
             std::cout << "Received message: " << msg.toString() << std::endl;
             socket.send("Hi");
         });

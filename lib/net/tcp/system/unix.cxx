@@ -102,6 +102,13 @@ namespace exolix {
     void UnixTcpServer::halt() {
         connectable = false;
         close(socketFd);
+
+        for (auto &clientThread : clientThreads) {
+            clientThread.second->join();
+            delete clientThread.second;
+        }
+
+        clientThreads.clear();
     }
 
     void UnixTcpServer::close(int socketFd) {
