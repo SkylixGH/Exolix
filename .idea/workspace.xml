@@ -1,68 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="CMakePresetLoader"><![CDATA[{
-  "useNewFormat": true
-}]]></component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
+  <component name="CMakeReloadState">
+    <option name="reloaded" value="true" />
+  </component>
+  <component name="CMakeRunConfigurationManager">
+    <generated>
+      <config projectName="ExolixFramework" targetName="Exolix" />
+      <config projectName="ExolixFramework" targetName="Exolix_EXAMPLE_MAIN" />
+    </generated>
+  </component>
   <component name="CMakeSettings">
     <configurations>
-      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug-System" ENABLED="true" CONFIG_NAME="Debug" TOOLCHAIN_NAME="System" BUILD_OPTIONS="-- -j 18" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Exolix22.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/License" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ReadMe.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/ReadMe.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/bin/cmake-assist-generator.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/package-lock.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/package.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/src/commands/generateIncludeFile.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gen/src/index.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/exolix.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/app.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/app.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/app/windowing/windowing.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/error/error.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/error/error.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/logging/color256.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/logging/logger.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/sockets.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/sockets.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/unix.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/unix.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/windows.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/windowx.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/tlsManager.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcp/tlsManager.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/udp/dgram.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/udp/dgram.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/condition.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/condition.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/parsing.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/parsing.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/process/process.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/process/process.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/string/condition.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/string/condition.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/string/token.cxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/string/token.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/types.hxx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme/Banner.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme/Logo.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/main/CMakeLists.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/main/main.cxx" beforeDir="false" />
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="feat: Clean">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/main/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/include/exolix" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/exolix.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/number/types.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/thread/thread.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/thread/thread.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Exolix-1.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Exolix-1.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,24 +42,73 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-System" />
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectApplicationVersion">
+    <option name="ide" value="CLion" />
+    <option name="majorVersion" value="2022" />
+    <option name="minorVersion" value="2.1" />
+  </component>
   <component name="ProjectId" id="2EWx0WWrgPXXjjeir6qAhmeCCt1" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CMakeSettings&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\xfaon\Desktop\Exolix-1" />
+      <recent name="C:\Users\xfaon\Desktop\Exolix-1\docs" />
+    </key>
+  </component>
+  <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
+    <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug-System">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Exolix_EXAMPLE_MAIN" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix_EXAMPLE_MAIN" CONFIG_NAME="Debug-System" RUN_TARGET_PROJECT_NAME="ExolixFramework" RUN_TARGET_NAME="Exolix_EXAMPLE_MAIN">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="CMake Application.Exolix" />
+      <item itemvalue="CMake Application.Exolix_EXAMPLE_MAIN" />
+    </list>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -98,8 +117,23 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662724922576</updated>
+      <workItem from="1662724924731" duration="4823000" />
+      <workItem from="1662730844469" duration="342000" />
+      <workItem from="1662731207828" duration="1817000" />
+      <workItem from="1662739329168" duration="1780000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: Clean">
+      <created>1662725166743</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1662725166743</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -111,5 +145,9 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: Clean" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Clean" />
   </component>
 </project>

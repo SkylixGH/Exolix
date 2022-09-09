@@ -1,0 +1,14 @@
+build/
+
+cmake-build-debug/
+cmake-build-release/
+cmake-build-debug-system/
+
+*.pem
+*.key
+
+.cache/
+.idea/
+.vs/
+.vscode/
+.atom/
