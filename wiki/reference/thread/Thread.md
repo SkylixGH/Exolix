@@ -5,7 +5,7 @@
 A class used for making execution of code asynchronous. It can be used to speed up
 computation of a certain operation or split up heavy workloads and more!
 
-## Example
+# Example
 In this example, we have two counters that count up to 5.
 When running this code, you will notice that both counters are counting
 at the exact same time synchronously.
@@ -70,4 +70,15 @@ Threads can be used for running multiple operations at the same time.
 This method will let you check if the current thread is active and running code.
 
 **Return**
- - bool
+ - `bool` Whether the thread is active or not.
+
+# Method: `block`
+This will block the current outside thread at the point where this function was called.
+When blocking, the block will stay active for as long as the thread is running.
+
+**Return**
+ - [`ThreadErrors`](./ThreadErrors.md) The return codes of the function.
+
+# Static Method: `wait`
+This method is used for time delays in threads. You can use this to block
+the parent thread of where this method was called for a certain period of time.

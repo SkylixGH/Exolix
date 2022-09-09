@@ -104,5 +104,7 @@ namespace exolix {
          * @param type The time format used for waiting.
          */
         static void wait(u64 value, TimeUnit type);
+
+        // TODO: Add wait until to wait until a certain time
     };
 }
