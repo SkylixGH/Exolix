@@ -21,7 +21,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="ReadMe(*): Added file">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="">
       <change afterPath="$PROJECT_DIR$/wiki/reference/number/u64.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/wiki/reference/thread/ThreadErrors.md" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/wiki/reference/thread/TimeUnit.md" afterDir="false" />
@@ -105,11 +105,6 @@
       </method>
     </configuration>
     <configuration name="Exolix_EXAMPLE_MAIN" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix_EXAMPLE_MAIN" CONFIG_NAME="Debug-System" RUN_TARGET_PROJECT_NAME="ExolixFramework" RUN_TARGET_NAME="Exolix_EXAMPLE_MAIN">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
