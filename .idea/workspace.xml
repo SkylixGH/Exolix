@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakePresetLoader"><![CDATA[{
+  "useNewFormat": true
+}]]></component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/Exolix22.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/tasks.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/License" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ReadMe.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/ReadMe.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/bin/cmake-assist-generator.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/package-lock.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/src/commands/generateIncludeFile.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/gen/src/index.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/exolix.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/app.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/app.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/app/windowing/windowing.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/error/error.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/error/error.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/logging/color256.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/logging/logger.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/sockets.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/sockets.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/unix.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/unix.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/windows.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/system/windowx.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/tlsManager.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcp/tlsManager.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/udp/dgram.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/udp/dgram.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/number/condition.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/number/condition.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/number/parsing.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/number/parsing.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/process/process.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/process/process.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/string/condition.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/string/condition.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/string/token.cxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/string/token.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/types.hxx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme/Banner.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme/Logo.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main/CMakeLists.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/main/main.cxx" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2EWx0WWrgPXXjjeir6qAhmeCCt1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="" />
+      <created>1662724922576</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1662724922576</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
