@@ -29,7 +29,7 @@ int main() {
     try {
         server.listen();
 
-        std::cout << "Online at 127.0.0.1:" << address.port << std::endl;
+        std::cout << "Online at " << address.getProcessed() << ":" << address.port << std::endl;
         server.block();
     } catch (SocketServerException &e) {
         e.render();
