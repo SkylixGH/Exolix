@@ -11,3 +11,5 @@ cmake-build-debug-system/
 .vs/
 .vscode/
 .atom/
+
+.idea/shelf
