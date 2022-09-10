@@ -21,3 +21,12 @@ message("Exolix Version Detected: ${Exolix_VERSION}")
 
 # Add examples
 add_subdirectory(example/main)
+
+# Add windows specific libraries
+if (WIN32)
+    target_link_libraries(Exolix PUBLIC ws2_32)
+endif ()
+
+# Add OpenSSL libraries
+find_package(OpenSSL REQUIRED)
+target_link_libraries(Exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)

@@ -21,25 +21,14 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(thread): Updated docs to make namespace accurate">
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(thread): Removed MD reference docs">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/types.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/types.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/ReadMe.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/net/NetAddress.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/net/SocketServer.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/i16.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/i32.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/i64.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/i8.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/u16.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/u32.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/u64.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/number/u8.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/string/StringDeconstruction.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/thread/ThreadErrors.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/thread/TimeUnit.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -80,9 +69,15 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "preferences.sourceCode.C/C++"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/rpr" />
+    </key>
+  </component>
   <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
@@ -112,7 +107,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
-      <workItem from="1662761011207" duration="8896000" />
+      <workItem from="1662761011207" duration="14270000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -163,7 +158,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662770817465</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Wiki(thread): Removed MD reference docs">
+      <created>1662772230513</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1662772230513</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,7 +190,8 @@
     <MESSAGE value="Wiki(number): Updated docs" />
     <MESSAGE value="Wiki(number): Updated docs to make namespace accurate" />
     <MESSAGE value="Wiki(thread): Updated docs to make namespace accurate" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wiki(thread): Updated docs to make namespace accurate" />
+    <MESSAGE value="Wiki(thread): Removed MD reference docs" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wiki(thread): Removed MD reference docs" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

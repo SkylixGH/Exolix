@@ -10,6 +10,15 @@ namespace exolix {
      */
     class NetAddress {
     private:
+        /**
+         * The hostname of the address.
+         */
+        const std::string hostname;
+
+        /**
+         * The port of the address.
+         */
+        const u16 port;
 
     public:
         /**
@@ -19,6 +28,16 @@ namespace exolix {
          */
         NetAddress(const std::string &hostname, u16 port);
 
-        ~NetAddress();
+        /**
+         * Get the hostname of the address.
+         * @return The hostname of the address.
+         */
+        const std::string &getHostname() const;
+
+        /**
+         * Get the port of the address.
+         * @return The port of the address.
+         */
+        u16 getPort() const;
     };
 }
