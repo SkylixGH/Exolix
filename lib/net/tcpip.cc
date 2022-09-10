@@ -1,8 +1,8 @@
 #include "tcpip.h"
 
 namespace exolix {
-    SocketServer::SocketServer(exolix::NetAddress address, int backlog):
-        address(address), backlog(backlog) {
+    SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
+            address(address), backlog(backlog) {
     }
 
     SocketServer::~SocketServer() {
@@ -22,6 +22,10 @@ namespace exolix {
     }
 
     void SocketServer::load() {
+
+    }
+
+    void SocketServer::unload() {
 
     }
 }

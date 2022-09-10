@@ -28,7 +28,7 @@ namespace exolix {
         /**
          * No errors occurred.
          */
-         Ok,
+        Ok,
 
         /**
          * This error is usually returned when you
@@ -58,7 +58,7 @@ namespace exolix {
         /**
          * Whether the thread was ever blocked before.
          */
-         bool wasBlocked = false;
+        bool wasBlocked = false;
 
     public:
         /**

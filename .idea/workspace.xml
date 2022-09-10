@@ -3,9 +3,9 @@
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
-  <component name="CMakePresetLoader"><![CDATA[{
-  "useNewFormat": true
-}]]></component>
+  <component name="CMakePresetLoader">{
+  &quot;useNewFormat&quot;: true
+}</component>
   <component name="CMakeReloadState">
     <option name="reloaded" value="true" />
   </component>
@@ -21,12 +21,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(thread): Removed MD reference docs">
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Feat(net): Updated address and TCPIP">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
     </list>
@@ -39,6 +35,13 @@
     <option name="formatViaClangd" value="false" />
   </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-System" />
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="Master" />
+      </list>
+    </option>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -56,40 +59,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C/C++&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/rpr" />
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug-System">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="Exolix_EXAMPLE_MAIN" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix_EXAMPLE_MAIN" CONFIG_NAME="Debug-System" RUN_TARGET_PROJECT_NAME="ExolixFramework" RUN_TARGET_NAME="Exolix_EXAMPLE_MAIN">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -107,7 +110,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
-      <workItem from="1662761011207" duration="14270000" />
+      <workItem from="1662761011207" duration="14303000" />
+      <workItem from="1662828787281" duration="1219000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -165,7 +169,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662772230513</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Feat(net): Updated address and TCPIP">
+      <created>1662777087919</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1662777087919</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,7 +202,8 @@
     <MESSAGE value="Wiki(number): Updated docs to make namespace accurate" />
     <MESSAGE value="Wiki(thread): Updated docs to make namespace accurate" />
     <MESSAGE value="Wiki(thread): Removed MD reference docs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wiki(thread): Removed MD reference docs" />
+    <MESSAGE value="Feat(net): Updated address and TCPIP" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat(net): Updated address and TCPIP" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
