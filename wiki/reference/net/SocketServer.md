@@ -1,6 +1,7 @@
 # Class: `SocketServer`
 - **Include**: `<exolix>`
 - **Location**: `lib/net/tcpip.h`
+- **Namespace**: `exolix`
 
 This class can be used for creating bidirectional TCP/IP connections between two
 different parties. It can be used for creating a server host.

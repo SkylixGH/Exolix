@@ -1,6 +1,7 @@
 # Class: `NetAddress`
 - **Include**: `<exolix>`
 - **Location**: `lib/net/address.h`
+- **Namespace**: `exolix`
 
 A class used for storing network addresses. It is also used for validating address information and more.
 
