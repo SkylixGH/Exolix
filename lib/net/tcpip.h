@@ -142,12 +142,12 @@ namespace exolix {
          * This function will return a boolean value indicating whether the
          * server is online or not.
          */
-        bool isOnline();
+        bool isOnline() const;
 
         /**
          * This function will return a boolean value indicating whether the
          * server is busy or not.
          */
-        bool isBusy();
+        bool isBusy() const;
     };
 }
