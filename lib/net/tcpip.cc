@@ -1,31 +1,45 @@
 #include "tcpip.h"
 
+#include <utility>
+
 namespace exolix {
     SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
-            address(address), backlog(backlog) {
+            address(std::move(address)), backlog(backlog) {
     }
 
     SocketServer::~SocketServer() {
 
     }
 
-    void SocketServer::setTLS(bool enabled) {
+    SocketServerErrors SocketServer::setTLS(bool enabled) {
         tls = enabled;
     }
 
-    void SocketServer::setCertificate(const std::string &path) {
+    SocketServerErrors SocketServer::setCertificate(const std::string &path) {
         certificate = path;
     }
 
-    void SocketServer::setPrivateKey(const std::string &path) {
+    SocketServerErrors SocketServer::setPrivateKey(const std::string &path) {
         privateKey = path;
     }
 
-    void SocketServer::load() {
+    SocketServerErrors SocketServer::load() {
 
     }
 
-    void SocketServer::unload() {
+    SocketServerErrors SocketServer::unload() {
+
+    }
+
+    bool SocketServer::isOnline() {
+
+    }
+
+    bool SocketServer::isBusy() {
+
+    }
+
+    SocketServerErrors SocketServer::block() {
 
     }
 }
