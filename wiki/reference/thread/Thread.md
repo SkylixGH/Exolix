@@ -58,7 +58,7 @@ int main() {
 }
 ```
 
-# Constructor: `Thread`
+# Constructor
 Create a new thread for running code asynchronously.
 Threads can be used for running multiple operations at the same time.
 

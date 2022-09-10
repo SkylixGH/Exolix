@@ -21,15 +21,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Idea(*): Updated file">
-      <change afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/string/deconstruction.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/string/deconstruction.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wiki/reference/string/StringDeconstruction.md" afterDir="false" />
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(string) Feat(string): Added string split and wiki docs for it">
+      <change afterPath="$PROJECT_DIR$/wiki/reference/net/NetAddress.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wiki/reference/net/SocketServer.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/exolix" beforeDir="false" afterPath="$PROJECT_DIR$/include/exolix" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wiki/reference/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/ReadMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wiki/reference/number/i8.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/i8.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,7 +102,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
-      <workItem from="1662761011207" duration="5772000" />
+      <workItem from="1662761011207" duration="7474000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -125,7 +125,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662766680746</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Wiki(string) Feat(string): Added string split and wiki docs for it">
+      <created>1662767829329</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1662767829329</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,7 +153,8 @@
     <MESSAGE value="Legal(*): Added license" />
     <MESSAGE value="Legal(*): Changed license" />
     <MESSAGE value="Idea(*): Updated file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Idea(*): Updated file" />
+    <MESSAGE value="Wiki(string) Feat(string): Added string split and wiki docs for it" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wiki(string) Feat(string): Added string split and wiki docs for it" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

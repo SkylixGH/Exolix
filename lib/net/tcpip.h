@@ -1,5 +1,7 @@
 #pragma once
 
+#include "address.h"
+
 namespace exolix {
     /**
      * A TCP server implementation with cross-platform support
@@ -12,7 +14,7 @@ namespace exolix {
         /**
          * Create a new socket server.
          */
-        SocketServer();
+        SocketServer(NetAddress address, int backlog);
 
         ~SocketServer();
     };
