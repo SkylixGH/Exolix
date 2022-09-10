@@ -21,11 +21,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Feat(net): Updated address and TCPIP">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
-    </list>
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(net) Header(net): Updated socket server and errors" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -111,7 +107,7 @@
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
       <workItem from="1662761011207" duration="14303000" />
-      <workItem from="1662828787281" duration="1219000" />
+      <workItem from="1662828787281" duration="1550000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -176,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662777087919</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Wiki(net) Header(net): Updated socket server and errors">
+      <created>1662830252204</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1662830252204</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -203,7 +206,8 @@
     <MESSAGE value="Wiki(thread): Updated docs to make namespace accurate" />
     <MESSAGE value="Wiki(thread): Removed MD reference docs" />
     <MESSAGE value="Feat(net): Updated address and TCPIP" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat(net): Updated address and TCPIP" />
+    <MESSAGE value="Wiki(net) Header(net): Updated socket server and errors" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wiki(net) Header(net): Updated socket server and errors" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

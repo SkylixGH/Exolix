@@ -35,7 +35,7 @@ namespace exolix {
          * specific job. The server must be inactive and not busy for
          * the action to be performed.
          */
-         ServerDangerousActionWhileOnline
+        ServerDangerousActionWhileOnline
     };
 
     /**
@@ -88,7 +88,7 @@ namespace exolix {
          * The server thread where all of the base processing will
          * be performed such as connection accepting and dispatching.
          */
-        Thread *serverThread{};
+        Thread *serverThread {};
 
     public:
         /**
