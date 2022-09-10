@@ -1,6 +1,7 @@
 # Class: `Thread`
  - **Include**: `<exolix>` 
  - **Location**: `lib/thread/thread.h`
+ - **Namespace**: `exolix`
 
 A class used for making execution of code asynchronous. It can be used to speed up
 computation of a certain operation or split up heavy workloads and more!

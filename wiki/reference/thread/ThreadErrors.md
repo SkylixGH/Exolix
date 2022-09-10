@@ -1,6 +1,7 @@
 # Enum: `ThreadErrors`
 - **Include**: `<exolix>`
 - **Location**: `lib/thread/thread.h`
+- **Namespace**: `exolix`
 
 A list of possible error codes and a success code for the threading system.
 

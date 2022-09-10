@@ -21,14 +21,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(number): Updated docs">
-      <change afterPath="$PROJECT_DIR$/wiki/reference/net/NetAddress.md" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/wiki/reference/net/SocketServer.md" afterDir="false" />
+    <list default="true" id="94073f7d-ca2a-400b-a7d0-6b3bea214ac3" name="Changes" comment="Wiki(number): Updated docs to make namespace accurate">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/ReadMe.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/ReadMe.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/number/types.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/types.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wiki/reference/net/NetAddress.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/net/NetAddress.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wiki/reference/net/SocketServer.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/net/SocketServer.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wiki/reference/number/i16.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/i16.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wiki/reference/number/i32.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/i32.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wiki/reference/number/i64.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/i64.md" afterDir="false" />
@@ -37,7 +36,6 @@
       <change beforePath="$PROJECT_DIR$/wiki/reference/number/u32.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/u32.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wiki/reference/number/u64.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/u64.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wiki/reference/number/u8.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/number/u8.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" beforeDir="false" afterPath="$PROJECT_DIR$/wiki/reference/thread/Thread.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +108,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1662761008301</updated>
-      <workItem from="1662761011207" duration="7787000" />
+      <workItem from="1662761011207" duration="8128000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -147,7 +145,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662770441630</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Wiki(number): Updated docs to make namespace accurate">
+      <created>1662770782669</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1662770782669</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -170,7 +175,8 @@
     <MESSAGE value="Idea(*): Updated file" />
     <MESSAGE value="Wiki(string) Feat(string): Added string split and wiki docs for it" />
     <MESSAGE value="Wiki(number): Updated docs" />
-    <option name="LAST_COMMIT_MESSAGE" value="Wiki(number): Updated docs" />
+    <MESSAGE value="Wiki(number): Updated docs to make namespace accurate" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wiki(number): Updated docs to make namespace accurate" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

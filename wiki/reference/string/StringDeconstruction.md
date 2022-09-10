@@ -1,6 +1,7 @@
 # Class: `StringDeconstruction`
 - **Include**: `<exolix>`
 - **Location**: `lib/string/deconstruction.h`
+- **Namespace**: `exolix`
 
 A class used for disassembling strings into sub parts in multiple different ways.
 

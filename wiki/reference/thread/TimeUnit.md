@@ -1,6 +1,7 @@
 # Enum: `TimeUnit`
 - **Include**: `<exolix>`
 - **Location**: `lib/thread/thread.h`
+- **Namespace**: `exolix`
 
 A list of time formats you can use.
 
