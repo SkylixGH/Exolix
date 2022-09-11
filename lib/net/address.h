@@ -109,6 +109,6 @@ namespace exolix {
          * Check if the address is valid.
          * @return If the address is valid.
          */
-        bool isValid() const;
+        [[nodiscard]] bool hasErrors() const;
     };
 }

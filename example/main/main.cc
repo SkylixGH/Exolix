@@ -4,21 +4,39 @@
 using namespace exolix;
 
 int main() {
-    i64 value;
-    auto isValidHex = NumberParsing::parseHexInteger("-7FFFFFFFFFFFFFFF", value);
-    std::cout << "Is valid hex: " << value << std::endl;
+    NetAddress address("::1", 8080);
+    SocketServer server(address, 1);
 
-    if (isValidHex == NumberParsingErrors::Ok) {
-        std::cout << "Is valid hex: " << "Yes" << std::endl;
+    auto lRes = server.load();
+
+    if (lRes != SocketServerErrors::Ok) {
+        std::cout << "Error load fail\n";
+
+        switch (lRes) {
+            case SocketServerErrors::FaultyAddress:
+                std::cout << "Faulty address\n";
+                break;
+            case SocketServerErrors::ServerDangerousActionWhileOnline:
+                std::cout << "Server is online\n";
+                break;
+            case SocketServerErrors::TlsNotEnabled:
+                std::cout << "TLS is not enabled\n";
+                break;
+            default:
+                std::cout << "Unknown error\n";
+                break;
+        }
+        return 1;
     } else {
-        std::cout << "Is not valid hex: " << "No" << std::endl;
+        std::cout << "Server loaded\n";
     }
 
-    NetAddress address("::18", 8080);
-    SocketServer server(address, 10);
+    auto bRes = server.block();
 
-    server.load();
-    server.block();
+    if (bRes != SocketServerErrors::Ok) {
+        std::cout << "Error block fail\n";
+        return 1;
+    }
 
     return 0;
 }

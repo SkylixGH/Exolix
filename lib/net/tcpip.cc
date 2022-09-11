@@ -5,13 +5,20 @@
 
     #include <netdb.h>
     #include <netinet/in.h>
-    #include <unistd.h>
     #include <strings.h>
     #include <cstring>
+    #include <openssl/err.h>
+    #include <arpa/inet.h>
 
 #endif
 
+#include <iostream>
+
 namespace exolix {
+    Socket::Socket(exolix::i64 socketFd, std::optional<SSL *> ssl):
+        cSsl(ssl), cSocket(socketFd) {
+    }
+
     SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
             address(std::move(address)), backlog(backlog) {
     }
@@ -57,72 +64,138 @@ namespace exolix {
         if (online || busy)
             return SocketServerErrors::ServerDangerousActionWhileOnline;
 
+        if (address.hasErrors())
+            return SocketServerErrors::FaultyAddress;
+
         busy = true;
+        Thread worker([this] () {
+            InternetVersion ipVersion;
 
-#if false
-        int socketFd;
-        int extSocketFd;
-        int clientLength;
+            address.getInternetVersion(ipVersion);
 
-        int bytesReceived;
+#if defined(__linux__) || defined(__APPLE__)
+            int extSocketFd;
+            int clientLength;
 
-        std::string hostname;
-        u16 portNumber;
+            int bytesReceived;
 
-        struct sockaddr_in serverAddress {};
-        struct sockaddr_in clientAddress {};
+            std::string hostname;
+            u16 portNumber;
 
-        char *buffer = new char[receiveBufferSize];
+            struct sockaddr_in serverAddress {};
+            struct sockaddr_in clientAddress {};
 
-        socketFd = socket(AF_INET, SOCK_STREAM, 0);
-        if (socketFd < 0) {
-            // TODO: Handle
-        }
+            struct sockaddr_in6 serverAddress6 {};
+            struct sockaddr_in6 clientAddress6 {};
 
-        bzero((char *) &serverAddress, sizeof(serverAddress));
+            char *buffer = new char[receiveBufferSize];
 
-        int versionFamily;
+            int versionFamily;
+            int result;
+            int flag = 1;
 
-        switch (ipVersion) {
-            case InternetVersion::Ipv4:
-                versionFamily = AF_INET;
-                break;
+            switch (ipVersion) {
+                case InternetVersion::Ipv4:
+                    versionFamily = AF_INET;
+                    break;
 
-            case InternetVersion::Ipv6:
-                versionFamily = AF_INET6;
-                break;
-        }
+                case InternetVersion::Ipv6:
+                    versionFamily = AF_INET6;
+                    break;
 
-        struct hostent *hostEntry {};
+                case InternetVersion::Unknown:
+                    // TODO: Handle this error
+                    break;
+            }
 
-        auto addressGetHostnameError = address.getHostname(hostname);
-        if (addressGetHostnameError != NetAddressErrors::Ok) {
-            // TODO: Handle
-        }
+            socketFd = socket(versionFamily, SOCK_STREAM, 0);
+            if (socketFd < 0) {
+                // TODO: Handle
+            }
 
-        const auto hostNameCString = hostname.c_str();
+            result = setsockopt((int) socketFd, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag));
+            if (result < 0) {
+                // TODO: Handle
+            }
 
-        hostEntry = gethostbyname(hostNameCString);
-        if (hostEntry == nullptr) {
-            // TODO: Handle
-        }
+            bzero((char *) &serverAddress, sizeof(serverAddress));
 
-        memcpy(&serverAddress.sin_addr, hostEntry->h_addr_list[0], hostEntry->h_length);
+            struct hostent *hostEntry {};
 
-        auto addressGetPortError = address.getPort(portNumber);
-        if (addressGetPortError != NetAddressErrors::Ok) {
-            // TODO: Hande
-        }
+            auto addressGetHostnameError = address.getHostname(hostname);
+            if (addressGetHostnameError != NetAddressErrors::Ok) {
+                // TODO: Handle
+            }
 
-        serverAddress.sin_family = versionFamily;
-        serverAddress.sin_addr.s_addr = INADDR_ANY;
+            const auto hostNameCString = hostname.c_str();
 
-        delete [] buffer; // TODO: Move to thread
+            auto addressGetPortError = address.getPort(portNumber);
+            if (addressGetPortError != NetAddressErrors::Ok) {
+                // TODO: Hande
+            }
 
-        return SocketServerErrors::Ok; // TODO: Implement correctly
+            if (ipVersion == InternetVersion::Ipv4) {
+                hostEntry = gethostbyname2(hostNameCString, versionFamily);
+                if (hostEntry == nullptr) {
+                    // TODO: Handle
+                }
+
+                memcpy(&serverAddress.sin_addr, hostEntry->h_addr_list[0], hostEntry->h_length);
+
+                serverAddress.sin_family = versionFamily;
+                serverAddress.sin_port = htons(portNumber);
+            } else if (ipVersion == InternetVersion::Ipv6) {
+                hostEntry = gethostbyname2(hostNameCString, versionFamily);
+
+                if (hostEntry == nullptr) {
+                    // TODO: Handle
+                }
+
+                memcpy(&serverAddress6.sin6_addr, hostEntry->h_addr_list[0], hostEntry->h_length);
+
+                serverAddress6.sin6_family = versionFamily;
+                serverAddress6.sin6_port = htons(portNumber);
+            }
+
+            if (versionFamily == AF_INET6)
+                result = bind((int) socketFd, (struct sockaddr *) &serverAddress6, sizeof(serverAddress6));
+            else if (versionFamily == AF_INET)
+                result = bind((int) socketFd, (struct sockaddr *) &serverAddress, sizeof(serverAddress));
+
+            if (result < 0) {
+                printf("Error binding socket %s\n", strerror(errno));
+                // TODO: Handle
+            }
+
+            result = listen((int) socketFd, backlog);
+
+            if (result < 0) {
+                printf("Listen error\n");
+                // TODO: Handle
+            }
+
+            online = true;
+
+            serverThread = new Thread([this, &buffer, &clientLength, &extSocketFd, &clientAddress] () {
+                while (online) {
+                    clientLength = sizeof(clientAddress);
+                    extSocketFd = accept((int) socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLength);
+
+                    if (extSocketFd < 0) {
+                        // TODO: Handle
+                    }
+                }
+
+                delete[] buffer;
+            });
+
+            return SocketServerErrors::Ok; // TODO: Implement correctly
 #endif
+        });
 
+        worker.block();
         busy = false;
+
         return SocketServerErrors::Ok;
     }
 

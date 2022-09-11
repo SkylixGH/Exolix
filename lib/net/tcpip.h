@@ -4,6 +4,8 @@
 #include "address.h"
 #include "../thread/thread.h"
 #include <functional>
+#include <optional>
+#include <openssl/ssl.h>
 
 namespace exolix {
     /**
@@ -16,12 +18,6 @@ namespace exolix {
          * successfully.
          */
         Ok,
-
-        /**
-         * The thread was already blocked and cannot be blocked
-         * again.
-         */
-        ServerAlreadyThreadBlocked,
 
         /**
          * The server performed an action that required
@@ -50,7 +46,49 @@ namespace exolix {
          * The server was requested to work and set a TLS certificate
          * or key but the server did not have TLS mode enabled.
          */
-         TlsNotEnabled
+         TlsNotEnabled,
+
+         /**
+          * The server address provided is faulty and cannot be used
+          * to create a server.
+          */
+         FaultyAddress
+    };
+
+    /**
+     * This is a class instance of a socket connection.
+     */
+    class Socket {
+    private:
+        /**
+         * The SSL client context. This is used for
+         * TLS connections.
+         */
+        std::optional<SSL *> cSsl;
+
+        /**
+         * The socket file descriptor. This is used
+         * for all socket connections.
+         */
+        i64 cSocket;
+
+        /**
+         * The client listening thread. This is used
+         * for listening to the client socket.
+         */
+        Thread *cThread {};
+
+        /**
+         * Whether the socket is currently connected
+         * to a client.
+         */
+        bool cConnected = true;
+
+    public:
+        /**
+         * Create a new socket instance.
+         */
+        Socket(i64 socketFd, std::optional<SSL *> ssl = std::nullopt);
     };
 
     /**
@@ -110,6 +148,18 @@ namespace exolix {
          * in bytes that the server can read in a single message.
          */
         int receiveBufferSize = 1024;
+
+        /**
+         * The TLS context. This is used for TLS connections.
+         * This is only used when TLS is enabled.
+         */
+        std::optional<SSL_CTX *> sslContext = std::nullopt;
+
+        /**
+         * The socket file descriptor. This is used for all
+         * socket connections.
+         */
+        i64 socketFd = -1;
 
     public:
         /**

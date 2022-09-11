@@ -11,7 +11,7 @@ add_library(Exolix STATIC ${Exolix_SOURCE_FILES})
 target_include_directories(Exolix PUBLIC include)
 
 # Set compile options
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 set(Exolix_VERSION_MAJOR 1)
 set(Exolix_VERSION_MINOR 0)
 set(Exolix_VERSION_PATCH 0)

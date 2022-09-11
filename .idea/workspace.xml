@@ -17,15 +17,19 @@
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration PROFILE_NAME="Debug-System" ENABLED="true" CONFIG_NAME="Debug" TOOLCHAIN_NAME="System" BUILD_OPTIONS="-j 50" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Default" BUILD_OPTIONS="-j 50" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(net): Invalid validity indication">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(number): Invalid hex validator">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/parsing.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/parsing.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/types.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/types.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/exolix.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/exolix.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +39,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug-System" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -82,7 +86,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++",
+    "settings.editor.selected.configurable": "CMakeSettings",
     "structure.view.defaults.are.configured": "true"
   }
 }]]></component>
@@ -92,12 +96,12 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
-    <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug-System">
+    <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Exolix_EXAMPLE_MAIN" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix_EXAMPLE_MAIN" CONFIG_NAME="Debug-System" RUN_TARGET_PROJECT_NAME="ExolixFramework" RUN_TARGET_NAME="Exolix_EXAMPLE_MAIN">
+    <configuration name="Exolix_EXAMPLE_MAIN" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix_EXAMPLE_MAIN" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ExolixFramework" RUN_TARGET_NAME="Exolix_EXAMPLE_MAIN">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -123,7 +127,7 @@
       <workItem from="1662761011207" duration="14303000" />
       <workItem from="1662828787281" duration="1902000" />
       <workItem from="1662849038352" duration="429000" />
-      <workItem from="1662892301552" duration="15944000" />
+      <workItem from="1662892301552" duration="27102000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -258,7 +262,21 @@
       <option name="project" value="LOCAL" />
       <updated>1662904376931</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fix(net): Invalid bad documentation">
+      <created>1662914697267</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1662914697267</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Fix(number): Invalid hex validator">
+      <created>1662914884768</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1662914884768</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,7 +313,25 @@
     <MESSAGE value="Fix(net): Fixed IPv6 validation" />
     <MESSAGE value="Feat(net): Address now supports short hand localhost" />
     <MESSAGE value="Fix(net): Invalid validity indication" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix(net): Invalid validity indication" />
+    <MESSAGE value="Fix(net): Invalid bad documentation" />
+    <MESSAGE value="Fix(number): Invalid hex validator" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix(number): Invalid hex validator" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/example/main/main.cc</url>
+          <line>36</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/example/main/main.cc</url>
+          <line>12</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

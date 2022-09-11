@@ -2,13 +2,12 @@
 #include "../string/deconstruction.h"
 #include "../string/condition.h"
 #include "../number/parsing.h"
-#include <iostream>
 
 namespace exolix {
     NetAddress::NetAddress(const std::string &hostname, exolix::u16 port) :
         port(port) {
         if (hostname == "::1") {
-            this->hostname = "::1";
+            this->hostname = "0:0:0:0:0:0:0:1";
 
             version = InternetVersion::Ipv6;
             valid = true;
@@ -21,7 +20,7 @@ namespace exolix {
             valid = true;
 
             return;
-        };
+        }
 
         auto partsIpv4 = StringDeconstruction::split(hostname, ".");
         auto partsIpv6 = StringDeconstruction::split(hostname, ":");
@@ -96,11 +95,18 @@ namespace exolix {
         return NetAddressErrors::Ok;
     }
 
-    bool NetAddress::isValid() const {
-        return valid;
+    bool NetAddress::hasErrors() const {
+        return !valid;
     }
 
     NetAddressErrors NetAddress::getPort(exolix::u16 &portWritable) const {
-        return NetAddressErrors::Ok; // TODO: Implement
+        if (!valid)
+            return NetAddressErrors::InvalidHostname;
+
+        if (port == 0)
+            return NetAddressErrors::InvalidPort;
+
+        portWritable = port;
+        return NetAddressErrors::Ok;
     }
 }
