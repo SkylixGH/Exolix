@@ -34,7 +34,7 @@ namespace exolix {
 
     NumberParsingErrors NumberParsing::parseHexInteger(std::string source, exolix::i64 &result) {
         if (!NumberCondition::isHexInteger(source)) {
-            return NumberParsingErrors::InvalidNumber;
+            return NumberParsingErrors::InvalidHexInteger;
         }
 
         bool negative = false;
