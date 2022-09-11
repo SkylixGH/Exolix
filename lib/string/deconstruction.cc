@@ -2,15 +2,14 @@
 #include "../number/types.h"
 
 namespace exolix {
-    void StringDeconstruction::split(const std::string &source, const std::string &delimiter,
-                                     std::vector<std::string> &result) {
-        result.clear();
+    std::vector<std::string> StringDeconstruction::split(const std::string &source, const std::string &delimiter) {
+        std::vector<std::string> result;
 
         if (delimiter.empty()) {
             for (int i = 0; i < source.size(); i++)
                 result.push_back(source.substr(i, 1));
 
-            return;
+            return result;
         }
 
         u32 start = 0;
@@ -23,5 +22,6 @@ namespace exolix {
         }
 
         result.push_back(source.substr(start));
+        return result;
     }
 }

@@ -5,9 +5,12 @@
 #include "../lib/net/tcpip.h"
 
 // Number
+#include "../lib/number/condition.h"
+#include "../lib/number/parsing.h"
 #include "../lib/number/types.h"
 
 // String
+#include "../lib/string/condition.h"
 #include "../lib/string/deconstruction.h"
 
 // Thread

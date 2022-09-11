@@ -14,8 +14,8 @@ namespace exolix {
          * Split a string into multiple slices.
          * @param source The input string that should be split.
          * @param delimiter The delimiter that should be used for splitting, these will not be in the output.
-         * @param result The result vector to write the output slices to.
+         * @return A vector of strings that are the result of the split.
          */
-        static void split(const std::string &source, const std::string &delimiter, std::vector<std::string> &result);
+        static std::vector<std::string> split(const std::string &source, const std::string &delimiter);
     };
 }

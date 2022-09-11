@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../number/types.h"
 #include "address.h"
 #include "../thread/thread.h"
 #include <functional>
@@ -35,7 +36,21 @@ namespace exolix {
          * specific job. The server must be inactive and not busy for
          * the action to be performed.
          */
-        ServerDangerousActionWhileOnline
+        ServerDangerousActionWhileOnline,
+
+        /**
+         * The server was requested to be blocked but the server
+         * has already previously been blocked, without experiencing
+         * a restart. Please restart the server to block the server
+         * process thread again.
+         */
+        CannotBlockServerAfterPreviouslyBlockedWithoutRestart,
+
+        /**
+         * The server was requested to work and set a TLS certificate
+         * or key but the server did not have TLS mode enabled.
+         */
+         TlsNotEnabled
     };
 
     /**
@@ -90,6 +105,12 @@ namespace exolix {
          */
         Thread *serverThread {};
 
+        /**
+         * Receive buffer size, this is the maximum amount of data
+         * in bytes that the server can read in a single message.
+         */
+        int receiveBufferSize = 1024;
+
     public:
         /**
          * Create a new socket server.
@@ -142,12 +163,18 @@ namespace exolix {
          * This function will return a boolean value indicating whether the
          * server is online or not.
          */
-        bool isOnline() const;
+        [[nodiscard]] bool isOnline() const;
 
         /**
          * This function will return a boolean value indicating whether the
          * server is busy or not.
          */
-        bool isBusy() const;
+        [[nodiscard]] bool isBusy() const;
+
+        /**
+         * Set the receive buffer size of the server.
+         * @param size The size of the receive buffer.
+         */
+        SocketServerErrors setReceiveBufferSize(u16 size);
     };
 }
