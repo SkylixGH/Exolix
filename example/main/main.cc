@@ -4,27 +4,21 @@
 using namespace exolix;
 
 int main() {
-    NetAddress address("2001:db8:3333:4444:5555:6666:7777:8888", 80);
-    SocketServer server(address, 8080);
+    i64 value;
+    auto isValidHex = NumberParsing::parseHexInteger("-8000000000000000", value);
+    std::cout << "Is valid hex: " << value << std::endl;
+
+    if (isValidHex == NumberParsingErrors::Ok) {
+        std::cout << "Is valid hex: " << "Yes" << std::endl;
+    } else {
+        std::cout << "Is not valid hex: " << "No" << std::endl;
+    }
+
+    NetAddress address("::18", 8080);
+    SocketServer server(address, 10);
 
     server.load();
     server.block();
-
-    std::string hostname;
-    auto e = address.getHostname(hostname);
-
-    switch (e) {
-        case NetAddressErrors::Ok:
-            std::cout << "Hostname: " << hostname << std::endl;
-            break;
-
-        case NetAddressErrors::InvalidHostname:
-            std::cout << "Invalid hostname" << std::endl;
-            break;
-
-        case NetAddressErrors::InvalidPort:
-            std::cout << "Invalid port" << std::endl;
-    }
 
     return 0;
 }

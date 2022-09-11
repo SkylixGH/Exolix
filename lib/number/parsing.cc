@@ -32,7 +32,7 @@ namespace exolix {
         return NumberParsingErrors::Ok;
     }
 
-    NumberParsingErrors NumberParsing::parseHexInteger(std::string source, exolix::i64 &result) {
+    NumberParsingErrors NumberParsing::parseHexInteger(std::string source, i64 &result) {
         if (!NumberCondition::isHexInteger(source)) {
             return NumberParsingErrors::InvalidHexInteger;
         }
@@ -54,7 +54,15 @@ namespace exolix {
         try {
             parsed = std::stoll(source, nullptr, 16);
         } catch (...) {
-            return NumberParsingErrors::InvalidNumber;
+            if (negative) {
+                const std::string hexForSmallestNegative = "-8000000000000000";
+
+                if (source == hexForSmallestNegative) {
+                    result = -9223372036854775807;
+                    return NumberParsingErrors::Ok;
+                }
+            } else
+                return NumberParsingErrors::InvalidNumber;
         }
 
         result = negative ? -parsed : parsed;
