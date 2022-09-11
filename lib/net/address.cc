@@ -6,7 +6,19 @@
 
 namespace exolix {
     NetAddress::NetAddress(const std::string &hostname, exolix::u16 port) :
-            hostname(hostname == "localhost" ? "127.0.0.1" : hostname), port(port) {
+        port(port) {
+        if (hostname == "::1") {
+            this->hostname = "::1";
+            version = InternetVersion::Ipv6;
+
+            return;
+        } else if (hostname == "localhost") {
+            this->hostname = "127.0.0.1";
+            version = InternetVersion::Ipv4;
+
+            return;
+        };
+
         auto partsIpv4 = StringDeconstruction::split(hostname, ".");
         auto partsIpv6 = StringDeconstruction::split(hostname, ":");
 

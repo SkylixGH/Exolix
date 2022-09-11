@@ -59,7 +59,7 @@ namespace exolix {
         /**
          * The hostname of the address.
          */
-        const std::string hostname;
+        std::string hostname;
 
         /**
          * The port of the address.

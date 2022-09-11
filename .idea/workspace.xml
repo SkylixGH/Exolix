@@ -21,19 +21,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(*): Updated parsers and address validation">
-      <change afterPath="$PROJECT_DIR$/lib/string/conversion.cc" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/string/conversion.h" afterDir="false" />
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(net): Fixed IPv6 validation">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/include/exolix" beforeDir="false" afterPath="$PROJECT_DIR$/include/exolix" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/condition.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/condition.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/condition.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/condition.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/parsing.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/parsing.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/number/parsing.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/number/parsing.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/string/condition.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/string/condition.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/string/condition.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/string/condition.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,26 +62,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;Project.color&quot;: &quot;080e3d&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode.C/C++&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Project.color": "080e3d",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++",
+    "structure.view.defaults.are.configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/rpr" />
@@ -130,7 +120,7 @@
       <workItem from="1662761011207" duration="14303000" />
       <workItem from="1662828787281" duration="1902000" />
       <workItem from="1662849038352" duration="429000" />
-      <workItem from="1662892301552" duration="7697000" />
+      <workItem from="1662892301552" duration="8702000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -230,7 +220,28 @@
       <option name="project" value="LOCAL" />
       <updated>1662902976735</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Feat(*): Added hexadecimal parser">
+      <created>1662903203307</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1662903203307</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Feat(*): Updated error return">
+      <created>1662903237431</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1662903237431</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fix(net): Fixed IPv6 validation">
+      <created>1662903558765</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1662903558765</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -262,7 +273,10 @@
     <MESSAGE value="Idea(*): Hiding shelf dat" />
     <MESSAGE value="Feat(*): Updated int" />
     <MESSAGE value="Feat(*): Updated parsers and address validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat(*): Updated parsers and address validation" />
+    <MESSAGE value="Feat(*): Added hexadecimal parser" />
+    <MESSAGE value="Feat(*): Updated error return" />
+    <MESSAGE value="Fix(net): Fixed IPv6 validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix(net): Fixed IPv6 validation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
