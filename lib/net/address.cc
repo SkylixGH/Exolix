@@ -40,7 +40,7 @@ namespace exolix {
             NumberParsingErrors errorParsed;
 
             for (auto &part : partsIpv6) {
-                errorParsed = NumberParsing::parseInteger(part, partValue);
+                errorParsed = NumberParsing::parseHexInteger(part, partValue);
 
                 if (errorParsed != NumberParsingErrors::Ok) {
                     version = InternetVersion::Unknown;
@@ -48,8 +48,6 @@ namespace exolix {
 
                     break;
                 }
-
-                std::cout << partValue << " from " << part << std::endl;
 
                 if (partValue < 0 || partValue > 65535) {
                     version = InternetVersion::Unknown;
