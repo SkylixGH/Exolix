@@ -21,8 +21,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(net): Fixed IPv6 validation">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(net): Address now supports short hand localhost">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +122,7 @@
       <workItem from="1662761011207" duration="14303000" />
       <workItem from="1662828787281" duration="1902000" />
       <workItem from="1662849038352" duration="429000" />
-      <workItem from="1662892301552" duration="8702000" />
+      <workItem from="1662892301552" duration="9055000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -241,7 +243,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662903558765</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="Feat(net): Address now supports short hand localhost">
+      <created>1662904335465</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1662904335465</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -276,7 +285,8 @@
     <MESSAGE value="Feat(*): Added hexadecimal parser" />
     <MESSAGE value="Feat(*): Updated error return" />
     <MESSAGE value="Fix(net): Fixed IPv6 validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix(net): Fixed IPv6 validation" />
+    <MESSAGE value="Feat(net): Address now supports short hand localhost" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat(net): Address now supports short hand localhost" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
