@@ -33,6 +33,31 @@ namespace exolix {
     }
 
     NumberParsingErrors NumberParsing::parseHexInteger(std::string source, exolix::i64 &result) {
+        if (!NumberCondition::isHexInteger(source)) {
+            return NumberParsingErrors::InvalidNumber;
+        }
 
+        bool negative = false;
+        if (StringCondition::contains(source, "-")) {
+            negative = true;
+            source = source.substr(1);
+        }
+
+        const i8 maxDigits = 16;
+
+        if (source.size() > maxDigits || source.empty()) {
+            return NumberParsingErrors::NumberOutOfRange;
+        }
+
+        i64 parsed;
+
+        try {
+            parsed = std::stoll(source, nullptr, 16);
+        } catch (...) {
+            return NumberParsingErrors::InvalidNumber;
+        }
+
+        result = negative ? -parsed : parsed;
+        return NumberParsingErrors::Ok;
     }
 }

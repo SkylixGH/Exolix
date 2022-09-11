@@ -28,10 +28,10 @@ namespace exolix {
         NumberOutOfRange,
 
         /**
-         * The number was not a valid integer and could not
+         * The number was not a valid hex integer and could not
          * be parsed.
          */
-        NotAnInteger,
+        InvalidHexInteger,
     };
 
     /**

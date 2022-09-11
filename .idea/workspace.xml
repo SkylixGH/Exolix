@@ -21,7 +21,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(*): Updated int">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(*): Updated parsers and address validation">
       <change afterPath="$PROJECT_DIR$/lib/string/conversion.cc" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/lib/string/conversion.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -130,7 +130,7 @@
       <workItem from="1662761011207" duration="14303000" />
       <workItem from="1662828787281" duration="1902000" />
       <workItem from="1662849038352" duration="429000" />
-      <workItem from="1662892301552" duration="7373000" />
+      <workItem from="1662892301552" duration="7697000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -223,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662871793507</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Feat(*): Updated parsers and address validation">
+      <created>1662902976735</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1662902976735</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -254,7 +261,8 @@
     <MESSAGE value="Idea(*): Updated initializer list left brace style to 1" />
     <MESSAGE value="Idea(*): Hiding shelf dat" />
     <MESSAGE value="Feat(*): Updated int" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat(*): Updated int" />
+    <MESSAGE value="Feat(*): Updated parsers and address validation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat(*): Updated parsers and address validation" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
