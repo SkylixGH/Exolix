@@ -54,15 +54,7 @@ namespace exolix {
         try {
             parsed = std::stoll(source, nullptr, 16);
         } catch (...) {
-            if (negative) {
-                const std::string hexForSmallestNegative = "-8000000000000000";
-
-                if (source == hexForSmallestNegative) {
-                    result = -9223372036854775807;
-                    return NumberParsingErrors::Ok;
-                }
-            } else
-                return NumberParsingErrors::InvalidNumber;
+            return NumberParsingErrors::InvalidNumber;
         }
 
         result = negative ? -parsed : parsed;
