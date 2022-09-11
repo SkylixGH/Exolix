@@ -11,6 +11,7 @@
 
 // String
 #include "../lib/string/condition.h"
+#include "../lib/string/conversion.h"
 #include "../lib/string/deconstruction.h"
 
 // Thread

@@ -4,34 +4,10 @@
 using namespace exolix;
 
 int main() {
-    i64 res;
-    std::string input = "107b9";
+    auto isValid = NumberCondition::isHexInteger("10FF");
+    std::cout << "Is valid: " << isValid << std::endl;
 
-    NumberParsingErrors ee = NumberParsing::parseInteger(input, res);
-
-    std::cout << res << std::endl;
-
-    switch (ee) {
-        case NumberParsingErrors::Ok:
-            std::cout << "Ok" << std::endl;
-            break;
-
-        case NumberParsingErrors::InvalidNumber:
-            std::cout << "InvalidNumber" << std::endl;
-            break;
-
-        case NumberParsingErrors::NumberOutOfRange:
-            std::cout << "NumberOutOfRange" << std::endl;
-            break;
-
-        case NumberParsingErrors::NotAnInteger:
-            std::cout << "NotAnInteger" << std::endl;
-            break;
-
-        default:
-            std::cout << "Unknown" << std::endl;
-            break;
-    }
+    return 0;
 
     NetAddress address("2001:db8:3333:4444:5555:6666:7777:888899999", 8080);
     SocketServer server(address, 8080);

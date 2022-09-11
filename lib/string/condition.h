@@ -22,5 +22,13 @@ namespace exolix {
          * @return If the string contains a number.
          */
         static bool containsNumber(const std::string &source);
+
+        /**
+         * Check to see if a string starts with a value.
+         * @param source The input string that should be checked.
+         * @param value The value that should be checked for.
+         * @return If the string starts with the value.
+         */
+        static bool startsWith(const std::string &source, const std::string &value);
     };
 }

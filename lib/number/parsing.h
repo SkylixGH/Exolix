@@ -47,5 +47,13 @@ namespace exolix {
          * @return If the parsing was successful or its error.
          */
         static NumberParsingErrors parseInteger(std::string source, i64 &result);
+
+        /**
+         * Parse an to an integer from a hex string.
+         * @param source The input string that should be parsed.
+         * @param result The result that should be written to.
+         * @return If the parsing was successful or its error.
+         */
+        static NumberParsingErrors parseHexInteger(std::string source, i64 &result);
     };
 }

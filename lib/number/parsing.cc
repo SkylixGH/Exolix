@@ -14,10 +14,6 @@ namespace exolix {
             source = source.substr(1);
         }
 
-        if (StringCondition::contains(source, ".")) {
-            return NumberParsingErrors::NotAnInteger;
-        }
-
         const i8 maxDigits = 19;
 
         if (source.size() > maxDigits || source.empty()) {
@@ -34,5 +30,9 @@ namespace exolix {
 
         result = negative ? -parsed : parsed;
         return NumberParsingErrors::Ok;
+    }
+
+    NumberParsingErrors NumberParsing::parseHexInteger(std::string source, exolix::i64 &result) {
+
     }
 }

@@ -10,4 +10,8 @@ namespace exolix {
                contains(source, "4") || contains(source, "5") || contains(source, "6") || contains(source, "7") ||
                contains(source, "8") || contains(source, "9");
     }
+
+    bool StringCondition::startsWith(const std::string &source, const std::string &value) {
+        return source.find(value) == 0;
+    }
 }

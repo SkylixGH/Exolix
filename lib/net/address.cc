@@ -2,6 +2,7 @@
 #include "../string/deconstruction.h"
 #include "../string/condition.h"
 #include "../number/parsing.h"
+#include <iostream>
 
 namespace exolix {
     NetAddress::NetAddress(const std::string &hostname, exolix::u16 port) :
@@ -14,7 +15,7 @@ namespace exolix {
 
             for (auto &part : partsIpv4) {
                 i64 partValue;
-                auto errorParsed = NumberParsing::parseInteger(partsIpv4[0], partValue);
+                auto errorParsed = NumberParsing::parseInteger(part, partValue);
 
                 if (errorParsed != NumberParsingErrors::Ok) {
                     version = InternetVersion::Unknown;
@@ -35,9 +36,11 @@ namespace exolix {
         } else if (partsIpv6.size() == 8 && !StringCondition::contains(hostname, ".")) {
             version = InternetVersion::Ipv6;
 
+            i64 partValue;
+            NumberParsingErrors errorParsed;
+
             for (auto &part : partsIpv6) {
-                i64 partValue;
-                auto errorParsed = NumberParsing::parseInteger(partsIpv6[0], partValue);
+                errorParsed = NumberParsing::parseInteger(part, partValue);
 
                 if (errorParsed != NumberParsingErrors::Ok) {
                     version = InternetVersion::Unknown;
@@ -46,7 +49,7 @@ namespace exolix {
                     break;
                 }
 
-                printf("part: %s, value: %s\n", part.c_str(), std::to_string(partValue).c_str());
+                std::cout << partValue << " from " << part << std::endl;
 
                 if (partValue < 0 || partValue > 65535) {
                     version = InternetVersion::Unknown;

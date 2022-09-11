@@ -14,5 +14,12 @@ namespace exolix {
           * @return If the string is just an integer.
           */
         static bool isInteger(std::string source);
+
+        /**
+         * Check to see if a string is just a hex integer.
+         * @param source The input string that should be checked.
+         * @return If the string is just a hex integer.
+         */
+        static bool isHexInteger(std::string source);
      };
 }
