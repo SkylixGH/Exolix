@@ -161,12 +161,12 @@ namespace exolix {
         /**
          * Whether the server is online.
          */
-        bool online = false;
+        bool online;
 
         /**
          * Whether the server is using TLS.
          */
-        bool tls = false;
+        bool tls;
 
         /**
          * Path to the TLS certificate.
@@ -183,31 +183,31 @@ namespace exolix {
          * should not allow another load or unload action
          * while busy.
          */
-        bool busy = false;
+        bool busy;
 
         /**
          * The server thread where all of the base processing will
          * be performed such as connection accepting and dispatching.
          */
-        Thread *serverThread {};
+        Thread *serverThread;
 
         /**
          * Receive buffer size, this is the maximum amount of data
          * in bytes that the server can read in a single message.
          */
-        int receiveBufferSize = 1024;
+        int receiveBufferSize;
 
         /**
          * The TLS context. This is used for TLS connections.
          * This is only used when TLS is enabled.
          */
-        std::optional<SSL_CTX *> sslContext = std::nullopt;
+        std::optional<SSL_CTX *> sslContext;
 
         /**
          * The socket file descriptor. This is used for all
          * socket connections.
          */
-        i64 socketFd = -1;
+        i64 socketFd;
 
         /**
          * Clean up the server variables after a crash

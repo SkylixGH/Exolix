@@ -11,6 +11,13 @@
     #include <arpa/inet.h>
     #include <unistd.h>
 
+#elif defined(_WIN32)
+
+    #include <windows.h>
+    #include <winsock2.h>
+    #include <ws2tcpip.h>
+    #include <string>
+
 #endif
 
 #include <iostream>
@@ -21,18 +28,16 @@ namespace exolix {
     }
 
     SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
-            address(std::move(address)), backlog(backlog) {
+            address(std::move(address)), backlog(backlog), busy(false), online(false),
+            tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024) {
     }
 
     SocketServer::~SocketServer() {
-        if (serverThread != nullptr)
-            serverThread->block();
-
         delete serverThread;
     }
 
     SocketServerErrors SocketServer::setTLS(bool enabled) {
-        if (online || busy)
+        if (busy || online)
             return SocketServerErrors::ServerDangerousActionWhileOnline;
 
         tls = enabled;
@@ -80,14 +85,30 @@ namespace exolix {
                 return;
             }
 
+            std::string hostname;
+            u16 portNumber;
+
+            addressError = address.getHostname(hostname);
+            if (addressError != NetAddressErrors::Ok) {
+                resDat = SocketServerErrors::FaultyAddressHostname;
+                cleanUp();
+
+                return;
+            }
+
+            addressError = address.getPort(portNumber);
+            if (addressError != NetAddressErrors::Ok) {
+                resDat = SocketServerErrors::FaultyAddressPort;
+                cleanUp();
+
+                return;
+            }
+
 #if defined(__linux__) || defined(__APPLE__)
             int extSocketFd;
             int clientLength;
 
             int bytesReceived;
-
-            std::string hostname;
-            u16 portNumber;
 
             struct sockaddr_in serverAddress {};
             struct sockaddr_in clientAddress {};
@@ -157,23 +178,7 @@ namespace exolix {
 
             struct hostent *hostEntry {};
 
-            auto addressGetHostnameError = address.getHostname(hostname);
-            if (addressError != NetAddressErrors::Ok) {
-                resDat = SocketServerErrors::FaultyAddressHostname;
-                cleanUp();
-
-                return;
-            }
-
             const auto hostNameCString = hostname.c_str();
-
-            auto addressGetPortError = address.getPort(portNumber);
-            if (addressError != NetAddressErrors::Ok) {
-                resDat = SocketServerErrors::FaultyAddressPort;
-                cleanUp();
-
-                return;
-            }
 
             if (ipVersion == InternetVersion::Ipv4) {
                 hostEntry = gethostbyname2(hostNameCString, versionFamily);
@@ -223,6 +228,7 @@ namespace exolix {
             }
 
             online = true;
+            busy = false;
 
             serverThread = new Thread([this, &buffer, &clientLength, &extSocketFd, &clientAddress, &bytesReceived] () {
                 while (online) {
@@ -257,7 +263,68 @@ namespace exolix {
                 delete[] buffer;
             });
 #elif _WIN32
-            
+            SOCKET extSocket = INVALID_SOCKET;
+            WSADATA wsaData;
+
+            int inBytes;
+            int result;
+
+            char *buffer = new char[receiveBufferSize];
+
+            struct addrinfo *resultAddress {};
+            struct addrinfo hints {};
+
+            result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+            // TODO: Handle
+
+            ZeroMemory(&hints, sizeof(hints));
+
+            int versionFamily;
+
+            switch (ipVersion) {
+                case InternetVersion::Ipv4:
+                    versionFamily = AF_INET;
+                    break;
+
+                case InternetVersion::Ipv6:
+                    versionFamily = AF_INET6;
+                    break;
+
+                case InternetVersion::Unknown:
+                    break;
+            }
+
+            hints.ai_family = versionFamily;
+            hints.ai_socktype = SOCK_STREAM;
+            hints.ai_protocol = IPPROTO_TCP;
+            hints.ai_flags = AI_PASSIVE;
+
+            result = getaddrinfo(hostname.c_str(), std::to_string(portNumber).c_str(), &hints, &resultAddress);
+            // TODO: Handle
+
+            socketFd = (i64) socket(resultAddress->ai_family, resultAddress->ai_socktype, resultAddress->ai_protocol);
+            // TODO: Handle
+
+            result = bind((SOCKET) socketFd, resultAddress->ai_addr, (int) resultAddress->ai_addrlen);
+            // TODO: Handle
+
+            freeaddrinfo(resultAddress);
+
+            result = listen((SOCKET) socketFd, backlog);
+            // TODO: Handle
+
+            online = true;
+            busy = false;
+
+            while (online) {
+                extSocket = accept((SOCKET) socketFd, nullptr, nullptr);
+
+                if (extSocket != INVALID_SOCKET) {
+                    SocketServerAdapter adapter((i64) extSocket, std::nullopt);
+                }
+            }
+
+            delete[] buffer;
 #endif
         });
 
@@ -314,10 +381,17 @@ namespace exolix {
     }
 
     void SocketServer::cleanUp() {
+#if defined(__linux__) || defined(__APPLE__)
         if (socketFd != -1) {
             close((int) socketFd);
             socketFd = -1;
         }
+#elif defined(_WIN32)
+        if (socketFd != INVALID_SOCKET) {
+            closesocket(socketFd);
+            socketFd = INVALID_SOCKET;
+        }
+#endif
 
         if (serverThread != nullptr) {
             if (serverThread->isActive())
