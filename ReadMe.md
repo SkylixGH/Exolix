@@ -1,1 +1,3 @@
-<h1 align="center">Exolix</h1>
+<div align="center">
+    <img src="wiki/assets/ExolixLogoText.svg" width="100%" alt="Exolix" />
+</div>

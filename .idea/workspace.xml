@@ -10,22 +10,17 @@
     <option name="reloaded" value="true" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated>
-      <config projectName="ExolixFramework" targetName="Exolix" />
-      <config projectName="ExolixFramework" targetName="Exolix_EXAMPLE_MAIN" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Default" BUILD_OPTIONS="-j 50" />
+      <configuration PROFILE_NAME="Debug-Visual Studio" ENABLED="true" CONFIG_NAME="Debug" TOOLCHAIN_NAME="Visual Studio" BUILD_OPTIONS="-j 50" />
     </configurations>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(net): Updated cleanup systems">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,21 +86,12 @@
       <recent name="$PROJECT_DIR$/rpr" />
     </key>
   </component>
-  <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
-    <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug">
+  <component name="RunManager">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Exolix_EXAMPLE_MAIN" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix_EXAMPLE_MAIN" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="ExolixFramework" RUN_TARGET_NAME="Exolix_EXAMPLE_MAIN">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <list>
-      <item itemvalue="CMake Application.Exolix" />
-      <item itemvalue="CMake Application.Exolix_EXAMPLE_MAIN" />
-    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -120,6 +106,7 @@
       <workItem from="1662849038352" duration="429000" />
       <workItem from="1662892301552" duration="33043000" />
       <workItem from="1662979399747" duration="630000" />
+      <workItem from="1662981753594" duration="817000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>

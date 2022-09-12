@@ -256,6 +256,8 @@ namespace exolix {
 
                 delete[] buffer;
             });
+#elif _WIN32
+            
 #endif
         });
 
