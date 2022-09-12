@@ -65,16 +65,20 @@ namespace exolix {
         if (online || busy)
             return SocketServerErrors::ServerDangerousActionWhileOnline;
 
-        if (address.hasErrors())
-            return SocketServerErrors::FaultyAddress;
-
         busy = true;
         SocketServerErrors resDat = SocketServerErrors::Ok;
 
         Thread worker([this, &resDat] () {
             InternetVersion ipVersion;
+            NetAddressErrors addressError;
 
-            address.getInternetVersion(ipVersion);
+            addressError = address.getInternetVersion(ipVersion);
+            if (addressError != NetAddressErrors::Ok) {
+                resDat = SocketServerErrors::AddressError;
+                cleanUp();
+
+                return;
+            }
 
 #if defined(__linux__) || defined(__APPLE__)
             int extSocketFd;
@@ -154,21 +158,31 @@ namespace exolix {
             struct hostent *hostEntry {};
 
             auto addressGetHostnameError = address.getHostname(hostname);
-            if (addressGetHostnameError != NetAddressErrors::Ok) {
-                // TODO: Handle
+            if (addressError != NetAddressErrors::Ok) {
+                resDat = SocketServerErrors::FaultyAddressHostname;
+                cleanUp();
+
+                return;
             }
 
             const auto hostNameCString = hostname.c_str();
 
             auto addressGetPortError = address.getPort(portNumber);
-            if (addressGetPortError != NetAddressErrors::Ok) {
-                // TODO: Hande
+            if (addressError != NetAddressErrors::Ok) {
+                resDat = SocketServerErrors::FaultyAddressPort;
+                cleanUp();
+
+                return;
             }
 
             if (ipVersion == InternetVersion::Ipv4) {
                 hostEntry = gethostbyname2(hostNameCString, versionFamily);
+
                 if (hostEntry == nullptr) {
-                    // TODO: Handle
+                    resDat = SocketServerErrors::CouldNotResolveHostname;
+                    cleanUp();
+
+                    return;
                 }
 
                 memcpy(&serverAddress.sin_addr, hostEntry->h_addr_list[0], hostEntry->h_length);
@@ -179,7 +193,10 @@ namespace exolix {
                 hostEntry = gethostbyname2(hostNameCString, versionFamily);
 
                 if (hostEntry == nullptr) {
-                    // TODO: Handle
+                    resDat = SocketServerErrors::CouldNotResolveHostname;
+                    cleanUp();
+
+                    return;
                 }
 
                 memcpy(&serverAddress6.sin6_addr, hostEntry->h_addr_list[0], hostEntry->h_length);
@@ -207,7 +224,7 @@ namespace exolix {
 
             online = true;
 
-            serverThread = new Thread([this, &buffer, &clientLength, &extSocketFd, &clientAddress] () {
+            serverThread = new Thread([this, &buffer, &clientLength, &extSocketFd, &clientAddress, &bytesReceived] () {
                 while (online) {
                     clientLength = sizeof(clientAddress);
                     extSocketFd = accept((int) socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLength);
@@ -215,7 +232,25 @@ namespace exolix {
                     if (extSocketFd < 0) {
                         // TODO: Handle
                     } else {
+                        // receive data
+                        bzero(buffer, receiveBufferSize);
 
+                        while (true) {
+                            bytesReceived = recv(extSocketFd, buffer, receiveBufferSize, 0);
+
+                            if (bytesReceived == 0) {
+                                break;
+                            }
+
+                            if (bytesReceived < 0) {
+                                // TODO: Handle
+                            }
+
+                            if (bytesReceived > 0) {
+                                //print
+                                printf("%s\n", buffer);
+                            }
+                        }
                     }
                 }
 
@@ -236,6 +271,8 @@ namespace exolix {
 
         busy = true;
         cleanUp();
+
+        return SocketServerErrors::Ok;
     }
 
     bool SocketServer::isOnline() const {
@@ -262,6 +299,8 @@ namespace exolix {
             case ThreadErrors::Ok:
                 return SocketServerErrors::Ok;
         }
+
+        return SocketServerErrors::Ok;
     }
 
     SocketServerErrors SocketServer::setReceiveBufferSize(u16 size) {
@@ -291,5 +330,6 @@ namespace exolix {
         }
 
         online = false;
+        busy = false;
     }
 }

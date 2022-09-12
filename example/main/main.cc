@@ -13,7 +13,7 @@ int main() {
         std::cout << "Error load fail\n";
 
         switch (lRes) {
-            case SocketServerErrors::FaultyAddress:
+            case SocketServerErrors::AddressError:
                 std::cout << "Faulty address\n";
                 break;
             case SocketServerErrors::ServerDangerousActionWhileOnline:

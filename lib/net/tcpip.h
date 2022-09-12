@@ -49,10 +49,22 @@ namespace exolix {
          TlsNotEnabled,
 
          /**
-          * The server address provided is faulty and cannot be used
+          * The server address's port provided is faulty and cannot be used
           * to create a server.
           */
-         FaultyAddress,
+         FaultyAddressPort,
+
+        /**
+        * The server address's hostname provided is faulty and cannot be used
+        * to create a server.
+        */
+        FaultyAddressHostname,
+
+        /**
+         * Another address error occurred. Please check the address
+         * instance for more information.
+         */
+        AddressError,
 
          /**
           * Could not create server socket instance for the server for an
@@ -84,6 +96,11 @@ namespace exolix {
           * The server could not set the socket option.
           */
          CouldNotSetSocketOption,
+
+         /**
+          * The server failed to resolved the hostname.
+          */
+         CouldNotResolveHostname
     };
 
     /**
