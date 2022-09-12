@@ -21,13 +21,8 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(number): Invalid hex validator">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(net): Server doesn't on boot v6 arpa net">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/exolix.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/exolix.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/address.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/address.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
     </list>
@@ -127,7 +122,7 @@
       <workItem from="1662761011207" duration="14303000" />
       <workItem from="1662828787281" duration="1902000" />
       <workItem from="1662849038352" duration="429000" />
-      <workItem from="1662892301552" duration="27102000" />
+      <workItem from="1662892301552" duration="32953000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -276,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662914884768</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Fix(net): Server doesn't on boot v6 arpa net">
+      <created>1662939816248</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1662939816248</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -315,7 +317,8 @@
     <MESSAGE value="Fix(net): Invalid validity indication" />
     <MESSAGE value="Fix(net): Invalid bad documentation" />
     <MESSAGE value="Fix(number): Invalid hex validator" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix(number): Invalid hex validator" />
+    <MESSAGE value="Fix(net): Server doesn't on boot v6 arpa net" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix(net): Server doesn't on boot v6 arpa net" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -52,13 +52,44 @@ namespace exolix {
           * The server address provided is faulty and cannot be used
           * to create a server.
           */
-         FaultyAddress
+         FaultyAddress,
+
+         /**
+          * Could not create server socket instance for the server for an
+          * unknown reason.
+          */
+         CouldNotCreateServerSocketInstance,
+
+         /**
+          * A permission error occurred when creating the socket.
+          */
+         PermissionFaulty,
+
+         /**
+          * IPv4 or IPv6 is not supported on the system.
+          */
+         IpVersionNotSupported,
+
+         /**
+          * Too many descriptors are open on the system.
+          */
+         TooManyDescriptorsOpen,
+
+         /**
+          * The server does not have enough memory to start.
+          */
+         FaultyMemoryAccess,
+
+         /**
+          * The server could not set the socket option.
+          */
+         CouldNotSetSocketOption,
     };
 
     /**
-     * This is a class instance of a socket connection.
+     * This is a class instance of a socket server client connection.
      */
-    class Socket {
+    class SocketServerAdapter {
     private:
         /**
          * The SSL client context. This is used for
@@ -88,7 +119,7 @@ namespace exolix {
         /**
          * Create a new socket instance.
          */
-        Socket(i64 socketFd, std::optional<SSL *> ssl = std::nullopt);
+        SocketServerAdapter(i64 socketFd, std::optional<SSL *> ssl = std::nullopt);
     };
 
     /**
@@ -160,6 +191,12 @@ namespace exolix {
          * socket connections.
          */
         i64 socketFd = -1;
+
+        /**
+         * Clean up the server variables after a crash
+         * and reset all properties to defaults.
+         */
+        void cleanUp();
 
     public:
         /**

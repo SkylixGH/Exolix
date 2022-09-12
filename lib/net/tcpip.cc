@@ -9,13 +9,14 @@
     #include <cstring>
     #include <openssl/err.h>
     #include <arpa/inet.h>
+    #include <unistd.h>
 
 #endif
 
 #include <iostream>
 
 namespace exolix {
-    Socket::Socket(exolix::i64 socketFd, std::optional<SSL *> ssl):
+    SocketServerAdapter::SocketServerAdapter(exolix::i64 socketFd, std::optional<SSL *> ssl):
         cSsl(ssl), cSocket(socketFd) {
     }
 
@@ -68,7 +69,9 @@ namespace exolix {
             return SocketServerErrors::FaultyAddress;
 
         busy = true;
-        Thread worker([this] () {
+        SocketServerErrors resDat = SocketServerErrors::Ok;
+
+        Thread worker([this, &resDat] () {
             InternetVersion ipVersion;
 
             address.getInternetVersion(ipVersion);
@@ -104,18 +107,46 @@ namespace exolix {
                     break;
 
                 case InternetVersion::Unknown:
-                    // TODO: Handle this error
                     break;
             }
 
             socketFd = socket(versionFamily, SOCK_STREAM, 0);
             if (socketFd < 0) {
-                // TODO: Handle
+                switch (errno) {
+                    case EACCES:
+                        resDat = SocketServerErrors::PermissionFaulty;
+                        break;
+
+                    case EAFNOSUPPORT:
+                    case EPROTONOSUPPORT:
+                        resDat = SocketServerErrors::IpVersionNotSupported;
+                        break;
+
+                    case EMFILE:
+                    case ENFILE:
+                        resDat = SocketServerErrors::TooManyDescriptorsOpen;
+                        break;
+
+                    case ENOBUFS:
+                    case ENOMEM:
+                        resDat = SocketServerErrors::FaultyMemoryAccess;
+                        break;
+
+                    default:
+                        resDat = SocketServerErrors::CouldNotCreateServerSocketInstance;
+                        break;
+                }
+
+                cleanUp();
+                return;
             }
 
             result = setsockopt((int) socketFd, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag));
             if (result < 0) {
-                // TODO: Handle
+                resDat = SocketServerErrors::CouldNotSetSocketOption;
+
+                cleanUp();
+                return;
             }
 
             bzero((char *) &serverAddress, sizeof(serverAddress));
@@ -183,24 +214,28 @@ namespace exolix {
 
                     if (extSocketFd < 0) {
                         // TODO: Handle
+                    } else {
+
                     }
                 }
 
                 delete[] buffer;
             });
-
-            return SocketServerErrors::Ok; // TODO: Implement correctly
 #endif
         });
 
         worker.block();
         busy = false;
 
-        return SocketServerErrors::Ok;
+        return resDat;
     }
 
     SocketServerErrors SocketServer::unload() {
-        return SocketServerErrors::Ok; // TODO: Implement correctly
+        if (online || busy)
+            return SocketServerErrors::ServerDangerousActionWhileOnline;
+
+        busy = true;
+        cleanUp();
     }
 
     bool SocketServer::isOnline() const {
@@ -235,5 +270,26 @@ namespace exolix {
 
         receiveBufferSize = size;
         return SocketServerErrors::Ok;
+    }
+
+    void SocketServer::cleanUp() {
+        if (socketFd != -1) {
+            close((int) socketFd);
+            socketFd = -1;
+        }
+
+        if (serverThread != nullptr) {
+            if (serverThread->isActive())
+                serverThread->block();
+
+            delete serverThread;
+        }
+
+        if (sslContext != std::nullopt) {
+            SSL_CTX_free(sslContext.value());
+            sslContext = nullptr;
+        }
+
+        online = false;
     }
 }
