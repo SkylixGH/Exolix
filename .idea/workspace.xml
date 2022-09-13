@@ -21,7 +21,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(net): Added IPv6 for win32" />
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Git(*): Updated ignore">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/thread/thread.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/thread/thread.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/thread/thread.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/thread/thread.h" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -87,6 +95,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug-System">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -118,6 +131,8 @@
       <workItem from="1662981753594" duration="1352000" />
       <workItem from="1662984169490" duration="3335000" />
       <workItem from="1662991031371" duration="3334000" />
+      <workItem from="1663069614923" duration="420000" />
+      <workItem from="1663070109773" duration="13307000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -287,7 +302,14 @@
       <option name="project" value="LOCAL" />
       <updated>1662983686853</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="Git(*): Updated ignore">
+      <created>1663069040694</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1663069040694</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -329,7 +351,19 @@
     <MESSAGE value="Fix(net): Server doesn't on boot v6 arpa net" />
     <MESSAGE value="Feat(net): Updated cleanup systems" />
     <MESSAGE value="ReadMe(*): Updated page logo" />
-    <option name="LAST_COMMIT_MESSAGE" value="ReadMe(*): Updated page logo" />
+    <MESSAGE value="Git(*): Updated ignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="Git(*): Updated ignore" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="com.jetbrains.cidr.execution.debugger.OCBreakpointType">
+          <url>file://$PROJECT_DIR$/example/main/main.cc</url>
+          <line>11</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -17,19 +17,153 @@
     #include <winsock2.h>
     #include <ws2tcpip.h>
     #include <string>
+    #include <process.h>
 
 #endif
 
-#include <iostream>
-
 namespace exolix {
-    SocketServerAdapter::SocketServerAdapter(exolix::i64 socketFd, std::optional<SSL *> ssl):
-        cSsl(ssl), cSocket(socketFd) {
+    SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, char *readBuffer, u16 readBufferSize) :
+        cSsl(ssl), cSocket(socketFd), bufferWriteSource(readBuffer), bufferWriteSourceSize(readBufferSize),
+        cConnected(false), win32ThreadBlocked(false), waitingSocketJob(false), win32ThreadOver(false) {
+
+#if defined(_WIN32)
+        waitingSocketJob = true;
+        unsigned threadId;
+
+        cConnected = true;
+        cThreadWin32 = (HANDLE) _beginthreadex(
+                nullptr, 0,
+                [] (void *arg) -> unsigned {
+                    auto *self = (SocketServerAdapter *) arg;
+                    auto *buffer = self->bufferWriteSource;
+                    auto bufferSize = self->bufferWriteSourceSize;
+
+                    int readData;
+
+                    self->waitingSocketJob = false;
+
+                    while (self->cConnected) {
+                        readData = recv(self->cSocket, buffer, bufferSize, 0);
+
+                        if (readData <= 0) {
+                            break;
+                        }
+
+                        std::string data(buffer, readData);
+                        printf("Received: %s\n", data.c_str());
+                    }
+
+                    return 0;
+                },
+                (void *) this, 0, &threadId
+        );
+#elif defined(__linux__) || defined(__APPLE__)
+        cConnected = true;
+        cThread = new Thread([this] () {
+            while (cConnected) {
+                #if defined(__linux__) || defined(__APPLE__)
+                // TODO: Implement while body Linux Mac
+                #elif _WIN32
+
+                #endif
+            }
+
+            if (cSsl.has_value()) {
+                SSL_shutdown(cSsl.value());
+                SSL_free(cSsl.value());
+            }
+
+            kill();
+        });
+#endif
+    }
+
+    SocketServerAdapter::~SocketServerAdapter() {
+        delete cThread;
+
+#ifdef _WIN32
+        CloseHandle(cThreadWin32);
+#endif
+
+        if (cConnected) {
+            kill();
+        }
+
+        if (cSsl.has_value()) {
+            SSL_shutdown(cSsl.value());
+            SSL_free(cSsl.value());
+        }
+
+        kill();
+    }
+
+    bool SocketServerAdapter::isActive() const {
+#if defined(__linux__) || defined(__APPLE__)
+        return cConnected && cThread->isActive();
+#elif defined(_WIN32)
+        return cConnected && !win32ThreadOver;
+#endif
+    }
+
+    bool SocketServerAdapter::blockedBefore() {
+#if defined(__linux__) || defined(__APPLE__)
+        // TODO: WOrk
+#elif defined(_WIN32)
+        return win32ThreadBlocked;
+#endif
+    }
+
+    void SocketServerAdapter::kill() {
+        if (cConnected) {
+            cConnected = false;
+
+            #if defined(__linux__) || defined(__APPLE__)
+
+                close(cSocket);
+
+            #elif defined(_WIN32)
+
+                closesocket(cSocket);
+
+            #endif
+        }
+    }
+
+    SocketServerAdapterErrors SocketServerAdapter::block() {
+        if (cConnected) {
+#if defined(__linux__) || defined(__APPLE__)
+            auto threadBlockResult = cThread->block();
+
+            switch (threadBlockResult) {
+                case ThreadErrors::Ok:
+                    return SocketServerAdapterErrors::Ok;
+
+                case ThreadErrors::ThreadAlreadyBlocked:
+                    return SocketServerAdapterErrors::SocketAlreadyBlocked;
+
+                case ThreadErrors::ThreadNotActive:
+                    return SocketServerAdapterErrors::SocketNotAlive;
+            }
+#elif defined(_WIN32)
+            if (!win32ThreadBlocked) {
+                win32ThreadBlocked = true;
+
+                DWORD blockResultWin32 = WaitForSingleObject(cThreadWin32, INFINITE);
+                win32ThreadOver = true;
+
+                return SocketServerAdapterErrors::Ok;
+            }
+
+            return SocketServerAdapterErrors::SocketAlreadyBlocked;
+#endif
+        }
+
+        return SocketServerAdapterErrors::SocketNotAlive;
     }
 
     SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
-            address(std::move(address)), backlog(backlog), busy(false), online(false),
-            tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024) {
+        address(std::move(address)), backlog(backlog), busy(false), online(false),
+        tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024) {
     }
 
     SocketServer::~SocketServer() {
@@ -263,7 +397,7 @@ namespace exolix {
                 delete[] buffer;
             });
 #elif _WIN32
-            SOCKET extSocket = INVALID_SOCKET;
+            auto extSocket = INVALID_SOCKET;
             WSADATA wsaData;
 
             int inBytes;
@@ -320,7 +454,18 @@ namespace exolix {
                 extSocket = accept((SOCKET) socketFd, nullptr, nullptr);
 
                 if (extSocket != INVALID_SOCKET) {
-                    SocketServerAdapter adapter((i64) extSocket, std::nullopt);
+                    auto *thread = new Thread([this, &extSocket, &buffer] () {
+                        SocketServerAdapter adapter((i64) extSocket, std::nullopt, buffer, receiveBufferSize);
+
+                        clients.insert({
+                               extSocket,
+                               adapter
+                        });
+
+                        onSocket(adapter);
+                    });
+
+                    clientThreads[(i64) extSocket] = thread;
                 }
             }
 
@@ -387,9 +532,9 @@ namespace exolix {
             socketFd = -1;
         }
 #elif defined(_WIN32)
-        if (socketFd != INVALID_SOCKET) {
+        if ((SOCKET) socketFd != INVALID_SOCKET) {
             closesocket(socketFd);
-            socketFd = INVALID_SOCKET;
+            socketFd = (i64) INVALID_SOCKET;
         }
 #endif
 
@@ -407,5 +552,24 @@ namespace exolix {
 
         online = false;
         busy = false;
+    }
+
+    void SocketServer::setOnSocketListener(const std::function<void(SocketServerAdapter &)> &listener) {
+        onSocket = listener;
+    }
+
+    void SocketServer::collectGarbage() {
+        for (auto &clientThread : clientThreads) {
+            auto client = clients.find(clientThread.first);
+            auto thread = clientThread.second;
+
+            if (thread->blockedBefore() && !client->second.isActive()) {
+                clients.erase(client);
+                clientThreads.erase(clientThread.first);
+                delete thread;
+            }
+        }
+
+        printf("[GC] Collected %llu clients\n", clients.size());
     }
 }

@@ -6,8 +6,37 @@
 #include <functional>
 #include <optional>
 #include <openssl/ssl.h>
+#include <map>
+
+#if defined(_WIN32)
+    #include <windows.h>
+#endif
 
 namespace exolix {
+    /**
+     * An enumerated list of possible error codes from members of
+     * the socket server adapter.
+     */
+    enum class SocketServerAdapterErrors {
+        /**
+         * No errors occurred. The action has completed
+         */
+        Ok,
+
+        /**
+         * The socket thread was queued to be blocked
+         * but it was already blocked. The block must
+         * only be performed once.
+         */
+        SocketAlreadyBlocked,
+
+        /**
+         * The socket is not alive and this action
+         * cannot be performed.
+         */
+        SocketNotAlive
+    };
+
     /**
      * This is an enumerated list of possible error codes
      * that can be returned by members of the socket server.
@@ -118,25 +147,95 @@ namespace exolix {
          * The socket file descriptor. This is used
          * for all socket connections.
          */
-        i64 cSocket;
+        u16 cSocket;
 
         /**
          * The client listening thread. This is used
-         * for listening to the client socket.
+         * for listening to the client socket. This thread is generally
+         * only used when the server is running on Linux or Apple. Win32
+         * uses its own threading system.
          */
         Thread *cThread {};
+
+        /**
+         * The client listening thread but for Win32. This is used
+         * for listening to the client socket. This thread is generally
+         * only used when the server is running on Win32. Linux and Apple
+         * use its own threading system.
+         */
+        HANDLE cThreadWin32 {};
 
         /**
          * Whether the socket is currently connected
          * to a client.
          */
-        bool cConnected = true;
+        bool cConnected;
+
+        /**
+         * This variable doesn't have a specific purpose
+         * but it is used to block the outside of a thread
+         * temporarily while the thread initializes some
+         * variables and contexts.
+         */
+        bool waitingSocketJob;
+
+        /**
+         * The buffer write source, this is where data that
+         * was read will be written to.
+         */
+        char *bufferWriteSource;
+
+        /**
+         * The buffer write source size, this is the size of
+         * the buffer write source.
+         */
+        u16 bufferWriteSourceSize;
+
+        /**
+         * Whether the win32 thread was blocked before.
+         */
+        bool win32ThreadBlocked;
 
     public:
         /**
          * Create a new socket instance.
          */
-        SocketServerAdapter(i64 socketFd, std::optional<SSL *> ssl = std::nullopt);
+        explicit SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl = std::nullopt, char *readBuffer = {}, u16 readBufferSize = 1024);
+
+        ~SocketServerAdapter();
+
+        /**
+         * Kill the socket connection if it has not been
+         * killed and or is live and active.
+         */
+        void kill();
+
+        /**
+         * Block the current the thread until the socket
+         * is closed or terminated.
+         * @return Whether the socket is closed or not.
+         */
+        SocketServerAdapterErrors block();
+
+        /**
+         * Whether the win32 thread is finished yet.
+         */
+        bool win32ThreadOver;
+
+        /**
+         * Check to see if the client is active, connected and loaded.
+         * Notice that this function will return inaccurate data if the thread
+         * was not blocked first.
+         * @return Whether the client is active or not.
+         */
+        bool isActive() const;
+
+        /**
+         * Check to see whether the thread has been blocked
+         * before.
+         * @return If the thread has been blocked before.
+         */
+        bool blockedBefore();
     };
 
     /**
@@ -157,6 +256,16 @@ namespace exolix {
          * be queued.
          */
         const int backlog;
+
+        /**
+         * The pool of client threads.
+         */
+        std::map<i64, Thread *> clientThreads {};
+
+        /**
+         * The pool of clients connected.
+         */
+        std::map<i64, SocketServerAdapter &> clients {};
 
         /**
          * Whether the server is online.
@@ -195,7 +304,7 @@ namespace exolix {
          * Receive buffer size, this is the maximum amount of data
          * in bytes that the server can read in a single message.
          */
-        int receiveBufferSize;
+        u16 receiveBufferSize;
 
         /**
          * The TLS context. This is used for TLS connections.
@@ -207,13 +316,24 @@ namespace exolix {
          * The socket file descriptor. This is used for all
          * socket connections.
          */
-        i64 socketFd;
+        u16 socketFd;
+
+        /**
+         * Connection on message listener. This event is triggered
+         * when a new socket is ready and usable.
+         */
+        std::function<void(SocketServerAdapter &socket)> onSocket = [] (SocketServerAdapter &) {};
 
         /**
          * Clean up the server variables after a crash
          * and reset all properties to defaults.
          */
         void cleanUp();
+
+        /**
+         * Collect garbage client threads.
+         */
+        void collectGarbage();
 
     public:
         /**
@@ -242,6 +362,12 @@ namespace exolix {
          * @param path The path to the private key.
          */
         SocketServerErrors setPrivateKey(const std::string &path);
+
+        /**
+         * Set the on socket listener. This event is triggered
+         * when a new socket is ready and usable.
+         */
+        void setOnSocketListener(const std::function<void(SocketServerAdapter &socket)> &listener);
 
         /**
          * Load the server. When loading, the server cannot perform any

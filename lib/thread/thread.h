@@ -12,11 +12,39 @@ namespace exolix {
      * An enumerated list containing units for time.
      */
     enum class TimeUnit {
+        /**
+         * Nano second time unit.
+         */
         Nanosecond,
+
+        /**
+         * Micro second time unit, this is
+         * worth 1000 nanoseconds.
+         */
         Microsecond,
+
+        /**
+         * Milli second time unit, this is
+         * worth 1000 microseconds.
+         */
         Millisecond,
+
+        /**
+         * Second time unit, this is worth
+         * 1000 milliseconds.
+         */
         Second,
+
+        /**
+         * Minute time unit, this is worth
+         * 60 seconds.
+         */
         Minute,
+
+        /**
+         * Hour time unit, this is worth
+         * 60 minutes.
+         */
         Hour
     };
 
@@ -90,5 +118,11 @@ namespace exolix {
         static void wait(u64 value, TimeUnit type);
 
         // TODO: Add wait until to wait until a certain time
+
+        /**
+         * Check to see if the thread was blocked before.
+         * @return If the thread was blocked before.
+         */
+        bool blockedBefore() const;
     };
 }

@@ -7,6 +7,27 @@ int main() {
     NetAddress address("::1", 8080);
     SocketServer server(address, 1);
 
+    server.setOnSocketListener([] (SocketServerAdapter &xs) {
+        printf("New connection from\n");
+        auto bres = xs.block();
+        if (bres != SocketServerAdapterErrors::Ok) {
+            switch (bres) {
+                case SocketServerAdapterErrors::Ok:
+                    break;
+
+                case SocketServerAdapterErrors::SocketNotAlive:
+                    printf("Socket not active\n");
+                    break;
+
+                case SocketServerAdapterErrors::SocketAlreadyBlocked:
+                    printf("Socket already blocked\n");
+                    break;
+            }
+            return;
+        }
+        printf("Connection closed\n");
+    });
+
     auto lRes = server.load();
 
     if (lRes != SocketServerErrors::Ok) {
@@ -16,16 +37,20 @@ int main() {
             case SocketServerErrors::AddressError:
                 std::cout << "Faulty address\n";
                 break;
+
             case SocketServerErrors::ServerDangerousActionWhileOnline:
                 std::cout << "Server is online\n";
                 break;
+
             case SocketServerErrors::TlsNotEnabled:
                 std::cout << "TLS is not enabled\n";
                 break;
+
             default:
                 std::cout << "Unknown error\n";
                 break;
         }
+
         return 1;
     } else {
         std::cout << "Server loaded\n";

@@ -8,6 +8,7 @@ namespace exolix {
     }
 
     Thread::~Thread() {
+        printf("Thread destroyed\n");
         if (isActive()) {
             future.get();
         }
@@ -65,5 +66,9 @@ namespace exolix {
             default:
                 break;
         }
+    }
+
+    bool Thread::blockedBefore() const {
+        return wasBlocked;
     }
 }

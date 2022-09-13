@@ -1,5 +1,6 @@
 cmake_minimum_required(VERSION 3.0)
 project(ExolixFramework)
+enable_language(C ASM)
 
 # Get all files
 file(GLOB_RECURSE Exolix_SOURCE_FILES lib/*.cc lib/*.h)
