@@ -1,0 +1,3 @@
+add_executable(Exolix_EXAMPLE_PATH_JOIN main.cc)
+
+target_link_libraries(Exolix_EXAMPLE_PATH_JOIN Exolix)

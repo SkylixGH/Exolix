@@ -22,6 +22,7 @@ message("Exolix Version Detected: ${Exolix_VERSION}")
 
 # Add examples
 add_subdirectory(example/main)
+add_subdirectory(example/pathJoin)
 
 # Add windows specific libraries
 if (WIN32)

@@ -16,9 +16,17 @@ namespace exolix {
 
         /**
          * Join a group of paths together. This is very similar to NodeJS's path.join().
-         * @param basePath The base path.
-         * @param paths The paths to join.
+         * @param path1 The first path to join.
+         * @param path2 The second path to join.
          */
-        static std::string join(std::string basePath, std::string paths...);
+        static std::string join(const std::string& path1, const std::string& path2);
+
+        /**
+         * Simplify a path string. Make the path as short as possible while
+         * still keeping it lossless.
+         * @param inputPath The path to simplify.
+         * @return The simplified path.
+         */
+        static std::string simplify(const std::string &inputPath);
     };
 }
