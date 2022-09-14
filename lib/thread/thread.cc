@@ -8,7 +8,6 @@ namespace exolix {
     }
 
     Thread::~Thread() {
-        printf("Thread destroyed\n");
         if (isActive()) {
             future.get();
         }

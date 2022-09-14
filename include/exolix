@@ -11,6 +11,9 @@
 #include "../lib/number/parsing.h"
 #include "../lib/number/types.h"
 
+// Path
+#include "../lib/path/path.h"
+
 // String
 #include "../lib/string/condition.h"
 #include "../lib/string/conversion.h"

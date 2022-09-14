@@ -33,7 +33,7 @@ namespace exolix {
         unsigned threadId;
 
         cConnected = true;
-        cThreadWin32 = (HANDLE) _beginthreadex(
+        cThreadWin32 = (i64) _beginthreadex(
                 nullptr, 0,
                 [] (void *arg) -> unsigned {
                     auto *self = (SocketServerAdapter *) arg;
@@ -46,6 +46,11 @@ namespace exolix {
 
                     while (self->cConnected) {
                         readData = recv(self->cSocket, buffer, bufferSize, 0);
+
+                        if (readData == SOCKET_ERROR) {
+                            printf("Socket error: %d\n", WSAGetLastError());
+                            break;
+                        }
 
                         if (readData <= 0) {
                             break;
@@ -83,7 +88,7 @@ namespace exolix {
         delete cThread;
 
 #ifdef _WIN32
-        CloseHandle(cThreadWin32);
+        CloseHandle((HANDLE) cThreadWin32);
 #endif
 
         if (cConnected) {
@@ -96,6 +101,28 @@ namespace exolix {
         }
 
         kill();
+    }
+
+    std::string SocketServerAdapter::getIp() {
+        if (ip.empty()) {
+#if defined(__linux__) || defined(__APPLE__)
+            struct sockaddr_in addr;
+            socklen_t addr_size = sizeof(struct sockaddr_in);
+            int result = getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
+            char ipstr[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, &addr.sin_addr, ipstr, sizeof(ipstr));
+            ip = std::string(ipstr);
+#elif defined(_WIN32)
+            struct sockaddr_in addr;
+            int addr_size = sizeof(struct sockaddr_in);
+            int result = getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
+            char ipstr[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, &addr.sin_addr, ipstr, sizeof(ipstr));
+            ip = std::string(ipstr);
+#endif
+        }
+
+        return ip;
     }
 
     bool SocketServerAdapter::isActive() const {
@@ -149,7 +176,7 @@ namespace exolix {
             if (!win32ThreadBlocked) {
                 win32ThreadBlocked = true;
 
-                DWORD blockResultWin32 = WaitForSingleObject(cThreadWin32, INFINITE);
+                DWORD blockResultWin32 = WaitForSingleObject((HANDLE) cThreadWin32, INFINITE);
                 win32ThreadOver = true;
 
                 return SocketServerAdapterErrors::Ok;
@@ -399,13 +426,12 @@ namespace exolix {
                 delete[] buffer;
             });
 #elif _WIN32
-            auto extSocket = INVALID_SOCKET;
             WSADATA wsaData;
 
             int inBytes;
             int result;
 
-            char *buffer = new char[receiveBufferSize];
+            buffer = new char[receiveBufferSize];
 
             struct addrinfo *resultAddress {};
             struct addrinfo hints {};
@@ -459,26 +485,38 @@ namespace exolix {
                 }
             });
 
-            while (online) {
-                extSocket = accept((SOCKET) socketFd, nullptr, nullptr);
+            unsigned threadId;
 
-                if (extSocket != INVALID_SOCKET) {
-                    auto *thread = new Thread([this, &extSocket, &buffer] () {
-                        SocketServerAdapter adapter((i64) extSocket, std::nullopt, buffer, receiveBufferSize);
+            win32ServerThread = _beginthreadex(
+                nullptr,
+                0,
+                [] (void *arg) -> unsigned {
+                    auto self = (SocketServer *) arg;
 
-                        clients.insert({
-                               extSocket,
-                               adapter
-                        });
+                    while (self->online) {
+                        self->extSocket = accept((SOCKET) self->socketFd, nullptr, nullptr);
 
-                        onSocket(adapter);
+                        if (self->extSocket != INVALID_SOCKET) {
+                            auto *thread = new Thread([&self] () {
+                                SocketServerAdapter adapter((i64) self->extSocket, std::nullopt, self->buffer, self->receiveBufferSize);
 
-                        clients.erase((i64) extSocket);
-                    });
+                                self->clients.insert({
+                                       self->extSocket,
+                                       adapter
+                               });
 
-                    clientThreads[(i64) extSocket] = thread;
-                }
-            }
+                                self->onSocket(adapter);
+                                self->clients.erase((i64) self->extSocket);
+                            });
+
+                            self->clientThreads[(i64) self->extSocket] = thread;
+                        }
+                    }
+                },
+                (void *) this,
+                0,
+                &threadId
+            );
 
             delete[] buffer;
 #endif
@@ -509,6 +547,10 @@ namespace exolix {
     }
 
     SocketServerErrors SocketServer::block() {
+        if (!online || busy)
+            return SocketServerErrors::ServerNotReadyForAction;
+
+#if defined(__linux__) || defined(__APPLE__)
         if (serverThread == nullptr || !serverThread->isActive())
             return SocketServerErrors::ServerNotReadyForAction;
 
@@ -526,6 +568,15 @@ namespace exolix {
         }
 
         return SocketServerErrors::Ok;
+#elif defined(_WIN32)
+        if (win32ThreadDone)
+            return SocketServerErrors::CannotBlockServerAfterPreviouslyBlockedWithoutRestart;
+
+        WaitForSingleObject((HANDLE) win32ServerThread, INFINITE);
+        win32ThreadDone = true;
+
+        return SocketServerErrors::Ok;
+#endif
     }
 
     SocketServerErrors SocketServer::setReceiveBufferSize(u16 size) {
@@ -538,6 +589,8 @@ namespace exolix {
 
     void SocketServer::cleanUp() {
         online = false;
+        win32ThreadDone = true;
+        win32ServerThread = 0;
 
 #if defined(__linux__) || defined(__APPLE__)
         if (socketFd != -1) {

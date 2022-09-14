@@ -3,65 +3,100 @@
 
 using namespace exolix;
 
-int main() {
-    NetAddress address("::1", 8080);
-    SocketServer server(address, 1);
+void info(std::string t) {
+    std::cout << ("[INFO] " + t + "\n");
+}
 
-    server.setOnSocketListener([] (SocketServerAdapter &xs) {
-        printf("New connection from\n");
-        auto bres = xs.block();
-        if (bres != SocketServerAdapterErrors::Ok) {
-            switch (bres) {
-                case SocketServerAdapterErrors::Ok:
-                    break;
+void ok(std::string t) {
+    std::cout << ("[OK] " + t + "\n");
+}
 
-                case SocketServerAdapterErrors::SocketNotAlive:
-                    printf("Socket not active\n");
-                    break;
+void error(std::string t) {
+    std::cout << ("[ERROR] " + t + "\n");
+}
 
-                case SocketServerAdapterErrors::SocketAlreadyBlocked:
-                    printf("Socket already blocked\n");
-                    break;
-            }
-            return;
-        }
-        printf("Connection closed\n");
+std::string srvErrToString(SocketServerErrors error) {
+    switch (error) {
+        case SocketServerErrors::Ok:
+            return "Ok";
+
+        case SocketServerErrors::ServerDangerousActionWhileOnline:
+            return "ServerDangerousActionWhileOnline";
+
+        case SocketServerErrors::ServerNotReadyForAction:
+            return "ServerNotReadyForAction";
+
+        case SocketServerErrors::CannotBlockServerAfterPreviouslyBlockedWithoutRestart:
+            return "CannotBlockServerAfterPreviouslyBlockedWithoutRestart";
+
+        case SocketServerErrors::TlsNotEnabled:
+            return "TlsNotEnabled";
+
+        case SocketServerErrors::FaultyAddressPort:
+            return "FaultyAddressPort";
+
+        case SocketServerErrors::FaultyAddressHostname:
+            return "FaultyAddressHostname";
+
+        case SocketServerErrors::AddressError:
+            return "AddressError";
+
+        case SocketServerErrors::CouldNotCreateServerSocketInstance:
+            return "CouldNotCreateServerSocketInstance";
+
+        case SocketServerErrors::PermissionFaulty:
+            return "PermissionFaulty";
+
+        case SocketServerErrors::IpVersionNotSupported:
+            return "IpVersionNotSupported";
+
+        case SocketServerErrors::TooManyDescriptorsOpen:
+            return "TooManyDescriptorsOpen";
+
+        case SocketServerErrors::FaultyMemoryAccess:
+            return "FaultyMemoryAccess";
+
+        case SocketServerErrors::CouldNotSetSocketOption:
+            return "CouldNotSetSocketOption";
+
+        case SocketServerErrors::CouldNotResolveHostname:
+            return "CouldNotResolveHostname";
+
+        default:
+            return "Unknown";
+    }
+}
+
+void initHandlers(SocketServer &srv) {
+    srv.setOnSocketListener([] (SocketServerAdapter &socket) {
+        info("New connection from " + socket.getIp());
+
+        socket.block();
+        info("Connection closed from " + socket.getIp());
     });
+}
 
-    auto lRes = server.load();
+int main() {
+    info("Creating server");
 
-    if (lRes != SocketServerErrors::Ok) {
-        std::cout << "Error load fail\n";
+    SocketServerErrors srvRes;
+    NetAddress addr("::1", 8080);
+    SocketServer srv(addr, 100);
 
-        switch (lRes) {
-            case SocketServerErrors::AddressError:
-                std::cout << "Faulty address\n";
-                break;
+    initHandlers(srv);
 
-            case SocketServerErrors::ServerDangerousActionWhileOnline:
-                std::cout << "Server is online\n";
-                break;
+    ok("Created server");
+    info("Starting server");
 
-            case SocketServerErrors::TlsNotEnabled:
-                std::cout << "TLS is not enabled\n";
-                break;
-
-            default:
-                std::cout << "Unknown error\n";
-                break;
-        }
-
-        return 1;
-    } else {
-        std::cout << "Server loaded\n";
-    }
-
-    auto bRes = server.block();
-
-    if (bRes != SocketServerErrors::Ok) {
-        std::cout << "Error block fail\n";
+    if ((srvRes = srv.load()) != SocketServerErrors::Ok) {
+        error("Could not start server: " + srvErrToString(srvRes));
         return 1;
     }
+
+    ok("Started server, online at ::1:8080");
+    ok("Executable at: " + Path::getExecutablePath());
+
+    srv.block();
 
     return 0;
 }

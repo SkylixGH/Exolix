@@ -21,9 +21,15 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(net): Fixed thread deletion issue">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(net): Cleaned up net">
+      <change afterPath="$PROJECT_DIR$/lib/path/path.cc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/path/path.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/example/main/main.cc" beforeDir="false" afterPath="$PROJECT_DIR$/example/main/main.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/include/exolix" beforeDir="false" afterPath="$PROJECT_DIR$/include/exolix" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/thread/thread.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/thread/thread.cc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,6 +96,11 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.Exolix_EXAMPLE_MAIN">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Exolix" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="ExolixFramework" TARGET_NAME="Exolix" CONFIG_NAME="Debug-System">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -124,7 +135,7 @@
       <workItem from="1663069614923" duration="420000" />
       <workItem from="1663070109773" duration="13487000" />
       <workItem from="1663112685534" duration="4394000" />
-      <workItem from="1663151611602" duration="417000" />
+      <workItem from="1663151611602" duration="4279000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -315,7 +326,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663119069009</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Feat(net): Cleaned up net">
+      <created>1663152481961</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1663152481961</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -333,7 +351,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Idea(*): Updated file" />
     <MESSAGE value="Wiki(string) Feat(string): Added string split and wiki docs for it" />
     <MESSAGE value="Wiki(number): Updated docs" />
     <MESSAGE value="Wiki(number): Updated docs to make namespace accurate" />
@@ -358,7 +375,8 @@
     <MESSAGE value="Git(*): Updated ignore" />
     <MESSAGE value="Feat(*): Updated windows socket" />
     <MESSAGE value="Fix(net): Fixed thread deletion issue" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fix(net): Fixed thread deletion issue" />
+    <MESSAGE value="Feat(net): Cleaned up net" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat(net): Cleaned up net" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -163,13 +163,18 @@ namespace exolix {
          * only used when the server is running on Win32. Linux and Apple
          * use its own threading system.
          */
-        HANDLE cThreadWin32 {};
+        i64 cThreadWin32 {};
 
         /**
          * Whether the socket is currently connected
          * to a client.
          */
         bool cConnected;
+
+        /**
+         * The IP address of the client.
+         */
+        std::string ip;
 
         /**
          * This variable doesn't have a specific purpose
@@ -211,6 +216,12 @@ namespace exolix {
         void kill();
 
         /**
+         * Get the client IP address.
+         * @return The client IP address.
+         */
+        std::string getIp();
+
+        /**
          * Block the current the thread until the socket
          * is closed or terminated.
          * @return Whether the socket is closed or not.
@@ -228,14 +239,14 @@ namespace exolix {
          * was not blocked first.
          * @return Whether the client is active or not.
          */
-        bool isActive() const;
+        [[nodiscard]] bool isActive() const;
 
         /**
          * Check to see whether the thread has been blocked
          * before.
          * @return If the thread has been blocked before.
          */
-        bool blockedBefore() const;
+        [[nodiscard]] bool blockedBefore() const;
     };
 
     /**
@@ -249,6 +260,27 @@ namespace exolix {
          * binding the server to a specific address.
          */
         const NetAddress address;
+
+        /**
+         * The server thread for win32 systems. This is used
+         */
+        i64 win32ServerThread;
+
+        /**
+         * The current external socket.
+         */
+        i64 extSocket;
+
+        /**
+         * The message buffer system.
+         */
+        char *buffer;
+
+        /**
+         * Whether the win32 thread is done. This will be inaccurate if the thread
+         * was never blocked.
+         */
+        bool win32ThreadDone;
 
         /**
          * The backlog of the server. A backlog number
