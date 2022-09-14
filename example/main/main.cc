@@ -1,4 +1,5 @@
 #include <exolix>
+#include "config.h"
 #include <iostream>
 
 using namespace exolix;
@@ -88,6 +89,10 @@ int main() {
     SocketServerErrors srvRes;
     NetAddress addr("::1", 8080);
     SocketServer srv(addr, 100);
+
+    srv.setTls(true);
+    srv.setPrivateKey(app::Config().kPath);
+    srv.setCertificate(app::Config().cPath);
 
     initHandlers(srv);
 

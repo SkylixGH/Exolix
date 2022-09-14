@@ -1,5 +1,7 @@
 #include "tcpip.h"
 #include <utility>
+#include <openssl/err.h>
+#include <openssl/bio.h>
 
 #if defined(__linux__) || defined(__APPLE__)
 
@@ -7,7 +9,6 @@
     #include <netinet/in.h>
     #include <strings.h>
     #include <cstring>
-    #include <openssl/err.h>
     #include <arpa/inet.h>
     #include <unistd.h>
 
@@ -49,20 +50,33 @@ namespace exolix {
 
                     self->waitingSocketJob = false;
 
-                    while (self->cConnected) {
-                        readData = recv(self->cSocket, buffer, bufferSize, 0);
+                    if (self->cSsl == std::nullopt) {
+                        while (self->cConnected) {
+                            readData = recv(self->cSocket, buffer, bufferSize, 0);
 
-                        if (readData == SOCKET_ERROR) {
-                            printf("Socket error: %d\n", WSAGetLastError());
-                            break;
+                            if (readData == SOCKET_ERROR) {
+                                printf("Socket error: %d\n", WSAGetLastError());
+                                break;
+                            }
+
+                            if (readData <= 0) {
+                                break;
+                            }
+
+                            SocketServerAdapterMessage message = { buffer, static_cast<i16>(readData) };
+                            self->onMessage(message);
                         }
+                    } else {
+                        while (self->cConnected) {
+                            readData = SSL_read(self->cSsl.value(), buffer, bufferSize);
 
-                        if (readData <= 0) {
-                            break;
+                            if (readData <= 0) {
+                                break;
+                            }
+
+                            SocketServerAdapterMessage message = { buffer, static_cast<i16>(readData) };
+                            self->onMessage(message);
                         }
-
-                        SocketServerAdapterMessage message = { buffer, static_cast<i16>(readData) };
-                        self->onMessage(message);
                     }
 
                     return 0;
@@ -197,10 +211,20 @@ namespace exolix {
     }
 
     SocketServerAdapterErrors SocketServerAdapter::send(const std::string& message) {
-        SocketServerAdapterMessage msg = {const_cast<char *>(message.c_str()), static_cast<i16>(message.size()) };
-        auto res = send(msg);
+        if (cSsl == std::nullopt) {
+            SocketServerAdapterMessage msg = {const_cast<char *>(message.c_str()), static_cast<i16>(message.size()) };
+            auto res = send(msg);
 
-        return res;
+            return res;
+        } else {
+            int res = SSL_write(cSsl.value(), message.c_str(), message.size());
+
+            if (res <= 0) {
+                return SocketServerAdapterErrors::FailedToSendData;
+            }
+
+            return SocketServerAdapterErrors::Ok;
+        }
     }
 
     SocketServerAdapterErrors SocketServerAdapter::block() {
@@ -246,7 +270,7 @@ namespace exolix {
         delete serverThread;
     }
 
-    SocketServerErrors SocketServer::setTLS(bool enabled) {
+    SocketServerErrors SocketServer::setTls(bool enabled) {
         if (busy || online)
             return SocketServerErrors::ServerDangerousActionWhileOnline;
 
@@ -540,12 +564,41 @@ namespace exolix {
                 [] (void *arg) -> unsigned {
                     auto self = (SocketServer *) arg;
 
+                    SSL_load_error_strings();
+                    SSL_library_init();
+                    OpenSSL_add_all_algorithms();
+
+                    SSL_CTX *sslCtx;
+
+                    sslCtx = SSL_CTX_new(SSLv23_server_method());
+                    SSL_CTX_set_options(sslCtx, SSL_OP_SINGLE_DH_USE);
+
+                    self->sslContext = sslCtx;
+
+                    int res;
+
+                    if ((res = SSL_CTX_use_PrivateKey_file(sslCtx, self->privateKey.c_str(), SSL_FILETYPE_PEM)) != 1) {
+                        // TODO: Error
+                    }
+
+                    if ((res = SSL_CTX_use_certificate_file(sslCtx, self->certificate.c_str(), SSL_FILETYPE_PEM)) != 1) {
+                        // TODO: Error
+                    }
+
                     while (self->online) {
                         self->extSocket = (i64) accept((SOCKET) self->socketFd, nullptr, nullptr);
 
                         if (self->extSocket != INVALID_SOCKET) {
-                            auto *thread = new Thread([&self] () {
-                                SocketServerAdapter adapter((i64) self->extSocket, std::nullopt, self->buffer, self->receiveBufferSize);
+                            auto *thread = new Thread([&self, &sslCtx] () {
+                                std::optional<SSL *> cSsl = std::nullopt;
+
+                                if (self->tls) {
+                                    cSsl = SSL_new(sslCtx);
+                                    SSL_set_fd(*cSsl, (int) self->extSocket);
+                                    SSL_accept(*cSsl);
+                                }
+
+                                SocketServerAdapter adapter((i64) self->extSocket, cSsl, self->buffer, self->receiveBufferSize);
 
                                 self->clients.insert({
                                        self->extSocket,
@@ -559,6 +612,9 @@ namespace exolix {
                             self->clientThreads[(i64) self->extSocket] = thread;
                         }
                     }
+
+                    ERR_free_strings();
+                    EVP_cleanup();
                 },
                 (void *) this,
                 0,

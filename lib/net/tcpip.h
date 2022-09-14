@@ -461,7 +461,7 @@ namespace exolix {
          * Set the TLS mode of the server.
          * @param enabled Whether to enable TLS.
          */
-        SocketServerErrors setTLS(bool enabled);
+        SocketServerErrors setTls(bool enabled);
 
         /**
          * Set the TLS certificate of the server.
