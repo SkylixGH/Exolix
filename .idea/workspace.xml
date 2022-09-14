@@ -21,10 +21,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Feat(*): Updated windows socket">
+    <list default="true" id="ffe14993-4609-4c27-afc8-519e1a395fc9" name="Changes" comment="Fix(net): Fixed thread deletion issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/net/tcpip.cc" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.cc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/net/tcpip.h" beforeDir="false" afterPath="$PROJECT_DIR$/lib/net/tcpip.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,11 +100,6 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
     <list>
       <item itemvalue="CMake Application.Exolix" />
       <item itemvalue="CMake Application.Exolix_EXAMPLE_MAIN" />
@@ -129,7 +123,8 @@
       <workItem from="1662991031371" duration="3334000" />
       <workItem from="1663069614923" duration="420000" />
       <workItem from="1663070109773" duration="13487000" />
-      <workItem from="1663112685534" duration="4184000" />
+      <workItem from="1663112685534" duration="4394000" />
+      <workItem from="1663151611602" duration="417000" />
     </task>
     <task id="LOCAL-00001" summary="Legal(*): Added license">
       <created>1662761715013</created>
@@ -313,7 +308,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663111726525</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Fix(net): Fixed thread deletion issue">
+      <created>1663119069009</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1663119069009</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -331,7 +333,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Legal(*): Changed license" />
     <MESSAGE value="Idea(*): Updated file" />
     <MESSAGE value="Wiki(string) Feat(string): Added string split and wiki docs for it" />
     <MESSAGE value="Wiki(number): Updated docs" />
@@ -356,7 +357,8 @@
     <MESSAGE value="ReadMe(*): Updated page logo" />
     <MESSAGE value="Git(*): Updated ignore" />
     <MESSAGE value="Feat(*): Updated windows socket" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat(*): Updated windows socket" />
+    <MESSAGE value="Fix(net): Fixed thread deletion issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix(net): Fixed thread deletion issue" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

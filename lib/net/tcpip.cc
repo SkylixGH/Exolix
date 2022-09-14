@@ -21,12 +21,7 @@
 
 #endif
 
-// TODO: Remove
 #include <iostream>
-
-void println(std::string t) {
-    std::cout << t << std::endl;
-}
 
 namespace exolix {
     SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, char *readBuffer, u16 readBufferSize) :
@@ -57,7 +52,6 @@ namespace exolix {
                         }
 
                         std::string data(buffer, readData);
-                        println("Received: " + std::string(data));
                     }
 
                     return 0;
@@ -112,7 +106,7 @@ namespace exolix {
 #endif
     }
 
-    bool SocketServerAdapter::blockedBefore() {
+    bool SocketServerAdapter::blockedBefore() const {
 #if defined(__linux__) || defined(__APPLE__)
         // TODO: WOrk
 #elif defined(_WIN32)
@@ -170,7 +164,8 @@ namespace exolix {
 
     SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
         address(std::move(address)), backlog(backlog), busy(false), online(false),
-        tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024) {
+        tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024),
+        trashCollectionInterval(5000), trashThread(nullptr) {
     }
 
     SocketServer::~SocketServer() {
@@ -460,7 +455,7 @@ namespace exolix {
             trashThread = new Thread([this] () {
                 while (online) {
                     collectGarbage();
-                    Thread::wait(1, TimeUnit::Second);
+                    Thread::wait(trashCollectionInterval, TimeUnit::Millisecond);
                 }
             });
 
@@ -590,21 +585,14 @@ namespace exolix {
         for (auto &clientThread : copyOfClientThreads) {
             auto thread = clientThread.second;
 
-            if (!clientThread.second->isActive())
-                clientThreads.erase(clientThread.first);
-
-            if (thread->isActive())
-                println("[GC] Thread Active\n");
-
             if (!thread->isActive()) {
                 delete thread;
-                println("[GC] Deleted\n");
-
                 clientThreads.erase(clientThread.first);
             }
         }
+    }
 
-        println("[GC] Collected client threads: " + std::to_string(clientThreads.size()) + "\n");
-        println("[GC] Collected clients      : " + std::to_string(clients.size()) + "\n");
+    void SocketServer::setTrashCollectionInterval(exolix::u32 interval) {
+        trashCollectionInterval = interval;
     }
 }

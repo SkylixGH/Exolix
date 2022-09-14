@@ -235,7 +235,7 @@ namespace exolix {
          * before.
          * @return If the thread has been blocked before.
          */
-        bool blockedBefore();
+        bool blockedBefore() const;
     };
 
     /**
@@ -331,6 +331,12 @@ namespace exolix {
         Thread *trashThread;
 
         /**
+         * Trash collection interval time, the amount of time to wait
+         * before cleaning useless threads and clients.
+         */
+        u32 trashCollectionInterval;
+
+        /**
          * Clean up the server variables after a crash
          * and reset all properties to defaults.
          */
@@ -412,5 +418,12 @@ namespace exolix {
          * @param size The size of the receive buffer.
          */
         SocketServerErrors setReceiveBufferSize(u16 size);
+
+        /**
+         * Set the trash collection interval time. This is the amount of time
+         * to wait before cleaning useless threads and clients.
+         * @param interval The interval time in milliseconds.
+         */
+        void setTrashCollectionInterval(u32 interval);
     };
 }
