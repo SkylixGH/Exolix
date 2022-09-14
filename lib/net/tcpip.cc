@@ -23,11 +23,11 @@
 #endif
 
 namespace exolix {
-    std::string SocketServerAdapterMessage::toString() {
+    std::string SocketServerAdapterMessage::toString() const {
         if (size == 0)
             return "";
 
-        return std::string(data, size);
+        return std::string {data, (size_t) size};
     }
 
     SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, char *readBuffer, u16 readBufferSize) :
@@ -177,6 +177,8 @@ namespace exolix {
 
             #endif
         }
+
+        onDisconnect();
     }
 
     void SocketServerAdapter::setOnDisconnectListener(std::function<void()> listener) {
@@ -196,12 +198,18 @@ namespace exolix {
 #if defined(__linux__) || defined(__APPLE__)
         // TODO: Impl
 #elif defined(_WIN32)
-        if (cSsl != std::nullopt) {
-            // TODO: Impl
-        } else {
+        if (cSsl == std::nullopt) {
             res = ::send(cSocket, message.data, message.size, 0);
 
             if (res == SOCKET_ERROR) {
+                return SocketServerAdapterErrors::FailedToSendData;
+            }
+
+            return SocketServerAdapterErrors::Ok;
+        } else {
+            res = SSL_write(cSsl.value(), message.data, message.size);
+
+            if (res <= 0) {
                 return SocketServerAdapterErrors::FailedToSendData;
             }
 
@@ -211,20 +219,10 @@ namespace exolix {
     }
 
     SocketServerAdapterErrors SocketServerAdapter::send(const std::string& message) {
-        if (cSsl == std::nullopt) {
-            SocketServerAdapterMessage msg = {const_cast<char *>(message.c_str()), static_cast<i16>(message.size()) };
-            auto res = send(msg);
+        SocketServerAdapterMessage msg = {const_cast<char *>(message.c_str()), static_cast<i16>(message.size()) };
+        auto res = send(msg);
 
-            return res;
-        } else {
-            int res = SSL_write(cSsl.value(), message.c_str(), message.size());
-
-            if (res <= 0) {
-                return SocketServerAdapterErrors::FailedToSendData;
-            }
-
-            return SocketServerAdapterErrors::Ok;
-        }
+        return res;
     }
 
     SocketServerAdapterErrors SocketServerAdapter::block() {
@@ -450,7 +448,6 @@ namespace exolix {
                 result = bind((int) socketFd, (struct sockaddr *) &serverAddress, sizeof(serverAddress));
 
             if (result < 0) {
-                println("Error binding socket %s\n", strerror(errno));
                 // TODO: Handle
             }
 
@@ -533,18 +530,40 @@ namespace exolix {
             hints.ai_flags = AI_PASSIVE;
 
             result = getaddrinfo(hostname.c_str(), std::to_string(portNumber).c_str(), &hints, &resultAddress);
-            // TODO: Handle
+            if (result != 0) {
+                resDat = SocketServerErrors::AddressError;
+                return;
+            }
 
             socketFd = (i64) socket(resultAddress->ai_family, resultAddress->ai_socktype, resultAddress->ai_protocol);
-            // TODO: Handle
+            if ((SOCKET) socketFd == INVALID_SOCKET) {
+                freeaddrinfo(resultAddress);
+                WSACleanup();
+
+                resDat = SocketServerErrors::CouldNotCreateServerSocketInstance;
+                return;
+            }
 
             result = bind((SOCKET) socketFd, resultAddress->ai_addr, (int) resultAddress->ai_addrlen);
-            // TODO: Handle
+            if (result == SOCKET_ERROR) {
+                freeaddrinfo(resultAddress);
+                closesocket((SOCKET) socketFd);
+                WSACleanup();
+
+                resDat = SocketServerErrors::BindingFail;
+                return;
+            }
 
             freeaddrinfo(resultAddress);
 
             result = listen((SOCKET) socketFd, backlog);
-            // TODO: Handle
+            if (result == SOCKET_ERROR) {
+                closesocket((SOCKET) socketFd);
+                WSACleanup();
+
+                resDat = SocketServerErrors::ListenFail;
+                return;
+            }
 
             online = true;
             busy = false;
@@ -578,11 +597,11 @@ namespace exolix {
                     int res;
 
                     if ((res = SSL_CTX_use_PrivateKey_file(sslCtx, self->privateKey.c_str(), SSL_FILETYPE_PEM)) != 1) {
-                        // TODO: Error
+                        // Do not do anything. Just ignore.
                     }
 
                     if ((res = SSL_CTX_use_certificate_file(sslCtx, self->certificate.c_str(), SSL_FILETYPE_PEM)) != 1) {
-                        // TODO: Error
+                        // Do not do anything. Just ignore.
                     }
 
                     while (self->online) {

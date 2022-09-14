@@ -9,7 +9,9 @@
 #include <map>
 
 #if defined(_WIN32)
+
     #include <windows.h>
+
 #endif
 
 namespace exolix {
@@ -81,13 +83,13 @@ namespace exolix {
          * The server was requested to work and set a TLS certificate
          * or key but the server did not have TLS mode enabled.
          */
-         TlsNotEnabled,
+        TlsNotEnabled,
 
-         /**
-          * The server address's port provided is faulty and cannot be used
-          * to create a server.
-          */
-         FaultyAddressPort,
+        /**
+         * The server address's port provided is faulty and cannot be used
+         * to create a server.
+         */
+        FaultyAddressPort,
 
         /**
         * The server address's hostname provided is faulty and cannot be used
@@ -101,41 +103,51 @@ namespace exolix {
          */
         AddressError,
 
-         /**
-          * Could not create server socket instance for the server for an
-          * unknown reason.
-          */
-         CouldNotCreateServerSocketInstance,
+        /**
+         * Could not create server socket instance for the server for an
+         * unknown reason.
+         */
+        CouldNotCreateServerSocketInstance,
 
-         /**
-          * A permission error occurred when creating the socket.
-          */
-         PermissionFaulty,
+        /**
+         * A permission error occurred when creating the socket.
+         */
+        PermissionFaulty,
 
-         /**
-          * IPv4 or IPv6 is not supported on the system.
-          */
-         IpVersionNotSupported,
+        /**
+         * IPv4 or IPv6 is not supported on the system.
+         */
+        IpVersionNotSupported,
 
-         /**
-          * Too many descriptors are open on the system.
-          */
-         TooManyDescriptorsOpen,
+        /**
+         * Too many descriptors are open on the system.
+         */
+        TooManyDescriptorsOpen,
 
-         /**
-          * The server does not have enough memory to start.
-          */
-         FaultyMemoryAccess,
+        /**
+         * The server does not have enough memory to start.
+         */
+        FaultyMemoryAccess,
 
-         /**
-          * The server could not set the socket option.
-          */
-         CouldNotSetSocketOption,
+        /**
+         * The server could not set the socket option.
+         */
+        CouldNotSetSocketOption,
 
-         /**
-          * The server failed to resolved the hostname.
-          */
-         CouldNotResolveHostname
+        /**
+         * The server failed to resolved the hostname.
+         */
+        CouldNotResolveHostname,
+
+        /**
+         * The socket server failed to listen.
+         */
+        ListenFail,
+
+        /**
+        * The socket server failed to bind.
+        */
+        BindFail,
     };
 
     /**
@@ -157,7 +169,7 @@ namespace exolix {
          * Convert the data to a string.
          * @return The data as a string.
          */
-        std::string toString();
+        [[nodiscard]] std::string toString() const;
     };
 
     /**
@@ -183,7 +195,7 @@ namespace exolix {
          * only used when the server is running on Linux or Apple. Win32
          * uses its own threading system.
          */
-        Thread *cThread {};
+        Thread *cThread{};
 
         /**
          * The client listening thread but for Win32. This is used
@@ -191,7 +203,7 @@ namespace exolix {
          * only used when the server is running on Win32. Linux and Apple
          * use its own threading system.
          */
-        i64 cThreadWin32 {};
+        i64 cThreadWin32{};
 
         /**
          * Whether the socket is currently connected
@@ -208,13 +220,13 @@ namespace exolix {
          * The handler for on message. This is called
          * when a message is received from the client.
          */
-        std::function<void(SocketServerAdapterMessage &message)> onMessage = [] (SocketServerAdapterMessage &message) {};
+        std::function<void(SocketServerAdapterMessage &message)> onMessage = [](SocketServerAdapterMessage &message) {};
 
         /**
          * The handler for on disconnect. This is called
          * when the client disconnects from the server.
          */
-        std::function<void()> onDisconnect = [] () {};
+        std::function<void()> onDisconnect = []() {};
 
         /**
          * This variable doesn't have a specific purpose
@@ -245,7 +257,8 @@ namespace exolix {
         /**
          * Create a new socket instance.
          */
-        explicit SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl = std::nullopt, char *readBuffer = {}, u16 readBufferSize = 1024);
+        explicit SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl = std::nullopt, char *readBuffer = {},
+                                     u16 readBufferSize = 1024);
 
         ~SocketServerAdapter();
 
@@ -314,7 +327,7 @@ namespace exolix {
          * @param message The message to send.
          * @return An error or Ok status code.
          */
-        SocketServerAdapterErrors send(const std::string& message);
+        SocketServerAdapterErrors send(const std::string &message);
     };
 
     /**
@@ -360,12 +373,12 @@ namespace exolix {
         /**
          * The pool of client threads.
          */
-        std::map<i64, Thread *> clientThreads {};
+        std::map<i64, Thread *> clientThreads{};
 
         /**
          * The pool of clients connected.
          */
-        std::map<i64, SocketServerAdapter &> clients {};
+        std::map<i64, SocketServerAdapter &> clients{};
 
         /**
          * Whether the server is online.
@@ -422,7 +435,7 @@ namespace exolix {
          * Connection on message listener. This event is triggered
          * when a new socket is ready and usable.
          */
-        std::function<void(SocketServerAdapter &socket)> onSocket = [] (SocketServerAdapter &) {};
+        std::function<void(SocketServerAdapter &socket)> onSocket = [](SocketServerAdapter &) {};
 
         /**
          * The thread where automatic garbage collecting for
