@@ -147,7 +147,7 @@ namespace exolix {
         /**
         * The socket server failed to bind.
         */
-        BindFail,
+        BindingFail,
     };
 
     /**
