@@ -68,12 +68,35 @@ std::string srvErrToString(SocketServerErrors error) {
     }
 }
 
+std::string clErrToString(SocketServerAdapterErrors e) {
+    switch (e) {
+        case SocketServerAdapterErrors::Ok:
+            return "Ok";
+
+        case SocketServerAdapterErrors::FailedToSendData:
+            return "FailedToSendData";
+
+        case SocketServerAdapterErrors::SocketAlreadyBlocked:
+            return "SocketAlreadyBlocked";
+
+        case SocketServerAdapterErrors::SocketNotAlive:
+            return "SocketNotAlive";
+    }
+}
+
 void initHandlers(SocketServer &srv) {
+    srv.setTrashCollectionInterval(1000);
+
     srv.setOnSocketListener([&srv] (SocketServerAdapter &socket) {
         info("New connection from " + socket.getIp());
 
         socket.setOnMessageListener([&socket, &srv] (SocketServerAdapterMessage &msg) {
             info("Message received: " + msg.toString());
+
+            auto sendRes = socket.send("Hello from server! BTW");
+            if (sendRes != SocketServerAdapterErrors::Ok) {
+                error("Could not send message to client: " + clErrToString(sendRes));
+            }
 
             srv.emit(">: " + msg.toString());
         });
@@ -90,9 +113,9 @@ int main() {
     NetAddress addr("::1", 8080);
     SocketServer srv(addr, 100);
 
-    srv.setTls(true);
-    srv.setPrivateKey(app::Config().kPath);
-    srv.setCertificate(app::Config().cPath);
+//    srv.setTls(true);
+//    srv.setPrivateKey(app::Config().kPath);
+//    srv.setCertificate(app::Config().cPath);
 
     initHandlers(srv);
 

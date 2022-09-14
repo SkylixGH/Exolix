@@ -22,14 +22,16 @@ namespace exolix {
     }
 
     ThreadErrors Thread::block() {
-        if (!isActive())
-            return ThreadErrors::ThreadNotActive;
-
         if (wasBlocked)
             return ThreadErrors::ThreadAlreadyBlocked;
 
+        wasBlocked = true;
+
+        if (!isActive())
+            return ThreadErrors::ThreadNotActive;
+
         try {
-            future.get();
+            future.wait();
             return ThreadErrors::Ok;
         } catch (...) {
             return ThreadErrors::ThreadAlreadyBlocked;

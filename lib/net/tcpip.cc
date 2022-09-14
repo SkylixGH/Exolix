@@ -3,6 +3,8 @@
 #include <openssl/err.h>
 #include <openssl/bio.h>
 
+#include <iostream>
+
 #if defined(__linux__) || defined(__APPLE__)
 
     #include <netdb.h>
@@ -30,9 +32,11 @@ namespace exolix {
         return std::string {data, (size_t) size};
     }
 
-    SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, char *readBuffer, u16 readBufferSize) :
-        cSsl(ssl), cSocket(socketFd), bufferWriteSource(readBuffer), bufferWriteSourceSize(readBufferSize),
+    SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, u16 readBufferSize) :
+        cSsl(ssl), cSocket(socketFd), bufferWriteSourceSize(readBufferSize),
         win32ThreadBlocked(false), win32ThreadOver(false) {
+
+        bufferWriteSource = new char[bufferWriteSourceSize];
 
 #if defined(_WIN32)
         waitingSocketJob = true;
@@ -46,7 +50,7 @@ namespace exolix {
                     auto *buffer = self->bufferWriteSource;
                     auto bufferSize = self->bufferWriteSourceSize;
 
-                    int readData;
+                    i64 readData;
 
                     self->waitingSocketJob = false;
 
@@ -85,35 +89,45 @@ namespace exolix {
         );
 #elif defined(__linux__) || defined(__APPLE__)
         cConnected = true;
+        waitingSocketJob = true;
+
         cThread = new Thread([this] () {
-            while (cConnected) {
-                #if defined(__linux__) || defined(__APPLE__)
-                // TODO: Implement while body Linux Mac
-                #elif _WIN32
+            char *buffer = bufferWriteSource;
+            u16 bufferSize = bufferWriteSourceSize;
 
-                #endif
+            i64 readData;
+            waitingSocketJob = false;
+
+            if (cSsl == std::nullopt) {
+                while (cConnected) {
+                    readData = recv(cSocket, buffer, bufferSize, 0);
+
+                    if (readData <= 0) {
+                        break;
+                    }
+
+                    SocketServerAdapterMessage message = { buffer, static_cast<i16>(readData) };
+                    onMessage(message);
+                }
+            } else {
+                while (cConnected) {
+                    readData = SSL_read(cSsl.value(), buffer, bufferSize);
+
+                    if (readData <= 0) {
+                        break;
+                    }
+
+                    SocketServerAdapterMessage message = { buffer, static_cast<i16>(readData) };
+                    onMessage(message);
+                }
             }
-
-            if (cSsl.has_value()) {
-                SSL_shutdown(cSsl.value());
-                SSL_free(cSsl.value());
-            }
-
-            kill();
         });
 #endif
     }
 
     SocketServerAdapter::~SocketServerAdapter() {
         delete cThread;
-
-#ifdef _WIN32
-        CloseHandle((HANDLE) cThreadWin32);
-#endif
-
-        if (cConnected) {
-            kill();
-        }
+        delete bufferWriteSource;
 
         if (cSsl.has_value()) {
             SSL_shutdown(cSsl.value());
@@ -128,7 +142,7 @@ namespace exolix {
 #if defined(__linux__) || defined(__APPLE__)
             struct sockaddr_in addr {};
             socklen_t addr_size = sizeof(struct sockaddr_in);
-            int result = getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
+            getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
             char ipString[INET_ADDRSTRLEN];
             inet_ntop(AF_INET, &addr.sin_addr, ipString, sizeof(ipString));
             ip = std::string(ipString);
@@ -157,7 +171,7 @@ namespace exolix {
 
     bool SocketServerAdapter::blockedBefore() const {
 #if defined(__linux__) || defined(__APPLE__)
-        // TODO: WOrk
+        return cThread->blockedBefore();
 #elif defined(_WIN32)
         return win32ThreadBlocked;
 #endif
@@ -167,15 +181,11 @@ namespace exolix {
         if (cConnected) {
             cConnected = false;
 
-            #if defined(__linux__) || defined(__APPLE__)
-
-                close(cSocket);
-
-            #elif defined(_WIN32)
-
-                closesocket(cSocket);
-
-            #endif
+#ifdef _WIN32
+            CloseHandle((HANDLE) cThreadWin32);
+#elif defined(__linux__) || defined(__APPLE__)
+            close(cSocket);
+#endif
         }
 
         onDisconnect();
@@ -193,10 +203,26 @@ namespace exolix {
         if (!cConnected)
             return SocketServerAdapterErrors::SocketNotAlive;
 
-        int res;
+        i64 res;
 
 #if defined(__linux__) || defined(__APPLE__)
-        // TODO: Impl
+        if (cSsl == std::nullopt) {
+            res = ::send(cSocket, message.data, message.size, 0);
+
+            if (res == -1) {
+                return SocketServerAdapterErrors::FailedToSendData;
+            }
+
+            return SocketServerAdapterErrors::Ok;
+        } else {
+            res = SSL_write(cSsl.value(), message.data, message.size);
+
+            if (res == -1) {
+                return SocketServerAdapterErrors::FailedToSendData;
+            }
+
+            return SocketServerAdapterErrors::Ok;
+        }
 #elif defined(_WIN32)
         if (cSsl == std::nullopt) {
             res = ::send(cSocket, message.data, message.size, 0);
@@ -261,7 +287,7 @@ namespace exolix {
         address(std::move(address)), backlog(backlog), busy(false), online(false),
         tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024),
         trashCollectionInterval(5000), trashThread(nullptr), win32ServerThread(0),
-        extSocket(-1), win32ThreadDone(false), buffer(nullptr) {
+        extSocket(-1), win32ThreadDone(false) {
     }
 
     SocketServer::~SocketServer() {
@@ -347,8 +373,6 @@ namespace exolix {
 
             struct sockaddr_in6 serverAddress6 {};
             struct sockaddr_in6 clientAddress6 {};
-
-            char *buffer = new char[receiveBufferSize];
 
             int versionFamily;
             int result;
@@ -454,52 +478,74 @@ namespace exolix {
             result = listen((int) socketFd, backlog);
 
             if (result < 0) {
-                println("Listen error\n");
                 // TODO: Handle
             }
 
             online = true;
             busy = false;
 
-            serverThread = new Thread([this, &buffer, &clientLength, &extSocketFd, &clientAddress, &bytesReceived] () {
+            serverThread = new Thread([this, &clientLength, &extSocketFd, &clientAddress, &bytesReceived] () {
+                SSL_CTX *sslCtx = SSL_CTX_new(SSLv23_server_method());
+                SSL_CTX_set_options(sslCtx, SSL_OP_SINGLE_DH_USE);
+
+                sslContext = sslCtx;
+
+                int sslRes;
+
+                if ((sslRes = SSL_CTX_use_certificate_file(sslCtx, certificate.c_str(), SSL_FILETYPE_PEM)) <= 0) {
+                    // Ignore this, it's not a fatal error
+                }
+
+                if ((sslRes = SSL_CTX_use_PrivateKey_file(sslCtx, privateKey.c_str(), SSL_FILETYPE_PEM)) <= 0) {
+                    // Ignore this, it's not a fatal error
+                }
+
                 while (online) {
                     clientLength = sizeof(clientAddress);
                     extSocketFd = accept((int) socketFd, (struct sockaddr *) &clientAddress, (socklen_t *) &clientLength);
 
-                    if (extSocketFd < 0) {
-                        // TODO: Handle
-                    } else {
-                        // receive data
-                        bzero(buffer, receiveBufferSize);
+                    if (extSocketFd >= 0) {
+                        auto *adapterThread = new Thread([this, &extSocketFd, &sslRes] () {
+                            std::optional<SSL *> clientSsl = std::nullopt;
 
-                        while (true) {
-                            bytesReceived = recv(extSocketFd, buffer, receiveBufferSize, 0);
+                            if (tls) {
+                                clientSsl = SSL_new(*sslContext);
+                                SSL_set_fd(*clientSsl, extSocketFd);
 
-                            if (bytesReceived == 0) {
-                                break;
+                                sslRes = SSL_accept(*clientSsl);
                             }
 
-                            if (bytesReceived < 0) {
-                                // TODO: Handle
+                            if ((tls && sslRes <= 0)) {
+                                SSL_shutdown(*clientSsl);
+                                SSL_free(*clientSsl);
+
+                                std::cout << "SSL error: " << SSL_get_error(*clientSsl, sslRes) << std::endl;
+                                return;
                             }
 
-                            if (bytesReceived > 0) {
-                                //print
-                                println("%s\n", buffer);
-                            }
-                        }
+                            SocketServerAdapter adapter(extSocketFd, clientSsl, receiveBufferSize);
+
+                            clients.insert({
+                                   extSocketFd,
+                                   adapter
+                            });
+
+                            onSocket(adapter);
+                            clients.erase(extSocketFd);
+                        });
+
+                        clientThreads.insert({
+                            extSocketFd,
+                            adapterThread
+                        });
                     }
                 }
-
-                delete[] buffer;
             });
 #elif _WIN32
             WSADATA wsaData;
 
             int inBytes;
             int result;
-
-            buffer = new char[receiveBufferSize];
 
             struct addrinfo *resultAddress {};
             struct addrinfo hints {};
@@ -568,13 +614,6 @@ namespace exolix {
             online = true;
             busy = false;
 
-            trashThread = new Thread([this] () {
-                while (online) {
-                    collectGarbage();
-                    Thread::wait(trashCollectionInterval, TimeUnit::Millisecond);
-                }
-            });
-
             unsigned threadId;
 
             win32ServerThread = (i64) _beginthreadex(
@@ -614,15 +653,16 @@ namespace exolix {
                                 if (self->tls) {
                                     cSsl = SSL_new(sslCtx);
                                     SSL_set_fd(*cSsl, (int) self->extSocket);
-                                    SSL_accept(*cSsl);
+                                    SSL_accept(*cSsl); // TODO: Handle this
                                 }
 
-                                SocketServerAdapter adapter((i64) self->extSocket, cSsl, self->buffer, self->receiveBufferSize);
+                                // TODO: Fix buffer issues
+                                SocketServerAdapter adapter((i64) self->extSocket, cSsl, buffer, self->receiveBufferSize);
 
                                 self->clients.insert({
                                        self->extSocket,
                                        adapter
-                               });
+                                });
 
                                 self->onSocket(adapter);
                                 self->clients.erase((i64) self->extSocket);
@@ -642,6 +682,13 @@ namespace exolix {
 
             delete[] buffer;
 #endif
+        });
+
+        trashThread = new Thread([this] () {
+            while (online) {
+                collectGarbage();
+                Thread::wait(trashCollectionInterval, TimeUnit::Millisecond);
+            }
         });
 
         worker.block();
@@ -765,6 +812,9 @@ namespace exolix {
                 clientThreads.erase(clientThread.first);
             }
         }
+
+        std::cout << "Clients = " << clients.size() << std::endl;
+        std::cout << "Threads = " << clientThreads.size() << std::endl;
     }
 
     void SocketServer::setTrashCollectionInterval(exolix::u32 interval) {

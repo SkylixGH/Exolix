@@ -3,7 +3,7 @@
 namespace app {
     class Config {
     public:
-        const std::string cPath = "C:\\Users\\xfaon\\Desktop\\Exolix-1\\example\\main\\c.pem";
-        const std::string kPath = "C:\\Users\\xfaon\\Desktop\\Exolix-1\\example\\main\\c.key";
+        const std::string cPath = "/home/xfaon/CLionProjects/ExolixDev/example/main/c.pem";
+        const std::string kPath = "/home/xfaon/CLionProjects/ExolixDev/example/main/c.key";
     };
 }

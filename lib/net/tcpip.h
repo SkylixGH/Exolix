@@ -257,8 +257,7 @@ namespace exolix {
         /**
          * Create a new socket instance.
          */
-        explicit SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl = std::nullopt, char *readBuffer = {},
-                                     u16 readBufferSize = 1024);
+        explicit SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl = std::nullopt, u16 readBufferSize = 1024);
 
         ~SocketServerAdapter();
 
@@ -351,11 +350,6 @@ namespace exolix {
          * The current external socket.
          */
         i64 extSocket{};
-
-        /**
-         * The message buffer system.
-         */
-        char *buffer{};
 
         /**
          * Whether the win32 thread is done. This will be inaccurate if the thread
