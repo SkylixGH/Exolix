@@ -21,6 +21,13 @@
 
 #endif
 
+// TODO: Remove
+#include <iostream>
+
+void println(std::string t) {
+    std::cout << t << std::endl;
+}
+
 namespace exolix {
     SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, char *readBuffer, u16 readBufferSize) :
         cSsl(ssl), cSocket(socketFd), bufferWriteSource(readBuffer), bufferWriteSourceSize(readBufferSize),
@@ -50,7 +57,7 @@ namespace exolix {
                         }
 
                         std::string data(buffer, readData);
-                        printf("Received: %s\n", data.c_str());
+                        println("Received: " + std::string(data));
                     }
 
                     return 0;
@@ -350,14 +357,14 @@ namespace exolix {
                 result = bind((int) socketFd, (struct sockaddr *) &serverAddress, sizeof(serverAddress));
 
             if (result < 0) {
-                printf("Error binding socket %s\n", strerror(errno));
+                println("Error binding socket %s\n", strerror(errno));
                 // TODO: Handle
             }
 
             result = listen((int) socketFd, backlog);
 
             if (result < 0) {
-                printf("Listen error\n");
+                println("Listen error\n");
                 // TODO: Handle
             }
 
@@ -388,7 +395,7 @@ namespace exolix {
 
                             if (bytesReceived > 0) {
                                 //print
-                                printf("%s\n", buffer);
+                                println("%s\n", buffer);
                             }
                         }
                     }
@@ -450,6 +457,13 @@ namespace exolix {
             online = true;
             busy = false;
 
+            trashThread = new Thread([this] () {
+                while (online) {
+                    collectGarbage();
+                    Thread::wait(1, TimeUnit::Second);
+                }
+            });
+
             while (online) {
                 extSocket = accept((SOCKET) socketFd, nullptr, nullptr);
 
@@ -463,6 +477,8 @@ namespace exolix {
                         });
 
                         onSocket(adapter);
+
+                        clients.erase((i64) extSocket);
                     });
 
                     clientThreads[(i64) extSocket] = thread;
@@ -526,6 +542,8 @@ namespace exolix {
     }
 
     void SocketServer::cleanUp() {
+        online = false;
+
 #if defined(__linux__) || defined(__APPLE__)
         if (socketFd != -1) {
             close((int) socketFd);
@@ -545,12 +563,18 @@ namespace exolix {
             delete serverThread;
         }
 
+        if (trashThread != nullptr) {
+            if (trashThread->isActive())
+                trashThread->block();
+
+            delete trashThread;
+        }
+
         if (sslContext != std::nullopt) {
             SSL_CTX_free(sslContext.value());
             sslContext = nullptr;
         }
 
-        online = false;
         busy = false;
     }
 
@@ -559,17 +583,28 @@ namespace exolix {
     }
 
     void SocketServer::collectGarbage() {
-        for (auto &clientThread : clientThreads) {
-            auto client = clients.find(clientThread.first);
+        // TODO: FIx issue where some times socket disconnect is not triggered properly
+
+        std::map<i64, Thread *> copyOfClientThreads = clientThreads;
+
+        for (auto &clientThread : copyOfClientThreads) {
             auto thread = clientThread.second;
 
-            if (thread->blockedBefore() && !client->second.isActive()) {
-                clients.erase(client);
+            if (!clientThread.second->isActive())
                 clientThreads.erase(clientThread.first);
+
+            if (thread->isActive())
+                println("[GC] Thread Active\n");
+
+            if (!thread->isActive()) {
                 delete thread;
+                println("[GC] Deleted\n");
+
+                clientThreads.erase(clientThread.first);
             }
         }
 
-        printf("[GC] Collected %llu clients\n", clients.size());
+        println("[GC] Collected client threads: " + std::to_string(clientThreads.size()) + "\n");
+        println("[GC] Collected clients      : " + std::to_string(clients.size()) + "\n");
     }
 }

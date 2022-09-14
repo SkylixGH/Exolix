@@ -325,6 +325,12 @@ namespace exolix {
         std::function<void(SocketServerAdapter &socket)> onSocket = [] (SocketServerAdapter &) {};
 
         /**
+         * The thread where automatic garbage collecting for
+         * useless client threads will be performed.
+         */
+        Thread *trashThread;
+
+        /**
          * Clean up the server variables after a crash
          * and reset all properties to defaults.
          */
