@@ -68,8 +68,14 @@ std::string srvErrToString(SocketServerErrors error) {
 }
 
 void initHandlers(SocketServer &srv) {
-    srv.setOnSocketListener([] (SocketServerAdapter &socket) {
+    srv.setOnSocketListener([&srv] (SocketServerAdapter &socket) {
         info("New connection from " + socket.getIp());
+
+        socket.setOnMessageListener([&socket, &srv] (SocketServerAdapterMessage &msg) {
+            info("Message received: " + msg.toString());
+
+            srv.emit(">: " + msg.toString());
+        });
 
         socket.block();
         info("Connection closed from " + socket.getIp());

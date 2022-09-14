@@ -21,12 +21,17 @@
 
 #endif
 
-#include <iostream>
-
 namespace exolix {
+    std::string SocketServerAdapterMessage::toString() {
+        if (size == 0)
+            return "";
+
+        return std::string(data, size);
+    }
+
     SocketServerAdapter::SocketServerAdapter(u16 socketFd, std::optional<SSL *> ssl, char *readBuffer, u16 readBufferSize) :
         cSsl(ssl), cSocket(socketFd), bufferWriteSource(readBuffer), bufferWriteSourceSize(readBufferSize),
-        cConnected(false), win32ThreadBlocked(false), waitingSocketJob(false), win32ThreadOver(false) {
+        win32ThreadBlocked(false), win32ThreadOver(false) {
 
 #if defined(_WIN32)
         waitingSocketJob = true;
@@ -56,7 +61,8 @@ namespace exolix {
                             break;
                         }
 
-                        std::string data(buffer, readData);
+                        SocketServerAdapterMessage message = { buffer, static_cast<i16>(readData) };
+                        self->onMessage(message);
                     }
 
                     return 0;
@@ -106,23 +112,25 @@ namespace exolix {
     std::string SocketServerAdapter::getIp() {
         if (ip.empty()) {
 #if defined(__linux__) || defined(__APPLE__)
-            struct sockaddr_in addr;
+            struct sockaddr_in addr {};
             socklen_t addr_size = sizeof(struct sockaddr_in);
             int result = getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
-            char ipstr[INET_ADDRSTRLEN];
-            inet_ntop(AF_INET, &addr.sin_addr, ipstr, sizeof(ipstr));
-            ip = std::string(ipstr);
+            char ipString[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, &addr.sin_addr, ipString, sizeof(ipString));
+            ip = std::string(ipString);
 #elif defined(_WIN32)
-            struct sockaddr_in addr;
+            struct sockaddr_in addr {};
             int addr_size = sizeof(struct sockaddr_in);
-            int result = getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
-            char ipstr[INET_ADDRSTRLEN];
-            inet_ntop(AF_INET, &addr.sin_addr, ipstr, sizeof(ipstr));
-            ip = std::string(ipstr);
+            getpeername(cSocket, (struct sockaddr *) &addr, &addr_size);
+            char ipString[INET_ADDRSTRLEN];
+            inet_ntop(AF_INET, &addr.sin_addr, ipString, sizeof(ipString));
+            ip = std::string(ipString);
+#else
+            ip = "";
 #endif
         }
 
-        return ip;
+        return ip; // TODO: Fix out of scope warning
     }
 
     bool SocketServerAdapter::isActive() const {
@@ -157,6 +165,44 @@ namespace exolix {
         }
     }
 
+    void SocketServerAdapter::setOnDisconnectListener(std::function<void()> listener) {
+        onDisconnect = std::move(listener);
+    }
+
+    void SocketServerAdapter::setOnMessageListener(std::function<void(SocketServerAdapterMessage &message)> listener) {
+        onMessage = std::move(listener);
+    }
+
+    SocketServerAdapterErrors SocketServerAdapter::send(exolix::SocketServerAdapterMessage &message) {
+        if (!cConnected)
+            return SocketServerAdapterErrors::SocketNotAlive;
+
+        int res;
+
+#if defined(__linux__) || defined(__APPLE__)
+        // TODO: Impl
+#elif defined(_WIN32)
+        if (cSsl != std::nullopt) {
+            // TODO: Impl
+        } else {
+            res = ::send(cSocket, message.data, message.size, 0);
+
+            if (res == SOCKET_ERROR) {
+                return SocketServerAdapterErrors::FailedToSendData;
+            }
+
+            return SocketServerAdapterErrors::Ok;
+        }
+#endif
+    }
+
+    SocketServerAdapterErrors SocketServerAdapter::send(const std::string& message) {
+        SocketServerAdapterMessage msg = {const_cast<char *>(message.c_str()), static_cast<i16>(message.size()) };
+        auto res = send(msg);
+
+        return res;
+    }
+
     SocketServerAdapterErrors SocketServerAdapter::block() {
         if (cConnected) {
 #if defined(__linux__) || defined(__APPLE__)
@@ -176,7 +222,7 @@ namespace exolix {
             if (!win32ThreadBlocked) {
                 win32ThreadBlocked = true;
 
-                DWORD blockResultWin32 = WaitForSingleObject((HANDLE) cThreadWin32, INFINITE);
+                WaitForSingleObject((HANDLE) cThreadWin32, INFINITE);
                 win32ThreadOver = true;
 
                 return SocketServerAdapterErrors::Ok;
@@ -192,7 +238,8 @@ namespace exolix {
     SocketServer::SocketServer(exolix::NetAddress address, int backlog) :
         address(std::move(address)), backlog(backlog), busy(false), online(false),
         tls(false), serverThread(nullptr), socketFd(-1), receiveBufferSize(1024),
-        trashCollectionInterval(5000), trashThread(nullptr) {
+        trashCollectionInterval(5000), trashThread(nullptr), win32ServerThread(0),
+        extSocket(-1), win32ThreadDone(false), buffer(nullptr) {
     }
 
     SocketServer::~SocketServer() {
@@ -487,14 +534,14 @@ namespace exolix {
 
             unsigned threadId;
 
-            win32ServerThread = _beginthreadex(
+            win32ServerThread = (i64) _beginthreadex(
                 nullptr,
                 0,
                 [] (void *arg) -> unsigned {
                     auto self = (SocketServer *) arg;
 
                     while (self->online) {
-                        self->extSocket = accept((SOCKET) self->socketFd, nullptr, nullptr);
+                        self->extSocket = (i64) accept((SOCKET) self->socketFd, nullptr, nullptr);
 
                         if (self->extSocket != INVALID_SOCKET) {
                             auto *thread = new Thread([&self] () {
@@ -647,5 +694,21 @@ namespace exolix {
 
     void SocketServer::setTrashCollectionInterval(exolix::u32 interval) {
         trashCollectionInterval = interval;
+    }
+
+    void SocketServer::emit(exolix::SocketServerAdapterMessage &message) {
+        const auto copyOfClients = clients;
+
+        for (auto &client : copyOfClients) {
+            client.second.send(message);
+        }
+    }
+
+    void SocketServer::emit(const std::string &message) {
+        const auto copyOfClients = clients;
+
+        for (auto &client : copyOfClients) {
+            client.second.send(message);
+        }
     }
 }

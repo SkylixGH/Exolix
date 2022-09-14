@@ -34,7 +34,13 @@ namespace exolix {
          * The socket is not alive and this action
          * cannot be performed.
          */
-        SocketNotAlive
+        SocketNotAlive,
+
+        /**
+         * The server could not send a message to the client
+         * for an unknown reason.
+         */
+        FailedToSendData
     };
 
     /**
@@ -133,6 +139,28 @@ namespace exolix {
     };
 
     /**
+     * This is a format for storing messages
+     * for sending between sockets.
+     */
+    struct SocketServerAdapterMessage {
+        /**
+         * The actual data contents.
+         */
+        char *data;
+
+        /**
+         * The size of the data.
+         */
+        i16 size;
+
+        /**
+         * Convert the data to a string.
+         * @return The data as a string.
+         */
+        std::string toString();
+    };
+
+    /**
      * This is a class instance of a socket server client connection.
      */
     class SocketServerAdapter {
@@ -175,6 +203,18 @@ namespace exolix {
          * The IP address of the client.
          */
         std::string ip;
+
+        /**
+         * The handler for on message. This is called
+         * when a message is received from the client.
+         */
+        std::function<void(SocketServerAdapterMessage &message)> onMessage = [] (SocketServerAdapterMessage &message) {};
+
+        /**
+         * The handler for on disconnect. This is called
+         * when the client disconnects from the server.
+         */
+        std::function<void()> onDisconnect = [] () {};
 
         /**
          * This variable doesn't have a specific purpose
@@ -222,6 +262,20 @@ namespace exolix {
         std::string getIp();
 
         /**
+         * Set the socket message listener. This is called
+         * when a message is received from the client.
+         * @param listener The listener.
+         */
+        void setOnMessageListener(std::function<void(SocketServerAdapterMessage &message)> listener);
+
+        /**
+         * Set the socket disconnect listener. This is called
+         * when the client disconnects from the server.
+         * @param listener The listener.
+         */
+        void setOnDisconnectListener(std::function<void()> listener);
+
+        /**
          * Block the current the thread until the socket
          * is closed or terminated.
          * @return Whether the socket is closed or not.
@@ -247,6 +301,20 @@ namespace exolix {
          * @return If the thread has been blocked before.
          */
         [[nodiscard]] bool blockedBefore() const;
+
+        /**
+         * Send a socket message to the client.
+         * @param message The message to send/
+         * @return An error or Ok status code.
+         */
+        SocketServerAdapterErrors send(SocketServerAdapterMessage &message);
+
+        /**
+         * Send a socket message to the client as a string.
+         * @param message The message to send.
+         * @return An error or Ok status code.
+         */
+        SocketServerAdapterErrors send(const std::string& message);
     };
 
     /**
@@ -264,23 +332,23 @@ namespace exolix {
         /**
          * The server thread for win32 systems. This is used
          */
-        i64 win32ServerThread;
+        i64 win32ServerThread{};
 
         /**
          * The current external socket.
          */
-        i64 extSocket;
+        i64 extSocket{};
 
         /**
          * The message buffer system.
          */
-        char *buffer;
+        char *buffer{};
 
         /**
          * Whether the win32 thread is done. This will be inaccurate if the thread
          * was never blocked.
          */
-        bool win32ThreadDone;
+        bool win32ThreadDone{};
 
         /**
          * The backlog of the server. A backlog number
@@ -457,5 +525,19 @@ namespace exolix {
          * @param interval The interval time in milliseconds.
          */
         void setTrashCollectionInterval(u32 interval);
+
+        /**
+         * Emit and dispatch a message to all currently
+         * connected sockets.
+         * @param message The message to dispatch.
+         */
+        void emit(SocketServerAdapterMessage &message);
+
+        /**
+         * Emit and dispatch a string message to
+         * all currently connected sockets.
+         * @param message The message to dispatch.
+         */
+        void emit(const std::string &message);
     };
 }
