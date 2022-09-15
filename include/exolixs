@@ -1,7 +1,12 @@
 #pragma once
 
-#include "/home/xfaon/CLionProjects/ExolixCom/lib/debug/probe.hxx"
-#include "/home/xfaon/CLionProjects/ExolixCom/lib/result/result.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/algorithm/searches.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/color/rgb.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/debug/probe.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/result/result.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/color.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/console.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/xt256.hxx"
 
 namespace ex {
     using namespace exolix;

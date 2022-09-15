@@ -17,16 +17,24 @@ public:
     }
 
     void loop() {
+        int runs = 1002;
+
         while (true) {
+            runs--;
             std::this_thread::sleep_for(std::chrono::seconds(1));
             auto ran = random();
 
-            probe->setProp("Number", ran);
+            Console::setCursorPos({ 10, 10 });
+            Console::clearLine();
+
+            Console::write("Runs: " + std::to_string(runs));
         }
     }
 };
 
 int main() {
+    exolix_initConsole();
+
     DebugProbe probe;
     MyServer server;
 

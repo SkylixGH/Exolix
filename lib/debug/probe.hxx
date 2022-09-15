@@ -2,6 +2,7 @@
 
 #include "../result/result.hxx"
 #include <map>
+#include <string>
 
 namespace exolix {
     /**
@@ -35,7 +36,10 @@ namespace exolix {
      */
     class DebugProbe {
     private:
-
+        /**
+         * All of the rendering properties for debugging.
+         */
+        std::map<std::string, std::string> props {};
 
     public:
         /**
@@ -66,7 +70,20 @@ namespace exolix {
          * @param keyName The name of the key.
          * @param value The value of the key.
          */
+        void setPropDouble(const std::string &keyName, const double &value);
 
+        /**
+         * Set a debug probe visualizer device property. This
+         * will render a custom key pair value in the visualizer.
+         * @param keyName The name of the key.
+         * @param value The value of the key.
+         */
+        void setPropInt(const std::string &keyName, const long long &value);
+
+        /**
+         * Render the data to the screen.
+         */
+        void render();
     };
 
     /**
