@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include "../color/rgb.hxx"
+#include "../color/colors.hxx"
 
 namespace exolix {
     /**
@@ -17,5 +17,13 @@ namespace exolix {
          * @return The closest supported xt256 color.
          */
         static std::string rgbToAnsi(const ColorRgb &rgb);
+
+        /**
+         * Convert a hexadecimal color to the closest supported xt256 color
+         * to be displayed in the terminal.
+         * @param hex The hexadecimal color to convert.
+         * @return The closest supported xt256 color.
+         */
+        static std::string hexToAnsi(const ColorHex &hex);
     };
 }

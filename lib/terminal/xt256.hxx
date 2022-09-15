@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../color/rgb.hxx"
+#include "../color/colors.hxx"
 #include <vector>
 
 namespace exolix {

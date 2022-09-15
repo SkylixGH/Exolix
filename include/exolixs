@@ -1,7 +1,8 @@
 #pragma once
 
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/algorithm/searches.hxx"
-#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/color/rgb.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/algorithm/strings.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/color/colors.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/debug/probe.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/result/result.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/color.hxx"
