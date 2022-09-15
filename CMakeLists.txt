@@ -1,44 +1,50 @@
-cmake_minimum_required(VERSION 3.16)
-project(Exolix CXX)
+project(Skylix_Exolix)
+cmake_minimum_required(VERSION 3.2)
 
-# Run include file generator and automatic
-# file include assistance with guards.
-execute_process(
-        COMMAND node ${CMAKE_SOURCE_DIR}/gen/bin/cmake-assist-generator.js generate-include include/exolix.hxx lib
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
-
+# Add project files
+file(GLOB_RECURSE Skylix_Exolix_LIB_FILES "lib/*.cxx")
+file(GLOB_RECURSE Skylix_Exolix_INCLUDE_FILES "lib/*.hxx")
+add_library(skylixExolix ${Skylix_Exolix_LIB_FILES} ${Skylix_Exolix_INCLUDE_FILES})
 include_directories(include)
 
-set(CMAKE_CXX_STANDARD 20)
+# Write to include file
+file(WRITE include/exolix "#pragma once\n\n")
+foreach(file ${Skylix_Exolix_INCLUDE_FILES})
+    file(APPEND include/exolix "#include \"${file}\"\n")
+endforeach()
 
-file(GLOB_RECURSE Exolix_SOURCE_FILES lib/*.cxx lib/*.hxx)
-add_library(exolix STATIC ${Exolix_SOURCE_FILES})
+# Make sure that at the start of every header file there is #pragma once
+foreach(file ${Skylix_Exolix_INCLUDE_FILES})
+    file(READ ${file} fileContent)
+    string(FIND ${fileContent} "#pragma once" pragmaOnceFound)
+    if(pragmaOnceFound EQUAL -1)
+        message(FATAL_ERROR "Header file ${file} does not contain #pragma once")
+    endif()
+endforeach()
 
-macro(subdirlist result curdir)
-    file(GLOB children RELATIVE ${curdir} ${curdir}/*)
-    set(dirlist "")
+# Make sure that at the end of every file there is a newline character
+foreach(file ${Skylix_Exolix_LIB_FILES} ${Skylix_Exolix_INCLUDE_FILES})
+    file(READ ${file} fileContent)
+    string(LENGTH ${fileContent} fileContentLength)
+    math(EXPR fileContentLength "${fileContentLength} - 1")
+    string(SUBSTRING ${fileContent} ${fileContentLength} 1 lastCharacter)
+    if(NOT lastCharacter STREQUAL "\n")
+        message(FATAL_ERROR "File ${file} does not end with a newline character")
+    endif()
+endforeach()
 
-    foreach (child ${children})
-        if (IS_DIRECTORY ${curdir}/${child})
-            LIST(APPEND dirlist ${child})
-        endif ()
-    endforeach ()
+# Make sure that every file has "namespace exolix {" at line 3
+foreach(file ${Skylix_Exolix_LIB_FILES} ${Skylix_Exolix_INCLUDE_FILES})
+    file(READ ${file} fileContent)
+    string(FIND ${fileContent} "namespace exolix {" namespaceExolixFound)
+    if(namespaceExolixFound EQUAL -1)
+        message(FATAL_ERROR "File ${file} does not contain \"namespace exolix {\"")
+    endif()
+endforeach()
 
-    set(${result} ${dirlist})
-endmacro()
-
-# Add windows specific libraries
-if (WIN32)
-    target_link_libraries(exolix PUBLIC ws2_32)
-endif ()
-
-# Add OpenSSL libraries
-find_package(OpenSSL REQUIRED)
-target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
-
-subdirlist(Test_DIRECTORIES ${CMAKE_SOURCE_DIR}/test)
-
-foreach (subdir ${Test_DIRECTORIES})
-    add_subdirectory(test/${subdir})
-endforeach ()
+# Add examples
+file(GLOB SkylixExolix_EXAMPLES_LIST RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/example ${CMAKE_CURRENT_SOURCE_DIR}/example/*)
+foreach(example ${SkylixExolix_EXAMPLES_LIST})
+    message(STATUS "Exolix adding example: ${example}")
+    add_subdirectory(example/${example})
+endforeach()
