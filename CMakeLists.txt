@@ -1,6 +1,8 @@
 project(Skylix_Exolix)
 cmake_minimum_required(VERSION 3.2)
 
+set(CMAKE_CXX_STANDARD 20)
+
 # Add project files
 file(GLOB_RECURSE Skylix_Exolix_LIB_FILES "lib/*.cxx")
 file(GLOB_RECURSE Skylix_Exolix_INCLUDE_FILES "lib/*.hxx")
@@ -13,34 +15,11 @@ foreach(file ${Skylix_Exolix_INCLUDE_FILES})
     file(APPEND include/exolix "#include \"${file}\"\n")
 endforeach()
 
-# Make sure that at the start of every header file there is #pragma once
+file(WRITE include/exolixs "#pragma once\n\n")
 foreach(file ${Skylix_Exolix_INCLUDE_FILES})
-    file(READ ${file} fileContent)
-    string(FIND ${fileContent} "#pragma once" pragmaOnceFound)
-    if(pragmaOnceFound EQUAL -1)
-        message(FATAL_ERROR "Header file ${file} does not contain #pragma once")
-    endif()
+    file(APPEND include/exolixs "#include \"${file}\"\n")
 endforeach()
-
-# Make sure that at the end of every file there is a newline character
-foreach(file ${Skylix_Exolix_LIB_FILES} ${Skylix_Exolix_INCLUDE_FILES})
-    file(READ ${file} fileContent)
-    string(LENGTH ${fileContent} fileContentLength)
-    math(EXPR fileContentLength "${fileContentLength} - 1")
-    string(SUBSTRING ${fileContent} ${fileContentLength} 1 lastCharacter)
-    if(NOT lastCharacter STREQUAL "\n")
-        message(FATAL_ERROR "File ${file} does not end with a newline character")
-    endif()
-endforeach()
-
-# Make sure that every file has "namespace exolix {" at line 3
-foreach(file ${Skylix_Exolix_LIB_FILES} ${Skylix_Exolix_INCLUDE_FILES})
-    file(READ ${file} fileContent)
-    string(FIND ${fileContent} "namespace exolix {" namespaceExolixFound)
-    if(namespaceExolixFound EQUAL -1)
-        message(FATAL_ERROR "File ${file} does not contain \"namespace exolix {\"")
-    endif()
-endforeach()
+file(APPEND include/exolixs "\nnamespace ex {\n    using namespace exolix;\n}\n")
 
 # Add examples
 file(GLOB SkylixExolix_EXAMPLES_LIST RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/example ${CMAKE_CURRENT_SOURCE_DIR}/example/*)

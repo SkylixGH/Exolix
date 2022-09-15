@@ -1,0 +1,7 @@
+#pragma once
+
+#include "/home/xfaon/CLionProjects/ExolixCom/lib/result/result.hxx"
+
+namespace ex {
+    using namespace exolix;
+}
