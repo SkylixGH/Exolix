@@ -49,6 +49,13 @@ namespace exolix {
         static void setCursorPos(const ConsoleLocation &location);
 
         /**
+         * Move the CLI cursor relative to its current
+         * printing position.
+         * @param relativeLocation The relative location to move the cursor to.
+         */
+        static void moveCursor(const ConsoleLocation &relativeLocation);
+
+        /**
          * Clear the current line the cursor is on.
          */
         static void clearLine();

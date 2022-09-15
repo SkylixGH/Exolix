@@ -42,6 +42,24 @@ namespace exolix {
         write("\033[" + std::to_string(location.y) + ";" + std::to_string(location.x) + "H");
     }
 
+    void Console::moveCursor(const exolix::ConsoleLocation &relativeLocation) {
+        if (relativeLocation.x != 0) {
+            if (relativeLocation.x < 0) {
+                write("\033[" + std::to_string(relativeLocation.x) + "D");
+            } else {
+                write("\033[" + std::to_string(relativeLocation.x) + "C");
+            }
+        }
+
+        if (relativeLocation.y != 0) {
+            if (relativeLocation.y < 0) {
+                write("\033[" + std::to_string(relativeLocation.y) + "A");
+            } else {
+                write("\033[" + std::to_string(relativeLocation.y) + "B");
+            }
+        }
+    }
+
     void Console::clearLine() {
         write("\033[2K");
     }
