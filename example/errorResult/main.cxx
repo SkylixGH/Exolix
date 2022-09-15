@@ -14,7 +14,7 @@ Result<std::string, int> work(const int &number) {
 int main() {
     Result<std::string, int> res = work(5);
 
-    if (!res.isError) {
+    if (res.isError) {
         std::cout << "Result: " << res.get() << std::endl;
     } else {
         std::cout << "Error: " << res.getError() << std::endl;
