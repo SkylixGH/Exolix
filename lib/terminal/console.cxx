@@ -43,25 +43,31 @@ namespace exolix {
     }
 
     void Console::moveCursor(const exolix::ConsoleLocation &relativeLocation) {
-        if (relativeLocation.x != 0) {
-            if (relativeLocation.x < 0) {
-                write("\033[" + std::to_string(relativeLocation.x) + "D");
-            } else {
-                write("\033[" + std::to_string(relativeLocation.x) + "C");
-            }
+        // move cursor up one line
+        if (relativeLocation.y < 0) {
+            write("\033[" + std::to_string(-relativeLocation.y) + "A");
+        } else if (relativeLocation.y > 0) {
+            write("\033[" + std::to_string(relativeLocation.y) + "B");
         }
 
-        if (relativeLocation.y != 0) {
-            if (relativeLocation.y < 0) {
-                write("\033[" + std::to_string(relativeLocation.y) + "A");
-            } else {
-                write("\033[" + std::to_string(relativeLocation.y) + "B");
-            }
+        // move cursor left one column
+        if (relativeLocation.x < 0) {
+            write("\033[" + std::to_string(-relativeLocation.x) + "D");
+        } else if (relativeLocation.x > 0) {
+            write("\033[" + std::to_string(relativeLocation.x) + "C");
         }
     }
 
     void Console::clearLine() {
         write("\033[2K");
+    }
+
+    void Console::setCursorBarVisible(bool visible) {
+        if (visible) {
+            write("\033[?25h");
+        } else {
+            write("\033[?25l");
+        }
     }
 
     void exolix_initConsole() {
@@ -74,5 +80,7 @@ namespace exolix {
 #endif
 
         // TODO: Linux and Mac
+
+        Console::setCursorBarVisible(true);
     }
 }

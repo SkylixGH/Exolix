@@ -14,19 +14,37 @@ int main() {
 
     bool on = true;
 
-    const char frames[4] = { '|', '/', 'o', '\\' };
+    const char frames[] = {
+            '|',
+            '/',
+            '-',
+            '\\',
+            '|',
+            '|',
+            '|',
+            '|',
+            '|',
+            '\\',
+            '-',
+            '/',
+            '|',
+            '|',
+            '|',
+    };
     short int frame = 0;
+
+    Console::setCursorBarVisible(false);
 
     while (true) {
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         Console::write(TerminalColor::hexToAnsi(ColorHex("fff")) + std::string(1, frames[frame]) + TerminalColor::hexToAnsi(ColorHex("999")) + " Loading\n");
 
-        Console::moveCursor({ 0, -1 });
-        Console::clearLine();
+        Console::moveCursor({ -9, -1 });
+//        Console::clearLine();
 
         frame++;
 
-        if (frame > 3) {
+        if (frame > sizeof(frames) - 1) {
             frame = 0;
         }
 

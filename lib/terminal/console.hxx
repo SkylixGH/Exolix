@@ -59,6 +59,12 @@ namespace exolix {
          * Clear the current line the cursor is on.
          */
         static void clearLine();
+
+        /**
+         * Set the CLI cursor bar visibility.
+         * @param visible True if the cursor bar should be visible.
+         */
+        static void setCursorBarVisible(bool visible);
     };
 
     /**
