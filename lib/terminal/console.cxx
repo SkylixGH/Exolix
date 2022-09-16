@@ -83,4 +83,12 @@ namespace exolix {
 
         Console::setCursorBarVisible(true);
     }
+
+    void Console::setCursorX(int x) {
+        write("\033[" + std::to_string(x) + "G");
+    }
+
+    void Console::setCursorY(int y) {
+        write("\033[" + std::to_string(y) + "d");
+    }
 }

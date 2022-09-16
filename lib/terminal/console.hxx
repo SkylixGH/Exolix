@@ -65,6 +65,18 @@ namespace exolix {
          * @param visible True if the cursor bar should be visible.
          */
         static void setCursorBarVisible(bool visible);
+
+        /**
+         * Set the X position of the printing cursor.
+         * @param x The X position to set the cursor to.
+         */
+        static void setCursorX(int x);
+
+        /**
+         * Set the Y position of the printing cursor.
+         * @param y The Y position to set the cursor to.
+         */
+        static void setCursorY(int y);
     };
 
     /**
