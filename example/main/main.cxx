@@ -2,7 +2,12 @@
 
 using namespace exolix;
 
-int main() {
+class MyWidget : public TerminalXtWidget {
+public:
 
+};
+
+int main() {
+    MyWidget widget;
     return 0;
 }
