@@ -48,7 +48,7 @@ namespace exolix {
          * to the specified location.
          * @param location The location to move the cursor to.
          */
-        static void setCursorPos(const ConsoleLocation &location);
+        static void setCursorPos(const ConsoleLocation &location); // TODO: Relativity issue where 1 is actually 0
 
         /**
          * Move the CLI cursor relative to its current

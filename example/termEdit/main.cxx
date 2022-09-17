@@ -1,37 +1,105 @@
-#include <exolixs>
+#include <exolix>
+#include <vector>
 
-using namespace ex;
+using namespace exolix;
 
+/**
+ * A terminal editor written with the Exolix software
+ * framework.
+ * @return The process exit code.
+ */
 int main() {
     exolix_initConsole();
-    Console::write("Loading IDE...\n");
 
-    std::string fd = "Hello World!";
-    Console::setCursorPos({ 0, 0 });
+    ConsoleKeyboard kb;
     Console::clear();
 
-    ConsoleKeyboard kbd;
+    Console::write(TerminalColor::hexToAnsi(ColorHex("ff6070")) + "Terminal Editor::['Made with Exolix']\n");
 
-    kbd.setAnsiListener([&fd] (char value) {
-        bool backspace = value == 8;
+    std::vector<std::string> lines = {
+        "Hello First Line",
+        "Hello Second Line",
+    };
 
-        if (!backspace) {
-            fd += value;
-        } else {
-            fd.pop_back();
+    auto render = [&] (int line, int col) {
+        Console::setCursorPos({ 0, 2 });
+        Console::write("Line: " + std::to_string(line) + " Col: " + std::to_string(col) + " \n");
+
+        int lineNum = 0;
+        for (auto &line : lines) {
+            lineNum++;
+
+            Console::clearLine();
+            Console::write(TerminalColor::hexToAnsi(ColorHex("666")) + std::to_string(lineNum) + "  |  " + TerminalColor::hexToAnsi(ColorHex("fff")) + line + "\n");
         }
 
-        // Render
-        Console::clear();
+        Console::write(TerminalColor::hexToAnsi(ColorHex("666")) + std::to_string(lineNum + 1) + "  |  " + TerminalColor::hexToAnsi(ColorHex("fff")) + "\n");
+        Console::moveCursor({ 6, -1 });
+    };
 
-        Console::write("Quick Text Editor: [ Chars = " + std::to_string(fd.size()) + " ] V = NULL\n");
-        Console::setCursorPos({ 0, 2 });
-        Console::write(fd);
+    int line = 0;
+    int col = 0;
+
+    kb.setAnsiListener([&] (char value, bool down, unsigned int code) {
+        if (!down) return;
+
+        // if arrow keys
+        if (code == 37) {
+            col--;
+        } else if (code == 38) {
+            line--;
+        } else if (code == 39) {
+            col++;
+        } else if (code == 40) {
+            line++;
+        }
+
+        if (line < 0) line = 0;
+        if (col < 0) col = 0;
+
+        if (line > lines.size() - 1) line = lines.size() - 1;
+
+        if (col > lines[line].size()) {
+            col = 0;
+            line++;
+        }
+
+        bool backspace = code == 8;
+
+        if (backspace) {
+            if (col == 0) {
+                if (line == 0) return;
+
+                line--;
+                col = lines[line].size();
+                lines[line] += lines[line + 1];
+                lines.erase(lines.begin() + line + 1);
+            } else {
+                col--;
+                lines[line].erase(lines[line].begin() + col);
+            }
+        } else {
+            if (value == '\r') {
+                lines.insert(lines.begin() + line + 1, lines[line].substr(col));
+                lines[line] = lines[line].substr(0, col);
+                line++;
+                col = 0;
+            } else if (value == '\t') {
+                lines[line].insert(lines[line].begin() + col, ' ');
+                col++;
+            } else if (value != 0) {
+                lines[line].insert(lines[line].begin() + col, value);
+                col++;
+            } else {
+                return;
+            }
+        }
+
+        render(line, col);
     });
 
-    kbd.block();
+    render(line, col);
+    kb.block();
 
-    Console::clear();
-    Console::write("Editor Crash Detected\n");
     return 0;
 }

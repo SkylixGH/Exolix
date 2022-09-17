@@ -7,8 +7,6 @@
 
 namespace exolix {
     void TerminalConsoleWin32Impl::listener() {
-        printf("Listener started for win32\n");
-
         KEY_EVENT_RECORD keyDat;
 
         while (!isDisposed()) {

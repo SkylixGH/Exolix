@@ -38,9 +38,7 @@ namespace exolix {
                 metaListener(event.meta);
             }
 
-            if (event.value != '\0') {
-                ansiListener(event.value);
-            }
+            ansiListener(event.value, event.pressed, event.id);
 
             lastEvent = event;
         });
@@ -53,7 +51,7 @@ namespace exolix {
         delete impl;
     }
 
-    void ConsoleKeyboard::setAnsiListener(std::function<void(char)> listener) {
+    void ConsoleKeyboard::setAnsiListener(std::function<void(char, bool, unsigned int)> listener) {
         ansiListener = std::move(listener);
     }
 

@@ -12,7 +12,7 @@ namespace exolix {
         /**
          * The actual listener for when a value key is pressed in ansi.
          */
-        std::function<void(char value)> ansiListener = [] (char value) {};
+        std::function<void(char value, bool isDown, unsigned int code)> ansiListener = [] (char value, bool isDown, unsigned int code) {};
 
         /**
          * The actual listener for when the CTRL key is pressed.
@@ -51,7 +51,7 @@ namespace exolix {
          * Set the listener for when a new ANSI char is inputted.
          * @param listener The listener.
          */
-        void setAnsiListener(std::function<void(char value)> listener);
+        void setAnsiListener(std::function<void(char value, bool isDown, unsigned int code)> listener);
 
         /**
          * Set the listener for when the CTRL key is pressed.
