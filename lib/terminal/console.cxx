@@ -32,9 +32,10 @@ namespace exolix {
 
     void Console::clear() {
         write("\033[2J\033[1;1H");
+        setCursorPos({ 0, 0 });
     }
 
-    void Console::write(std::string text) {
+    void Console::write(const std::string& text) {
         std::cout << text;
     }
 

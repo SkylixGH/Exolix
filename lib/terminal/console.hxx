@@ -22,6 +22,8 @@ namespace exolix {
      * This class is used for interfacing with the console interface.
      */
     class Console {
+    private:
+
     public:
         /**
          * Check to see if the console supports ANSI escape codes.
@@ -39,7 +41,7 @@ namespace exolix {
          * out channel.
          * @param text The text to write to the console.
          */
-        static void write(std::string text);
+        static void write(const std::string& text);
 
         /**
          * Set cursor position. This will move the printing location

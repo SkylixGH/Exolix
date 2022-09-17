@@ -24,9 +24,7 @@ namespace exolix {
                 throw std::runtime_error("Could not get console handle");
             }
 
-            DriverKeyboardEvent lastEvent {};
-
-            while (true) {
+            while (!isDisposed()) {
                 ReadConsoleInput(h, &inRec, 1, &cc);
 
                 if (
@@ -64,13 +62,13 @@ namespace exolix {
                     if (keyDat.dwControlKeyState & RIGHT_ALT_PRESSED) {
                         event.rAlt = true;
                     } else {
-                        rAlt = false;
+                        event.rAlt = false;
                     }
 
                     if (keyDat.dwControlKeyState & SHIFT_PRESSED) {
                         event.lShift = true;
                     } else {
-                        lShift = false;
+                        event.lShift = false;
                     }
 
                     if (keyDat.dwControlKeyState & SHIFT_PRESSED) {

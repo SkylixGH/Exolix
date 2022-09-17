@@ -16,7 +16,7 @@ namespace exolix {
         /**
          * The key press listener.
          */
-        std::function<void(DriverKeyboardEvent &event)> keyListener {};
+        std::function<void(DriverKeyboardEvent &event)> keyListener = [] (DriverKeyboardEvent &event) {};
 
         /**
          * Check to see if this was disposed.

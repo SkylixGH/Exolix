@@ -9,7 +9,7 @@ namespace exolix {
         /**
          * The keyboard key ID.
          */
-        unsigned int id;
+        unsigned int id = 0;
 
         /**
          * Whether the left shift key is pressed.
@@ -52,11 +52,28 @@ namespace exolix {
         /**
          * The key value.
          */
-        char value;
+        char value = '\0';
 
         /**
          * Whether the key is pressed.
          */
         bool pressed = false;
+    };
+
+    /**
+     * A enumeration dual type datatype used for determining whether
+     * a key such as CTRL, ALT, SHIFT, etc... is on the left or right
+     * side of the keyboard.
+     */
+    enum class DriverKeyboardSection {
+        /**
+         * The event was on the LEFT side of the keyboard.
+         */
+        LEFT,
+
+        /**
+         * The event was on the RIGHT side of the keyboard.
+         */
+        RIGHT
     };
 }
