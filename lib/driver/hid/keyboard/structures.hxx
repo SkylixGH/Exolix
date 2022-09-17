@@ -9,7 +9,7 @@ namespace exolix {
         /**
          * The keyboard key ID.
          */
-        char id;
+        unsigned int id;
 
         /**
          * Whether the left shift key is pressed.
@@ -48,5 +48,15 @@ namespace exolix {
          * this is the windows button and on macos this is the command key.
          */
         bool meta = false;
+
+        /**
+         * The key value.
+         */
+        char value;
+
+        /**
+         * Whether the key is pressed.
+         */
+        bool pressed = false;
     };
 }
