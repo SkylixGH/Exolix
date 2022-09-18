@@ -2,6 +2,7 @@
 
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/algorithm/searches.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/algorithm/strings.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/app/process.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/color/colors.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/debug/probe.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/driver/hid/keyboard/structures.hxx"
