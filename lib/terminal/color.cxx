@@ -3,12 +3,19 @@
 #include "../algorithm/searches.hxx"
 
 namespace exolix {
-    std::string TerminalColor::rgbToAnsi(const ColorRgb &rgb) {
+    const std::string TerminalColor::reset = "\033[0m";
+
+    std::string TerminalColor::rgbToAnsi(const ColorRgb &rgb, bool background) {
         auto [closest, index] = AlgorithmSearch::findClosestRgb(xt256Colors, rgb);
-        return "\x1b[38;5;" + std::to_string(index) + "m";
+
+        if (background) {
+            return "\x1b[48;5;" + std::to_string(index) + "m";
+        } else {
+            return "\x1b[38;5;" + std::to_string(index) + "m";
+        }
     }
 
-    std::string TerminalColor::hexToAnsi(const ColorHex &hex) {
+    std::string TerminalColor::hexToAnsi(const ColorHex &hex, bool background) {
         ColorRgb rgb {
             hex.getRed(),
             hex.getGreen(),
@@ -16,6 +23,6 @@ namespace exolix {
             hex.getAlpha()
         };
 
-        return rgbToAnsi(rgb);
+        return rgbToAnsi(rgb, background);
     }
 }

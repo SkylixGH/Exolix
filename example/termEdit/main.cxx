@@ -14,15 +14,17 @@ int main() {
     ConsoleKeyboard kb;
     Console::clear();
 
-    Console::write(TerminalColor::hexToAnsi(ColorHex("ff6070")) + "Terminal Editor::['Made with Exolix']\n");
+    Console::write(TerminalColor::hexToAnsi(ColorHex("ff6070"), true) + TerminalColor::hexToAnsi(ColorHex("000")) + "Terminal Editor::['Made with Exolix']\n" + TerminalColor::reset);
 
     std::vector<std::string> lines = {
         "Hello First Line",
         "Hello Second Line",
+        ""
     };
 
     auto render = [&] (int line, int col) {
         Console::setCursorPos({ 0, 2 });
+        Console::setCursorBarVisible(false);
         Console::write("Line: " + std::to_string(line) + " Col: " + std::to_string(col) + " \n");
 
         int lineNum = 0;
@@ -33,8 +35,9 @@ int main() {
             Console::write(TerminalColor::hexToAnsi(ColorHex("666")) + std::to_string(lineNum) + "  |  " + TerminalColor::hexToAnsi(ColorHex("fff")) + line + "\n");
         }
 
-        Console::write(TerminalColor::hexToAnsi(ColorHex("666")) + std::to_string(lineNum + 1) + "  |  " + TerminalColor::hexToAnsi(ColorHex("fff")) + "\n");
-        Console::moveCursor({ 6, -1 });
+        // move the cursor to the correct position
+        Console::setCursorPos({ col + 7, line + 3 });
+        Console::setCursorBarVisible(true);
     };
 
     int line = 0;
@@ -57,18 +60,21 @@ int main() {
         if (line < 0) line = 0;
         if (col < 0) col = 0;
 
-        if (line > lines.size() - 1) line = lines.size() - 1;
-
         if (col > lines[line].size()) {
             col = 0;
             line++;
         }
 
+        if (line > lines.size() - 1) line = lines.size() - 1;
+
         bool backspace = code == 8;
 
         if (backspace) {
             if (col == 0) {
-                if (line == 0) return;
+                if (line == 0) {
+                    render(line, col);
+                    return;
+                };
 
                 line--;
                 col = lines[line].size();
@@ -91,6 +97,7 @@ int main() {
                 lines[line].insert(lines[line].begin() + col, value);
                 col++;
             } else {
+                render(line, col);
                 return;
             }
         }
