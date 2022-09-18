@@ -13,10 +13,11 @@ int main() {
 
     Console::write(
         TerminalColor("Exolix")
-            .setFg(ColorHex("000"))
-            ->setBk(ColorHex("fff"))
+            .setBlink(true)
+            ->setBold(false)
+            ->setUnderline(true)
             ->render()
-        + " Framework!\n" + TerminalColor::reset
+        + " Framework!\n"
     );
 
     while (getchar() != 'q') {}

@@ -88,7 +88,7 @@ namespace exolix {
          * for colors, style and others util.
          * @param text The text to decorate.
          */
-        TerminalColor(const std::string& text);
+        explicit TerminalColor(const std::string& text);
 
         /**
          * Convert an RGB color to the closest supported xt256 color
@@ -138,14 +138,15 @@ namespace exolix {
 
         /**
          * Set the strike through factor value. When enabled, the text will be
-         * striked through on render.
+         * struck through on render.
          * @param strikeThrough Whether to strike through the text.
          */
         TerminalColor *setStrikeThrough(bool strikeThrough);
 
         /**
          * Set the blink factor value. When enabled, the text will be blinking
-         * on render.
+         * on render. Do note that this is not supported on all terminals and
+         * sometimes will be completely ignored if a color or background is set.
          * @param blink Whether to blink the text.
          */
         TerminalColor *setBlink(bool blink);
