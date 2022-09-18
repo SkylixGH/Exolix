@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 namespace exolix {
     /**
      * A class used for getting information about the current process,
@@ -8,7 +10,9 @@ namespace exolix {
     class AppProcess {
     public:
         /**
-         * Get
+         * Get the process id of the current process.
+         * @return The process id of the current process.
          */
+        static uint64_t getProcessId();
     };
 }

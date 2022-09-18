@@ -25,7 +25,7 @@ namespace exolix {
 
     /**
      * An ok datatype return compatible with the result
-     * @tparam ValueType The datatype used to store the value.
+     * @tparam ValueType The datatype used to store the value. Use nullptr_t if no value is needed.
      */
     template <typename ValueType>
     class Ok {
@@ -44,7 +44,7 @@ namespace exolix {
 
     /**
      * The result datatype for function returns.
-     * @tparam ValueType The datatype used to store the value.
+     * @tparam ValueType The datatype used to store the value. Use nullptr_t if no value is returned.
      * @tparam ErrorType The datatype used to store the error code.
      */
     template <typename ValueType, typename ErrorType>
@@ -72,12 +72,14 @@ namespace exolix {
          * Create a new return value with no error.
          * @param value The value.
          */
+        // NOLINTNEXTLINE(google-explicit-constructor)
         Result(Ok<ValueType> value) : value(value.value), isError(false) {}
 
         /**
          * Create a new return value with an error.
          * @param error The error code.
          */
+        // NOLINTNEXTLINE(google-explicit-constructor)
         Result(Err<ErrorType> error) : error(error.error), isError(true) {}
 
         ~Result() {
