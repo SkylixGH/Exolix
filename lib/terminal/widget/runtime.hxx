@@ -2,9 +2,57 @@
 
 #include "../../result/result.hxx"
 #include "../keyboard/keyListener.hxx"
-#include "xtwidget.hxx"
 
 namespace exolix {
+    enum class TerminalWidgetRuntimeErrors;
+
+    /**
+     * A class used for creating terminal animation
+     * or interactive widgets. This widget would run in an XT or XTerm
+     * environment.
+     */
+    class TerminalXtWidget {
+    private:
+        /**
+         * Whether this specific runtime is running. Its important to keep
+         * track of this because the terminal runtime does not know what
+         * widget instance is running.
+         */
+        bool active;
+
+    public:
+        /**
+         * Create a new command line XTerm widget.
+         */
+        TerminalXtWidget();
+
+        virtual ~TerminalXtWidget() = default;
+
+        /**
+         * Handle the user key presses.
+         * @param event The key pressed by the user.
+         */
+        virtual void handleKeyPress(const DriverKeyboardEvent &event) = 0;
+
+        /**
+         * Start the widget and run it via the widget runtime.
+         * @return Error code otherwise nullptr for success.
+         */
+        Result<nullptr_t, TerminalWidgetRuntimeErrors> start();
+
+        /**
+         * Stop the widget and kill it via the widget runtime.
+         * @return Error code otherwise nullptr for success.
+         */
+        Result<nullptr_t, TerminalWidgetRuntimeErrors> stop();
+
+        /**
+         * Block the widget and block it via the widget runtime.
+         * @return Error code otherwise nullptr for success.
+         */
+        Result<nullptr_t, TerminalWidgetRuntimeErrors> block();
+    };
+
     /**
      * List of errors from the TerminalWidgetRuntime class.
      */
