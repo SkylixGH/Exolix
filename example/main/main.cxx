@@ -13,21 +13,26 @@ private:
 int main() {
     exolix_initConsole();
 
+    Console::write(
+        TerminalColor("Exolix")
+            .setBlink(true)
+            ->setBold(false)
+            ->setUnderline(true)
+            ->render()
+        + " Framework!\n"
+    );
+
     MyWidget widget;
-//    TerminalWidgetRuntime::run(widget);
+    auto runRes = TerminalWidgetRuntime::run(widget);
 
-//    Console::write(
-//        TerminalColor("Exolix")
-//            .setBlink(true)
-//            ->setBold(false)
-//            ->setUnderline(true)
-//            ->render()
-//        + " Framework!\n"
-//    );
+    if (runRes.isError) {
+        switch (runRes.getError()) {
+            case TerminalWidgetRuntimeErrors::WIDGET_ALREADY_RUNNING:
+                Console::write("Widget already running!\n");
+                break;
+        }
+    }
 
-    auto pid = AppProcess::getProcessId();
-    Console::write("Process id: " + std::to_string(pid) + "\n");
-
-    while (getchar() != 'q') {}
+    AppProcess::block();
     return 0;
 }

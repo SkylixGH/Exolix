@@ -14,5 +14,12 @@ namespace exolix {
          * @return The process id of the current process.
          */
         static uint64_t getProcessId();
+
+        /**
+         * Block the program infinitely. This is used to keep the program
+         * even if there is no work to be done. This block method can also
+         * be called as many times as you want.
+         */
+        static void block();
     };
 }

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+// TODO: Add unhandled exception listener
+
 namespace exolix {
     /**
      * An error datatype return compatible with the result

@@ -35,6 +35,11 @@ namespace exolix {
         std::function<void(bool meta)> metaListener = [] (bool meta) {};
 
         /**
+         * The listener for driver keyboard events in the terminal.
+         */
+        std::function<void(DriverKeyboardEvent &event)> driverListener = [] (DriverKeyboardEvent &event) {};
+
+        /**
          * The actual OS native implementation of the keyboard.
          */
         TerminalConsoleImpl* impl;
@@ -76,6 +81,12 @@ namespace exolix {
          * @param listener The listener.
          */
         void setMetaListener(std::function<void(bool meta)> listener);
+
+        /**
+         * Set the listener for when a driver keyboard event is fired.
+         * @param listener The listener.
+         */
+        void setDriverListener(std::function<void(DriverKeyboardEvent &event)> listener);
 
         /**
          * Block the thread and wait until the key listener is disposed.

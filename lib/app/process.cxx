@@ -13,4 +13,12 @@ namespace exolix {
 
         // TODO: Implement for other platforms
     }
+
+    void AppProcess::block() {
+#ifdef _WIN32
+        Sleep(INFINITE);
+#endif
+
+        // TODO: Implement for other platforms
+    }
 }
