@@ -79,6 +79,14 @@ namespace exolix {
          * @param y The Y position to set the cursor to.
          */
         static void setCursorY(int y);
+
+        /**
+         * Return the CLI cursor to home. We recommend calling
+         * this before moving the cursor to allow for a clean
+         * move and not have to worry about the cursor being
+         * in a weird position.
+         */
+        static void returnCursor();
     };
 
     /**

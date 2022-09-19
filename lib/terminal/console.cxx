@@ -87,6 +87,10 @@ namespace exolix {
         }
     }
 
+    void Console::returnCursor() {
+        write("\033[H");
+    }
+
     void exolix_initConsole() {
 #if defined(_WIN32)
         HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);

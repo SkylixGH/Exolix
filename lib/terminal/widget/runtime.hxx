@@ -14,6 +14,17 @@ namespace exolix {
          * tried to run a widget when it was already running.
          */
         WIDGET_ALREADY_RUNNING,
+
+        /**
+         * The widget was already blocked and cannot be blocked
+         * again without a new widget being set.
+         */
+        WIDGET_ALREADY_BLOCKED,
+
+        /**
+         * No widget was found that is running.
+         */
+        NO_RUNNING_WIDGET
     };
 
     /**
@@ -28,6 +39,11 @@ namespace exolix {
         static bool active;
 
         /**
+         * Whether the widget was blocked or not.
+         */
+        static bool blocked;
+
+        /**
          * The actual widget that is running.
          */
         static TerminalXtWidget *widget;
@@ -39,12 +55,25 @@ namespace exolix {
 
     public:
         /**
-         * Run a widgetObject. This will run the widgetObject until either the widgetObject
+         * Run a widget object. This will run the widget object until either the widget object
          * commits suicide or the runtime is tasked with killing it.
          * @param widgetObject The widgetObject to run.
          * @return The return status of the widgetObject, no value is returned, but on error
          * an error is attached.
          */
         static Result<nullptr_t, TerminalWidgetRuntimeErrors> run(TerminalXtWidget &widgetObject);
+
+        /**
+         * Kill the running widget object.
+         * @return The error status or nullptr if successfully halted.
+         */
+        static Result<nullptr_t, TerminalWidgetRuntimeErrors> halt();
+
+        /**
+         * Block the outside thread while the widget xterm device
+         * is still running.
+         * @return The error status or nullptr if blocked successfully.
+         */
+        static Result<nullptr_t, TerminalWidgetRuntimeErrors> block();
     };
 }
