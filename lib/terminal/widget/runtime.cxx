@@ -12,14 +12,14 @@ namespace exolix {
         if (!active) return Err(TerminalWidgetRuntimeErrors::NO_RUNNING_WIDGET);
 
         auto res = TerminalWidgetRuntime::halt();
-        if (res.isError) return res;
+        return res;
     }
 
     Result<nullptr_t, TerminalWidgetRuntimeErrors> TerminalXtWidget::block() {
         if (!active) return Err(TerminalWidgetRuntimeErrors::NO_RUNNING_WIDGET);
 
         auto res = TerminalWidgetRuntime::block();
-        if (res.isError) return res;
+        return res;
     }
 
     bool TerminalWidgetRuntime::active = false;
@@ -30,15 +30,16 @@ namespace exolix {
 
     Result<nullptr_t, TerminalWidgetRuntimeErrors> TerminalWidgetRuntime::run(exolix::TerminalXtWidget &widgetObject) {
         if (active) return Err(TerminalWidgetRuntimeErrors::WIDGET_ALREADY_RUNNING);
-        active = true;
-        blocked = false;
 
         keyboardUtil = new ConsoleKeyboard();
         widget = &widgetObject;
 
         keyboardUtil->setDriverListener([] (DriverKeyboardEvent &driverE) {
-            widget->handleKeyPress(driverE);
+            if (widget != nullptr) widget->handleKeyPress(driverE);
         });
+
+        blocked = false;
+        active = true;
 
         return Ok(nullptr);
     }
@@ -46,11 +47,14 @@ namespace exolix {
     Result<nullptr_t, TerminalWidgetRuntimeErrors> TerminalWidgetRuntime::halt() {
         if (!active) return Err(TerminalWidgetRuntimeErrors::NO_RUNNING_WIDGET);
 
+        widget->cleanUp();
         keyboardUtil->dispose();
-        widget = nullptr;
 
+        widget = nullptr;
         blocked = false;
         active = false;
+
+        return Ok(nullptr);
     }
 
     Result<nullptr_t, TerminalWidgetRuntimeErrors> TerminalWidgetRuntime::block() {

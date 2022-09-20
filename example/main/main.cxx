@@ -2,17 +2,43 @@
 
 using namespace exolix;
 
-class W : public TerminalXtWidget {
-public:
-    void handleKeyPress(const exolix::DriverKeyboardEvent &event) override {
-        printf("Key pressed: %d\n", event.id);
-    }
-};
-
 int main() {
-    W w;
-    w.start();
+    exolix_initConsole();
 
-    w.block();
+    Console::write("Hello\n");
+    TerminalProgress p;
+
+    p.start();
+
+    for (int i = 0; i <= 100; i++) {
+        p.update(i);
+        std::this_thread::sleep_for(std::chrono::nanoseconds(800));
+
+        if (i == 100) {
+            p.stop();
+        }
+    }
+
+    p.block();
+
+    TerminalProgress x;
+
+    x.start();
+
+    for (int i = 0; i <= 100; i++) {
+        x.update(i);
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        if (i == 100) {
+            x.stop();
+        }
+    }
+
+    x.block();
+
+    Console::write("77x Finished Heavy Job\n");
+
+    AppProcess::block();
+
     return 0;
 }

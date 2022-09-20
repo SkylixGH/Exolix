@@ -12,6 +12,12 @@ namespace exolix {
      * environment.
      */
     class TerminalXtWidget {
+    protected:
+        /**
+         * Clean up the widget.
+         */
+        virtual void cleanUp() = 0;
+
     private:
         /**
          * Whether this specific runtime is running. Its important to keep
@@ -19,6 +25,8 @@ namespace exolix {
          * widget instance is running.
          */
         bool active;
+
+        friend class TerminalWidgetRuntime;
 
     public:
         /**

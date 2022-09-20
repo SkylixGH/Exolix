@@ -87,6 +87,20 @@ namespace exolix {
          * in a weird position.
          */
         static void returnCursor();
+
+        /**
+         * Get the command line width. This is the width of the
+         * console window in chars, NOT PIXELS.
+         * @return The command line width.
+         */
+        static long long getCommandLineWidth();
+
+        /**
+         * Get the command line height. This is the height of the
+         * console window in chars, NOT PIXELS.
+         * @return The command line height.
+         */
+        static long long getCommandLineHeight();
     };
 
     /**
