@@ -39,7 +39,7 @@ namespace exolix {
             }
 
             ansiListener(event.value, event.pressed, event.id);
-            driverListener(event); // TODO: Use const ref for passing structs
+            driverListener(event);
 
             lastEvent = event;
         });
@@ -56,15 +56,15 @@ namespace exolix {
         ansiListener = std::move(listener);
     }
 
-    void ConsoleKeyboard::setAltListener(std::function<void(bool, DriverKeyboardSection)> listener) {
+    void ConsoleKeyboard::setAltListener(std::function<void(bool, const DriverKeyboardSection &)> listener) {
         altListener = std::move(listener);
     }
 
-    void ConsoleKeyboard::setCtrlListener(std::function<void(bool, DriverKeyboardSection)> listener) {
+    void ConsoleKeyboard::setCtrlListener(std::function<void(bool, const DriverKeyboardSection &)> listener) {
         ctrlListener = std::move(listener);
     }
 
-    void ConsoleKeyboard::setShiftListener(std::function<void(bool, DriverKeyboardSection)> listener) {
+    void ConsoleKeyboard::setShiftListener(std::function<void(bool, const DriverKeyboardSection &)> listener) {
         shiftListener = std::move(listener);
     }
 
@@ -72,7 +72,7 @@ namespace exolix {
         metaListener = std::move(listener);
     }
 
-    void ConsoleKeyboard::setDriverListener(std::function<void(DriverKeyboardEvent &)> listener) {
+    void ConsoleKeyboard::setDriverListener(std::function<void(const DriverKeyboardEvent &)> listener) {
         driverListener = std::move(listener);
     }
 

@@ -131,5 +131,11 @@ namespace exolix {
          * @return The error status or nullptr if blocked successfully.
          */
         static Result<nullptr_t, TerminalWidgetRuntimeErrors> block();
+
+        /**
+         * Check to see if the widget runtime is running a widget.
+         * @return Whether a widget is running.
+         */
+        static bool isRunning();
     };
 }

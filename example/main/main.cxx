@@ -5,7 +5,11 @@ using namespace exolix;
 int main() {
     exolix_initConsole();
 
-    Console::write("Hello\n");
+    Logger::info("Hello World! App running");
+    Logger::success("Success message logged to the terminal");
+    Logger::error("Error message logged to the terminal");
+    Logger::warn("Warning message logged to the terminal");
+
     TerminalProgress p(TerminalProgressMode::UNDETERMINED);
 
     p.start();

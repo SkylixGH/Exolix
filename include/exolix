@@ -16,6 +16,8 @@
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/consoleOs/consoleOs.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/consoleOs/win32.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/keyboard/keyListener.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/logger/backend.hxx"
+#include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/logger/logger.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/widget/runtime.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/widget/xtloaders.hxx"
 #include "C:/Users/xfaon/CLionProjects/ExolixCom/lib/terminal/widget/xtoptions.hxx"

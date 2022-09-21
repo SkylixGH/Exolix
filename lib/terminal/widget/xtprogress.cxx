@@ -1,39 +1,42 @@
 #include "xtprogress.hxx"
 #include "../console.hxx"
 #include "../color.hxx"
+#include "../logger/backend.hxx"
 #include <windows.h>
 #include <string>
 
 namespace exolix {
-    const std::string frames[23] = {
+    const std::string frames[24] = {
             "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
             "| █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "/ ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "/ ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "- ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "- ░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "\\ ░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "\\ ░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "| ░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "| ░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "/ ░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░",
-            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░",
-            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░",
-            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░",
-            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░",
-            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░",
-            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░",
-            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█████",
-            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░███",
-            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█",
-            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+            "| ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ░████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ░░░░████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ░░░░░░░░░░░████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ░░░░░░░░░░░░░░░░░████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ░░░░░░░░░░░░░░░░░░░░░░░░█████████░░░░░░░░░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░███████████░░░░░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░█████████████░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░████████████████░",
+            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████████████",
+            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████████",
+            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░████████",
+            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░████",
+            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██",
+            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ██████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ░░░░░░░░█████████████████░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░██████████████████████░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████████████",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░███",
+
     };
 
-    TerminalProgress::TerminalProgress(TerminalProgressMode mode):
-        curr(0), reach(100), currentAnimationFrame(0), animeThread(nullptr), animeRunning(false),
-        endMessage(std::nullopt) {
+    TerminalProgress::TerminalProgress(TerminalProgressMode mode) :
+            curr(0), reach(100), currentAnimationFrame(0), animeThread(nullptr), animeRunning(false),
+            endMessage(std::nullopt) {
         switch (mode) {
             case TerminalProgressMode::UNDETERMINED:
                 setDeterminedState(false);
@@ -52,9 +55,9 @@ namespace exolix {
     }
 
 
-    TerminalProgress::TerminalProgress(long long value, long long max):
-        curr(value), reach(max), currentAnimationFrame(0), animeThread(nullptr), animeRunning(false),
-        endMessage(std::nullopt) {
+    TerminalProgress::TerminalProgress(long long value, long long max) :
+            curr(value), reach(max), currentAnimationFrame(0), animeThread(nullptr), animeRunning(false),
+            endMessage(std::nullopt) {
         setDeterminedState(true);
 
         Console::setCursorBarVisible(false);
@@ -84,22 +87,28 @@ namespace exolix {
             std::string barEmpty;
 
             for (unsigned long long i = 0; i < charsForValue; i++) {
-                barFilled += TerminalColor("█").setFg(ColorHex("fff"))->render();
+                barFilled += TerminalColor("█", ColorRgb()).setFg(ColorHex("fff"))->render();
             }
 
             for (unsigned long long i = 0; i < charsForEmpty; i++) {
-                barEmpty += TerminalColor("░").setFg(ColorHex("fff"))->render();
+                barEmpty += TerminalColor("░", ColorRgb()).setFg(ColorHex("fff"))->render();
             }
 
             const std::string bar = barFilled + barEmpty;
 
-            Console::write("Progress " + bar + " [ " + TerminalColor(std::to_string(percentage)).render() + "% ] [ " + TerminalColor(std::to_string(curr)).render() + " / " + TerminalColor(std::to_string(reach)).render() + " ]\n");
+            Console::write("Progress " + bar + " [ " + TerminalColor(std::to_string(percentage), ColorRgb()).render() +
+                           "% ] [ " +
+                           TerminalColor(
+                                   std::to_string(curr), ColorRgb()).render() + " / " +
+                           TerminalColor(
+                                   std::to_string(reach), ColorRgb()).render() + " ]\n");
         } else {
-            std::string frame = TerminalColor(frames[currentAnimationFrame]).setFg(ColorHex("fff"))->render();
-            Console::write("Waiting " + frame + " [ " + TerminalColor("...").render() + " ]\n");
+            std::string frame = TerminalColor(frames[currentAnimationFrame], ColorRgb()).setFg(
+                    ColorHex("fff"))->render();
+            Console::write("Waiting " + frame + " [ " + TerminalColor("...", ColorRgb()).render() + " ]\n");
         }
 
-        Console::moveCursor({ 0, -1 });
+        Console::moveCursor({0, -1});
     }
 
     void TerminalProgress::handleKeyPress(const exolix::DriverKeyboardEvent &event) {}
@@ -116,7 +125,12 @@ namespace exolix {
 
         if (endMessage.has_value()) {
             Console::clearLine();
-            Console::write("[info] " + endMessage.value() + " [ " + TerminalColor(std::to_string(curr)).render() + " / " + TerminalColor(std::to_string(reach)).render() + " ]\n");
+            Console::write(
+                    LoggerBackend::messageFormat("", "INFO:", ColorRgb{200, 200, 200}) + endMessage.value() +
+                    " [ " + TerminalColor(std::to_string(curr),
+                                          ColorRgb()).render() + " / " +
+                    TerminalColor(
+                            std::to_string(reach), ColorRgb()).render() + " ]\n");
 
             Console::setCursorBarVisible(true);
             return;
@@ -134,7 +148,7 @@ namespace exolix {
             delete animeThread;
         }
 
-        animeThread = new std::thread([this, &enabled] () {
+        animeThread = new std::thread([this, &enabled]() {
             determined = enabled;
             animeRunning = enabled;
 
@@ -142,7 +156,7 @@ namespace exolix {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
                 currentAnimationFrame++;
-                if (currentAnimationFrame > 22) {
+                if (currentAnimationFrame > 23) {
                     currentAnimationFrame = 0;
                 }
 

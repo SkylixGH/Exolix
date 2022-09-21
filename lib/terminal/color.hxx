@@ -85,10 +85,28 @@ namespace exolix {
 
         /**
          * Create a new instance of a terminal text modification
-         * for colors, style and others util.
+         * tool for colors, style and others util.
          * @param text The text to decorate.
          */
-        explicit TerminalColor(const std::string& text);
+        explicit TerminalColor(std::string text);
+
+        /**
+         * Create a new instance of a terminal text modification
+         * tool for colors. This will also allow you to set a default
+         * foreground color.
+         * @param text The text to decorate.
+         * @param fgColor The foreground color.
+         */
+        TerminalColor(const std::string &text, const ColorRgb &fgColor);
+
+        /**
+         * Create a new instance of a terminal text modification
+         * tool for colors. This will also allow you to set a default
+         * foreground and background color.
+         * @param text The text to decorate.
+         * @param fgColor The foreground color.
+         */
+        TerminalColor(const std::string &text, const ColorHex &fgColor);
 
         /**
          * Convert an RGB color to the closest supported xt256 color

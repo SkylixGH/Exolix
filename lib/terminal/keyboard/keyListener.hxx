@@ -17,17 +17,17 @@ namespace exolix {
         /**
          * The actual listener for when the CTRL key is pressed.
          */
-        std::function<void(bool ctrl, DriverKeyboardSection side)> ctrlListener = [] (bool ctrl, DriverKeyboardSection side) {};
+        std::function<void(bool ctrl, const DriverKeyboardSection &side)> ctrlListener = [] (bool ctrl, const DriverKeyboardSection &side) {};
 
         /**
          * The actual listener for when the ALT key is pressed.
          */
-        std::function<void(bool alt, DriverKeyboardSection side)> altListener = [] (bool alt, DriverKeyboardSection side) {};
+        std::function<void(bool alt, const DriverKeyboardSection &side)> altListener = [] (bool alt, const DriverKeyboardSection &side) {};
 
         /**
          * The actual listener for when the SHIFT key is pressed.
          */
-        std::function<void(bool shift, DriverKeyboardSection side)> shiftListener = [] (bool shift, DriverKeyboardSection side) {};
+        std::function<void(bool shift, const DriverKeyboardSection &side)> shiftListener = [] (bool shift, const DriverKeyboardSection &side) {};
 
         /**
          * The actual listener for when the META key is pressed.
@@ -37,7 +37,7 @@ namespace exolix {
         /**
          * The listener for driver keyboard events in the terminal.
          */
-        std::function<void(DriverKeyboardEvent &event)> driverListener = [] (DriverKeyboardEvent &event) {};
+        std::function<void(const DriverKeyboardEvent &event)> driverListener = [] (const DriverKeyboardEvent &event) {};
 
         /**
          * The actual OS native implementation of the keyboard.
@@ -62,19 +62,19 @@ namespace exolix {
          * Set the listener for when the CTRL key is pressed.
          * @param listener The listener.
          */
-        void setCtrlListener(std::function<void(bool ctrl, DriverKeyboardSection side)> listener);
+        void setCtrlListener(std::function<void(bool ctrl, const DriverKeyboardSection &side)> listener);
 
         /**
          * Set the listener for when the ALT key is pressed.
          * @param listener The listener.
          */
-        void setAltListener(std::function<void(bool alt, DriverKeyboardSection side)> listener);
+        void setAltListener(std::function<void(bool alt, const DriverKeyboardSection &side)> listener);
 
         /**
          * Set the listener for when the SHIFT key is pressed.
          * @param listener The listener.
          */
-        void setShiftListener(std::function<void(bool shift, DriverKeyboardSection side)> listener);
+        void setShiftListener(std::function<void(bool shift, const DriverKeyboardSection &side)> listener);
 
         /**
          * Set the listener for when the META key is pressed.
@@ -86,7 +86,7 @@ namespace exolix {
          * Set the listener for when a driver keyboard event is fired.
          * @param listener The listener.
          */
-        void setDriverListener(std::function<void(DriverKeyboardEvent &event)> listener);
+        void setDriverListener(std::function<void(const DriverKeyboardEvent &event)> listener);
 
         /**
          * Block the thread and wait until the key listener is disposed.

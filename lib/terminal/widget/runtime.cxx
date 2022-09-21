@@ -34,7 +34,7 @@ namespace exolix {
         keyboardUtil = new ConsoleKeyboard();
         widget = &widgetObject;
 
-        keyboardUtil->setDriverListener([] (DriverKeyboardEvent &driverE) {
+        keyboardUtil->setDriverListener([] (const DriverKeyboardEvent &driverE) {
             if (widget != nullptr) widget->handleKeyPress(driverE);
         });
 
@@ -48,7 +48,7 @@ namespace exolix {
         if (!active) return Err(TerminalWidgetRuntimeErrors::NO_RUNNING_WIDGET);
 
         widget->cleanUp();
-        keyboardUtil->dispose();
+        if (keyboardUtil != nullptr) keyboardUtil->dispose();
 
         widget = nullptr;
         blocked = false;
@@ -62,8 +62,12 @@ namespace exolix {
         if (blocked) return Err(TerminalWidgetRuntimeErrors::WIDGET_ALREADY_BLOCKED);
 
         blocked = true;
-        keyboardUtil->block();
+        if (keyboardUtil != nullptr) keyboardUtil->block();
 
         return Ok(nullptr);
+    }
+
+    bool TerminalWidgetRuntime::isRunning() {
+        return active;
     }
 }

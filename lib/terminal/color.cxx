@@ -1,3 +1,5 @@
+#include <utility>
+
 #include "color.hxx"
 #include "xt256.hxx"
 #include "../algorithm/searches.hxx"
@@ -10,8 +12,16 @@ namespace exolix {
     const std::string TerminalColor::strikeThroughCode = "\033[9m";
     const std::string TerminalColor::blinkCode = "\033[5m";
 
-    TerminalColor::TerminalColor(const std::string &text) :
-        text(text), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
+    TerminalColor::TerminalColor(std::string text) :
+        text(std::move(text)), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
+    }
+
+    TerminalColor::TerminalColor(const std::string &text, const exolix::ColorHex &fgColor):
+        text(text), foreground(fgColor.getRgb()), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
+    }
+
+    TerminalColor::TerminalColor(const std::string &text, const exolix::ColorRgb &fgColor):
+        text(text), foreground(fgColor), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
     }
 
     std::string TerminalColor::rgbToAnsi(const ColorRgb &rgb, bool background) {
