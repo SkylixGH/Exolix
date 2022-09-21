@@ -18,6 +18,12 @@ namespace exolix {
          */
         virtual void cleanUp() = 0;
 
+        /**
+         * Handle the user key presses.
+         * @param event The key pressed by the user.
+         */
+        virtual void handleKeyPress(const DriverKeyboardEvent &event) = 0;
+
     private:
         /**
          * Whether this specific runtime is running. Its important to keep
@@ -35,12 +41,6 @@ namespace exolix {
         TerminalXtWidget();
 
         virtual ~TerminalXtWidget() = default;
-
-        /**
-         * Handle the user key presses.
-         * @param event The key pressed by the user.
-         */
-        virtual void handleKeyPress(const DriverKeyboardEvent &event) = 0;
 
         /**
          * Start the widget and run it via the widget runtime.

@@ -1,7 +1,7 @@
-#include "exolixs"
+#include <exolix>
 #include <string>
 
-using namespace ex;
+using namespace exolix;
 
 Result<std::string, int> work(const int &number) {
     if (number % 2 == 0) {

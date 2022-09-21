@@ -4,6 +4,23 @@
 
 namespace exolix {
     /**
+     * Modes for the terminal progress bar.
+     */
+    enum class TerminalProgressMode {
+        /**
+         * The progress bar should not have a set value and should
+         * be indicate that it is waiting.
+         */
+        UNDETERMINED,
+
+        /**
+         * The progress bar should have a set value and should
+         * be indicate that it has a value.
+         */
+        DETERMINED
+    };
+
+    /**
      * A class used for creating terminal progress bars.
      */
     class TerminalProgress : public TerminalXtWidget {
@@ -24,6 +41,16 @@ namespace exolix {
         bool determined;
 
         /**
+         * The current frame of the undetermined animation.
+         */
+        short currentAnimationFrame;
+
+        /**
+         * The thread for running the undetermined animation.
+         */
+        std::thread *animeThread;
+
+        /**
          * Render the progress bar to the terminal output.
          */
         void render();
@@ -32,6 +59,14 @@ namespace exolix {
          * Clean up the progress bar.
          */
         void cleanUp() override;
+
+        /**
+         * The terminal key press event listener. The progress bar does not
+         * require user input and this this method will not receive a true implementation.
+         * Calling this method is completely useless.
+         * @param event The event fired.
+         */
+        void handleKeyPress(const exolix::DriverKeyboardEvent &event) override;
 
     public:
         /**
@@ -45,17 +80,11 @@ namespace exolix {
          * Create a new terminal progress bar but with a busy
          * state indicating the task for determining the progress
          * is not in its ready function state.
-         * @param determined Whether the progress is determined or not.
+         * @param mode Whether the progress is determined or not.
          */
-        explicit TerminalProgress(std::false_type determined);
+        explicit TerminalProgress(TerminalProgressMode mode);
 
-        /**
-         * The terminal key press event listener. The progress bar does not
-         * require user input and this this method will not receive a true implementation.
-         * Calling this method is completely useless.
-         * @param event The event fired.
-         */
-        void handleKeyPress(const exolix::DriverKeyboardEvent &event) override;
+        ~TerminalProgress();
 
         /**
          * Update the current progress value. This will update the progress bar
@@ -63,5 +92,13 @@ namespace exolix {
          * @param value The new value.
          */
         void update(long long value = 0);
+
+        /**
+         * Set the determined state. When set to false, the progress
+         * bar will show a waiting animation indicating the task is not
+         * yet ready to start.
+         * @param enabled Whether to enable determined progress bar.
+         */
+        void setDeterminedState(bool enabled);
     };
 }

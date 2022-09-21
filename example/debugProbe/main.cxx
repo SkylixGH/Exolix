@@ -1,10 +1,10 @@
-#include "exolixs"
+#include <exolix>
 #include <string>
 #include <random>
 #include <chrono>
 #include <thread>
 
-using namespace ex;
+using namespace exolix;
 
 class MyServer : public DebugProbeDevice {
 public:
