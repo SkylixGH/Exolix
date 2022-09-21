@@ -19,6 +19,7 @@ int main() {
         std::this_thread::sleep_for(std::chrono::nanoseconds(800));
 
         if (i == 100) {
+            p.setEndMessage("Finished this main job, ready for 2?");
             p.stop();
         }
     }
@@ -34,7 +35,12 @@ int main() {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
 
         if (i == 100) {
+            x.setEndMessage("Finished this second job, looks like were all done for progress bars today!");
             x.stop();
+        } else if (i > 90) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        } else if (i > 70) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(30));
         }
     }
 
@@ -42,7 +48,6 @@ int main() {
 
     Console::write("77x Finished Heavy Job\n");
 
-//    AppProcess::block();
-
+    AppProcess::block();
     return 0;
 }

@@ -5,32 +5,35 @@
 #include <string>
 
 namespace exolix {
-    const std::string frames[21] = {
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "█░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█████",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░███",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█",
-            "░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
+    const std::string frames[23] = {
+            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "| █░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ██░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "- ░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "\\ ░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "\\ ░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "| ░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "| ░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░░░░░",
+            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░░░░░",
+            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░░░░░",
+            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░░░░░",
+            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░░░",
+            "| ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░██████░",
+            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█████",
+            "/ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░███",
+            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░█",
+            "- ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░",
+            "\\ ░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░"
     };
 
     TerminalProgress::TerminalProgress(TerminalProgressMode mode):
-        curr(0), reach(100), currentAnimationFrame(0), animeThread(nullptr) {
+        curr(0), reach(100), currentAnimationFrame(0), animeThread(nullptr), animeRunning(false),
+        endMessage(std::nullopt) {
         switch (mode) {
             case TerminalProgressMode::UNDETERMINED:
                 setDeterminedState(false);
@@ -50,7 +53,8 @@ namespace exolix {
 
 
     TerminalProgress::TerminalProgress(long long value, long long max):
-        curr(value), reach(max), currentAnimationFrame(0), animeThread(nullptr) {
+        curr(value), reach(max), currentAnimationFrame(0), animeThread(nullptr), animeRunning(false),
+        endMessage(std::nullopt) {
         setDeterminedState(true);
 
         Console::setCursorBarVisible(false);
@@ -89,15 +93,10 @@ namespace exolix {
 
             const std::string bar = barFilled + barEmpty;
 
-            Console::write("Progress | " + bar + " [ " + TerminalColor(std::to_string(percentage)).render() + "% ] [ " + TerminalColor(std::to_string(curr)).render() + " / " + TerminalColor(std::to_string(reach)).render() + " ]\n");
+            Console::write("Progress " + bar + " [ " + TerminalColor(std::to_string(percentage)).render() + "% ] [ " + TerminalColor(std::to_string(curr)).render() + " / " + TerminalColor(std::to_string(reach)).render() + " ]\n");
         } else {
-            currentAnimationFrame++;
-            if (currentAnimationFrame > 20) {
-                currentAnimationFrame = 0;
-            }
-
             std::string frame = TerminalColor(frames[currentAnimationFrame]).setFg(ColorHex("fff"))->render();
-            Console::write("Waiting | " + frame + " [ " + TerminalColor("...").render() + " ]\n");
+            Console::write("Waiting " + frame + " [ " + TerminalColor("...").render() + " ]\n");
         }
 
         Console::moveCursor({ 0, -1 });
@@ -107,25 +106,55 @@ namespace exolix {
 
     void TerminalProgress::update(long long value) {
         curr = value;
+
+        setDeterminedState(true);
         render();
     }
 
     void TerminalProgress::cleanUp() {
+        if (!determined) setDeterminedState(true);
+
+        if (endMessage.has_value()) {
+            Console::clearLine();
+            Console::write("[info] " + endMessage.value() + " [ " + TerminalColor(std::to_string(curr)).render() + " / " + TerminalColor(std::to_string(reach)).render() + " ]\n");
+
+            Console::setCursorBarVisible(true);
+            return;
+        }
+
         Console::write("\n");
         Console::setCursorBarVisible(true);
     }
 
     void TerminalProgress::setDeterminedState(bool enabled) {
+        if (animeThread != nullptr) {
+            animeRunning = false;
+            if (animeThread->joinable()) animeThread->join();
+
+            delete animeThread;
+        }
+
         animeThread = new std::thread([this, &enabled] () {
             determined = enabled;
+            animeRunning = enabled;
 
-            while (!determined) {
+            while (!animeRunning) {
                 std::this_thread::sleep_for(std::chrono::milliseconds(50));
+
+                currentAnimationFrame++;
+                if (currentAnimationFrame > 22) {
+                    currentAnimationFrame = 0;
+                }
+
                 render();
             }
         });
 
         animeThread->detach();
         render();
+    }
+
+    void TerminalProgress::setEndMessage(std::optional<std::string> message) {
+        endMessage = message;
     }
 }

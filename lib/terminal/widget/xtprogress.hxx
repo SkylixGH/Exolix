@@ -1,6 +1,7 @@
 #pragma once
 
 #include "runtime.hxx"
+#include <optional>
 
 namespace exolix {
     /**
@@ -46,9 +47,22 @@ namespace exolix {
         short currentAnimationFrame;
 
         /**
+         * Whether the anime thread while loop should
+         * continue to run.
+         */
+        bool animeRunning;
+
+        /**
          * The thread for running the undetermined animation.
          */
         std::thread *animeThread;
+
+        /**
+         * The end message. This message replaces the progress bar
+         * when finished. If no value is provided here, the progress
+         * bar will stay in its last state.
+         */
+        std::optional<std::string> endMessage;
 
         /**
          * Render the progress bar to the terminal output.
@@ -88,7 +102,9 @@ namespace exolix {
 
         /**
          * Update the current progress value. This will update the progress bar
-         * and render it to the terminal output.
+         * and render it to the terminal output. Do note that when the progress bar
+         * is set to an undetermined state, if this function is called, it will revert
+         * back to a determined state and render the progress.
          * @param value The new value.
          */
         void update(long long value = 0);
@@ -100,5 +116,13 @@ namespace exolix {
          * @param enabled Whether to enable determined progress bar.
          */
         void setDeterminedState(bool enabled);
+
+        /**
+         * Set the end message. This message replaces the progress bar
+         * when finished. If no value is provided here, the progress
+         * bar will stay in its last state.
+         * @param message The end message.
+         */
+        void setEndMessage(std::optional<std::string> message);
     };
 }
