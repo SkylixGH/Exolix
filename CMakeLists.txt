@@ -22,6 +22,25 @@ foreach(example ${SkylixExolix_EXAMPLES_LIST})
     add_subdirectory(example/${example})
 endforeach()
 
+# Add tests
+enable_testing()
+function(setup_test NAME)
+    add_executable("SkylixExolix_TESTS_${NAME}" ${CMAKE_CURRENT_SOURCE_DIR}/test/${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/test/${NAME}/test.cxx)
+    target_link_libraries("SkylixExolix_TESTS_${NAME}" PRIVATE skylixExolix)
+    add_test(NAME "SkylixExolix_TESTS_${NAME}" COMMAND $<TARGET_FILE:SkylixExolix_TESTS_${NAME}>)
+endfunction()
+
+file(GLOB SkylixExolix_TESTS_LIST RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/test ${CMAKE_CURRENT_SOURCE_DIR}/test/*)
+foreach(test ${SkylixExolix_TESTS_LIST})
+    message(STATUS "Exolix adding test: ${test}")
+    setup_test(${test})
+endforeach()
+
+# Add windows libs
+if (WIN32)
+    target_link_libraries(skylixExolix PUBLIC ws2_32)
+endif ()
+
 # Install Exolix
 install(TARGETS skylixExolix DESTINATION lib)
 install(FILES include/exolix DESTINATION include)

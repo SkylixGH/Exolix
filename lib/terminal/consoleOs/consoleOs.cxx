@@ -2,7 +2,7 @@
 
 namespace exolix {
     TerminalConsoleImpl::TerminalConsoleImpl() {
-        thread = new std::thread([this] () {
+        thread = new std::thread([this]() {
             listener();
         });
     }

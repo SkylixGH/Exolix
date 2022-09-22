@@ -15,8 +15,8 @@ include_directories(${CMAKE_CURRENT_LIST_DIR}/../include)
 add_library(skylixExolix STATIC IMPORTED)
 
 # Set lib props, this basically connects the lib to the target
-if(WIN32)
+if (WIN32)
     set_target_properties(skylixExolix PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../lib/skylixExolix.lib)
-elseif(UNIX)
+elseif (UNIX)
     set_target_properties(skylixExolix PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_LIST_DIR}/../lib/libskylixExolix.a)
-endif()
+endif ()

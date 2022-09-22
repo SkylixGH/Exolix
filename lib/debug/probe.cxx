@@ -34,7 +34,7 @@ namespace exolix {
     void DebugProbe::render() {
         Console::clear();
 
-        for (auto &prop : props) {
+        for (auto &prop: props) {
             std::cout << prop.first << ": " << prop.second << std::endl;
         }
     }

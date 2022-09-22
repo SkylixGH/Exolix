@@ -34,7 +34,7 @@ namespace exolix {
         keyboardUtil = new ConsoleKeyboard();
         widget = &widgetObject;
 
-        keyboardUtil->setDriverListener([] (const DriverKeyboardEvent &driverE) {
+        keyboardUtil->setDriverListener([](const DriverKeyboardEvent &driverE) {
             if (widget != nullptr) widget->handleKeyPress(driverE);
         });
 

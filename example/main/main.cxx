@@ -15,12 +15,12 @@ int main() {
     p.start();
 
     // wait 3 seconds
-    std::this_thread::sleep_for(std::chrono::seconds(3));
+    std::this_thread::sleep_for(std::chrono::seconds(5));
     p.setDeterminedState(true);
 
     for (int i = 0; i <= 100; i++) {
         p.update(i);
-        std::this_thread::sleep_for(std::chrono::nanoseconds(800));
+        std::this_thread::sleep_for(std::chrono::nanoseconds(1000));
 
         if (i == 100) {
             p.setEndMessage("Finished this main job, ready for 2?");

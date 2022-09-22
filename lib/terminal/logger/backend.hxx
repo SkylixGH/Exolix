@@ -18,6 +18,7 @@ namespace exolix {
          * @param icon The icon to use for the tag, this will render before the tag.
          * @return The entire formatted message.
          */
-        static std::string messageFormat(const std::string &message, const std::string &tag, const ColorRgb &colorTag, const std::string &icon = "•");
+        static std::string messageFormat(const std::string &message, const std::string &tag, const ColorRgb &colorTag,
+                                         const std::string &icon = "•");
     };
 }

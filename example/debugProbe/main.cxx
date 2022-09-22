@@ -24,7 +24,7 @@ public:
             std::this_thread::sleep_for(std::chrono::seconds(1));
             auto ran = random();
 
-            Console::setCursorPos({ 10, 10 });
+            Console::setCursorPos({10, 10});
             Console::clearLine();
 
             Console::write("Runs: " + std::to_string(runs));

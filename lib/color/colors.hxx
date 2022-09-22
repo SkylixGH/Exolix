@@ -4,6 +4,7 @@
 
 namespace exolix {
     class ColorHex;
+
     struct ColorRgb;
 
     /**

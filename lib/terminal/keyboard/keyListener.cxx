@@ -9,7 +9,7 @@ namespace exolix {
 
         DriverKeyboardEvent lastEvent;
 
-        impl->setKeyListener([this, &lastEvent] (DriverKeyboardEvent &event) {
+        impl->setKeyListener([this, &lastEvent](DriverKeyboardEvent &event) {
             if (lastEvent.lCtrl != event.lCtrl) {
                 ctrlListener(event.lCtrl, DriverKeyboardSection::LEFT);
             }

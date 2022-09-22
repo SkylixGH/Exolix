@@ -3,7 +3,9 @@
 
 #if defined(_WIN32)
     #define ENABLE_VIRTUAL_TERMINAL_PROCESSING 0x0004
+
     #include <windows.h>
+
 #endif
 
 namespace exolix {
@@ -32,10 +34,10 @@ namespace exolix {
 
     void Console::clear() {
         write("\033[2J\033[1;1H");
-        setCursorPos({ 0, 0 });
+        setCursorPos({0, 0});
     }
 
-    void Console::write(const std::string& text) {
+    void Console::write(const std::string &text) {
         std::cout << text;
     }
 

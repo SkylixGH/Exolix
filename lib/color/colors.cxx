@@ -49,7 +49,7 @@ namespace exolix {
     }
 
     ColorRgb ColorHex::getRgb() const {
-        return ColorRgb { red, green, blue, alpha };
+        return ColorRgb{red, green, blue, alpha};
     }
 
     std::string ColorHex::getHex() const {

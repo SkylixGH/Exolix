@@ -41,7 +41,7 @@ namespace exolix {
          * out channel.
          * @param text The text to write to the console.
          */
-        static void write(const std::string& text);
+        static void write(const std::string &text);
 
         /**
          * Set cursor position. This will move the printing location

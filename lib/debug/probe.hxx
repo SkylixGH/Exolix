@@ -39,7 +39,7 @@ namespace exolix {
         /**
          * All of the rendering properties for debugging.
          */
-        std::map<std::string, std::string> props {};
+        std::map<std::string, std::string> props{};
 
     public:
         /**
@@ -95,7 +95,7 @@ namespace exolix {
         /**
          * The debug probe.
          */
-        DebugProbe *probe {};
+        DebugProbe *probe{};
 
     public:
         /**

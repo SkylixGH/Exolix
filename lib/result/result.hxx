@@ -10,7 +10,7 @@ namespace exolix {
      * function return type.
      * @tparam ErrorType The datatype used to store the error code.
      */
-    template <typename ErrorType>
+    template<typename ErrorType>
     class Err {
     public:
         /**
@@ -29,7 +29,7 @@ namespace exolix {
      * An ok datatype return compatible with the result
      * @tparam ValueType The datatype used to store the value. Use nullptr_t if no value is needed.
      */
-    template <typename ValueType>
+    template<typename ValueType>
     class Ok {
     public:
         /**
@@ -49,7 +49,7 @@ namespace exolix {
      * @tparam ValueType The datatype used to store the value. Use nullptr_t if no value is returned.
      * @tparam ErrorType The datatype used to store the error code.
      */
-    template <typename ValueType, typename ErrorType>
+    template<typename ValueType, typename ErrorType>
     class Result {
     private:
         union {

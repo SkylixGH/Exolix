@@ -1,8 +1,10 @@
 #include "win32.hxx"
 
 #ifdef _WIN32
+
     #include <windows.h>
     #include <iostream>
+
 #endif
 
 namespace exolix {
@@ -10,7 +12,7 @@ namespace exolix {
         KEY_EVENT_RECORD keyDat;
 
         while (!isDisposed()) {
-            DriverKeyboardEvent event {};
+            DriverKeyboardEvent event{};
 
 #ifdef _WIN32
             DWORD cc;
@@ -26,8 +28,8 @@ namespace exolix {
                 ReadConsoleInput(h, &inRec, 1, &cc);
 
                 if (
-                    inRec.EventType == KEY_EVENT
-                ) {
+                        inRec.EventType == KEY_EVENT
+                        ) {
                     keyDat = (KEY_EVENT_RECORD &) inRec.Event;
 
                     event.id = keyDat.wVirtualKeyCode;

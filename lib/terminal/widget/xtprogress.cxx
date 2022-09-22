@@ -4,6 +4,7 @@
 #include "../logger/backend.hxx"
 #include <windows.h>
 #include <string>
+#include <utility>
 
 namespace exolix {
     const std::string frames[24] = {
@@ -87,25 +88,20 @@ namespace exolix {
             std::string barEmpty;
 
             for (unsigned long long i = 0; i < charsForValue; i++) {
-                barFilled += TerminalColor("█", ColorRgb()).setFg(ColorHex("fff"))->render();
+                barFilled += "█";
             }
 
             for (unsigned long long i = 0; i < charsForEmpty; i++) {
-                barEmpty += TerminalColor("░", ColorRgb()).setFg(ColorHex("fff"))->render();
+                barEmpty += "░";
             }
 
             const std::string bar = barFilled + barEmpty;
 
-            Console::write("Progress " + bar + " [ " + TerminalColor(std::to_string(percentage), ColorRgb()).render() +
-                           "% ] [ " +
-                           TerminalColor(
-                                   std::to_string(curr), ColorRgb()).render() + " / " +
-                           TerminalColor(
-                                   std::to_string(reach), ColorRgb()).render() + " ]\n");
+            Console::write("Progress " + bar + " [ " + std::to_string(percentage) + "% ] [ " + std::to_string(curr) + " / " + std::to_string(reach) + " ]\n");
         } else {
-            std::string frame = TerminalColor(frames[currentAnimationFrame], ColorRgb()).setFg(
-                    ColorHex("fff"))->render();
-            Console::write("Waiting " + frame + " [ " + TerminalColor("...", ColorRgb()).render() + " ]\n");
+            std::string frame = frames[currentAnimationFrame];
+            Console::write(
+                    "Waiting " + frame + " [ " + "..." + " ]\n");
         }
 
         Console::moveCursor({0, -1});
@@ -127,10 +123,8 @@ namespace exolix {
             Console::clearLine();
             Console::write(
                     LoggerBackend::messageFormat("", "INFO:", ColorRgb{200, 200, 200}) + endMessage.value() +
-                    " [ " + TerminalColor(std::to_string(curr),
-                                          ColorRgb()).render() + " / " +
-                    TerminalColor(
-                            std::to_string(reach), ColorRgb()).render() + " ]\n");
+                    " [ " + std::to_string(curr) + " / " +
+                    std::to_string(reach) + " ]\n");
 
             Console::setCursorBarVisible(true);
             return;
@@ -169,6 +163,6 @@ namespace exolix {
     }
 
     void TerminalProgress::setEndMessage(std::optional<std::string> message) {
-        endMessage = message;
+        endMessage = std::move(message);
     }
 }

@@ -13,15 +13,17 @@ namespace exolix {
     const std::string TerminalColor::blinkCode = "\033[5m";
 
     TerminalColor::TerminalColor(std::string text) :
-        text(std::move(text)), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
+            text(std::move(text)), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
     }
 
-    TerminalColor::TerminalColor(const std::string &text, const exolix::ColorHex &fgColor):
-        text(text), foreground(fgColor.getRgb()), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
+    TerminalColor::TerminalColor(const std::string &text, const exolix::ColorHex &fgColor) :
+            text(text), foreground(fgColor.getRgb()), blink(false), strikeThrough(false), italic(false),
+            underline(false), bold(false) {
     }
 
-    TerminalColor::TerminalColor(const std::string &text, const exolix::ColorRgb &fgColor):
-        text(text), foreground(fgColor), blink(false), strikeThrough(false), italic(false), underline(false), bold(false) {
+    TerminalColor::TerminalColor(const std::string &text, const exolix::ColorRgb &fgColor) :
+            text(text), foreground(fgColor), blink(false), strikeThrough(false), italic(false), underline(false),
+            bold(false) {
     }
 
     std::string TerminalColor::rgbToAnsi(const ColorRgb &rgb, bool background) {
@@ -35,11 +37,11 @@ namespace exolix {
     }
 
     std::string TerminalColor::hexToAnsi(const ColorHex &hex, bool background) {
-        ColorRgb rgb {
-            hex.getRed(),
-            hex.getGreen(),
-            hex.getBlue(),
-            hex.getAlpha()
+        ColorRgb rgb{
+                hex.getRed(),
+                hex.getGreen(),
+                hex.getBlue(),
+                hex.getAlpha()
         };
 
         return rgbToAnsi(rgb, background);
