@@ -35,4 +35,34 @@ namespace exolix {
         // TODO: [Linux, Mac] Needs implementation
         throw std::runtime_error("Not implemented");
     }
+
+    Result<uint16_t, NetAddrErrors> NetAddr::findOpenPort() {
+#ifdef _WIN32
+        int result;
+
+        SOCKET sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (sock == INVALID_SOCKET)
+            return Err(NetAddrErrors::UNKNOWN_ERROR_FINDING_PORT);
+
+        sockaddr_in addr {};
+        addr.sin_family = AF_INET;
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        addr.sin_port = 0;
+
+        result = bind(sock, (SOCKADDR *) &addr, sizeof(addr));
+        if (result == SOCKET_ERROR)
+            return Err(NetAddrErrors::UNAVAILABLE_OS_PORTS);
+
+        int addrLen = sizeof(addr);
+        result = getsockname(sock, (SOCKADDR *) &addr, &addrLen);
+        if (result == SOCKET_ERROR)
+            return Err(NetAddrErrors::UNKNOWN_ERROR_FINDING_PORT);
+
+        closesocket(sock);
+        return Ok(ntohs(addr.sin_port));
+#endif
+
+        // TODO: [Linux, Mac] Needs implementation
+        throw std::runtime_error("Not implemented");
+    }
 }

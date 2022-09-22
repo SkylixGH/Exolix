@@ -22,6 +22,26 @@ namespace exolix {
     };
 
     /**
+     * An enumerated list of possible error codes that can be sent
+     * from members of a network address object.
+     */
+    enum class NetAddrErrors {
+        /**
+         * Unavailable ports for socket server listening.
+         */
+        UNAVAILABLE_OS_PORTS,
+
+        /**
+         * The address object failed to find an open port
+         * for listening, this is usually due to the OS not supporting
+         * networking or the OS being corrupted. This reason is for unknown
+         * reasons, but if the OS ran out of ports, this error would not be
+         * thrown but a different error would be thrown.
+         */
+        UNKNOWN_ERROR_FINDING_PORT,
+    };
+
+    /**
      * A classed used for storing a network address. The address
      * supports multiple IP versions.
      */
@@ -77,5 +97,12 @@ namespace exolix {
          * @param hostname The hostname to validate.
          */
         static bool isIpv6HostnameValid(const std::string &hostname);
+
+        /**
+         * Find an open port on the local machine.
+         * @return A result object that may contain the port otherwise
+         * the error information.
+         */
+        static Result<uint16_t, NetAddrErrors> findOpenPort();
     };
 }
