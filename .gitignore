@@ -1,14 +1,8 @@
+*.pem
+*.key
+
+cmake-build-debug-system/
 build/
 
-cmake-build-debug/
-cmake-build-debug-visual-studio/
-cmake-build-release/
-
-*.pem
-*.certSsl
-
-node_modules/
-
-.cache
-.idea
-.vscode
+grb/*.sh
+!grb/noshell.sh

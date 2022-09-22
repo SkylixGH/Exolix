@@ -1,44 +1,47 @@
-cmake_minimum_required(VERSION 3.16)
-project(Exolix CXX)
+project(SkylixExolix)
+cmake_minimum_required(VERSION 3.2)
 
-# Run include file generator and automatic
-# file include assistance with guards.
-execute_process(
-        COMMAND node ${CMAKE_SOURCE_DIR}/gen/bin/cmake-assist-generator.js generate-include include/exolix.hxx lib
-        WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-)
+set(CMAKE_CXX_STANDARD 17)
 
+# Add project files
+file(GLOB_RECURSE SkylixExolix_LIB_FILES "lib/*.cxx")
+file(GLOB_RECURSE SkylixExolix_INCLUDE_FILES "lib/*.hxx")
+add_library(skylixExolix ${SkylixExolix_LIB_FILES} ${SkylixExolix_INCLUDE_FILES})
 include_directories(include)
 
-set(CMAKE_CXX_STANDARD 20)
+# Write to include file
+file(WRITE include/exolix "#pragma once\n\n")
+foreach(file ${SkylixExolix_INCLUDE_FILES})
+    file(APPEND include/exolix "#include \"${file}\"\n")
+endforeach()
 
-file(GLOB_RECURSE Exolix_SOURCE_FILES lib/*.cxx lib/*.hxx)
-add_library(exolix STATIC ${Exolix_SOURCE_FILES})
+# Add examples
+file(GLOB SkylixExolix_EXAMPLES_LIST RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/example ${CMAKE_CURRENT_SOURCE_DIR}/example/*)
+foreach(example ${SkylixExolix_EXAMPLES_LIST})
+    message(STATUS "Exolix adding example: ${example}")
+    add_subdirectory(example/${example})
+endforeach()
 
-macro(subdirlist result curdir)
-    file(GLOB children RELATIVE ${curdir} ${curdir}/*)
-    set(dirlist "")
+# Add tests
+enable_testing()
+function(setup_test NAME)
+    add_executable("SkylixExolix_TESTS_${NAME}" ${CMAKE_CURRENT_SOURCE_DIR}/test/${NAME} ${CMAKE_CURRENT_SOURCE_DIR}/test/${NAME}/test.cxx)
+    target_link_libraries("SkylixExolix_TESTS_${NAME}" PRIVATE skylixExolix)
+    add_test(NAME "SkylixExolix_TESTS_${NAME}" COMMAND $<TARGET_FILE:SkylixExolix_TESTS_${NAME}>)
+endfunction()
 
-    foreach (child ${children})
-        if (IS_DIRECTORY ${curdir}/${child})
-            LIST(APPEND dirlist ${child})
-        endif ()
-    endforeach ()
+file(GLOB SkylixExolix_TESTS_LIST RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}/test ${CMAKE_CURRENT_SOURCE_DIR}/test/*)
+foreach(test ${SkylixExolix_TESTS_LIST})
+    message(STATUS "Exolix adding test: ${test}")
+    setup_test(${test})
+endforeach()
 
-    set(${result} ${dirlist})
-endmacro()
-
-# Add windows specific libraries
+# Add windows libs
 if (WIN32)
-    target_link_libraries(exolix PUBLIC ws2_32)
+    target_link_libraries(skylixExolix PUBLIC ws2_32)
 endif ()
 
-# Add OpenSSL libraries
-find_package(OpenSSL REQUIRED)
-target_link_libraries(exolix PUBLIC OpenSSL::SSL OpenSSL::Crypto)
-
-subdirlist(Test_DIRECTORIES ${CMAKE_SOURCE_DIR}/test)
-
-foreach (subdir ${Test_DIRECTORIES})
-    add_subdirectory(test/${subdir})
-endforeach ()
+# Install Exolix
+install(TARGETS skylixExolix DESTINATION lib)
+install(FILES include/exolix DESTINATION include)
+install(FILES cmake/SkylixExolixConfig.cmake DESTINATION cmake)
