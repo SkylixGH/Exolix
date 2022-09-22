@@ -24,4 +24,15 @@ namespace exolix {
         // TODO: [Linux, Mac] Needs implementation
         throw std::runtime_error("Not implemented");
     }
+
+    bool NetAddr::isIpv6HostnameValid(const std::string &hostname) {
+#ifdef _WIN32
+        struct sockaddr_in6 sa {};
+        int result = InetPtonA(AF_INET6, hostname.c_str(), &(sa.sin6_addr));
+        return result != 0;
+#endif
+
+        // TODO: [Linux, Mac] Needs implementation
+        throw std::runtime_error("Not implemented");
+    }
 }

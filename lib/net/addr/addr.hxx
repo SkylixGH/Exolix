@@ -70,5 +70,12 @@ namespace exolix {
          * @param hostname The hostname to validate.
          */
         static bool isIpv4HostnameValid(const std::string &hostname);
+
+        /**
+         * Check to see if a given IPv6 network hostname is valid
+         * and can be parsed.
+         * @param hostname The hostname to validate.
+         */
+        static bool isIpv6HostnameValid(const std::string &hostname);
     };
 }
