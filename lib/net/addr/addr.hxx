@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <optional>
 #include "../../result/result.hxx"
 
 namespace exolix {
@@ -63,7 +64,7 @@ namespace exolix {
         /**
          * The IP version.
          */
-        NetVer version;
+        std::optional<NetVer> version;
 
         /**
          * The address hostname.
@@ -115,6 +116,12 @@ namespace exolix {
          * @return Result object containing the hostname, otherwise an error.
          */
         Result<std::string, NetAddrErrors> getHost();
+
+        /**
+         * Get the IP version.
+         * @return The IP protocol version.
+         */
+        NetVer getVersion();
 
         /**
          * Check to see if a given IPv4 network hostname is valid
