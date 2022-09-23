@@ -6,12 +6,38 @@
 #endif
 
 namespace exolix {
+    std::string exolix_NetAddr_strerror(NetAddrErrors error) {
+        switch (error) {
+            case NetAddrErrors::UNKNOWN_ERROR_FINDING_PORT:
+                return "Unknown error finding port";
+
+            case NetAddrErrors::UNAVAILABLE_OS_PORTS:
+                return "OS could not find a port that was available for listening";
+
+            case NetAddrErrors::INVALID_HOST_SOURCE:
+                return "The hostname is deformed for the address and the OS deemed it unusable, invalid, or as a bad format";
+        }
+    }
+
     NetAddr::NetAddr(): port(0), host("::1"), version(NetVer::INET_6) {}
 
     NetAddr::NetAddr(uint16_t port): port(port), host("::1"), version(NetVer::INET_6) {}
 
+    NetAddr::NetAddr(std::string hostname): port(0), host(std::move(hostname)), version(NetVer::INET_6) {}
+
     NetAddr::NetAddr(std::string hostname, uint16_t port):
         port(port), host(std::move(hostname)), version(NetVer::INET_6) {
+    }
+
+    Result<uint16_t, NetAddrErrors> NetAddr::getPort() {
+        if (port == 0) {
+            auto pRes = NetAddr::findOpenPort();
+            if (pRes.isError) return pRes;
+
+            port = pRes.get();
+        }
+
+        return Ok(port);
     }
 
     bool NetAddr::isIpv4HostnameValid(const std::string &hostname) {
@@ -34,6 +60,21 @@ namespace exolix {
 
         // TODO: [Linux, Mac] Needs implementation
         throw std::runtime_error("Not implemented");
+    }
+
+    Result<std::string, NetAddrErrors> NetAddr::getHost() {
+        const bool validIpv4 = NetAddr::isIpv4HostnameValid(host);
+        const bool validIpv6 = NetAddr::isIpv6HostnameValid(host);
+
+        if (validIpv4) {
+            version = NetVer::INET_4;
+        } else if (validIpv6) {
+            version = NetVer::INET_6;
+        } else {
+            return Err(NetAddrErrors::INVALID_HOST_SOURCE);
+        }
+
+        return Ok(host);
     }
 
     Result<uint16_t, NetAddrErrors> NetAddr::findOpenPort() {

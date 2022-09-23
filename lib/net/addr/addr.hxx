@@ -39,7 +39,20 @@ namespace exolix {
          * thrown but a different error would be thrown.
          */
         UNKNOWN_ERROR_FINDING_PORT,
+
+        /**
+         * The hostname is deformed for the address and the OS deemed
+         * it unusable, invalid, or as a bad format.
+         */
+        INVALID_HOST_SOURCE
     };
+
+    /**
+     * Convert a net address error to a stringed error message.
+     * @param error The error to convert.
+     * @return The stringed error message.
+     */
+    std::string exolix_NetAddr_strerror(NetAddrErrors error);
 
     /**
      * A classed used for storing a network address. The address
@@ -83,6 +96,25 @@ namespace exolix {
          * @param port The port to use for the address.
          */
         NetAddr(std::string hostname, uint16_t port);
+
+        /**
+         * Create a new net address with a custom hostname.
+         * @param hostname The hostname to use for the address.
+         */
+        explicit NetAddr(std::string hostname);
+
+        /**
+         * Get the address port. If the port was initialized as no
+         * parameter or 0, then the port will be auto selected.
+         */
+        Result<uint16_t, NetAddrErrors> getPort();
+
+        /**
+         * Get the address hostname. If the hostname is invalid, this
+         * is where you can find out.
+         * @return Result object containing the hostname, otherwise an error.
+         */
+        Result<std::string, NetAddrErrors> getHost();
 
         /**
          * Check to see if a given IPv4 network hostname is valid
