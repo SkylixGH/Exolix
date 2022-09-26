@@ -19,6 +19,7 @@ int main() {
 
     if (!hostRes2.isError) {
         std::cerr << "Address 2 did not return an error when fetching the host, when an error was expected" << std::endl;
+
         return 1;
     }
 
@@ -28,6 +29,7 @@ int main() {
     if (hostRes3.isError) {
         std::cerr << "Address 3 returned an error when the hostname was valid" << std::endl;
         std::cerr << exolix_NetAddr_strerror(hostRes3.getError()) << std::endl;
+
         return 1;
     }
 
@@ -39,6 +41,7 @@ int main() {
     if (hostRes4.isError) {
         std::cerr << "Address 4 returned an error when the hostname was valid" << std::endl;
         std::cerr << exolix_NetAddr_strerror(hostRes4.getError()) << std::endl;
+
         return 1;
     }
 

@@ -19,14 +19,14 @@ namespace exolix {
         }
     }
 
-    NetAddr::NetAddr(): port(0), host("::1"), version(NetVer::INET_6) {}
+    NetAddr::NetAddr(): port(0), host("::1"), version(std::nullopt) {}
 
-    NetAddr::NetAddr(uint16_t port): port(port), host("::1"), version(NetVer::INET_6) {}
+    NetAddr::NetAddr(uint16_t port): port(port), host("::1"), version(std::nullopt) {}
 
-    NetAddr::NetAddr(std::string hostname): port(0), host(std::move(hostname)), version(NetVer::INET_6) {}
+    NetAddr::NetAddr(std::string hostname): port(0), host(std::move(hostname)), version(std::nullopt) {}
 
     NetAddr::NetAddr(std::string hostname, uint16_t port):
-        port(port), host(std::move(hostname)), version(NetVer::INET_6) {
+        port(port), host(std::move(hostname)), version(std::nullopt) {
     }
 
     Result<uint16_t, NetAddrErrors> NetAddr::getPort() {
@@ -62,6 +62,14 @@ namespace exolix {
         throw std::runtime_error("Not implemented");
     }
 
+    NetVer NetAddr::getVersion() {
+        if (!version.has_value()) {
+            getHost();
+        }
+
+        return version.value();
+    }
+
     Result<std::string, NetAddrErrors> NetAddr::getHost() {
         const bool validIpv4 = NetAddr::isIpv4HostnameValid(host);
         const bool validIpv6 = NetAddr::isIpv6HostnameValid(host);
@@ -71,6 +79,7 @@ namespace exolix {
         } else if (validIpv6) {
             version = NetVer::INET_6;
         } else {
+            version = NetVer::INET_6;
             return Err(NetAddrErrors::INVALID_HOST_SOURCE);
         }
 
