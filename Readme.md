@@ -10,7 +10,7 @@
 </div>
 
 # Welcome to **Exolix** [END OF LIFE]
-**Visit Flatic**: https://github.com/Elexite77x/Flatic
+**Visit Elexite Engine**: https://github.com/Elexite77x/Engine
 Exolix is a software framework built on C++ to help develop <ins>cross platform</ins> server-side and client-side applications.<br />
 The framework contains tools for creating highly flexible API servers, command line applications, database interactions and more.
 It also contains tools for creating desktop applications with a clean and modern syntax and Markdown language called <ins>XUI</ins>.
